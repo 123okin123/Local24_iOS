@@ -1,0 +1,644 @@
+
+#main, #contentWrapper {
+    width: 100%;
+}
+/*Header*/
+#logo {
+    display: none;
+}
+footer {
+    display:none;
+}
+.header-menu {
+    display: none;
+}
+.headline_1 {
+    display: none;
+}
+#headerSearch {
+    display: none;
+}
+#backTop {
+    display: none;
+}
+/*Home*/
+#home_content_boxes {
+    display: none;
+}
+#home_cities h2, #home_city_table, #scrollable-cities {
+    display: none;
+}
+#home_searches {
+    display: none
+}
+.home_content_box {
+    width: 100%;
+}
+#home_categories {
+    width: 100%;
+}
+#home_categories_kontakt {
+    display: none;
+}
+/*Search*/
+
+.search_resultTeaser {
+width: 100% !important;
+}
+
+.search_resultMobileAd {
+    display: block;
+    text-align: center;
+    width: 100%;
+    border-radius: 3px;
+    background-color: #fff;
+    border-top: none;
+    box-shadow: 0px 1px 0px #e4e4e4;
+    cursor: none;
+    float: none;
+    margin: auto;
+    margin-bottom: 10px;
+}
+.search_resultMobileAd>div {
+    border-top: none;
+    padding-top: 0px;
+    padding-bottom: 0px
+}
+
+.search_resultUpdatedate {
+    display: block !important;
+    font-size: 10px;
+}
+#search_setNavigatorElem_center {
+    display: none;
+}
+#facetGroup_Ort {
+    display: none;
+}
+
+.search_result:hover, .search_resultTeaser:hover , .search_result:active, .search_resultTeaser:active {
+    background-color: #fff;
+}
+body[data-page="search"] #wrapper, body[data-page="myclassifieds"] #wrapper,  body[data-page="myclassifieds"], body[data-page="detail"] {
+    background-color: rgb(238, 238, 244);
+}
+.search_result {
+    border-radius: 3px;
+    background-color: #fff;
+    border-top: none;
+    margin: auto;
+    box-shadow: 0px 1px 0px #e4e4e4;
+    cursor: none;
+    float: none;
+    margin-bottom: 10px;
+    width: 95%;
+}
+
+#ads_listing_left {
+    float: none;
+}
+#main.search #no-results-button-insert-container {
+    display: none;
+}
+#facetGroup_Umkreis {
+    display: none;
+}
+.search_resultImageHolder {
+    width: 45%;
+    margin-left: 8px;
+    margin-right: 10px;
+}
+
+#search_resultHolder {
+    margin-top: 0px;
+}
+
+#search_resultHead {
+    margin-top: -1px;
+    height: 38px;
+    background-color: #6d981d;
+}
+
+#search_adsTop, #search_adsBottom {
+    margin: auto;
+    float: none;
+    margin-top: 10px;
+}
+
+#search_adsTop .m3_container div .a {
+    border: none !important;
+    padding: 0px !important;
+    margin: 0px !important;
+}
+#search_adsBottom .m3_container div .a {
+    border: none !important;
+    padding: 0px !important;
+    margin: 0px !important;
+}
+#search_pagination {
+    border: none;
+    margin: 0px;
+}
+
+#main.home  {
+    margin-top: 40px;
+}
+#headerSearch #what, #headerSearch #where {
+    background: #5f8419;
+    color: rgba(250, 255, 255, 0.9);
+}
+.ui-menu .ui-menu-item a {
+    line-height: 2.5;
+}
+#search_resultHead {
+    display: none;
+}
+.search_setNavigatorElem {
+    width: 100%;
+    font-size: 15px;
+    background-color: rgb(129, 175, 5);
+}
+#search_facets {
+    width: 100%;
+    margin-bottom: 100px;
+}
+#search_setNavigators {
+    width: 100%;
+    min-height: 140px;
+    margin-top: 30px;
+}
+#search_navigationDropdownForMobile {
+    display: none;
+}
+#locButton {
+    width: 100%;
+    background-color: #eee;
+    border: none;
+    color: #005a90;
+    border-radius: 0px;
+    height: 38px;
+    margin-bottom: 10px;
+    padding: 5px;
+    font-family: "open_sanslight";
+}
+#locButton h5 {
+    font-size: 19px;
+}
+
+#search_sorting {
+margin-top: 1px;
+width: 100%;
+background-color: rgb(129, 175, 5);
+}
+#searchSortSelectorDropdown , #search_sort{
+    background-color: rgba(239, 239, 239, 0.0);
+    color: #ffffff;
+    font-family: "open_sansRegular";
+}
+#search_sortHeadline {
+    height: 20px;
+    color: #232323;
+    font-family: "open_sanslight";
+    margin-top: 7px;
+    margin-left: 7px;
+    margin-bottom: 7px;
+    display: block;
+    text-align: center;
+
+}
+#search_navigationHeadline {
+    margin-top: 10px;
+    text-align: center;
+}
+ul.facetHolder {
+    font-size: 16px;
+    line-height: 22px;
+}
+#search_facets .facetGroup.opened .search_facetLink {
+width: 75%;
+}
+#search_facets h5 {
+    font-size: 19px;
+    text-align: center;
+    background-position: 270px -1874px;
+}
+#search_facetsHeadline {
+    text-align: center;
+}
+h4 {
+    font-size: 20px;
+}
+input, #radiusSearchForm input {
+    font-size: 16px !important;
+    padding: 4px !important;
+    background: white !important;
+    border-color: rgba(217, 217, 217, 1.0) !important;
+    box-shadow: none !important;
+    -webkit-appearance: none !important;
+    font-family: "open_sansregular" !important;
+}
+select, #umkreis_select_select, #umkreis_select {
+    font-size: 16px;
+    padding-left: 4px;
+    background: white;
+    border-color: rgba(217, 217, 217, 1.0);
+    box-shadow: none;
+    -webkit-appearance: none;
+    font-family: "open_sansregular";
+   height: 30px;
+}
+.search_resultTitle a {
+-webkit-line-clamp: 4;
+overflow: hidden;
+display: -webkit-box;
+/* max-width: 100px; */
+-webkit-box-orient: vertical;
+}
+.search_resultTitle {
+    width: 100%;
+    font-size: 13px;
+    height: 68px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    text-decoration: none;
+}
+.search_resultTitle:hover , .search_resultTitle:active {
+    text-decoration: none;
+}
+.search_resultData {
+    display: block;
+    float: left;
+    width: 40%;
+    overflow: hidden;
+    margin-right: 10px;
+
+}
+.search_resultDataLeft {
+    display: block;
+    float: left;
+    width: 100%;
+}
+.search_resultDataLeft span {
+    font-size: 90%;
+}
+
+a[data-remove-param-on-click="center"] {
+    display: none;
+
+}
+
+/*Detail*/
+
+
+#detail-dektop-right {
+    margin-top: 15px;
+
+}
+#detailContent .detail_extendedInformation.background {
+    background-color: #fff;
+    width: 90%;
+    margin: 5% 30px 30px 5%;
+    padding: 0px;
+}
+
+
+#detailContent #detailSimilarAds #detailSimilarAds_more {
+    display: none;
+
+}
+#detailContent #detailSimilarAds {
+    width: 100%;
+    margin-left: 0px;
+}
+#detailContent #detailDescription {
+    width: 90%;
+    margin: auto;
+    float: none;
+    padding: 20px 5% 20px 5%;
+    background-color: #fff;
+}
+#detailContent #detailAds {
+    margin: auto;
+    width: 320px;
+    float: none;
+}
+#detailContent #detail-mobile-contactInfo {
+width: 90%;
+float: none;
+margin: auto;
+margin-bottom: 18px;
+}
+#detailContent h1 {
+    margin: auto;
+    float: none;
+    width: 90%;
+    margin-top: 20px;
+}
+#detailContent #detailImageHolder, #detailImageHolder {
+    height: 260px;
+    overflow-x: scroll;
+    -webkit-overflow-scrolling: touch;
+    overflow-y: hidden;
+    width: 100%;
+    background-color: rgb(238, 238, 244);
+    padding: 9px 0 9px 9px;
+    float: left;
+    margin-bottom: 18px;
+    margin-left: 0px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box
+}
+#detailImageHolder #detailBigImage {
+    display: none;
+}
+#detailImageHolder #detailPreviewImages, #detailImageHolder #detailPreviewImages #detailPreviewImagesContainer {
+    height: 242px;
+    float: left;
+}
+#detailContent #detailContactForm #detailContactPhoneButtonHolder button, #detailContent #detailButtonContact, #detailContent #detailContactForm #contactForm #contactFormSubmit {
+    text-align: center;
+}
+#detailContent #detailButtonContact span, #detailContent #detailContactForm #detailContactPhoneButtonHolder button span, #detailContent #detailContactForm #contactForm #contactFormSubmit span {
+    margin-right: 0px;
+    margin-left: 0px;
+}
+#detailImageHolder #detailPreviewImages .detailPreviewImage {
+    height: 242px;
+    overflow: hidden;
+    margin: 0 5px 0 0;
+    display: inline;
+    text-align: center;
+    cursor: pointer
+}
+#detailImageHolder #detailPreviewImages .detailPreviewImage img {
+    max-height: 242px;
+}
+
+#main.detail {
+    margin-top: 0px;
+    padding: 0px;
+}
+
+#loginMenu {
+    display: none;
+}
+.insertion_categories .options_wrapper {
+    height: 400px !important;
+    min-height: 400px
+}
+#backToList {
+    display: none;
+}
+
+#topMenuButton {
+    display:none;
+}
+#contentPagesMenu {
+    display: none;
+}
+#detailContent #detailContactForm {
+    height: 520px;
+}
+#detailContact {
+    display: none;
+}
+textarea {
+    font-size: 16px;
+    padding: 4px;
+    background: white;
+    border-color: rgba(217, 217, 217, 1.0);
+    box-shadow: none;
+    -webkit-appearance: none;
+    font-family: "open_sansregular";
+    height: 200px;
+}
+#detailContent #detailContactForm #contactForm #message {
+border-color: rgba(217, 217, 217, 1.0);
+    height: 200px;
+}
+
+body[data-page="detail"] .search_result {
+    height: 120px;
+    padding: 10px;
+    width: 90%;
+}
+body[data-page="detail"] #search_resultHolder {
+    margin-top: 10px;
+}
+
+#detailContent #detailContactForm {
+    background-color: #fff;
+}
+#detailContent #detailPrice {
+    width: 90%;
+    float: none;
+    margin: auto;
+    margin-bottom: 18px;
+}
+
+/*Meine Anzeigen*/
+
+#myclassifiedsPage .mobile-edit-button {
+    margin-top: 10px;
+    width: auto;
+}
+.loginpages h2 {
+    display: none;
+}
+#myclassifiedsPage p {
+    color: #aaa;
+    text-align: center;
+}
+
+#myclassifiedsPage .search_resultData h2 {
+    width: 100%;
+    display: block;
+    margin-left: 0px;
+    font-size: 15px;
+}
+#myclassifiedsPage .search_result {
+    min-height: 120px;
+}
+
+#main.loginpages .loginContent {
+    margin-top: 0px;
+}
+#myclassifiedsPage p{
+    margin-left: 7px;
+}
+.insertion_buttons , #detailActionButtons , .insertion_success_copylink {
+    display: none;
+}
+#main.insertion_success h2 {
+    display: none;
+}
+#main.insertion_success h1 {
+    line-height: 25px;
+}
+#main.insertion_success {
+    padding: 0 10px;
+}
+#main.insertion_success #insertion_success_ads div {
+    margin: auto;
+}
+#main.insertion_success #insertion_success_container {
+    margin-bottom: 30px;
+    text-align: center;
+}
+button[data-attr-action="print"] {
+    display: none;
+}
+button.social-function.button-secondary.button-small.ad-active {
+    display: none;
+}
+#myclassifiedsPage .buttonList button, #myclassifiedsPage .buttonList a.button {
+height: 40px;
+line-height: 30px;
+}
+.input-form {
+font-size: 16px;
+padding: 4px;
+background: white;
+border-color: rgba(217, 217, 217, 1.0);
+box-shadow: none;
+-webkit-appearance: none;
+font-family: "open_sansregular";
+}
+.input-form[type="radio"] {
+-webkit-appearance: radio !important;
+}
+input[type="radio"], input[type="checkbox"] {
+-webkit-appearance: radio !important;
+}
+#isCommercial {
+    border-color: rgba(217, 217, 217, 1.0);
+}
+#main.insertion_form .select_span {
+border: 1px solid rgba(217, 217, 217, 1.0);
+margin-top: 2px;
+}
+#main.insertion_form select {
+font-size: 15px;
+padding: 4.5px;
+}
+#main.mydata .input-form[type="radio"] {
+    margin-left: 11px;
+    margin-bottom: -3px;
+}
+#myclassifiedsPage .buttonList {
+border: 1px solid #dfdfdf;
+background: #fff;
+border-radius: 5px;
+box-shadow: 0px 0px 6000px rgba(0, 0, 0, 1);
+margin-left: -140px;
+}
+.button-small {
+    font-size: 15px;
+}
+.button-secondary {
+    border: 1px solid #005a90;
+    background-color: #fff;
+}
+#loginPage.preInsertion #registerTeaser {
+    width: 100%;
+}
+/*Anzeige aufgeben*/
+#main.insertion_form .uploaded_image .insertion_image_preview {
+    width: 50%;
+}
+#main.insertion_form .uploaded_image .image_description.input-form {
+    width: 80%;
+}
+#main.insertion_form .uploaded_image .button {
+    margin-left: 10px;
+}
+
+
+.insertion_categories #categorysearchHolder {
+    margin-top: 0px;
+}
+#main.insertion.insertion_categories {
+    width: 100%;
+    margin-top: 0px;
+    padding: 0px;
+}
+#main.insertion_form .insertion_form_box {
+    width: 100%;
+}
+#main.insertion_form #insertion_form_container .col1 {
+    margin: 0px;
+}
+#main.insertion_form #insertion_form_container .col2 {
+    margin: 0px;
+    float: none;
+}
+
+.insertion_categories .insertion_categories_container {
+    margin-top: 20px;
+}
+.insertion_categories #categorysearchHolder #categorysearch {
+    border: none;
+}
+.insertion_categories .button-primary {
+    height: 32px;
+    font-size: 16px;
+    line-height: 23px;
+    padding: none;
+}
+.insertion_categories #categorysearchHolder {
+    margin-top: 0px;
+}
+.insertion_categories ul.options li {
+    max-width: none;
+}
+.insertion_categories ul.options li a {
+    line-height: 22px;
+    font-size: 16px;
+}
+.insertion_categories .column {
+    border: none;
+}
+.insertion_categories .options_wrapper {
+    border: none;
+    height: auto !important;
+}
+
+#headerInsertion {
+    padding: 0px;
+}
+.insertion_categories .nano .content {
+    overflow-x: visible;
+    position: relative;
+}
+#main.insertion_form #insertion_form_container {
+margin-bottom: 18px;
+}
+#forgotpasswordPage #loginBox button {
+    float: left;
+}
+
+
+/*mehr*/
+
+.contentPages nav {
+    display: none
+}
+#main.contentpages .contentPages h3 {
+    display: none;
+}
+#main.contentpages .contentPages #suppportContact h3 {
+    display: block;
+}
+#main.contentpages .contentPages h2 {
+    display: none;
+}
+
+body[data-page="contentpages-kontakt"] #main.contentpages .contentPages h3 {
+    display: none;
+}
+
+
