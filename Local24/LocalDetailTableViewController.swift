@@ -14,15 +14,15 @@ import Alamofire
 
 
 class LocalDetailTableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, MFMailComposeViewControllerDelegate {
-
+    
     @IBOutlet weak var tableView: UITableView!
-
+    
     @IBOutlet weak var fixedPriceCell: UIView!
         {didSet {
-        fixedPriceCell.layer.borderColor = UIColor(red: 0.783922, green: 0.780392, blue: 0.8, alpha: 1).cgColor
-        fixedPriceCell.layer.borderWidth = 0.5
+            fixedPriceCell.layer.borderColor = UIColor(red: 0.783922, green: 0.780392, blue: 0.8, alpha: 1).cgColor
+            fixedPriceCell.layer.borderWidth = 0.5
         }}
-
+    
     @IBOutlet weak var fixedPriceCellPriceContactButton: UIButton!
         {didSet {
             fixedPriceCellPriceContactButton.layer.cornerRadius = 5
@@ -32,7 +32,7 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
         {didSet {
             fixedPriceCellPhoneButton.layer.cornerRadius = 5
         }}
- 
+    
     var urlToShow : URL!
     var adID: String {
         var IDstring = urlToShow.pathComponents.last
@@ -42,19 +42,19 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
     var adMainCat :String {return (urlToShow.pathComponents[2])}
     var adSubCat :String {return (urlToShow.pathComponents[3])}
     var categories = Categories()
-
+    
     var images = [UIImage]() {didSet {
         if images.count == imgURLArray.count {
-        activityIndi.stopAnimating()
-        showImages()
-        image1.isUserInteractionEnabled = true
-        image2.isUserInteractionEnabled = true
-        image3.isUserInteractionEnabled = true
+            activityIndi.stopAnimating()
+            showImages()
+            image1.isUserInteractionEnabled = true
+            image2.isUserInteractionEnabled = true
+            image3.isUserInteractionEnabled = true
         }
         }}
     
     var imgURLArray = [String]()
-
+    
     var adDescription = String()
     var adPrice = String()
     var adTitle = String()
@@ -64,7 +64,7 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
     var adLong = Double()
     var adPhoneNumber = String() {
         didSet {
-        let priceCell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as!PriceTableViewCell
+            let priceCell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as!PriceTableViewCell
             if adPhoneNumber == "" {
                 priceCell.phoneButton.isHidden = true
                 fixedPriceCellPhoneButton.isHidden = true
@@ -83,44 +83,44 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
     @IBOutlet weak var image3: UIImageView!
     
     
-
+    
     @IBAction func actionButtonPressed(_ sender: UIBarButtonItem) {
         
-            let actionActionController = UIAlertController(title: "Was möchten Sie tun?", message: "", preferredStyle: .actionSheet)
+        let actionActionController = UIAlertController(title: "Was möchten Sie tun?", message: "", preferredStyle: .actionSheet)
+        
+        let abuseAction = UIAlertAction(title: "Anzeige melden", style: .default, handler: { (UIAlertAction) in
+            self.performSegue(withIdentifier: "showAbuseReportSegueID", sender: self)
+        })
+        let emailAction = UIAlertAction(title: "per E-Mail teilen", style: .default, handler: { (UIAlertAction) in
             
-            let abuseAction = UIAlertAction(title: "Anzeige melden", style: .default, handler: { (UIAlertAction) in
-                self.performSegue(withIdentifier: "showAbuseReportSegueID", sender: self)
-            })
-            let emailAction = UIAlertAction(title: "per E-Mail teilen", style: .default, handler: { (UIAlertAction) in
-                
-                let emailTitle = "Anzeige auf Local24"
-                let messageBody = "Hallo,\n\nDiese Kleinanzeige bei Local24.de könnte dich interressieren.\n\n\(self.adTitle)\n\n\(self.urlToShow.absoluteString)\n\nViele Grüße\n"
-                let mc: MFMailComposeViewController = MFMailComposeViewController()
-                mc.mailComposeDelegate = self
-                mc.setSubject(emailTitle)
-                mc.setMessageBody(messageBody, isHTML: false)
-                mc.navigationBar.tintColor = UIColor.white
-                
-                self.present(mc, animated: true, completion: {
-                    UIApplication.shared.setStatusBarStyle(UIStatusBarStyle.lightContent, animated: false)
-                })
-                
-            })
-            let fbshareAction = UIAlertAction(title: "über Facebook teilen", style: .default, handler: { (UIAlertAction) in
-                let fbshareContent = FBSDKShareLinkContent()
-                fbshareContent.contentURL = self.urlToShow
-                fbshareContent.contentTitle = "Anzeige auf Local24"
-                fbshareContent.contentDescription = "Diese Kleinanzeige bei Local24.de könnte euch interressieren.\n\n\(self.adTitle)"
-                FBSDKShareDialog.show(from: self, with: fbshareContent, delegate: nil)
-                
+            let emailTitle = "Anzeige auf Local24"
+            let messageBody = "Hallo,\n\nDiese Kleinanzeige bei Local24.de könnte dich interressieren.\n\n\(self.adTitle)\n\n\(self.urlToShow.absoluteString)\n\nViele Grüße\n"
+            let mc: MFMailComposeViewController = MFMailComposeViewController()
+            mc.mailComposeDelegate = self
+            mc.setSubject(emailTitle)
+            mc.setMessageBody(messageBody, isHTML: false)
+            mc.navigationBar.tintColor = UIColor.white
+            
+            self.present(mc, animated: true, completion: {
+                UIApplication.shared.setStatusBarStyle(UIStatusBarStyle.lightContent, animated: false)
             })
             
-            let cancelAction = UIAlertAction(title: "Abbrechen", style: .cancel, handler: nil)
-            actionActionController.addAction(abuseAction)
-            actionActionController.addAction(cancelAction)
-            actionActionController.addAction(emailAction)
-            actionActionController.addAction(fbshareAction)
-            self.present(actionActionController, animated: true, completion: nil)
+        })
+        let fbshareAction = UIAlertAction(title: "über Facebook teilen", style: .default, handler: { (UIAlertAction) in
+            let fbshareContent = FBSDKShareLinkContent()
+            fbshareContent.contentURL = self.urlToShow
+            fbshareContent.contentTitle = "Anzeige auf Local24"
+            fbshareContent.contentDescription = "Diese Kleinanzeige bei Local24.de könnte euch interressieren.\n\n\(self.adTitle)"
+            FBSDKShareDialog.show(from: self, with: fbshareContent, delegate: nil)
+            
+        })
+        
+        let cancelAction = UIAlertAction(title: "Abbrechen", style: .cancel, handler: nil)
+        actionActionController.addAction(abuseAction)
+        actionActionController.addAction(cancelAction)
+        actionActionController.addAction(emailAction)
+        actionActionController.addAction(fbshareAction)
+        self.present(actionActionController, animated: true, completion: nil)
         
     }
     func mailComposeController(_ controller:MFMailComposeViewController, didFinishWith result:MFMailComposeResult, error:Error?) {
@@ -133,7 +133,7 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
             print("Mail sent")
         case MFMailComposeResult.failed:
             print("Mail sent failure: \(error?.localizedDescription)")
-
+            
         }
         self.dismiss(animated: true, completion: nil)
     }
@@ -143,11 +143,11 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
         let phoneActionController = UIAlertController(title: "Anrufen", message: "", preferredStyle: .actionSheet)
         let phoneNumberAction = UIAlertAction(title: adPhoneNumber, style: .default, handler: { (UIAlertAction) in
             let telNumber = self.adPhoneNumber.replacingOccurrences(of: " ", with: "").replacingOccurrences(of: "/", with: "")
-                if let url = URL(string: "tel://\(telNumber)") {
-                    UIApplication.shared.openURL(url)
-                }
+            if let url = URL(string: "tel://\(telNumber)") {
+                UIApplication.shared.openURL(url)
+            }
             
-            })
+        })
         let cancelAction = UIAlertAction(title: "Abbrechen", style: .cancel, handler: nil)
         phoneActionController.addAction(phoneNumberAction)
         phoneActionController.addAction(cancelAction)
@@ -156,9 +156,9 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
     
     
     @IBAction func mapViewPressed(_ sender: UITapGestureRecognizer) {
-       let mapActionController = UIAlertController(title: "Anzeigen in", message: "", preferredStyle: .actionSheet)
+        let mapActionController = UIAlertController(title: "Anzeigen in", message: "", preferredStyle: .actionSheet)
         let appleMapsAction = UIAlertAction(title: "Apple Karten", style: .default, handler: { UIAlertAction in
-     
+            
             let latitute:CLLocationDegrees =  self.adLat
             let longitute:CLLocationDegrees =  self.adLong
             
@@ -177,21 +177,21 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
                     mapItem.name = plz + " " + stadt
                 }
             } else {
-            mapItem.name = self.adTitle
+                mapItem.name = self.adTitle
             }
             mapItem.openInMaps(launchOptions: options)
         })
         let googleMapsAction = UIAlertAction(title: "Google Maps", style: .default, handler: { UIAlertAction in
-         
-        
-        if (UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!)) {
-            UIApplication.shared.openURL(URL(string:
-                "comgooglemaps://?saddr=&daddr=\(self.adLat),\(self.adLong)&directionsmode=driving")!)
-        }
+            
+            
+            if (UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!)) {
+                UIApplication.shared.openURL(URL(string:
+                    "comgooglemaps://?saddr=&daddr=\(self.adLat),\(self.adLong)&directionsmode=driving")!)
+            }
         })
         let cancelAction = UIAlertAction(title: "Abbrechen", style: .cancel, handler: nil)
         
-    
+        
         mapActionController.addAction(appleMapsAction)
         mapActionController.addAction(googleMapsAction)
         mapActionController.addAction(cancelAction)
@@ -208,25 +208,25 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
         tableView.estimatedRowHeight = 60
         loadData()
         getImagesURL()
-
+        
     }
     
-
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         gaUserTracking("DetailInMainCategory_\(adMainCat)")
         navigationController?.hidesBarsOnSwipe = false
-
+        
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-
+        
     }
     
     
-     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
         let priceCell = tableView.cellForRow(at: IndexPath(row: 0, section: 0))
         if images.count > 0 {
             if tableView.contentOffset.y > 187 {
@@ -250,9 +250,9 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
         
         
         if tableView.contentOffset.y < -64 {
-
-        image1.frame.size.height = 250 - tableView.contentOffset.y - 64
-        image1.frame.origin.y = tableView.contentOffset.y + 64
+            
+            image1.frame.size.height = 250 - tableView.contentOffset.y - 64
+            image1.frame.origin.y = tableView.contentOffset.y + 64
             
             switch images.count {
             case 2:
@@ -261,15 +261,15 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
             default:
                 image2.frame.size.height = 125 + (-tableView.contentOffset.y - 64)/2
                 image2.frame.origin.y = tableView.contentOffset.y + 64
-
+                
                 image3.frame.size.height = 125 + (-tableView.contentOffset.y - 64)/2 + 0.25
                 image3.frame.origin.y = image3.frame.size.height + tableView.contentOffset.y + 64 - 0.5
-            
+                
             }
-
-        
+            
+            
         } else {
-        image1.frame.size.height = 250
+            image1.frame.size.height = 250
             switch images.count {
             case 2:
                 image2.frame.size.height = 250
@@ -282,220 +282,194 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
             image2.frame.origin.y = 0
             image3.frame.origin.y = 125
         }
-
+        
     }
     
     
     func loadData() {
-        let url = "https://cfw-api-11.azurewebsites.net/public/ads/\(adID)/"
-        var request = URLRequest(url: URL(string: url)!)
-        let session = URLSession.shared
-        request.httpMethod = "GET"
-        let task = session.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
-            if error != nil {
-                print("thers an error in the log")
+        Alamofire.request("https://cfw-api-11.azurewebsites.net/public/ads/\(adID)/").responseJSON(completionHandler: { response in
+            switch response.result {
+            case .failure(let error):
+                print(error)
                 let alert = UIAlertController(title: "Fehler", message: "Local24 hat keine Verbindung zum Internet.", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
                 self.present(alert, animated: true, completion: nil)
-            } else {
-                DispatchQueue.main.async {
-                    do {
-                        let  json = try JSONSerialization.jsonObject(with: data!, options:JSONSerialization.ReadingOptions()) as! [AnyHashable: Any]
-                        if let body = json["Body"] as? String {
+            case .success:
+                
+                if let json = response.result.value as? [AnyHashable: Any] {
+                    if let body = json["Body"] as? String {
                         self.adDescription = body
-                        }
-                        if let body = json["Title"] as? String {
-                            self.adTitle = body
-                        }
-
-                        if let adPriceFloat = json["Price"] as? Float {
-                            let formatter = NumberFormatter()
-                            formatter.numberStyle = .currency
-                            
-                            self.adPrice = formatter.string(from: NSNumber(value: adPriceFloat))!
-                        } else {
-                            if let pricetype = json["PriceType"] as? String {
-                                self.adPrice = pricetype
-                            } else {
-                            self.adPrice = "k.A."
-                            }
-                        }
+                    }
+                    if let body = json["Title"] as? String {
+                        self.adTitle = body
+                    }
+                    
+                    if let adPriceFloat = json["Price"] as? Float {
+                        let formatter = NumberFormatter()
+                        formatter.numberStyle = .currency
+                        
+                        self.adPrice = formatter.string(from: NSNumber(value: adPriceFloat))!
+                    } else {
                         if let pricetype = json["PriceType"] as? String {
-                            self.infos.append(["Preisart", pricetype])
+                            self.adPrice = pricetype
+                        } else {
+                            self.adPrice = "k.A."
                         }
-                        
-                        if let latitude = json["Latitude"] as? Double {
+                    }
+                    if let pricetype = json["PriceType"] as? String {
+                        self.infos.append(["Preisart", pricetype])
+                    }
+                    
+                    if let latitude = json["Latitude"] as? Double {
                         self.adLat = latitude
-                        }
-                        if let longitude = json["Longitude"] as? Double {
+                    }
+                    if let longitude = json["Longitude"] as? Double {
                         self.adLong = longitude
-                        }
-                        
-                        
-                        
-                        if var createdAt = json["CreatedAt"] as? String {
-                            let createdAtYear = createdAt[Range(createdAt.startIndex ..< createdAt.characters.index(createdAt.startIndex, offsetBy: 4))]
-                            let createdAtMonth = createdAt[Range(createdAt.characters.index(createdAt.startIndex, offsetBy: 5) ..< createdAt.characters.index(createdAt.startIndex, offsetBy: 7))]
-                            let createdAtDay = createdAt[Range(createdAt.characters.index(createdAt.startIndex, offsetBy: 8) ..< createdAt.characters.index(createdAt.startIndex, offsetBy: 10))]
-                            createdAt = "\(createdAtDay).\(createdAtMonth).\(createdAtYear)"
-                            self.infos.append(["Datum", createdAt])
-                        }
-                        if var updatedAt = json["UpdatedAt"] as? String {
-                            let updatedAtYear = updatedAt[Range(updatedAt.startIndex ..< updatedAt.characters.index(updatedAt.startIndex, offsetBy: 4))]
-                            let updatedAtMonth = updatedAt[Range(updatedAt.characters.index(updatedAt.startIndex, offsetBy: 5) ..< updatedAt.characters.index(updatedAt.startIndex, offsetBy: 7))]
-                            let updatedAtDay = updatedAt[Range(updatedAt.characters.index(updatedAt.startIndex, offsetBy: 8) ..< updatedAt.characters.index(updatedAt.startIndex, offsetBy: 10))]
-                            updatedAt = "\(updatedAtDay).\(updatedAtMonth).\(updatedAtYear)"
-                            self.infos.append(["Aktualisiert", updatedAt])
-                        }
-                        if let street = json["Street"] as? String {
-                            self.locationStrings["Straße"] = street
-                        }
-                        if let houseNumber = json["HouseNumber"] as? String {
-                            self.locationStrings["Hausnummer"] = houseNumber
-                        }
-                        if let city = json["City"] as? String {
-                            self.locationStrings["Stadt"] = city
-                        }
-                        if let zipCode = json["ZipCode"] as? String {
-                            self.locationStrings["PLZ"] = zipCode
-                        }
-                        if let phone = json["Phone"] as? String {
-                            self.locationStrings["Telefonnummer"] = phone
-                            self.adPhoneNumber = phone
-                        }
-                        
-                        
-                        
-                        
-                        //Autos
-                        if let condition = json["Condition"] as? String {
-                            self.infos.append(["Zustand", condition])
-                        }
-                        if let make = json["Make"] as? String {
-                            self.infos.append(["Marke", make])
-                        }
-                        if let model = json["Model"] as? String {
-                            self.infos.append(["Model", model])
-                        }
-                        if let mileage = json["Mileage"] as? Float {
-                            let formatter = NumberFormatter()
-                            formatter.numberStyle = .decimal
-                            let mileageString = formatter.string(from: NSNumber(value: mileage))! + " km"
-                            self.infos.append(["Kilometerstand", mileageString])
-                        }
-                        if let initialRegistration = json["InitialRegistration"] as? String {
-                            self.infos.append(["Erstzulassung", initialRegistration])
-                        }
-                        if let fuelType = json["FuelType"] as? String {
-                            self.infos.append(["Kraftstoffart", fuelType])
-                        }
-                        if let fuelConsumption = json["FuelConsumption"] as? Float {
-                            let formatter = NumberFormatter()
-                            formatter.numberStyle = .none
-                            let fuelConsumptionString = formatter.string(from: NSNumber(value: fuelConsumption))! + " l/100km (kombiniert)"
-                            self.infos.append(["Verbrauch", fuelConsumptionString])
-                        }
-                        if let power = json["Power"] as? Float {
-                            let formatter = NumberFormatter()
-                            formatter.numberStyle = .none
-                            let kWpower = power * 0.735499
-                            let powerString = formatter.string(from: NSNumber(value: power))! + "PS / " + formatter.string(from: NSNumber(value: kWpower))! + "kW"
-                            self.infos.append(["Leistung", powerString])
-                        }
-                        if let gearType = json["GearType"] as? String {
-                            self.infos.append(["Getriebe", gearType])
-                        }
-                        
-                        // Immobilien
-                        if let priceTypeProperty = json["PriceTypeProperty"] as? String {
+                    }
+                    
+                    
+                    
+                    if var createdAt = json["CreatedAt"] as? String {
+                        let createdAtYear = createdAt[Range(createdAt.startIndex ..< createdAt.characters.index(createdAt.startIndex, offsetBy: 4))]
+                        let createdAtMonth = createdAt[Range(createdAt.characters.index(createdAt.startIndex, offsetBy: 5) ..< createdAt.characters.index(createdAt.startIndex, offsetBy: 7))]
+                        let createdAtDay = createdAt[Range(createdAt.characters.index(createdAt.startIndex, offsetBy: 8) ..< createdAt.characters.index(createdAt.startIndex, offsetBy: 10))]
+                        createdAt = "\(createdAtDay).\(createdAtMonth).\(createdAtYear)"
+                        self.infos.append(["Datum", createdAt])
+                    }
+                    if var updatedAt = json["UpdatedAt"] as? String {
+                        let updatedAtYear = updatedAt[Range(updatedAt.startIndex ..< updatedAt.characters.index(updatedAt.startIndex, offsetBy: 4))]
+                        let updatedAtMonth = updatedAt[Range(updatedAt.characters.index(updatedAt.startIndex, offsetBy: 5) ..< updatedAt.characters.index(updatedAt.startIndex, offsetBy: 7))]
+                        let updatedAtDay = updatedAt[Range(updatedAt.characters.index(updatedAt.startIndex, offsetBy: 8) ..< updatedAt.characters.index(updatedAt.startIndex, offsetBy: 10))]
+                        updatedAt = "\(updatedAtDay).\(updatedAtMonth).\(updatedAtYear)"
+                        self.infos.append(["Aktualisiert", updatedAt])
+                    }
+                    if let street = json["Street"] as? String {
+                        self.locationStrings["Straße"] = street
+                    }
+                    if let houseNumber = json["HouseNumber"] as? String {
+                        self.locationStrings["Hausnummer"] = houseNumber
+                    }
+                    if let city = json["City"] as? String {
+                        self.locationStrings["Stadt"] = city
+                    }
+                    if let zipCode = json["ZipCode"] as? String {
+                        self.locationStrings["PLZ"] = zipCode
+                    }
+                    if let phone = json["Phone"] as? String {
+                        self.locationStrings["Telefonnummer"] = phone
+                        self.adPhoneNumber = phone
+                    }
+                    
+                    
+                    
+                    
+                    //Autos
+                    if let condition = json["Condition"] as? String {
+                        self.infos.append(["Zustand", condition])
+                    }
+                    if let make = json["Make"] as? String {
+                        self.infos.append(["Marke", make])
+                    }
+                    if let model = json["Model"] as? String {
+                        self.infos.append(["Model", model])
+                    }
+                    if let mileage = json["Mileage"] as? Float {
+                        let formatter = NumberFormatter()
+                        formatter.numberStyle = .decimal
+                        let mileageString = formatter.string(from: NSNumber(value: mileage))! + " km"
+                        self.infos.append(["Kilometerstand", mileageString])
+                    }
+                    if let initialRegistration = json["InitialRegistration"] as? String {
+                        self.infos.append(["Erstzulassung", initialRegistration])
+                    }
+                    if let fuelType = json["FuelType"] as? String {
+                        self.infos.append(["Kraftstoffart", fuelType])
+                    }
+                    if let fuelConsumption = json["FuelConsumption"] as? Float {
+                        let formatter = NumberFormatter()
+                        formatter.numberStyle = .none
+                        let fuelConsumptionString = formatter.string(from: NSNumber(value: fuelConsumption))! + " l/100km (kombiniert)"
+                        self.infos.append(["Verbrauch", fuelConsumptionString])
+                    }
+                    if let power = json["Power"] as? Float {
+                        let formatter = NumberFormatter()
+                        formatter.numberStyle = .none
+                        let kWpower = power * 0.735499
+                        let powerString = formatter.string(from: NSNumber(value: power))! + "PS / " + formatter.string(from: NSNumber(value: kWpower))! + "kW"
+                        self.infos.append(["Leistung", powerString])
+                    }
+                    if let gearType = json["GearType"] as? String {
+                        self.infos.append(["Getriebe", gearType])
+                    }
+                    
+                    // Immobilien
+                    if let priceTypeProperty = json["PriceTypeProperty"] as? String {
                         self.infos.append(["Preisart", priceTypeProperty])
-                        }
-                        if var additionalCostsFloat = json["AdditionalCosts"] as? Float {
+                    }
+                    if var additionalCostsFloat = json["AdditionalCosts"] as? Float {
                         additionalCostsFloat = (additionalCostsFloat * 1000)/1000
                         let additionalCosts = "\(String(format: "%.2f", additionalCostsFloat).replacingOccurrences(of: ".", with: ",")) €"
                         self.infos.append(["Nebenkosten", additionalCosts])
-                        }
-                        if var depositAmountFloat = json["DepositAmount"] as? Float {
-                            depositAmountFloat = (depositAmountFloat * 1000)/1000
-                            let depositAmount = "\(String(format: "%.2f", depositAmountFloat).replacingOccurrences(of: ".", with: ",")) €"
-                            self.infos.append(["Kaution", depositAmount])
-                        }
-                        if var sizeFloat = json["Size"] as? Float {
-                            sizeFloat = (sizeFloat * 1000)/1000
-                            let size = "\(String(format: "%.2f", sizeFloat).replacingOccurrences(of: ".", with: ",")) m²"
-                            self.infos.append(["Wohnfläche", size])
-                        }
-                        if let totalRoomsInt = json["TotalRooms"] as? Int {
-                            let totalRooms = String(totalRoomsInt)
-                            self.infos.append(["Zimmer", totalRooms])
-                        }
-                        if let apartmentType = json["ApartmentType"] as? String {
+                    }
+                    if var depositAmountFloat = json["DepositAmount"] as? Float {
+                        depositAmountFloat = (depositAmountFloat * 1000)/1000
+                        let depositAmount = "\(String(format: "%.2f", depositAmountFloat).replacingOccurrences(of: ".", with: ",")) €"
+                        self.infos.append(["Kaution", depositAmount])
+                    }
+                    if var sizeFloat = json["Size"] as? Float {
+                        sizeFloat = (sizeFloat * 1000)/1000
+                        let size = "\(String(format: "%.2f", sizeFloat).replacingOccurrences(of: ".", with: ",")) m²"
+                        self.infos.append(["Wohnfläche", size])
+                    }
+                    if let totalRoomsInt = json["TotalRooms"] as? Int {
+                        let totalRooms = String(totalRoomsInt)
+                        self.infos.append(["Zimmer", totalRooms])
+                    }
+                    if let apartmentType = json["ApartmentType"] as? String {
                         self.infos.append(["Wohnungstyp", apartmentType])
-                        }
-                        
-                    self.tableView.reloadData()
-                     
-                        
-                    self.title = self.adTitle
-                      
-                        
-                    } catch {
-                        let alert = UIAlertController(title: "Fehler", message: "Der Artikel konnte nicht gefunden werden.", preferredStyle: .alert)
-                        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-                        alert.addAction(okAction)
-                        self.present(alert, animated: true, completion: nil)
                     }
                     
-
+                    self.tableView.reloadData()
                     
-                }
+                    
+                    self.title = self.adTitle
+                    
+                } else {
+                    let alert = UIAlertController(title: "Fehler", message: "Der Artikel konnte nicht gefunden werden.", preferredStyle: .alert)
+                    let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                    alert.addAction(okAction)
+                    self.present(alert, animated: true, completion: nil)}
+   
             }
-            
-        }) 
+        })
         
-        task.resume()
-    
     }
-
+    
     
     func getImagesURL() {
-        let url = "https://cfw-api-11.azurewebsites.net/public/ads/\(adID)/images/"
-        var request = URLRequest(url: URL(string: url)!)
-        let session = URLSession.shared
-        request.httpMethod = "GET"
-        let imgtask = session.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
-            
-            if error != nil {
-                print("thers an error in the log")
-            } else {
-                DispatchQueue.main.async {
-                    do {
-                        let  json = try JSONSerialization.jsonObject(with: data!, options:JSONSerialization.ReadingOptions())
-                        let array = json as! [[AnyHashable: Any]]
-                        if array.count > 0 {
-                        for i in 0...array.count - 1 {
-                        let url = array[i]["ImagePathLarge"] as! String
-                        self.imgURLArray.append(url)
+        Alamofire.request("https://cfw-api-11.azurewebsites.net/public/ads/\(adID)/images/").responseJSON(completionHandler: { response in
+            switch response.result {
+            case .failure(let error):
+                print(error)
+                let alert = UIAlertController(title: "Fehler", message: "Local24 hat keine Verbindung zum Internet.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+            case .success:
+                if let json = response.result.value as? [[AnyHashable: Any]] {
+                    if json.count > 0 {
+                        for i in 0...json.count - 1 {
+                            let url = json[i]["ImagePathLarge"] as! String
+                            self.imgURLArray.append(url)
                         }
                         self.loadImages()
-                        } else {
+                    } else {
                         self.tableView.tableHeaderView?.frame.size.height = 0
                         self.tableView.reloadData()
                         
-                        }
-                        
-                        
-                    } catch {
-                        print(error)
                     }
-                    
-                
                 }
-                
             }
-        }) 
-        
-        imgtask.resume()
+        })
     }
     
     
@@ -512,13 +486,13 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
                     print(error)
                 } else {
                     DispatchQueue.main.async {
-                    if let image = UIImage(data: data!) {
-                        self.images.append(image)
-                        
-                    }
+                        if let image = UIImage(data: data!) {
+                            self.images.append(image)
+                            
+                        }
                     }
                 }
-            }) 
+            })
             task.resume()
             
         }
@@ -527,48 +501,48 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
     
     
     func showImages() {
-    switch images.count {
-    
-
-    case 1:
-        image1.frame.size.width  = screenwidth
-        image1.image = images[0]
-    case 2:
-        image2BottomConstraint.constant = 0
-        image1.image = images[0]
-        image2.image = images[1]
-    default:
-        image1.image = images[0]
-        image2.image = images[1]
-        image3.image = images[2]
+        switch images.count {
+            
+            
+        case 1:
+            image1.frame.size.width  = screenwidth
+            image1.image = images[0]
+        case 2:
+            image2BottomConstraint.constant = 0
+            image1.image = images[0]
+            image2.image = images[1]
+        default:
+            image1.image = images[0]
+            image2.image = images[1]
+            image3.image = images[2]
+        }
+        
     }
     
-    }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-        
+    
+    
     
     // MARK: - Table view data source
-
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 4
     }
     
-     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-  
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
         switch section {
         case 0:
             return nil
         case 1:
             if infos.count > 0 {
-            return "Info"
+                return "Info"
             } else {
-            return nil
+                return nil
             }
         case 2:
             return "Details"
@@ -577,15 +551,15 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
         default:
             return nil
         }
-   
+        
     }
-
-     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         var numberOfRows = Int()
         switch section {
         case 0:
-             numberOfRows = 2
+            numberOfRows = 2
         case 1:
             numberOfRows = infos.count
         case 2:
@@ -597,32 +571,32 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
         return numberOfRows
     }
     
-
-
     
-     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var defaultcell = UITableViewCell()
-
+        
         switch (indexPath as NSIndexPath).section {
         case 0:
             switch (indexPath as NSIndexPath).row {
             case 0:
-               let cell = tableView.dequeueReusableCell(withIdentifier: "priceCellID") as! PriceTableViewCell!
-               
-               cell?.adPriceLabel.text = adPrice
+                let cell = tableView.dequeueReusableCell(withIdentifier: "priceCellID") as! PriceTableViewCell!
+                
+                cell?.adPriceLabel.text = adPrice
                 fixedPriceCellPriceLabel.text = adPrice
-               
+                
                 defaultcell = cell!
             case 1:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "titleCellID") as! TitleTableViewCell!
                 
                 cell?.adTitleLabel.text = adTitle
-            
+                
                 defaultcell = cell!
             default: break
             }
         case 1:
-           let cell = tableView.dequeueReusableCell(withIdentifier: "infoCellID") as UITableViewCell!
+            let cell = tableView.dequeueReusableCell(withIdentifier: "infoCellID") as UITableViewCell!
             cell?.textLabel!.text! = infos[(indexPath as NSIndexPath).row][0]
             cell?.detailTextLabel!.text! = infos[(indexPath as NSIndexPath).row][1]
             defaultcell = cell!
@@ -635,71 +609,71 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
         case 3:
             switch (indexPath as NSIndexPath).row {
             case 0:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "locationMapCellID") as! LocationMapTableViewCell!
-            
-            let region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: adLat, longitude: adLong), span: MKCoordinateSpan(latitudeDelta: 0.2, longitudeDelta: 0.2))
-            cell?.mapView.setRegion(region, animated: false)
-            
-            defaultcell = cell!
+                let cell = tableView.dequeueReusableCell(withIdentifier: "locationMapCellID") as! LocationMapTableViewCell!
+                
+                let region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: adLat, longitude: adLong), span: MKCoordinateSpan(latitudeDelta: 0.2, longitudeDelta: 0.2))
+                cell?.mapView.setRegion(region, animated: false)
+                
+                defaultcell = cell!
             case 1:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "locationStringsCellID") as UITableViewCell!
                 if let plz = locationStrings["PLZ"] {
                     if let stadt = locationStrings["Stadt"] {
-                    cell?.textLabel?.text = plz + " " + stadt
+                        cell?.textLabel?.text = plz + " " + stadt
                     }
                 }
                 
-            defaultcell = cell!
+                defaultcell = cell!
             default: break
-        }
+            }
         default: break
         }
-       
-
+        
+        
         return defaultcell
         
     }
     
-
+    
     /*
-    // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
+     // Override to support conditional editing of the table view.
+     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+     // Return false if you do not want the specified item to be editable.
+     return true
+     }
+     */
+    
     /*
-    // Override to support editing the table view.
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
+     // Override to support editing the table view.
+     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+     if editingStyle == .Delete {
+     // Delete the row from the data source
+     tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+     } else if editingStyle == .Insert {
+     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+     }
+     }
+     */
+    
     /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-
-    }
-    */
-
+     // Override to support rearranging the table view.
+     override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
+     
+     }
+     */
+    
     /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
+     // Override to support conditional rearranging of the table view.
+     override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+     // Return false if you do not want the item to be re-orderable.
+     return true
+     }
+     */
+    
     
     // MARK: - Navigation
     @IBAction func backfromContact(_ segue:UIStoryboardSegue) {
-
+        
         
     }
     @IBAction func backfromDetailImage(_ segue:UIStoryboardSegue) {
@@ -720,7 +694,7 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
                     contactVC.locationStrings = self.locationStrings
                     contactVC.adID = self.adID
                     contactVC.detailLink = self.urlToShow.absoluteString
-
+                    
                     
                 }
                 
@@ -757,11 +731,11 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
     
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
- 
-    return true
+        
+        return true
         
     }
     
     
-
+    
 }
