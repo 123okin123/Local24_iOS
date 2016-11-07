@@ -10,6 +10,7 @@ import UIKit
 import MapKit
 import MessageUI
 import FBSDKShareKit
+import Alamofire
 
 
 class LocalDetailTableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, MFMailComposeViewControllerDelegate {

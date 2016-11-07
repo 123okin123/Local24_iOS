@@ -14,6 +14,7 @@ target 'Local24' do
   pod 'FBSDKLoginKit'
   pod 'FBSDKShareKit'
   pod 'FBAudienceNetwork'
+  pod 'Alamofire', '~> 4.0'
 
   target 'Local24Tests' do
     inherit! :search_paths
