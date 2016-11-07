@@ -1,0 +1,21 @@
+
+/* Class = "UIBarButtonItem"; title = "Meins"; ObjectID = "dGd-IS-vYN"; */
+"dGd-IS-vYN.title" = "Meins";
+
+/* Class = "UISegmentedControl"; eM1-3x-cfw.segmentTitles[0] = "Meine Anzeigen"; ObjectID = "eM1-3x-cfw"; */
+"eM1-3x-cfw.segmentTitles[0]" = "Meine Anzeigen";
+
+/* Class = "UISegmentedControl"; eM1-3x-cfw.segmentTitles[1] = "Meine Daten"; ObjectID = "eM1-3x-cfw"; */
+"eM1-3x-cfw.segmentTitles[1]" = "Meine Daten";
+
+/* Class = "UISearchBar"; placeholder = "Suchen"; ObjectID = "fmn-Ce-ZSy"; */
+"fmn-Ce-ZSy.placeholder" = "Suchen";
+
+/* Class = "UINavigationItem"; title = "Inserieren"; ObjectID = "mzv-G3-hWc"; */
+"mzv-G3-hWc.title" = "Inserieren";
+
+/* Class = "UIBarButtonItem"; title = "Insert"; ObjectID = "rvd-hE-QdV"; */
+"rvd-hE-QdV.title" = "Insert";
+
+/* Class = "UILabel"; text = "Anzeige aufgeben"; ObjectID = "sAY-9z-3yG"; */
+"sAY-9z-3yG.text" = "Anzeige aufgeben";

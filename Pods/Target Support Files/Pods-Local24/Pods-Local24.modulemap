@@ -1,0 +1,6 @@
+framework module Pods_Local24 {
+  umbrella header "Pods-Local24-umbrella.h"
+
+  export *
+  module * { export * }
+}
