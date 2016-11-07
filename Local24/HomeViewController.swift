@@ -50,10 +50,6 @@ class HomeViewController: UIViewController, UISearchBarDelegate, UIScrollViewDel
     override func viewDidLoad() {
         super.viewDidLoad()
         
-                
-        
-        
-        
         
         scrollView.delegate = self
         configureSearchBar()
@@ -86,11 +82,8 @@ class HomeViewController: UIViewController, UISearchBarDelegate, UIScrollViewDel
         }
         }
        
-
-        
-        
-        
     }
+    
     
     func configureSearchBar() {
         searchBar.delegate = self
