@@ -470,7 +470,7 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
                 }
             }
         })
-    }
+        }
     
     
     func loadImages() {
