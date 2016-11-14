@@ -96,7 +96,7 @@ class SearchCollectionViewController: UICollectionViewController, UICollectionVi
         }
         return cell
         } else {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ListingsCell", for: indexPath) as! SearchCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ListingsCell", for: indexPath) as! CollectionViewCell
             cell.listingTitle.text = listingsArray[(indexPath as NSIndexPath).row].title
             cell.listingPrice.text = listingsArray[(indexPath as NSIndexPath).row].price
             cell.listingDate.text = listingsArray[(indexPath as NSIndexPath).row].createdDate
@@ -163,47 +163,7 @@ class SearchCollectionViewController: UICollectionViewController, UICollectionVi
                         if array.count > 0 {
                             for i in 0...array.count - 1 {
                                
-                                let listing = Listing()
-                                if let listingTitle = array[i]["Title"] as? String {
-                                    listing.title = listingTitle
-                                }
-                                if let listingPrice = array[i]["Price"] as? String {
-                                    listing.price = listingPrice
-                                }
-                                if let listingPrice = array[i]["Price"] as? Float {
-                                    let formatter = NumberFormatter()
-                                    formatter.numberStyle = .currency
-                                    listing.price = formatter.string(from: NSNumber(value: listingPrice))
-                                } else {
-                                    if let pricetype = array[i]["Price"] as? String {
-                                        listing.price = pricetype
-                                    } else {
-                                        listing.price = "k.A."
-                                    }
-                                }
-                                if var listingDate = array[i]["CreatedAt"] as? String {
-                                    let listingDateYear = listingDate[Range(listingDate.startIndex ..< listingDate.characters.index(listingDate.startIndex, offsetBy: 4))]
-                                    let listingDateMonth = listingDate[Range(listingDate.characters.index(listingDate.startIndex, offsetBy: 5) ..< listingDate.characters.index(listingDate.startIndex, offsetBy: 7))]
-                                    let listingDateDay = listingDate[Range(listingDate.characters.index(listingDate.startIndex, offsetBy: 8) ..< listingDate.characters.index(listingDate.startIndex, offsetBy: 10))]
-                                    listingDate = "\(listingDateDay).\(listingDateMonth).\(listingDateYear)"
-                                    listing.createdDate = listingDate
-                                }
-                                let hasImages = array[i]["HasImages"] as! Int
-                                if hasImages == 1 {
-                                    listing.hasImages = true
-                                    if let images = array[i]["GalleryImage"] as? NSDictionary {
-                                        if let imagePathMedium = images["ImagePathMedium"] as? String  {
-                                            listing.imagePathMedium = imagePathMedium
-                                        }
-                                    }
-                                } else {
-                                listing.hasImages = false
-                                }
-                                
-
-
-                                
-                                listing.mainImage = UIImage(named: "home_Background")
+                                let listing = Listing(value: array[i])
                                 self.listingsArray.append(listing)
                                 
                                 

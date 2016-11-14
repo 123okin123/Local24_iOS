@@ -19,7 +19,7 @@
 		A3AF0A635067C4E9A1AE8920 /* Pods_Local24Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43DD49A8287E5B1D5DEA9BC8 /* Pods_Local24Tests.framework */; };
 		CD0A28A21C6CF76300B27AFD /* RadiusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD0A28A11C6CF76300B27AFD /* RadiusView.swift */; };
 		CD0E3F7E1CE09C6C005AA575 /* SearchCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD0E3F7D1CE09C6C005AA575 /* SearchCollectionViewController.swift */; };
-		CD0E3F801CE0A06C005AA575 /* SearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD0E3F7F1CE0A06C005AA575 /* SearchCollectionViewCell.swift */; };
+		CD0E3F801CE0A06C005AA575 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD0E3F7F1CE0A06C005AA575 /* CollectionViewCell.swift */; };
 		CD0E3F821CE0BFA9005AA575 /* Listing.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD0E3F811CE0BFA9005AA575 /* Listing.swift */; };
 		CD286E461CCE383B004675A9 /* FilterSelectTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD286E451CCE383B004675A9 /* FilterSelectTableViewController.swift */; };
 		CD286E481CCE455C004675A9 /* FilterMoreSelectTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD286E471CCE455C004675A9 /* FilterMoreSelectTableViewController.swift */; };
@@ -51,6 +51,8 @@
 		CDA9CCD21C070FA4005ED562 /* InsertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA9CCD11C070FA4005ED562 /* InsertViewController.swift */; };
 		CDA9CCD81C0715B3005ED562 /* MoreTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA9CCD71C0715B3005ED562 /* MoreTableViewController.swift */; };
 		CDA9CCDA1C073236005ED562 /* MoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA9CCD91C073236005ED562 /* MoreViewController.swift */; };
+		CDB04AD01DD3259100034C1F /* AccountCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB04ACF1DD3259100034C1F /* AccountCollectionViewController.swift */; };
+		CDB04AD41DD36A3500034C1F /* MyAdsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB04AD31DD36A3500034C1F /* MyAdsCollectionViewCell.swift */; };
 		CDB3AFE21D2BEF2200C2F254 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDB3AFE11D2BEF2200C2F254 /* CoreGraphics.framework */; };
 		CDB3AFEA1D2BF00A00C2F254 /* NMRangeSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = CDB3AFE91D2BF00A00C2F254 /* NMRangeSlider.m */; };
 		CDB3AFF51D2BF0B800C2F254 /* slider-default7-trackBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = CDB3AFED1D2BF0B800C2F254 /* slider-default7-trackBackground.png */; };
@@ -118,7 +120,7 @@
 		BF19EF7F4AEA34E8E7663AF8 /* Pods-Local24Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Local24Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Local24Tests/Pods-Local24Tests.release.xcconfig"; sourceTree = "<group>"; };
 		CD0A28A11C6CF76300B27AFD /* RadiusView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RadiusView.swift; sourceTree = "<group>"; };
 		CD0E3F7D1CE09C6C005AA575 /* SearchCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchCollectionViewController.swift; sourceTree = "<group>"; };
-		CD0E3F7F1CE0A06C005AA575 /* SearchCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchCollectionViewCell.swift; sourceTree = "<group>"; };
+		CD0E3F7F1CE0A06C005AA575 /* CollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
 		CD0E3F811CE0BFA9005AA575 /* Listing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Listing.swift; sourceTree = "<group>"; };
 		CD286E451CCE383B004675A9 /* FilterSelectTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterSelectTableViewController.swift; sourceTree = "<group>"; };
 		CD286E471CCE455C004675A9 /* FilterMoreSelectTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterMoreSelectTableViewController.swift; sourceTree = "<group>"; };
@@ -153,6 +155,8 @@
 		CDA9CCD61C071456005ED562 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		CDA9CCD71C0715B3005ED562 /* MoreTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreTableViewController.swift; sourceTree = "<group>"; };
 		CDA9CCD91C073236005ED562 /* MoreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreViewController.swift; sourceTree = "<group>"; };
+		CDB04ACF1DD3259100034C1F /* AccountCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountCollectionViewController.swift; sourceTree = "<group>"; };
+		CDB04AD31DD36A3500034C1F /* MyAdsCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyAdsCollectionViewCell.swift; sourceTree = "<group>"; };
 		CDB3AFE11D2BEF2200C2F254 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		CDB3AFE81D2BF00A00C2F254 /* NMRangeSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NMRangeSlider.h; sourceTree = "<group>"; };
 		CDB3AFE91D2BF00A00C2F254 /* NMRangeSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NMRangeSlider.m; sourceTree = "<group>"; };
@@ -246,8 +250,10 @@
 				CD860CF81CAA9DD5003361D4 /* Search */,
 				CD65D2581C6101CE00AD89DF /* Location */,
 				CD5D16EA1C9037EE00ACE365 /* Detail */,
-				CDA9CCCF1C070F94005ED562 /* AccountViewController.swift */,
 				CDA9CCD11C070FA4005ED562 /* InsertViewController.swift */,
+				CDA9CCCF1C070F94005ED562 /* AccountViewController.swift */,
+				CDB04ACF1DD3259100034C1F /* AccountCollectionViewController.swift */,
+				CDB04AD31DD36A3500034C1F /* MyAdsCollectionViewCell.swift */,
 				CD8F9A081D1819E700C299F0 /* LoginViewController.swift */,
 				CD860CF91CAA9DFC003361D4 /* More */,
 				CDE4DA031C0DEA3E00FE7611 /* Font */,
@@ -353,7 +359,7 @@
 				CDA9CCCD1C070D2B005ED562 /* SearchViewController.swift */,
 				CD9CD4321CE4A1900080CF67 /* SelectedFilterButton.swift */,
 				CD0E3F7D1CE09C6C005AA575 /* SearchCollectionViewController.swift */,
-				CD0E3F7F1CE0A06C005AA575 /* SearchCollectionViewCell.swift */,
+				CD0E3F7F1CE0A06C005AA575 /* CollectionViewCell.swift */,
 				CD964C061CFC47D00002A675 /* Ads */,
 				CD964C051CFC478F0002A675 /* Filter */,
 			);
@@ -511,7 +517,7 @@
 		1081F2D21BB02A7600688F3B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = "Nikolai Kratz";
 				TargetAttributes = {
 					1081F2D91BB02A7600688F3B = {
@@ -745,7 +751,7 @@
 			files = (
 				CD0E3F7E1CE09C6C005AA575 /* SearchCollectionViewController.swift in Sources */,
 				CD65D2551C60FD6400AD89DF /* ZipGeo.swift in Sources */,
-				CD0E3F801CE0A06C005AA575 /* SearchCollectionViewCell.swift in Sources */,
+				CD0E3F801CE0A06C005AA575 /* CollectionViewCell.swift in Sources */,
 				CD8F9A091D1819E700C299F0 /* LoginViewController.swift in Sources */,
 				CDA9CCDA1C073236005ED562 /* MoreViewController.swift in Sources */,
 				CD9CD4311CE229EC0080CF67 /* FacebookAd.swift in Sources */,
@@ -759,9 +765,11 @@
 				CD9CD4331CE4A1900080CF67 /* SelectedFilterButton.swift in Sources */,
 				CDE529841C70782600820184 /* Reachibility.swift in Sources */,
 				CDA9CCCC1C070793005ED562 /* PublicSettings.swift in Sources */,
+				CDB04AD01DD3259100034C1F /* AccountCollectionViewController.swift in Sources */,
 				CD286E461CCE383B004675A9 /* FilterSelectTableViewController.swift in Sources */,
 				CD5109821C58A3B200BA2CB8 /* HomeViewController.swift in Sources */,
 				CD65D24F1C60DC3000AD89DF /* LocationViewController.swift in Sources */,
+				CDB04AD41DD36A3500034C1F /* MyAdsCollectionViewCell.swift in Sources */,
 				CD5D16F01C9054F200ACE365 /* LocationMapTableViewCell.swift in Sources */,
 				CD5D16E91C90377D00ACE365 /* PriceTableViewCell.swift in Sources */,
 				CD5D16EE1C903F7F00ACE365 /* DescriptionTableViewCell.swift in Sources */,

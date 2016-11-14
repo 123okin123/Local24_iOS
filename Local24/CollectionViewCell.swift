@@ -1,5 +1,5 @@
 //
-//  SearchCollectionViewCell.swift
+//  CollectionViewCell.swift
 //  Local24
 //
 //  Created by Local24 on 09/05/16.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SearchCollectionViewCell: UICollectionViewCell {
+class CollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var listingImage: UIImageView!
     @IBOutlet weak var listingTitle: UILabel!
     @IBOutlet weak var listingPrice: UILabel!
