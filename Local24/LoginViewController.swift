@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Alamofire
 
 class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var inputBGViewBottomContraint: NSLayoutConstraint!
@@ -33,43 +34,25 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         let utf8credentials = credentials.data(using: String.Encoding.utf8)
         if let base64Encoded = utf8credentials?.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
         {
-            
-            
-            let url = "https://cfw-api-11.azurewebsites.net/tokens/\(base64Encoded)"
-            var request = URLRequest(url: URL(string: url)!)
-            let session = URLSession.shared
-            request.httpMethod = "POST"
-            let task = session.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
-                
-                if error != nil {
-                    print("thers an error in the log")
-                } else {
-                    DispatchQueue.main.async {
-                    if let httpResponse = response as? HTTPURLResponse {
-                        switch httpResponse.statusCode {
-                        case 400:
-                            let animation = CABasicAnimation(keyPath: "position")
-                            animation.duration = 0.07
-                            animation.repeatCount = 4
-                            animation.autoreverses = true
-                            animation.fromValue = NSValue(cgPoint: CGPoint(x: self.inputBGView.center.x - 10, y: self.inputBGView.center.y))
-                            animation.toValue = NSValue(cgPoint: CGPoint(x: self.inputBGView.center.x + 10, y: self.inputBGView.center.y))
-                            self.inputBGView.layer.add(animation, forKey: "position")
-                        case 201: break
-                            
-                        default: break
-                        }
-                        
-                        }
+            Alamofire.request("https://cfw-api-11.azurewebsites.net/tokens/\(base64Encoded)", method: .post).validate().responseJSON (completionHandler: {response in
+                switch response.result {
+                case .success:
+                    userToken = response.result.value as? String
+                    if let accountVC = self.parent as? AccountCollectionViewController {
+                    accountVC.getAds()
                     }
+                    self.removeViewControllerAsChildViewController(viewController: self)
                     
+                case .failure:
+                    let animation = CABasicAnimation(keyPath: "position")
+                    animation.duration = 0.07
+                    animation.repeatCount = 4
+                    animation.autoreverses = true
+                    animation.fromValue = NSValue(cgPoint: CGPoint(x: self.inputBGView.center.x - 10, y: self.inputBGView.center.y))
+                    animation.toValue = NSValue(cgPoint: CGPoint(x: self.inputBGView.center.x + 10, y: self.inputBGView.center.y))
+                    self.inputBGView.layer.add(animation, forKey: "position")
                 }
-            }) 
-            task.resume()
-            
-            
-            
-            
+            })
         }
     
     }
@@ -77,17 +60,28 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         NotificationCenter.default.addObserver(self, selector: #selector(LoginViewController.keyboardWillShow(_:)), name:NSNotification.Name.UIKeyboardWillShow, object: nil);
         NotificationCenter.default.addObserver(self, selector: #selector(LoginViewController.keyboardWillHide(_:)), name:NSNotification.Name.UIKeyboardWillHide, object: nil)
         emailTextField.delegate = self
         passwordTextField.delegate = self
         emailTextField.addTarget(self, action: #selector(LoginViewController.textFieldDidChange(_:)), for: UIControlEvents.editingChanged)
         passwordTextField.addTarget(self, action: #selector(LoginViewController.textFieldDidChange(_:)), for: UIControlEvents.editingChanged)
-
+        
         
 
         // Do any additional setup after loading the view.
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+
     
     func textFieldDidChange(_ textField :UITextField) {
         if emailTextField.text != "" && passwordTextField.text != "" {
@@ -117,14 +111,17 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         }) 
     }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func removeViewControllerAsChildViewController(viewController: UIViewController) {
+        // Notify Child View Controller
+        viewController.willMove(toParentViewController: nil)
+        
+        // Remove Child View From Superview
+        viewController.view.removeFromSuperview()
+        
+        // Notify Child View Controller
+        viewController.removeFromParentViewController()
     }
-    */
+
+    
 
 }

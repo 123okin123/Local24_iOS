@@ -42,6 +42,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         filter.viewedRegion.span.latitudeDelta = defaults.double(forKey: "viewedRegion.span.latitudeDelta")
         filter.viewedRegion.span.longitudeDelta = defaults.double(forKey: "viewedRegion.span.longitudeDelta")
         filter.onlyLocalListings = defaults.bool(forKey: "onlyLocalListings")
+        userToken = defaults.string(forKey: "userToken")
         }
 
         window?.tintColor = greencolor
@@ -130,7 +131,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         defaults.set(filter.viewedRegion.span.latitudeDelta, forKey: "viewedRegion.span.latitudeDelta")
         defaults.set(filter.viewedRegion.span.longitudeDelta, forKey: "viewedRegion.span.longitudeDelta")
         defaults.set(filter.onlyLocalListings, forKey: "onlyLocalListings")
-
+        if userToken != nil {
+        defaults.set(userToken!, forKey: "userToken")
+        }
     }
  
     
