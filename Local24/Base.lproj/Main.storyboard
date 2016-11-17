@@ -162,62 +162,83 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="3Uv-Ui-ezG">
-                            <size key="itemSize" width="166" height="250"/>
+                            <size key="itemSize" width="166" height="230"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="MyAdsCellID" id="gYf-iE-5iV" customClass="MyAdsCollectionViewCell" customModule="Local24" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="166" height="250"/>
+                                <rect key="frame" x="0.0" y="0.0" width="166" height="230"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="166" height="250"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="166" height="230"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tu7-oT-9IF">
-                                            <rect key="frame" x="0.0" y="0.0" width="166" height="250"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="166" height="230"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="SlB-Ry-x1k">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="home_Background" translatesAutoresizingMaskIntoConstraints="NO" id="SlB-Ry-x1k">
                                                     <rect key="frame" x="0.0" y="0.0" width="166" height="150"/>
-                                                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="backgroundColor" red="0.7725490196" green="0.76862745099999996" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="150" id="899-1b-8sl"/>
                                                     </constraints>
                                                 </imageView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="FEi-sc-TnO">
-                                                    <rect key="frame" x="8" y="158" width="150" height="84"/>
+                                                    <rect key="frame" x="8" y="158" width="150" height="64"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SdU-nL-9F3">
-                                                            <rect key="frame" x="0.0" y="0.0" width="150" height="62"/>
-                                                            <fontDescription key="fontDescription" name="OpenSans-Semibold" family="Open Sans" pointSize="16"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="150" height="44.5"/>
+                                                            <fontDescription key="fontDescription" name="OpenSans-Semibold" family="Open Sans" pointSize="15"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QgP-oz-Lzh">
-                                                            <rect key="frame" x="0.0" y="62" width="150" height="22"/>
-                                                            <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="16"/>
+                                                            <rect key="frame" x="0.0" y="44.5" width="150" height="19.5"/>
+                                                            <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="14"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
                                                 </stackView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NZ1-X0-WBS">
-                                                    <rect key="frame" x="8" y="120" width="150" height="20.5"/>
-                                                    <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="15"/>
+                                                    <rect key="frame" x="8" y="120" width="150" height="22"/>
+                                                    <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="16"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <view hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VpE-nH-w1g">
+                                                    <rect key="frame" x="0.0" y="0.0" width="166" height="230"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pausiert" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4gG-fJ-PKn">
+                                                            <rect key="frame" x="51" y="104" width="64" height="22"/>
+                                                            <fontDescription key="fontDescription" name="OpenSans-Semibold" family="Open Sans" pointSize="16"/>
+                                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                    <color key="backgroundColor" white="0.33333333333333331" alpha="0.81139890939597314" colorSpace="calibratedWhite"/>
+                                                    <gestureRecognizers/>
+                                                    <constraints>
+                                                        <constraint firstItem="4gG-fJ-PKn" firstAttribute="centerY" secondItem="VpE-nH-w1g" secondAttribute="centerY" id="4vP-9Q-uu9"/>
+                                                        <constraint firstItem="4gG-fJ-PKn" firstAttribute="centerX" secondItem="VpE-nH-w1g" secondAttribute="centerX" id="B5c-13-YcP"/>
+                                                    </constraints>
+                                                </view>
                                             </subviews>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <gestureRecognizers/>
                                             <constraints>
+                                                <constraint firstItem="VpE-nH-w1g" firstAttribute="leading" secondItem="Tu7-oT-9IF" secondAttribute="leading" id="2b7-sB-poq"/>
+                                                <constraint firstAttribute="bottom" secondItem="VpE-nH-w1g" secondAttribute="bottom" id="6z5-vC-0eT"/>
                                                 <constraint firstAttribute="trailing" secondItem="FEi-sc-TnO" secondAttribute="trailing" constant="8" id="8Tx-FO-fXo"/>
                                                 <constraint firstAttribute="trailing" secondItem="SlB-Ry-x1k" secondAttribute="trailing" id="BhB-yD-PJX"/>
                                                 <constraint firstItem="FEi-sc-TnO" firstAttribute="leading" secondItem="Tu7-oT-9IF" secondAttribute="leading" constant="8" id="BxN-sq-Hcp"/>
                                                 <constraint firstAttribute="bottom" secondItem="FEi-sc-TnO" secondAttribute="bottom" constant="8" id="Fuk-Es-Oin"/>
                                                 <constraint firstItem="NZ1-X0-WBS" firstAttribute="top" secondItem="Tu7-oT-9IF" secondAttribute="top" constant="120" id="L9v-5l-5O4"/>
+                                                <constraint firstAttribute="trailing" secondItem="VpE-nH-w1g" secondAttribute="trailing" id="MCJ-J7-bcO"/>
                                                 <constraint firstItem="SlB-Ry-x1k" firstAttribute="leading" secondItem="Tu7-oT-9IF" secondAttribute="leading" id="TSN-Rl-Jcs"/>
+                                                <constraint firstItem="VpE-nH-w1g" firstAttribute="top" secondItem="Tu7-oT-9IF" secondAttribute="top" id="bBB-Bz-Fj5"/>
                                                 <constraint firstItem="NZ1-X0-WBS" firstAttribute="leading" secondItem="Tu7-oT-9IF" secondAttribute="leading" constant="8" id="dxy-Fe-b0A"/>
                                                 <constraint firstItem="FEi-sc-TnO" firstAttribute="top" secondItem="SlB-Ry-x1k" secondAttribute="bottom" constant="8" id="pHS-0a-iI7"/>
                                                 <constraint firstItem="SlB-Ry-x1k" firstAttribute="top" secondItem="Tu7-oT-9IF" secondAttribute="top" id="vD2-HG-ppu"/>
@@ -239,7 +260,7 @@
                                     <outlet property="listingImage" destination="SlB-Ry-x1k" id="wch-Ve-1jY"/>
                                     <outlet property="listingPrice" destination="NZ1-X0-WBS" id="h0K-XY-K45"/>
                                     <outlet property="listingTitle" destination="SdU-nL-9F3" id="now-3g-p7q"/>
-                                    <outletCollection property="gestureRecognizers" destination="l5d-8f-jTF" appends="YES" id="BFw-KG-2Yr"/>
+                                    <outlet property="pausedIndicatorView" destination="VpE-nH-w1g" id="k5q-HE-odr"/>
                                     <segue destination="0S6-QS-ZYo" kind="show" identifier="AccountshowLocalDetailSegueID" id="Ng1-ie-0xn"/>
                                 </connections>
                             </collectionViewCell>
@@ -252,13 +273,8 @@
                     <navigationItem key="navigationItem" title="Profil" id="W14-cE-cgG"/>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UUK-8Y-7bv" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="l5d-8f-jTF">
-                    <connections>
-                        <action selector="cellLongPressed:" destination="51W-CO-1hl" id="VSS-VJ-R0J"/>
-                    </connections>
-                </pongPressGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="-2458" y="-185"/>
+            <point key="canvasLocation" x="-2458.4000000000001" y="-185.75712143928038"/>
         </scene>
         <!--Mehr-->
         <scene sceneID="HPO-aS-wZs">

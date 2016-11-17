@@ -11,12 +11,16 @@ import Foundation
 
 class Listing {
 
+    var adID :Int?
+    var adState :AdState?
     var title :String?
     var description :String?
     var adType :AdType?
     var entityType :String?
     var price :String?
-    var priceType :PriceType?
+    var priceType :String?
+    var city :String?
+    var zipcode: String?
     
     var advertiserID :Int?
     
@@ -32,11 +36,35 @@ class Listing {
     
     
     init(value: [AnyHashable:Any]) {
+        if let adID = value["Id"] as? Int {
+            self.adID = adID
+        }
+        if let advertiserID = value["ID_Advertiser"] as? Int {
+            self.advertiserID = advertiserID
+        }
+        if let catID = value["ID_Category"] as? Int {
+            self.catID = catID
+        }
+        if let adState = value["AdState"] as? String {
+            self.adState = AdState(rawValue: adState)
+        }
+        if let adType = value["AdType"] as? String {
+            self.adType = AdType(rawValue: adType)
+        }
+        if let entityType = value["EntityType"] as? String {
+            self.entityType = entityType
+        }
         if let url = value["DetailPageLink"] as? String {
             self.url = URL(string: url)
         }
         if let listingTitle = value["Title"] as? String {
             self.title = listingTitle
+        }
+        if let description = value["Body"] as? String {
+            self.description = description
+        }
+        if let priceType = value["PriceType"] as? String {
+            self.priceType = priceType
         }
         if let listingPrice = value["Price"] as? String {
             self.price = listingPrice
@@ -51,6 +79,12 @@ class Listing {
             } else {
                 self.price = "k.A."
             }
+        }
+        if let city = value["City"] as? String {
+            self.city = city
+        }
+        if let zipcode = value["ZipCode"] as? String {
+            self.zipcode = zipcode
         }
         if var listingDate = value["CreatedAt"] as? String {
             let listingDateYear = listingDate[Range(listingDate.startIndex ..< listingDate.characters.index(listingDate.startIndex, offsetBy: 4))]
@@ -77,14 +111,21 @@ class Listing {
 }
 
 
-enum AdType {
-case gesuch
-case angebot
+enum AdType :String{
+case Gesuch
+case Angebot
 }
 
-enum PriceType {
-case zuVerschenken
-case vhb
-case festpreis
-case keineAngabe
+enum AdState :String {
+case active
+case paused
+case expired
+case deletedByAdvertiser
 }
+
+//enum PriceType :String {
+//    case zuVerschenken = "Zu verschenken"
+//    case vhb  = "VHB"
+//    case festpreis = "Festpreis"
+//    case keineAngabe = "Keine Angabe"
+//}

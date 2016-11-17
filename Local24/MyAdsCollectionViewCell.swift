@@ -14,13 +14,21 @@ class MyAdsCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var listingPrice: UILabel!
     @IBOutlet weak var listingDate: UILabel!
     @IBOutlet weak var cellContentView: UIView!
+    @IBOutlet weak var pausedIndicatorView: UIView!
     
-    var listing :Listing?
+    var listing :Listing!
     
     var shadowLayer: CAShapeLayer!
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        
+        if listing.adState == .paused {
+        pausedIndicatorView.isHidden = false
+        } else {
+        pausedIndicatorView.isHidden = true
+        }
+        
         
         cellContentView.layer.cornerRadius = 3
         listingPrice.layer.shadowColor = UIColor.black.cgColor
@@ -42,7 +50,7 @@ class MyAdsCollectionViewCell: UICollectionViewCell {
             layer.insertSublayer(shadowLayer, at: 0)
         }
     }
-    //SHAKING CELLS
+    
     
  
  
