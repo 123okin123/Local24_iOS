@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Um Ihrem Inserat Fotos hinzuzufügen, benötigt Local24 Zugriff auf Ihre Bibliothek.</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
@@ -33,7 +31,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>6</string>
+	<string>7</string>
 	<key>FacebookAppID</key>
 	<string>1737515613173620</string>
 	<key>FacebookDisplayName</key>
@@ -59,6 +57,8 @@
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Ihr Standort wird benötigt um Kleinanzeigen in Ihrer Nähe zu finden. Keine Sorge, Ihr Standort wird nur abgefragt während Sie Local24 benutzen. </string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Um Ihrem Inserat Fotos hinzuzufügen, benötigt Local24 Zugriff auf Ihre Bibliothek.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>OpenSans-SemiboldItalic.ttf</string>
