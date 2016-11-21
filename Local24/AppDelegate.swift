@@ -43,6 +43,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         filter.viewedRegion.span.longitudeDelta = defaults.double(forKey: "viewedRegion.span.longitudeDelta")
         filter.onlyLocalListings = defaults.bool(forKey: "onlyLocalListings")
         userToken = defaults.string(forKey: "userToken")
+        user?.firstName = defaults.string(forKey: "user.firstName")
+        user?.lastName = defaults.string(forKey: "user.lastName")
+        user?.totalAdsCount = defaults.integer(forKey: "user.totalAdsCount")
         }
 
         window?.tintColor = greencolor
@@ -134,7 +137,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if userToken != nil {
             print(userToken!)
         defaults.set(userToken!, forKey: "userToken")
+        } else {
+        defaults.removeObject(forKey: "userToken")
         }
+        
+        if user != nil {
+            if let firstName = user!.firstName {
+                defaults.set(firstName, forKey: "user.firstName")
+            }
+            if let lastName = user!.lastName {
+                defaults.set(lastName, forKey: "user.lastName")
+            }
+            if let totalAdsCount = user!.totalAdsCount {
+                defaults.set(totalAdsCount, forKey: "user.totalAdsCount")
+            }
+        }
+        
     }
  
     

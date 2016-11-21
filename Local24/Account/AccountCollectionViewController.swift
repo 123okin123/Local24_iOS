@@ -279,11 +279,8 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
         if segue.identifier == "AccountshowLocalDetailSegueID" {
             if let cell = sender as? MyAdsCollectionViewCell {
                 if cell.listing.adState == .active {
-                    if let navVC = segue.destination as? UINavigationController {
-                        if let localdetailVC = navVC.viewControllers[0] as? LocalDetailTableViewController {
-                            localdetailVC.urlToShow = cell.listing.url
-                            
-                        }
+                    if let localdetailVC = segue.destination as? LocalDetailTableViewController {
+                    localdetailVC.urlToShow = cell.listing.url
                     }
                 }
             }
