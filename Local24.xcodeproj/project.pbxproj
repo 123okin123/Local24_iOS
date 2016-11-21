@@ -34,12 +34,12 @@
 		CD5D16F01C9054F200ACE365 /* LocationMapTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5D16EF1C9054F200ACE365 /* LocationMapTableViewCell.swift */; };
 		CD5D16F21C90673600ACE365 /* DetailImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5D16F11C90673600ACE365 /* DetailImageViewController.swift */; };
 		CD5D16F41C917A6300ACE365 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5D16F31C917A6300ACE365 /* FilterViewController.swift */; };
+		CD62AF631DE3412700AD06EF /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD62AF621DE3412700AD06EF /* LoginViewController.swift */; };
 		CD65D24F1C60DC3000AD89DF /* LocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD65D24E1C60DC3000AD89DF /* LocationViewController.swift */; };
 		CD65D2511C60E5EF00AD89DF /* LocationResultsTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD65D2501C60E5EF00AD89DF /* LocationResultsTableController.swift */; };
 		CD65D2551C60FD6400AD89DF /* ZipGeo.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD65D2541C60FD6400AD89DF /* ZipGeo.swift */; };
 		CD7754211C71C0E200253B7B /* CenterLocationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7754201C71C0E200253B7B /* CenterLocationButton.swift */; };
 		CD84C5921C88844400A6E8A4 /* LocalDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD84C5911C88844400A6E8A4 /* LocalDetailTableViewController.swift */; };
-		CD8F9A091D1819E700C299F0 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8F9A081D1819E700C299F0 /* LoginViewController.swift */; };
 		CD9CD42B1CE214CE0080CF67 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD9CD42A1CE214CE0080CF67 /* StoreKit.framework */; };
 		CD9CD42D1CE214D70080CF67 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD9CD42C1CE214D70080CF67 /* CoreMotion.framework */; };
 		CD9CD42F1CE21A930080CF67 /* SearchCollectionViewAdCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9CD42E1CE21A930080CF67 /* SearchCollectionViewAdCell.swift */; };
@@ -137,12 +137,12 @@
 		CD5D16EF1C9054F200ACE365 /* LocationMapTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationMapTableViewCell.swift; sourceTree = "<group>"; };
 		CD5D16F11C90673600ACE365 /* DetailImageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailImageViewController.swift; sourceTree = "<group>"; };
 		CD5D16F31C917A6300ACE365 /* FilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
+		CD62AF621DE3412700AD06EF /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		CD65D24E1C60DC3000AD89DF /* LocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationViewController.swift; sourceTree = "<group>"; };
 		CD65D2501C60E5EF00AD89DF /* LocationResultsTableController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationResultsTableController.swift; sourceTree = "<group>"; };
 		CD65D2541C60FD6400AD89DF /* ZipGeo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZipGeo.swift; sourceTree = "<group>"; };
 		CD7754201C71C0E200253B7B /* CenterLocationButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CenterLocationButton.swift; sourceTree = "<group>"; };
 		CD84C5911C88844400A6E8A4 /* LocalDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalDetailTableViewController.swift; sourceTree = "<group>"; };
-		CD8F9A081D1819E700C299F0 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		CD9CD42A1CE214CE0080CF67 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		CD9CD42C1CE214D70080CF67 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		CD9CD42E1CE21A930080CF67 /* SearchCollectionViewAdCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchCollectionViewAdCell.swift; sourceTree = "<group>"; };
@@ -155,8 +155,8 @@
 		CDA9CCD61C071456005ED562 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		CDA9CCD71C0715B3005ED562 /* MoreTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreTableViewController.swift; sourceTree = "<group>"; };
 		CDA9CCD91C073236005ED562 /* MoreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreViewController.swift; sourceTree = "<group>"; };
-		CDB04ACF1DD3259100034C1F /* AccountCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountCollectionViewController.swift; sourceTree = "<group>"; };
-		CDB04AD31DD36A3500034C1F /* MyAdsCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyAdsCollectionViewCell.swift; sourceTree = "<group>"; };
+		CDB04ACF1DD3259100034C1F /* AccountCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountCollectionViewController.swift; path = Account/AccountCollectionViewController.swift; sourceTree = "<group>"; };
+		CDB04AD31DD36A3500034C1F /* MyAdsCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MyAdsCollectionViewCell.swift; path = Account/MyAdsCollectionViewCell.swift; sourceTree = "<group>"; };
 		CDB3AFE11D2BEF2200C2F254 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		CDB3AFE81D2BF00A00C2F254 /* NMRangeSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NMRangeSlider.h; sourceTree = "<group>"; };
 		CDB3AFE91D2BF00A00C2F254 /* NMRangeSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NMRangeSlider.m; sourceTree = "<group>"; };
@@ -168,7 +168,7 @@
 		CDB3AFF21D2BF0B800C2F254 /* slider-default7-track@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-default7-track@2x.png"; sourceTree = "<group>"; };
 		CDB3AFF31D2BF0B800C2F254 /* slider-default7-handle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-default7-handle.png"; sourceTree = "<group>"; };
 		CDB3AFF41D2BF0B800C2F254 /* slider-default7-handle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-default7-handle@2x.png"; sourceTree = "<group>"; };
-		CDCA848C1DE30CA800F71A42 /* AccountHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountHeaderView.swift; path = ../AccountHeaderView.swift; sourceTree = "<group>"; };
+		CDCA848C1DE30CA800F71A42 /* AccountHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountHeaderView.swift; path = Account/AccountHeaderView.swift; sourceTree = "<group>"; };
 		CDCA848E1DE324AA00F71A42 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		CDE31C9F1C74B93F001D9FD2 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		CDE4D9EF1C0DEA3400FE7611 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
@@ -246,6 +246,7 @@
 		1081F2DC1BB02A7600688F3B /* Local24 */ = {
 			isa = PBXGroup;
 			children = (
+				CD62AF621DE3412700AD06EF /* LoginViewController.swift */,
 				1081F2E11BB02A7600688F3B /* Main.storyboard */,
 				1081F2DD1BB02A7600688F3B /* AppDelegate.swift */,
 				CD860CFA1CAA9E0C003361D4 /* Home */,
@@ -256,7 +257,6 @@
 				CDCA848C1DE30CA800F71A42 /* AccountHeaderView.swift */,
 				CDB04ACF1DD3259100034C1F /* AccountCollectionViewController.swift */,
 				CDB04AD31DD36A3500034C1F /* MyAdsCollectionViewCell.swift */,
-				CD8F9A081D1819E700C299F0 /* LoginViewController.swift */,
 				CD860CF91CAA9DFC003361D4 /* More */,
 				CDE4DA031C0DEA3E00FE7611 /* Font */,
 				CD860CF71CAA9D8F003361D4 /* SupportingFiles */,
@@ -756,7 +756,6 @@
 				CD65D2551C60FD6400AD89DF /* ZipGeo.swift in Sources */,
 				CD0E3F801CE0A06C005AA575 /* CollectionViewCell.swift in Sources */,
 				CDCA848D1DE30CA800F71A42 /* AccountHeaderView.swift in Sources */,
-				CD8F9A091D1819E700C299F0 /* LoginViewController.swift in Sources */,
 				CDA9CCDA1C073236005ED562 /* MoreViewController.swift in Sources */,
 				CD9CD4311CE229EC0080CF67 /* FacebookAd.swift in Sources */,
 				CD0E3F821CE0BFA9005AA575 /* Listing.swift in Sources */,
@@ -781,6 +780,7 @@
 				CDEE24AB1CC78B8100F08D4E /* AbuseReportViewController.swift in Sources */,
 				CD5D16EC1C903AF900ACE365 /* TitleTableViewCell.swift in Sources */,
 				CD5109861C58C0CF00BA2CB8 /* Categories.swift in Sources */,
+				CD62AF631DE3412700AD06EF /* LoginViewController.swift in Sources */,
 				CDA9CCD21C070FA4005ED562 /* InsertViewController.swift in Sources */,
 				1081F2DE1BB02A7600688F3B /* AppDelegate.swift in Sources */,
 				CD5D16F41C917A6300ACE365 /* FilterViewController.swift in Sources */,

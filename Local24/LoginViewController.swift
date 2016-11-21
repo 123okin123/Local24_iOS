@@ -26,6 +26,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBAction func submitButtonPressed(_ sender: UIButton) {
             submitCredentials()
     }
+    @IBAction func backgroundTapped(_ sender: UITapGestureRecognizer) {
+        view.endEditing(true)
+    }
     
     
     
@@ -69,14 +72,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         emailTextField.addTarget(self, action: #selector(LoginViewController.textFieldDidChange(_:)), for: UIControlEvents.editingChanged)
         passwordTextField.addTarget(self, action: #selector(LoginViewController.textFieldDidChange(_:)), for: UIControlEvents.editingChanged)
         
-        
 
-        // Do any additional setup after loading the view.
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.setNavigationBarHidden(true, animated: true)
+        navigationController?.setNavigationBarHidden(true, animated: false)
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
