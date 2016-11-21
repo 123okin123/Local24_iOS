@@ -132,6 +132,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         defaults.set(filter.viewedRegion.span.longitudeDelta, forKey: "viewedRegion.span.longitudeDelta")
         defaults.set(filter.onlyLocalListings, forKey: "onlyLocalListings")
         if userToken != nil {
+            print(userToken!)
         defaults.set(userToken!, forKey: "userToken")
         }
     }

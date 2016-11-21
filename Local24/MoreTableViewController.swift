@@ -144,14 +144,9 @@ class MoreTableViewController: UITableViewController, WKNavigationDelegate, WKUI
         print("finished with url: \(webView.url)")
         if logoutPressed {
             
-            let accountVC = presentingViewController!.childViewControllers[3] as! AccountViewController
+           
             let insertVC = presentingViewController!.childViewControllers[2] as! InsertViewController
 
-            accountVC.dismiss(animated: true, completion: {
-                if let url = URL(string: "https://www.local24.de/mein-local24/?logout=logout") {
-                    let request = URLRequest(url: url)
-                    accountVC.webView.load(request)
-                }
                 if let url = URL(string: "https://www.local24.de/anzeige-aufgeben/?logout=logout") {
                     let request = URLRequest(url: url)
                     insertVC.webView.load(request)
@@ -160,8 +155,7 @@ class MoreTableViewController: UITableViewController, WKNavigationDelegate, WKUI
                 
                 self.logoutPressed = false
             
-            
-            })
+           
 
         }
     }

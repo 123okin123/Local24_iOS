@@ -18,29 +18,41 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
 
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    @IBAction func editButtonPressed(_ sender: UIButton) {
+        let listing = userListings[sender.tag]
+        showOptionsFor(listing: listing)
         
     }
     
+    
     func cellLongPressed(sender: UILongPressGestureRecognizer) {
         if let listing = (sender.view as! MyAdsCollectionViewCell).listing {
+        showOptionsFor(listing: listing)
+            }
+    }
+    func showOptionsFor(listing :Listing) {
+  
             let optionMenu = UIAlertController(title: listing.title, message: nil, preferredStyle: .actionSheet)
             if listing.adState == .active {
-            let pauseAction = UIAlertAction(title: "Anzeige pausieren", style: .default, handler: {alert in self.changeAdStateOf(listing: listing, to: "pause")})
-                            optionMenu.addAction(pauseAction)
+                let pauseAction = UIAlertAction(title: "Anzeige pausieren", style: .default, handler: {alert in self.changeAdStateOf(listing: listing, to: "paused")})
+                optionMenu.addAction(pauseAction)
             }else {
-            let activeAction = UIAlertAction(title: "Anzeige aktivieren", style: .default, handler: {alert in self.changeAdStateOf(listing: listing, to: "active")})
-                            optionMenu.addAction(activeAction)
+                let activeAction = UIAlertAction(title: "Anzeige aktivieren", style: .default, handler: {alert in self.changeAdStateOf(listing: listing, to: "active")})
+                optionMenu.addAction(activeAction)
             }
             let editAction = UIAlertAction(title: "Anzeige bearbeiten", style: .default, handler: {alert in })
             let deleteAction = UIAlertAction(title: "Anzeige löschen", style: .destructive, handler: {alert in self.delete(listing: listing)})
             let cancleAction = UIAlertAction(title: "Abbrechen", style: .cancel, handler: {alert in })
-
+            
             optionMenu.addAction(editAction)
             optionMenu.addAction(deleteAction)
             optionMenu.addAction(cancleAction)
             self.present(optionMenu, animated: true, completion: nil)
-        }
+        
+
     }
+    
     func changeAdStateOf(listing :Listing, to adState: String) {
         var values = [
                          "ID": listing.adID!,
@@ -57,15 +69,17 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
         if listing.priceType != nil {
         values["PriceType"] = listing.priceType!
         }
-        Alamofire.request("https://cfw-api-11.azurewebsites.net/ads/\(listing.adID!)/?auth=\(userToken!)&id=\(listing.adID!)", method: .put, parameters: values, encoding: JSONEncoding.default).responseJSON(completionHandler: {response in
-            switch response.result {
-            case .success:
+        Alamofire.request("https://cfw-api-11.azurewebsites.net/ads/\(listing.adID!)/?auth=\(userToken!)&id=\(listing.adID!)", method: .put, parameters: values, encoding: JSONEncoding.default).response(completionHandler: {response in
+            if let response = response.response {
+            switch response.statusCode {
+            case 200:
                 self.getAds()
-            case .failure:
-                let errorMenu = UIAlertController(title: "Fehler", message: "Da ist leider etwas schief gegangen, das Pausieren der Anzeige war nicht erfolgreich.", preferredStyle: .alert)
+            default:
+                let errorMenu = UIAlertController(title: "Fehler", message: "Da ist leider etwas schief gegangen, das Pausieren oder Aktivieren der Anzeige war nicht erfolgreich.", preferredStyle: .alert)
                 let confirmAction = UIAlertAction(title: "Ok", style: .default, handler: {alert in})
                 errorMenu.addAction(confirmAction)
                 self.present(errorMenu, animated: true, completion: nil)
+            }
             }
         })
 
@@ -114,9 +128,9 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
            
             Alamofire.request("https://cfw-api-11.azurewebsites.net/me", method: .get, parameters: ["auth": userToken!]).validate().responseJSON (completionHandler: {response in
                 print(userToken)
-                print(response.result.value)
                 switch response.result {
                 case .success:
+                    user = User(value: response.result.value as! [AnyHashable:Any])
                     self.getAds()
                 case .failure:
                     if let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "loginViewControllerID") {
@@ -143,14 +157,17 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
             let ads = response.result.value as! [[AnyHashable:Any]]
             if ads.count > 0 {
                 for ad in ads {
-                    print(ad)
+  
                     let listing = Listing(value: ad)
                     self.userListings.append(listing)
                 }
                 }
             self.collectionView?.reloadData()
             case .failure:
-             break
+                let errorMenu = UIAlertController(title: "Fehler", message: "Da ist leider etwas schief gegangen, das Laden der Anzeige war nicht erfolgreich.", preferredStyle: .alert)
+                let confirmAction = UIAlertAction(title: "Ok", style: .default, handler: {alert in})
+                errorMenu.addAction(confirmAction)
+                self.present(errorMenu, animated: true, completion: nil)
             }
             
             
@@ -188,7 +205,7 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
         gestureRecognizer.delegate = self
         cell.addGestureRecognizer(gestureRecognizer)
         cell.listing = listing
-        
+        cell.editButton.tag = indexPath.row
         cell.listingTitle.text = listing.title
         cell.listingPrice.text = listing.price
         cell.listingDate.text = listing.createdDate
@@ -206,37 +223,36 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
     
         return cell
     }
+    
+    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+    
+        switch kind {
+        case UICollectionElementKindSectionHeader:
+            let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "Header", for: indexPath) as! AccountHeaderView
+            if user != nil {
+                if user!.firstName != nil && user!.lastName != nil {
+                    headerView.userNameLabel.text = user!.firstName! + " " + user!.lastName!
+                    headerView.userInitialsLabel.text = String(describing: user!.firstName!.characters.first!) + String(describing: user!.lastName!.characters.first!)
+                }
+                if let totalAdsCount = user!.totalAdsCount {
+                headerView.totalAdsCountLabel.text = "Anzahl Anzeigen: " + String(describing: totalAdsCount)
+                }
+                
+            }
+            return headerView
+            
+        case UICollectionElementKindSectionFooter:
+            let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "Footer", for: indexPath)
+            return footerView
+            
+        default:
+            assert(false, "Unexpected element kind")
+        }
+    }
+    
 
     // MARK: UICollectionViewDelegate
 
-    /*
-    // Uncomment this method to specify if the specified item should be highlighted during tracking
-    override func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    */
-
-    /*
-    // Uncomment this method to specify if the specified item should be selected
-    override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    */
-
-    /*
-    // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-    override func collectionView(_ collectionView: UICollectionView, shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
-        return false
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
-        return false
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
-    
-    }
-    */
     
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -256,10 +272,8 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
     
     
     
-    @IBAction func backfromLocalDetailToAccountSegue(_ segue:UIStoryboardSegue) {
-        
-        
-    }
+    
+    @IBAction func backfromMore(_ segue:UIStoryboardSegue) {}
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "AccountshowLocalDetailSegueID" {
