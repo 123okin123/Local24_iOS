@@ -13,7 +13,7 @@ import WebKit
 
 
 
-class MoreTableViewController: UITableViewController, WKNavigationDelegate, WKUIDelegate, WKScriptMessageHandler {
+class MoreTableViewController: UITableViewController {
 
     
     // MARK: Outlets & Variables
@@ -21,12 +21,6 @@ class MoreTableViewController: UITableViewController, WKNavigationDelegate, WKUI
     @IBOutlet weak var logoutLabel: UILabel!
     @IBOutlet weak var versionLabel: UILabel!
     
-        let webView = WKWebView()
-    let contentController = WKUserContentController()
-    let config = WKWebViewConfiguration()
-    var logoutPressed = false    
-    var loginStatus = false
-
     
     
     // MARK: ViewController Lifecycle
@@ -40,39 +34,15 @@ class MoreTableViewController: UITableViewController, WKNavigationDelegate, WKUI
         versionLabel.text = versionBuildString
         
 
-        webView.uiDelegate = self
-        webView.navigationDelegate = self
-        webView.frame.origin = CGPoint(x: 0, y: 0)
-        webView.frame.size = CGSize(width: screenwidth, height: screenheight)
-        webView.isHidden = true
-        webView.scrollView.showsVerticalScrollIndicator = false
-        
-        config.userContentController = contentController
-        
-        contentController.add(
-            self,
-            name: "callbackHandler"
-        )
-        //view.insertSubview(webView, atIndex: 0)
-        view.addSubview(webView)
     }
     
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         gaUserTracking("More")
-        //if let url = NSURL(string: "https://cfw:Local24Teraone@stage.local24.de/ajax/loginstatus/") {
-        if let url = URL(string: "https://www.local24.de/ajax/loginstatus/") {
-            let request = URLRequest(url: url)
-            webView.load(request)
-        }
         
     }
-    func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-        if(message.name == "callbackHandler") {
-            print("JavaScript is sending a message \(message.body)")
-        }
-    }
+
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -93,15 +63,7 @@ class MoreTableViewController: UITableViewController, WKNavigationDelegate, WKUI
         case 0:
             numberOfRows = 6
         case 1:
-            if loginStatus {
-                
-                numberOfRows = 1
-                
-            } else {
-                
-                    numberOfRows = 0
-            
-            }
+            numberOfRows = 1
         default: break
         }
         return numberOfRows
@@ -109,56 +71,16 @@ class MoreTableViewController: UITableViewController, WKNavigationDelegate, WKUI
     
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("didSelectRowAtIndexPath")
-        // logout-login
         if (tableView.indexPathForSelectedRow as NSIndexPath?)?.section == 1 {
             if (tableView.indexPathForSelectedRow as NSIndexPath?)?.row == 0 {
-                if let url = URL(string: "https://www.local24.de/mein-local24/?logout=logout") {
-                    print("logging out")
-                    let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-                    
-                    let oKAction = UIAlertAction(title: "Ausloggen", style: .destructive) { (action) in
-                        let request = URLRequest(url: url)
-                        self.webView.load(request)
-                        self.logoutPressed = true
-                    }
-                    let cancleAction = UIAlertAction(title: "Abbrechen", style: .cancel) { (action) in
-                        
-                    }
-                    alertController.addAction(oKAction)
-                    alertController.addAction(cancleAction)
-                    self.present(alertController, animated: true) {}
-                    
-
-                }
-
-                
-                
-                
+                userToken = nil
+                presentingViewController?.dismiss(animated: true, completion: nil)
             }
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        print("finished with url: \(webView.url)")
-        if logoutPressed {
-            
-           
-            let insertVC = presentingViewController!.childViewControllers[2] as! InsertViewController
-
-                if let url = URL(string: "https://www.local24.de/anzeige-aufgeben/?logout=logout") {
-                    let request = URLRequest(url: url)
-                    insertVC.webView.load(request)
-                }
-                
-                
-                self.logoutPressed = false
-            
-           
-
-        }
-    }
+   
    
 
     /*
@@ -170,29 +92,6 @@ class MoreTableViewController: UITableViewController, WKNavigationDelegate, WKUI
         return cell
     }
     */
-
-    func webView(_ webView: WKWebView, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
-        
-        let credential = URLCredential(user: "CFW", password: "Local24Teraone", persistence: .forSession)
-        completionHandler(.useCredential, credential)
-    }
-    
-
-    func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Void) {
-        print("loginStatus\(message)")
-        switch message {
-        case "true":
-        loginStatus = true
-        tableView.reloadData()
-        case "false":
-        loginStatus = false
-        tableView.reloadData()
-        default: break
-        
-        }
-    
-        completionHandler()
-    }
 
 
     
