@@ -37,7 +37,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             Alamofire.request("https://cfw-api-11.azurewebsites.net/tokens/\(base64Encoded)", method: .post).validate().responseJSON (completionHandler: {response in
                 switch response.result {
                 case .success:
-                    userToken = response.result.value as? String
+                    print(response.result.value)
+                    userToken = String(describing: response.result.value!)
                     if let accountVC = self.parent as? AccountCollectionViewController {
                     accountVC.getAds()
                     }

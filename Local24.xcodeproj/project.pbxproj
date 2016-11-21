@@ -47,7 +47,6 @@
 		CD9CD4331CE4A1900080CF67 /* SelectedFilterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9CD4321CE4A1900080CF67 /* SelectedFilterButton.swift */; };
 		CDA9CCCC1C070793005ED562 /* PublicSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA9CCCB1C070793005ED562 /* PublicSettings.swift */; };
 		CDA9CCCE1C070D2B005ED562 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA9CCCD1C070D2B005ED562 /* SearchViewController.swift */; };
-		CDA9CCD01C070F94005ED562 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA9CCCF1C070F94005ED562 /* AccountViewController.swift */; };
 		CDA9CCD21C070FA4005ED562 /* InsertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA9CCD11C070FA4005ED562 /* InsertViewController.swift */; };
 		CDA9CCD81C0715B3005ED562 /* MoreTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA9CCD71C0715B3005ED562 /* MoreTableViewController.swift */; };
 		CDA9CCDA1C073236005ED562 /* MoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA9CCD91C073236005ED562 /* MoreViewController.swift */; };
@@ -63,6 +62,8 @@
 		CDB3AFFA1D2BF0B800C2F254 /* slider-default7-track@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CDB3AFF21D2BF0B800C2F254 /* slider-default7-track@2x.png */; };
 		CDB3AFFB1D2BF0B800C2F254 /* slider-default7-handle.png in Resources */ = {isa = PBXBuildFile; fileRef = CDB3AFF31D2BF0B800C2F254 /* slider-default7-handle.png */; };
 		CDB3AFFC1D2BF0B800C2F254 /* slider-default7-handle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CDB3AFF41D2BF0B800C2F254 /* slider-default7-handle@2x.png */; };
+		CDCA848D1DE30CA800F71A42 /* AccountHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDCA848C1DE30CA800F71A42 /* AccountHeaderView.swift */; };
+		CDCA848F1DE324AA00F71A42 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDCA848E1DE324AA00F71A42 /* User.swift */; };
 		CDE31CA01C74B93F001D9FD2 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE31C9F1C74B93F001D9FD2 /* DetailViewController.swift */; };
 		CDE4D9F91C0DEA3400FE7611 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CDE4D9EF1C0DEA3400FE7611 /* OpenSans-Bold.ttf */; };
 		CDE4D9FA1C0DEA3400FE7611 /* OpenSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CDE4D9F01C0DEA3400FE7611 /* OpenSans-BoldItalic.ttf */; };
@@ -149,7 +150,6 @@
 		CD9CD4321CE4A1900080CF67 /* SelectedFilterButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectedFilterButton.swift; sourceTree = "<group>"; };
 		CDA9CCCB1C070793005ED562 /* PublicSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PublicSettings.swift; sourceTree = "<group>"; };
 		CDA9CCCD1C070D2B005ED562 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
-		CDA9CCCF1C070F94005ED562 /* AccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		CDA9CCD11C070FA4005ED562 /* InsertViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InsertViewController.swift; sourceTree = "<group>"; };
 		CDA9CCD51C071456005ED562 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Main.strings; sourceTree = "<group>"; };
 		CDA9CCD61C071456005ED562 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
@@ -168,6 +168,8 @@
 		CDB3AFF21D2BF0B800C2F254 /* slider-default7-track@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-default7-track@2x.png"; sourceTree = "<group>"; };
 		CDB3AFF31D2BF0B800C2F254 /* slider-default7-handle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-default7-handle.png"; sourceTree = "<group>"; };
 		CDB3AFF41D2BF0B800C2F254 /* slider-default7-handle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-default7-handle@2x.png"; sourceTree = "<group>"; };
+		CDCA848C1DE30CA800F71A42 /* AccountHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountHeaderView.swift; path = ../AccountHeaderView.swift; sourceTree = "<group>"; };
+		CDCA848E1DE324AA00F71A42 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		CDE31C9F1C74B93F001D9FD2 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		CDE4D9EF1C0DEA3400FE7611 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
 		CDE4D9F01C0DEA3400FE7611 /* OpenSans-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-BoldItalic.ttf"; sourceTree = "<group>"; };
@@ -251,7 +253,7 @@
 				CD65D2581C6101CE00AD89DF /* Location */,
 				CD5D16EA1C9037EE00ACE365 /* Detail */,
 				CDA9CCD11C070FA4005ED562 /* InsertViewController.swift */,
-				CDA9CCCF1C070F94005ED562 /* AccountViewController.swift */,
+				CDCA848C1DE30CA800F71A42 /* AccountHeaderView.swift */,
 				CDB04ACF1DD3259100034C1F /* AccountCollectionViewController.swift */,
 				CDB04AD31DD36A3500034C1F /* MyAdsCollectionViewCell.swift */,
 				CD8F9A081D1819E700C299F0 /* LoginViewController.swift */,
@@ -345,6 +347,7 @@
 			children = (
 				1081F30F1BB04E6200688F3B /* iosApp.css */,
 				CD0E3F811CE0BFA9005AA575 /* Listing.swift */,
+				CDCA848E1DE324AA00F71A42 /* User.swift */,
 				CD5109851C58C0CF00BA2CB8 /* Categories.swift */,
 				CDA9CCCB1C070793005ED562 /* PublicSettings.swift */,
 				CDB3AFEB1D2BF08600C2F254 /* NMRangeSlider */,
@@ -752,6 +755,7 @@
 				CD0E3F7E1CE09C6C005AA575 /* SearchCollectionViewController.swift in Sources */,
 				CD65D2551C60FD6400AD89DF /* ZipGeo.swift in Sources */,
 				CD0E3F801CE0A06C005AA575 /* CollectionViewCell.swift in Sources */,
+				CDCA848D1DE30CA800F71A42 /* AccountHeaderView.swift in Sources */,
 				CD8F9A091D1819E700C299F0 /* LoginViewController.swift in Sources */,
 				CDA9CCDA1C073236005ED562 /* MoreViewController.swift in Sources */,
 				CD9CD4311CE229EC0080CF67 /* FacebookAd.swift in Sources */,
@@ -760,12 +764,12 @@
 				CD5D16E51C8F11B200ACE365 /* ContactTableViewController.swift in Sources */,
 				CD7754211C71C0E200253B7B /* CenterLocationButton.swift in Sources */,
 				CD84C5921C88844400A6E8A4 /* LocalDetailTableViewController.swift in Sources */,
-				CDA9CCD01C070F94005ED562 /* AccountViewController.swift in Sources */,
 				CDFD0BAB1CF5AE0E00B56BF6 /* Filter.swift in Sources */,
 				CD9CD4331CE4A1900080CF67 /* SelectedFilterButton.swift in Sources */,
 				CDE529841C70782600820184 /* Reachibility.swift in Sources */,
 				CDA9CCCC1C070793005ED562 /* PublicSettings.swift in Sources */,
 				CDB04AD01DD3259100034C1F /* AccountCollectionViewController.swift in Sources */,
+				CDCA848F1DE324AA00F71A42 /* User.swift in Sources */,
 				CD286E461CCE383B004675A9 /* FilterSelectTableViewController.swift in Sources */,
 				CD5109821C58A3B200BA2CB8 /* HomeViewController.swift in Sources */,
 				CD65D24F1C60DC3000AD89DF /* LocationViewController.swift in Sources */,

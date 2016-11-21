@@ -21,6 +21,9 @@ set
 befor publishing!!!!
 
  */
+
+public var user :User?
+
 public var localCSS = true
 public var dryRunGA = false
 public var gaLogging = false

@@ -15,19 +15,21 @@ class MyAdsCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var listingDate: UILabel!
     @IBOutlet weak var cellContentView: UIView!
     @IBOutlet weak var pausedIndicatorView: UIView!
+    @IBOutlet weak var editButton: UIButton!
     
-    var listing :Listing!
+    var listing :Listing! {didSet {
+        if listing.adState == .paused {
+            pausedIndicatorView.isHidden = false
+        } else {
+            pausedIndicatorView.isHidden = true
+        }
+        }}
     
     var shadowLayer: CAShapeLayer!
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        
-        if listing.adState == .paused {
-        pausedIndicatorView.isHidden = false
-        } else {
-        pausedIndicatorView.isHidden = true
-        }
+
         
         
         cellContentView.layer.cornerRadius = 3
