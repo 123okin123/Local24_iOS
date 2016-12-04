@@ -29,6 +29,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>GoogleToolboxForMac.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>MapleBacon.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -49,15 +54,30 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>SCLAlertView.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>SwiftValidator.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>2E303C3CE7513908EE880D9CA833AFAE</key>
+		<key>30D7FCF8072F5D59AE1C98D94F9A6EC9</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>30D7FCF8072F5D59AE1C98D94F9A6EC9</key>
+		<key>392CE198BC2A10B0FCB21E20B3C6A77B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>61AF977C23DFB1506EEC7FDC5AACAB7E</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -77,12 +97,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>79C9C70086380D7B07702E36E7084825</key>
+		<key>89A95ADB1FFCC5CED539A30896290323</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>89A95ADB1FFCC5CED539A30896290323</key>
+		<key>92BB131FA876445E027D20AE23EA7B5F</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -92,7 +112,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>BC2A8D0D332D8BE6DD26E11947149662</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>DF965D5761DA4B355BCEBE08FD6B45C9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>FAACF90458C8894C83A934164089D896</key>
 		<dict>
 			<key>primary</key>
 			<true/>

@@ -33,6 +33,7 @@ class Listing {
     
     var url :URL?
     
+    init() {}
     
     
     init(value: [AnyHashable:Any]) {
@@ -112,8 +113,9 @@ class Listing {
 
 
 enum AdType :String{
-case Gesuch
 case Angebot
+case Gesuch
+    static let allValues = [Angebot : "Angebot", Gesuch : "Gesuch"]
 }
 
 enum AdState :String {
@@ -121,11 +123,13 @@ case active
 case paused
 case expired
 case deletedByAdvertiser
+
 }
 
-//enum PriceType :String {
-//    case zuVerschenken = "Zu verschenken"
-//    case vhb  = "VHB"
-//    case festpreis = "Festpreis"
-//    case keineAngabe = "Keine Angabe"
-//}
+enum PriceType :String {
+    case zuVerschenken = "Zu verschenken"
+    case vhb  = "VHB"
+    case festpreis = "Festpreis"
+    case keineAngabe = "Keine Angabe"
+    static let allValues = [zuVerschenken : "Zu verschenken", vhb : "VHB", festpreis : "Festpreis", keineAngabe : "Keine Angabe"]
+}

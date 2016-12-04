@@ -24,6 +24,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         }
     }
     @IBAction func submitButtonPressed(_ sender: UIButton) {
+            view.endEditing(true)
             submitCredentials()
     }
     @IBAction func backgroundTapped(_ sender: UITapGestureRecognizer) {
@@ -40,13 +41,14 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             Alamofire.request("https://cfw-api-11.azurewebsites.net/tokens/\(base64Encoded)", method: .post).validate().responseJSON (completionHandler: {response in
                 switch response.result {
                 case .success:
-                    print(response.result.value)
                     userToken = String(describing: response.result.value!)
-                    if let accountVC = self.parent as? AccountCollectionViewController {
-                    accountVC.getAds()
+                    tokenValid = true
+                    if self.tabBarController?.selectedIndex == 3 {
+                        self.performSegue(withIdentifier: "fromLoginToProfilSegueID", sender: nil)
                     }
-                    self.removeViewControllerAsChildViewController(viewController: self)
-                    
+                    if self.tabBarController?.selectedIndex == 2 {
+                        self.performSegue(withIdentifier: "fromLoginToInsertSegueID", sender: nil)
+                    }
                 case .failure:
                     let animation = CABasicAnimation(keyPath: "position")
                     animation.duration = 0.07
@@ -77,11 +79,23 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        print("loginvc viewWillAppear")
+        print("token: \(userToken)")
+        print("tokenValid: \(tokenValid)")
         navigationController?.setNavigationBarHidden(true, animated: false)
+        if userToken != nil && tokenValid {
+            if (tabBarController as! TabBarController).willSelectedIndex == 3 {
+                performSegue(withIdentifier: "fromLoginToProfilSegueID", sender: nil)
+            }
+            if (tabBarController as! TabBarController).willSelectedIndex == 2 {
+                performSegue(withIdentifier: "fromLoginToInsertSegueID", sender: nil)
+            }
+        }
     }
+
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        navigationController?.setNavigationBarHidden(false, animated: true)
+        navigationController?.setNavigationBarHidden(false, animated: false)
     }
 
     
@@ -113,17 +127,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         }) 
     }
 
-    func removeViewControllerAsChildViewController(viewController: UIViewController) {
-        // Notify Child View Controller
-        viewController.willMove(toParentViewController: nil)
-        
-        // Remove Child View From Superview
-        viewController.view.removeFromSuperview()
-        
-        // Notify Child View Controller
-        viewController.removeFromParentViewController()
-    }
 
-    
 
 }

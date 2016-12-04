@@ -8,7 +8,7 @@
 
 import UIKit
 import FBSDKCoreKit
-
+import Alamofire
 
 public var myContext = 0
 
@@ -19,12 +19,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var filter = Filter()
     
-    var categoriesHelper = Categories()
+    
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
                 // Override point for customization after application launch.
         
-        categoriesHelper.getCategories()
+        categoryBuilder.getCategories(completion: { (mainCat, subCat, error) in
+            if error != nil {
+                
+            }
+        })
+
+        
      
         let defaults = UserDefaults.standard
         if defaults.string(forKey: "existingUser") != nil {
@@ -43,9 +49,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         filter.viewedRegion.span.longitudeDelta = defaults.double(forKey: "viewedRegion.span.longitudeDelta")
         filter.onlyLocalListings = defaults.bool(forKey: "onlyLocalListings")
         userToken = defaults.string(forKey: "userToken")
-        user?.firstName = defaults.string(forKey: "user.firstName")
-        user?.lastName = defaults.string(forKey: "user.lastName")
-        user?.totalAdsCount = defaults.integer(forKey: "user.totalAdsCount")
+        user = User()
+        user?.firstName = defaults.string(forKey: "userFirstName")
+        user?.lastName = defaults.string(forKey: "userLastName")
+        user?.totalAdsCount = defaults.integer(forKey: "userTotalAdsCount")
+        }
+        if userToken != nil {
+            Alamofire.request("https://cfw-api-11.azurewebsites.net/me", method: .get, parameters: ["auth": userToken!]).validate().responseJSON (completionHandler: {response in
+                if let statusCode = response.response?.statusCode {
+                switch response.result {
+                case .success:
+                    user = User(value: response.result.value as! [AnyHashable:Any])
+                    tokenValid = true
+                    
+                case .failure:
+                    tokenValid = false
+                }
+                }
+            })
         }
 
         window?.tintColor = greencolor
@@ -56,10 +77,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UITabBar.appearance().tintColor = UIColor(red: 0/255, green: 80/255, blue: 141/255, alpha: 1)
         let navBarFont = UIFont(name: "OpenSans-Semibold", size: 17.0)!
         let buttonFont = UIFont(name: "OpenSans", size: 18.0)!
-       // let backButtonFont = UIFont(name: "OpenSans", size: 17.0)!
        UINavigationBar.appearance().titleTextAttributes = [NSFontAttributeName: navBarFont, NSForegroundColorAttributeName: UIColor.white,]
         UIButton.appearance().titleLabel?.font = buttonFont
-        //UIBarButtonItem.appearance().setTitleTextAttributes([NSFontAttributeName: backButtonFont, NSForegroundColorAttributeName: UIColor.whiteColor(),], forState: .Normal)
         UINavigationBar.appearance().tintColor = UIColor.white
         UINavigationBar.appearance().barTintColor = greencolor
         let segControllFont = UIFont(name: "OpenSans", size: 13.0)!
@@ -140,16 +159,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else {
         defaults.removeObject(forKey: "userToken")
         }
-        
+        print(user?.firstName)
         if user != nil {
             if let firstName = user!.firstName {
-                defaults.set(firstName, forKey: "user.firstName")
+                defaults.set(firstName, forKey: "userFirstName")
             }
             if let lastName = user!.lastName {
-                defaults.set(lastName, forKey: "user.lastName")
+                defaults.set(lastName, forKey: "userLastName")
             }
             if let totalAdsCount = user!.totalAdsCount {
-                defaults.set(totalAdsCount, forKey: "user.totalAdsCount")
+                defaults.set(totalAdsCount, forKey: "userTotalAdsCount")
             }
         }
         
