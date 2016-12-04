@@ -7,65 +7,65 @@
 //
 
 import Foundation
+import Alamofire
 
 
-class Categories {
-
-
-    var categoriesAPI = [CategoryModel]()
-    var mainCategoriesAPI = [CategoryModel]()
-    var subCategoriesAPI = [CategoryModel]()
+public class Categories {
     
-    func getCategories() {
-    let url = "https://cfw-api-11.azurewebsites.net/public/categories"
-    var request = URLRequest(url: URL(string: url)!)
-    let session = URLSession.shared
-    request.httpMethod = "GET"
-    let task = session.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
-        if error != nil {
-            print("thers an error in the log")
-        } else {
-            DispatchQueue.main.async {
-                do {
-                    let  json = try JSONSerialization.jsonObject(with: data!, options:JSONSerialization.ReadingOptions())
-                    let array = json as! [[AnyHashable: Any]]
-                    if array.count > 0 {
-                        for i in 0...array.count - 1 {
-                            let categoryModel = CategoryModel()
-                            if let adclass = array[i]["AdClass"] as? String {
-                                categoryModel.adclass = adclass
-                            }
-                            if let id = array[i]["ID"] as? Int {
-                                categoryModel.id = id
-                            }
-                            if let idParentCategory = array[i]["ID_ParentCategory"] as? Int {
-                                categoryModel.idParentCategory = idParentCategory
-                                categoryModel.isParentCat = false
-                            } else {
-                                categoryModel.isParentCat = true
-                            }
-                            if let level = array[i]["Level"] as? Int {
-                                categoryModel.level = level
-                            }
-                            if let name = array[i]["Name"] as? String {
-                                categoryModel.name = name
-                            }
-                            self.categoriesAPI.append(categoryModel)
-                            if categoryModel.isParentCat! {
-                            self.mainCategoriesAPI.append(categoryModel)
-                            } else {
-                            self.subCategoriesAPI.append(categoryModel)
-                            }
+    var allCategories = [CategoryModel]()
+    var subCategories = [CategoryModel]()
+    var mainCategories = [CategoryModel]()
+
+    
+    func getCategories(completion: @escaping (_ mainCats: [CategoryModel], _ subCats: [CategoryModel], _ error: Error?) -> ()) {
+        Alamofire.request("https://cfw-api-11.azurewebsites.net/public/categories").validate().responseJSON(completionHandler: { response in
+            var error :Error?
+            var allCategories = [CategoryModel]()
+            var subCategories = [CategoryModel]()
+            var mainCategories = [CategoryModel]()
+            switch response.result {
+            case .success:
+                if let array = response.result.value as? [[AnyHashable:Any]] {
+                if array.count > 0 {
+                    for i in 0...array.count - 1 {
+                        let categoryModel = CategoryModel()
+                        if let adclass = array[i]["AdClass"] as? String {
+                            categoryModel.adclass = adclass
+                        }
+                        if let id = array[i]["ID"] as? Int {
+                            categoryModel.id = id
+                        }
+                        if let idParentCategory = array[i]["ID_ParentCategory"] as? Int {
+                            categoryModel.idParentCategory = idParentCategory
+                            categoryModel.isParentCat = false
+                        } else {
+                            categoryModel.isParentCat = true
+                        }
+                        if let level = array[i]["Level"] as? Int {
+                            categoryModel.level = level
+                        }
+                        if let name = array[i]["Name"] as? String {
+                            categoryModel.name = name
+                        }
+                            allCategories.append(categoryModel)
+                        if categoryModel.isParentCat! {
+                            mainCategories.append(categoryModel)
+                        } else {
+                            subCategories.append(categoryModel)
                         }
                     }
-                } catch {
                 }
+                }
+            case .failure:
+                error = response.result.error
             }
-        }
-    }) 
-    task.resume()
-    }
+            self.allCategories = allCategories
+            self.subCategories = subCategories
+            self.mainCategories = mainCategories
+            completion(mainCategories, subCategories, error)
+        })
 
+    }
 
 
 
@@ -77,15 +77,14 @@ class Categories {
         "Haushalt, Möbel",
         "Jobs, Stellenangebote",
         "Dienstleistungen, Service",
-        "Partnersuche",
-        "Kontaktanzeigen",
         "Baby, Kind",
-        "Fahrrad",
+        "Kontaktanzeigen",
         "Sport, Freizeit, Hobby",
-        "Gewerbe",
+        "Fahrrad",
         "Bauen, Renovieren",
-        "Garten, Pflanzen",
+        "Gewerbe",
         "Musik, Film, Bücher",
+        "Garten, Pflanzen",
         "Antiquitäten, Kunst",
         "Flirt & Abenteuer"
         
@@ -97,15 +96,14 @@ class Categories {
         ["Alles in Haushalt, Möbel", "Haushaltsgeräte", "Sofas, Sessel, Couch", "Möbel", "Schrank", "Lampen & Licht", "Wohnzimmer", "Schlafzimmer", "Küchenmöbel"],
         ["Alles in Jobs, Stellenangebote", "Bau", "Haushaltshilfe", "Selbstständige", "Informationstechnologie", "Gesundheit & Medizin"],
         ["Alles in Dienstleistungen, Service", "Haushaltsauflösung", "Alles Mögliche"],
-        ["Alles in Partnersuche", "Frau sucht Mann", "Mann sucht Frau"],
-        ["Alle Kontaktanzeigen", "Er sucht sie", "Sie sucht ihn", "Sie sucht sie", "Er sucht ihn", "Freundschaft"],
         ["Alles in Baby, Kind", "Kinderwagen", "Babykleidung", "Spielzeug"],
-        ["Alles in Fahrrad", "Mountainbike", "Kinderfahrrad", "Fahrradzubehör", "Damenfahrrad"],
+        ["Alle Kontaktanzeigen", "Er sucht sie", "Sie sucht ihn", "Sie sucht sie", "Er sucht ihn", "Freundschaft"],
         ["Alles in Sport, Freizeit, Hobby", "Modellbau","Wintersport","Gesellschaftsspiele","Fitnessgeräte","Inliner & Rollschuhe","Angeln"],
-        ["Alles in Gewerbe", "Restposten", "Gastronomiebedarf"],
+        ["Alles in Fahrrad", "Mountainbike", "Kinderfahrrad", "Fahrradzubehör", "Damenfahrrad"],
         ["Alles in Bauen, Renovieren", "Werkzeug", "Baumaschinen"],
-        ["Alles in Garten, Pflanzen", "Diverses", "Gartengeräte", "Blumen, Samen, Pflanzen", "Gartenmöbel", "Grill, Barbecue", "Blumentopf, Blumenkübel"],
+        ["Alles in Gewerbe", "Restposten", "Gastronomiebedarf"],
         ["Alles in Musik, Film, Bücher", "Musikinstrumente", "Sachbücher, Fachbücher", "Belletristik, Literatur", "Kinderbücher, Jugenbücher", "Zeitschriften, Magazine", "Diverses"],
+        ["Alles in Garten, Pflanzen", "Diverses", "Gartengeräte", "Blumen, Samen, Pflanzen", "Gartenmöbel", "Grill, Barbecue", "Blumentopf, Blumenkübel"],
         ["Alles in Antiquitätem", "Diverses", "Glas, Porzellan", "Antike Möbel", "Bilder, Gemälde"],
         ["Alles in Flirt & Abenteuer", "Fetisch und Lust", "Paare und Mehr", "Er sucht sie Erotik", "Sie sucht ihn Erotik", "Er sucht ihn Erotik", "Sie sucht sie Erotik"]
         
@@ -123,17 +121,16 @@ class Categories {
     case 3: url = "haushalt-moebel/"
     case 4: url = "job/"
     case 5: url = "dienstleistungen-service/"
-    case 6: url = "partnersuche/"
+    case 6: url = "baby-kind/"
     case 7: url = "kontaktanzeigen/"
-    case 8: url = "baby-kind/"
+    case 8: url = "sport-freizeit-hobby/"
     case 9: url = "fahrrad/"
-    case 10: url = "sport-freizeit-hobby/"
+    case 10: url = "bauen-renovieren/"
     case 11: url = "gewerbe-existenzgruendung/"
-    case 12: url = "bauen-renovieren/"
+    case 12: url = "musik-film-buecher/"
     case 13: url = "garten-pflanzen/"
-    case 14: url = "musik-film-buecher/"
-    case 15: url = "antiquitaeten-kunst/"
-    case 16: url = "flirt-abenteuer/"
+    case 14: url = "antiquitaeten-kunst/"
+    case 15: url = "flirt-abenteuer/"
     default: break
     }
     } 
@@ -200,8 +197,9 @@ class Categories {
                 }
             case 6:
                 switch subId! {
-                case 0: url =  "frau-sucht-mann/"
-                case 1: url = "mann-sucht-frau/"
+                case 0: url =  "kinderwagen-buggys/"
+                case 1: url = "bekleidung-schuhe/"
+                case 2: url = "spielzeug-spielsachen/"
                 default: break
                 }
             case 7:
@@ -215,9 +213,12 @@ class Categories {
                 }
             case 8:
                 switch subId! {
-                case 0: url =  "kinderwagen-buggys/"
-                case 1: url = "bekleidung-schuhe/"
-                case 2: url = "spielzeug-spielsachen/"
+                case 0: url = "modellbau-technik/"
+                case 1: url = "wintersport/"
+                case 2: url = "gesellschaftsspiele-kartenspiele/"
+                case 3: url = "fitnessgeraete-heimtrainer/"
+                case 4: url = "inliner-rollschuhe/"
+                case 5: url = "angeln-angelzubehoer/"
                 default: break
                 }
             case 9:
@@ -230,12 +231,8 @@ class Categories {
                 }
             case 10:
                 switch subId! {
-                case 0: url = "modellbau-technik/"
-                case 1: url = "wintersport/"
-                case 2: url = "gesellschaftsspiele-kartenspiele/"
-                case 3: url = "fitnessgeraete-heimtrainer/"
-                case 4: url = "inliner-rollschuhe/"
-                case 5: url = "angeln-angelzubehoer/"
+                case 0: url = "werkzeug/"
+                case 1: url = "baugeraete-baumaschinen/"
                 default: break
                 }
             case 11:
@@ -246,8 +243,12 @@ class Categories {
                 }
             case 12:
                 switch subId! {
-                case 0: url = "werkzeug/"
-                case 1: url = "baugeraete-baumaschinen/"
+                case 0: url = "musikinstrumente/"
+                case 1: url = "sachbuecher-fachbuecher/"
+                case 2: url = "belletristik-literatur/"
+                case 3: url = "kinderbuecher-jugendbuecher/"
+                case 4: url = "zeitschriften-magazine/"
+                case 5: url = "diverses/"
                 default: break
                 }
             case 13:
@@ -262,23 +263,13 @@ class Categories {
                 }
             case 14:
                 switch subId! {
-                case 0: url = "musikinstrumente/"
-                case 1: url = "sachbuecher-fachbuecher/"
-                case 2: url = "belletristik-literatur/"
-                case 3: url = "kinderbuecher-jugendbuecher/"
-                case 4: url = "zeitschriften-magazine/"
-                case 5: url = "diverses/"
-                default: break
-                }
-            case 15:
-                switch subId! {
                 case 0: url = "diverses/"
                 case 1: url = "glas-porzellan/"
                 case 2: url = "antike-moebel/"
                 case 3: url = "bilder-gemaelde/"
                 default: break
                 }
-            case 16:
+            case 15:
                 switch subId! {
                 case 0: url = "fetisch-und-lust/"
                 case 1: url = "paare-und-mehr/"

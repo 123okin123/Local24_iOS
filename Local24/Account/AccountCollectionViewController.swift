@@ -15,10 +15,9 @@ private let reuseIdentifier = "MyAdsCellID"
 class AccountCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UIGestureRecognizerDelegate {
     
     var userListings = [Listing]()
+    var refresher = UIRefreshControl()
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
+
     @IBAction func editButtonPressed(_ sender: UIButton) {
         let listing = userListings[sender.tag]
         showOptionsFor(listing: listing)
@@ -96,10 +95,10 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
                  "finally": "true"
                 ]).response {response in
                     if response.error == nil {
-                        let successMenu = UIAlertController(title: "Anzeige wurde gelöscht", message: "Die Anzeige wurde erfolgreich gelöscht.", preferredStyle: .alert)
-                        let confirmAction = UIAlertAction(title: "Ok", style: .default, handler: {alert in})
-                        successMenu.addAction(confirmAction)
-                        self.present(successMenu, animated: true, completion: nil)
+                        if let index = self.userListings.index(where: {$0.createdDate == listing.createdDate}) {
+                        self.userListings.remove(at: index)
+                        self.collectionView?.deleteItems(at: [IndexPath(item: index, section: 0)])
+                        }
                     } else {
                         let errorMenu = UIAlertController(title: "Fehler", message: "Da ist leider etwas schief gegangen, das Löschen der Anzeige war nicht erfolgreich.", preferredStyle: .alert)
                         let confirmAction = UIAlertAction(title: "Ok", style: .default, handler: {alert in})
@@ -112,47 +111,36 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
         confirmMenu.addAction(confirmAction)
         confirmMenu.addAction(cancleAction)
         self.present(confirmMenu, animated: true, completion: nil)
-
     }
-
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        refresher.addTarget(self, action: #selector(getAds), for: .valueChanged)
+        collectionView!.addSubview(refresher)
+        getAds()
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        
-        if userToken == nil {
-            if let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "loginViewControllerID") {
-                self.addViewControllerAsChildViewController(viewController: loginVC)
-            }
-        } else {
-           
-            Alamofire.request("https://cfw-api-11.azurewebsites.net/me", method: .get, parameters: ["auth": userToken!]).validate().responseJSON (completionHandler: {response in
-                print(userToken)
-                switch response.result {
-                case .success:
-                    user = User(value: response.result.value as! [AnyHashable:Any])
-                    self.getAds()
-                case .failure:
-                    if let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "loginViewControllerID") {
-                        self.addViewControllerAsChildViewController(viewController: loginVC)
-                    }
-                }
-            })
-        }
+        print("accountvc viewWillAppear")
+        navigationItem.setHidesBackButton(true, animated: false)
+        navigationController?.setNavigationBarHidden(false, animated: false)
     }
 
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     func getAds() {
         userListings.removeAll()
         Alamofire.request("https://cfw-api-11.azurewebsites.net/ads/", method: .get, parameters: ["auth":userToken!]).validate().responseJSON (completionHandler: {response in
-     
-            switch response.result {
-            case .success:
+            self.refresher.endRefreshing()
+            if let statusCode = response.response?.statusCode {
+            
+            switch statusCode {
+            case 200:
 
             let ads = response.result.value as! [[AnyHashable:Any]]
             if ads.count > 0 {
@@ -163,38 +151,31 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
                 }
                 }
             self.collectionView?.reloadData()
-            case .failure:
+            case 400, 401:
                 let errorMenu = UIAlertController(title: "Fehler", message: "Da ist leider etwas schief gegangen, das Laden der Anzeige war nicht erfolgreich.", preferredStyle: .alert)
                 let confirmAction = UIAlertAction(title: "Ok", style: .default, handler: {alert in})
                 errorMenu.addAction(confirmAction)
                 self.present(errorMenu, animated: true, completion: nil)
+            case 404: break // keine Inserate
+            default: break
+                }
             }
-            
-            
-  
         })
         
     }
-    /*
-    // MARK: - Navigation
+    
+    
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
-    }
-    */
+
 
     // MARK: UICollectionViewDataSource
 
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of items
         return userListings.count
     }
 
@@ -262,18 +243,9 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
         return UIEdgeInsets(top: 20, left: 10, bottom: 20, right: 10)
     }
     
-    func addViewControllerAsChildViewController(viewController: UIViewController) {
-        addChildViewController(viewController)
-        view.addSubview(viewController.view)
-        viewController.view.frame = view.bounds
-        viewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        viewController.didMove(toParentViewController: self)
-    }
+
     
-    
-    
-    
-    @IBAction func backfromMore(_ segue:UIStoryboardSegue) {}
+    // MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "AccountshowLocalDetailSegueID" {
@@ -300,12 +272,7 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
        
     }
     
-    
-    
-    
-    
-    
-    
+
 
     
 

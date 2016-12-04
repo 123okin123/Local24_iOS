@@ -40,7 +40,7 @@ class MoreTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         gaUserTracking("More")
-        
+        tableView.reloadData()
     }
 
 
@@ -52,8 +52,12 @@ class MoreTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
+        if userToken != nil && tokenValid {
         return 2
+        } else {
+        return 1
+        }
+        
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -74,7 +78,12 @@ class MoreTableViewController: UITableViewController {
         if (tableView.indexPathForSelectedRow as NSIndexPath?)?.section == 1 {
             if (tableView.indexPathForSelectedRow as NSIndexPath?)?.row == 0 {
                 userToken = nil
-                presentingViewController?.dismiss(animated: true, completion: nil)
+                tokenValid = false
+                (tabBarController?.viewControllers?[2] as! UINavigationController).popToRootViewController(animated: false)
+                (tabBarController?.viewControllers?[3] as! UINavigationController).popToRootViewController(animated: false)
+                (tabBarController?.viewControllers?[2] as! UINavigationController).setNavigationBarHidden(true, animated: false)
+                (tabBarController?.viewControllers?[3] as! UINavigationController).setNavigationBarHidden(true, animated: false)
+                tableView.reloadData()
             }
         }
         tableView.deselectRow(at: indexPath, animated: true)
