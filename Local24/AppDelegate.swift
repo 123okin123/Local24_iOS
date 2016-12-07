@@ -24,12 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
                 // Override point for customization after application launch.
         
-        categoryBuilder.getCategories(completion: { (mainCat, subCat, error) in
-            if error != nil {
-                
-            }
-        })
-
+ 
         
      
         let defaults = UserDefaults.standard
@@ -54,20 +49,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         user?.lastName = defaults.string(forKey: "userLastName")
         user?.totalAdsCount = defaults.integer(forKey: "userTotalAdsCount")
         }
-        if userToken != nil {
-            Alamofire.request("https://cfw-api-11.azurewebsites.net/me", method: .get, parameters: ["auth": userToken!]).validate().responseJSON (completionHandler: {response in
-                if let statusCode = response.response?.statusCode {
-                switch response.result {
-                case .success:
-                    user = User(value: response.result.value as! [AnyHashable:Any])
-                    tokenValid = true
-                    
-                case .failure:
-                    tokenValid = false
+     
+        
+    
+        
+        
+        categoryBuilder.getCategories(completion: { (mainCat, subCat, error) in
+    
+                if error != nil {
+ 
                 }
-                }
-            })
-        }
+        })
+      
+        self.checkUserToken()
+
+      
+        
+
 
         window?.tintColor = greencolor
 
@@ -191,6 +189,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return FBSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
     }
 
+    
+    
+    func checkUserToken() {
+        if userToken != nil {
+            Alamofire.request("https://cfw-api-11.azurewebsites.net/me", method: .get, parameters: ["auth": userToken!]).validate().responseJSON (completionHandler: {response in
+                if response.response?.statusCode != nil{
+                    switch response.result {
+                    case .success:
+                        user = User(value: response.result.value as! [AnyHashable:Any])
+                        tokenValid = true
+                    case .failure:
+                        tokenValid = false
+                    }
+                }
+            })
+        }}
+    
 
 }
 

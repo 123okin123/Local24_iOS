@@ -60,6 +60,11 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
                 insertButton.backgroundColor = UIColor.white
                 insertButton.setImage(UIImage(named: "insert"), for: .normal)
             }
+            if index == 3 && selectedIndex == 3 {
+            return false
+            }
+            
+            
         }
         return true
     }

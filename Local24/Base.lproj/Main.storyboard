@@ -99,7 +99,7 @@
                                         <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tu7-oT-9IF">
                                             <rect key="frame" x="0.0" y="0.0" width="166" height="230"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="home_Background" translatesAutoresizingMaskIntoConstraints="NO" id="SlB-Ry-x1k">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="home_Background" translatesAutoresizingMaskIntoConstraints="NO" id="SlB-Ry-x1k">
                                                     <rect key="frame" x="0.0" y="0.0" width="166" height="150"/>
                                                     <color key="backgroundColor" red="0.7725490196" green="0.76862745099999996" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
@@ -157,7 +157,7 @@
                                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <connections>
-                                                        <action selector="editButtonPressed:" destination="51W-CO-1hl" eventType="touchUpInside" id="cx0-FB-5Ls"/>
+                                                        <action selector="editButtonPressed:" destination="gYf-iE-5iV" eventType="touchUpInside" id="JUk-Qq-ZXh"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -211,7 +211,7 @@
                                     <rect key="frame" x="153" y="18" width="70" height="70"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="VN" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BS9-IY-bc5">
-                                            <rect key="frame" x="17" y="20" width="36" height="31.5"/>
+                                            <rect key="frame" x="17" y="16.5" width="36" height="37"/>
                                             <fontDescription key="fontDescription" name="OpenSans-Light" family="Open Sans" pointSize="27"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
@@ -226,13 +226,13 @@
                                     </constraints>
                                 </view>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Vorname Nachname" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Cp-iY-ZHz">
-                                    <rect key="frame" x="115.5" y="93" width="145.5" height="19"/>
+                                    <rect key="frame" x="109" y="93" width="158.5" height="22"/>
                                     <fontDescription key="fontDescription" name="OpenSans-Semibold" family="Open Sans" pointSize="16"/>
                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Anzahl Anzeigen:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3my-ph-EHI">
-                                    <rect key="frame" x="142" y="111" width="92" height="14"/>
+                                    <rect key="frame" x="140.5" y="114" width="95" height="16.5"/>
                                     <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="12"/>
                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                     <nil key="highlightedColor"/>
@@ -801,18 +801,34 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="130" height="130"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <subviews>
-                                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="IOi-eN-k9U">
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="IOi-eN-k9U">
                                                         <rect key="frame" x="0.0" y="0.0" width="130" height="130"/>
                                                     </imageView>
+                                                    <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8oj-aP-iiv">
+                                                        <rect key="frame" x="100" y="0.0" width="30" height="30"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="30" id="It4-z8-8tV"/>
+                                                            <constraint firstAttribute="height" constant="30" id="xHw-cI-mk4"/>
+                                                        </constraints>
+                                                        <state key="normal" title="x" image="close">
+                                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="deleteImageButtonTapped:" destination="u38-xI-fn2" eventType="touchUpInside" id="ZPD-wP-fjt"/>
+                                                        </connections>
+                                                    </button>
                                                 </subviews>
                                             </view>
                                             <constraints>
                                                 <constraint firstAttribute="bottom" secondItem="IOi-eN-k9U" secondAttribute="bottom" id="Q3f-G8-mSr"/>
+                                                <constraint firstAttribute="trailing" secondItem="8oj-aP-iiv" secondAttribute="trailing" id="S2l-Nm-yMq"/>
                                                 <constraint firstItem="IOi-eN-k9U" firstAttribute="top" secondItem="u38-xI-fn2" secondAttribute="top" id="gip-53-yEv"/>
+                                                <constraint firstItem="8oj-aP-iiv" firstAttribute="top" secondItem="u38-xI-fn2" secondAttribute="top" id="jgQ-mk-Q6N"/>
                                                 <constraint firstAttribute="trailing" secondItem="IOi-eN-k9U" secondAttribute="trailing" id="omm-V6-Ewj"/>
                                                 <constraint firstItem="IOi-eN-k9U" firstAttribute="leading" secondItem="u38-xI-fn2" secondAttribute="leading" id="zNR-P6-14X"/>
                                             </constraints>
                                             <connections>
+                                                <outlet property="deleteImageButton" destination="8oj-aP-iiv" id="01u-lp-E1e"/>
                                                 <outlet property="imageView" destination="IOi-eN-k9U" id="4xN-w8-3d5"/>
                                             </connections>
                                         </collectionViewCell>
@@ -2028,6 +2044,8 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="XCX-h5-BSg" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" systemItem="more" id="ZZt-TN-wLu"/>
                     <toolbarItems/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="375" height="667"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="cOu-Lq-pk4">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -2053,6 +2071,8 @@
                 <navigationController id="Bci-p0-UJP" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Start" image="homeNS" selectedImage="home" id="NdH-80-YTn"/>
                     <toolbarItems/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="375" height="667"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="fYG-Ba-rzd">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -2076,6 +2096,8 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="zvu-21-fjr" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="375" height="667"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="xfW-1S-DY3">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -4125,6 +4147,7 @@
         <image name="baby" width="72" height="52"/>
         <image name="bauen" width="72" height="52"/>
         <image name="buch" width="72" height="58"/>
+        <image name="close" width="1024" height="1024"/>
         <image name="dienstleistung" width="72" height="52"/>
         <image name="dottedLine" width="1024" height="1024"/>
         <image name="fahrrad" width="72" height="52"/>

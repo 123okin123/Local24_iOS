@@ -17,6 +17,12 @@ class MyAdsCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var pausedIndicatorView: UIView!
     @IBOutlet weak var editButton: UIButton!
     
+    @IBAction func editButtonPressed(_ sender: UIButton) {
+    self.delegate?.buttonTapped(cell: self)
+    }
+
+    
+    
     var listing :Listing! {didSet {
         if listing.adState == .paused {
             pausedIndicatorView.isHidden = false
@@ -26,6 +32,8 @@ class MyAdsCollectionViewCell: UICollectionViewCell {
         }}
     
     var shadowLayer: CAShapeLayer!
+    
+    var delegate: MyAdsCellDelegate?
     
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -52,10 +60,18 @@ class MyAdsCollectionViewCell: UICollectionViewCell {
             layer.insertSublayer(shadowLayer, at: 0)
         }
     }
-    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        listingImage.image = nil
+        self.delegate = nil
+    }
     
  
  
 
     
+}
+
+protocol MyAdsCellDelegate: class {
+    func buttonTapped(cell: MyAdsCollectionViewCell)
 }

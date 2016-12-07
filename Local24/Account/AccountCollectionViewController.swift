@@ -12,23 +12,19 @@ import MapleBacon
 
 private let reuseIdentifier = "MyAdsCellID"
 
-class AccountCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UIGestureRecognizerDelegate {
+class AccountCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UIGestureRecognizerDelegate, MyAdsCellDelegate {
     
     var userListings = [Listing]()
     var refresher = UIRefreshControl()
 
 
-    @IBAction func editButtonPressed(_ sender: UIButton) {
-        let listing = userListings[sender.tag]
-        showOptionsFor(listing: listing)
-        
-    }
+
     
     
     func cellLongPressed(sender: UILongPressGestureRecognizer) {
         if let listing = (sender.view as! MyAdsCollectionViewCell).listing {
         showOptionsFor(listing: listing)
-            }
+        }
     }
     func showOptionsFor(listing :Listing) {
   
@@ -126,6 +122,18 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
         print("accountvc viewWillAppear")
         navigationItem.setHidesBackButton(true, animated: false)
         navigationController?.setNavigationBarHidden(false, animated: false)
+        Alamofire.request("https://cfw-api-11.azurewebsites.net/me", method: .get, parameters: ["auth": userToken!]).validate().responseJSON (completionHandler: {response in
+            if let statusCode = response.response?.statusCode {
+                switch response.result {
+                case .success:
+                    user = User(value: response.result.value as! [AnyHashable:Any])
+                    tokenValid = true
+                    
+                case .failure:
+                    tokenValid = false
+                }
+            }
+        })
     }
 
     
@@ -185,6 +193,7 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
         let gestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(cellLongPressed))
         gestureRecognizer.delegate = self
         cell.addGestureRecognizer(gestureRecognizer)
+        cell.delegate = self
         cell.listing = listing
         cell.editButton.tag = indexPath.row
         cell.listingTitle.text = listing.title
@@ -215,9 +224,9 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
                     headerView.userNameLabel.text = user!.firstName! + " " + user!.lastName!
                     headerView.userInitialsLabel.text = String(describing: user!.firstName!.characters.first!) + String(describing: user!.lastName!.characters.first!)
                 }
-                if let totalAdsCount = user!.totalAdsCount {
-                headerView.totalAdsCountLabel.text = "Anzahl Anzeigen: " + String(describing: totalAdsCount)
-                }
+      
+                headerView.totalAdsCountLabel.text = "Anzahl Anzeigen: " + String(describing: userListings.count)
+               
                 
             }
             return headerView
@@ -273,7 +282,13 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
     }
     
 
-
+    //  MARK: CellSubclassDelegate
+    
+    func buttonTapped(cell: MyAdsCollectionViewCell) {
+        guard let indexPath = self.collectionView?.indexPath(for: cell) else {return}
+        print("Button tapped on item \(indexPath.row)")
+        showOptionsFor(listing: cell.listing)
+    }
     
 
 

@@ -10,7 +10,7 @@ import UIKit
 import Alamofire
 import SwiftValidator
 
-class InsertTableViewController: UITableViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, ValidationDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class InsertTableViewController: UITableViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, ValidationDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIImagePickerControllerDelegate, UINavigationControllerDelegate, InsertImageCellDelegate {
 
     var listing = Listing()
     var imageArray = [UIImage]()
@@ -26,7 +26,7 @@ class InsertTableViewController: UITableViewController, UIPickerViewDataSource, 
     @IBOutlet weak var adTypeTextField: UITextField! {didSet {adTypeTextField.delegate = self}}
     @IBOutlet weak var insertButton: UIButton! {didSet {insertButton.layer.cornerRadius = 10}}
     
-    
+
     @IBAction func insertListing(_ sender: UIButton) {
         validator.validate(self)
         
@@ -49,16 +49,31 @@ class InsertTableViewController: UITableViewController, UIPickerViewDataSource, 
             ] as [String : Any]
         
         Alamofire.request("https://cfw-api-11.azurewebsites.net/ads?auth=\(userToken!)", method: .post, parameters: values, encoding: JSONEncoding.default).responseString (completionHandler: {response in
-            print(response.result.value)
+            print(response.result.value!)
             switch response.result {
             case .success:
-                let successMenu = UIAlertController(title: "Anzeige aufgegeben", message: "Herzlichen Glückwunsch Ihre Anzeige wurde erfolgreich aufgegeben.", preferredStyle: .alert)
-                let confirmAction = UIAlertAction(title: "Ok", style: .default, handler: {alert in})
-                successMenu.addAction(confirmAction)
-                self.present(successMenu, animated: true, completion: nil)
-                
                 Alamofire.request("https://cfw-api-11.azurewebsites.net/ads/", method: .get, parameters: ["auth":userToken!, "pagesize":1]).validate().responseJSON (completionHandler: {response in
-                
+                    switch response.result {
+                    case .success:
+                        let value = response.result.value  as! [[AnyHashable:Any]]
+              
+                        if let id = value[0]["Id"] as? Int {
+                            self.uploadImagesFor(adID: id) { statusCode in
+                                if statusCode == 201 {
+                                let successMenu = UIAlertController(title: "Anzeige aufgegeben", message: "Herzlichen Glückwunsch Ihre Anzeige wurde erfolgreich aufgegeben.", preferredStyle: .alert)
+                                let confirmAction = UIAlertAction(title: "Ok", style: .default, handler: {alert in})
+                                successMenu.addAction(confirmAction)
+                                self.present(successMenu, animated: true, completion: nil)
+                                } else {
+                                    let errorMenu = UIAlertController(title: "Fehler", message: "Da ist leider etwas schief gegangen, Ihrer Anzeige konnten keine Bilder hinzugefügt werden", preferredStyle: .alert)
+                                    let confirmAction = UIAlertAction(title: "Ok", style: .default, handler: {alert in})
+                                    errorMenu.addAction(confirmAction)
+                                    self.present(errorMenu, animated: true, completion: nil)
+                                }
+                            }
+                        }
+                    case .failure: print(response.response!)
+                    }
                 })
                 
                 
@@ -74,27 +89,46 @@ class InsertTableViewController: UITableViewController, UIPickerViewDataSource, 
         
     }
     
-    func uploadImagesFor(adID :String) {
-        Alamofire.upload(
-            multipartFormData: { multipartFormData in
-                for image in imageArray {
-                    multipartFormData.append(image, withName: "unicorn")
+    func uploadImagesFor(adID :Int, completion: @escaping (_ statusCode: Int?) -> Void) {
+        let url = "https://cfw-api-11.azurewebsites.net/ads/\(adID)/images?auth=\(userToken!)&id=\(adID)"
+        Alamofire.upload(multipartFormData: { multipartFormData in
+            for rawImage in self.imageArray {
+                let image = self.resizeImage(image: rawImage, newWidth: 500)!
+                let imageData = UIImageJPEGRepresentation(image, 1.0)
+                let randomNum:UInt32 = arc4random_uniform(1000)
+                let imageName :String = String(randomNum)
+                multipartFormData.append(imageData!, withName: imageName, fileName: "\(imageName).jpg", mimeType: "image/jpeg")
+            }
+        }, to: url, encodingCompletion: { encodingResult in
+            switch encodingResult {
+            case .success(let upload, _, _):
+                upload.validate()
+                upload.responseJSON { response in
+                    print(response.response)
+                    print(response.response?.statusCode)
+                  completion((response.response?.statusCode))
                 }
-        },
-            to: "https://cfw-api-11.azurewebsites.net/ads/\(adID)/images",
-            encodingCompletion: { encodingResult in
-                switch encodingResult {
-                case .success(let upload, _, _):
-                    upload.responseJSON { response in
-                        debugPrint(response)
-                    }
-                case .failure(let encodingError):
-                    print(encodingError)
-                }
-        }
-        )
+            case .failure(let encodingError):
+                print(encodingError)
+            }
+        })
+        
+  
+        
+        
+
     }
-    
+    func resizeImage(image: UIImage, newWidth: CGFloat) -> UIImage? {
+        
+        let scale = newWidth / image.size.width
+        let newHeight = image.size.height * scale
+        UIGraphicsBeginImageContext(CGSize(width: newWidth, height: newHeight))
+        image.draw(in: CGRect(x: 0, y: 0, width: newWidth, height: newHeight))
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage
+    }
     func validationFailed(_ errors:[(Validatable ,ValidationError)]) {
         // turn the fields to red
         for (field, error) in errors {
@@ -142,7 +176,17 @@ class InsertTableViewController: UITableViewController, UIPickerViewDataSource, 
         print("insertvc viewWillAppear")
         navigationItem.setHidesBackButton(true, animated: false)
         navigationController?.setNavigationBarHidden(false, animated: false)
-
+        Alamofire.request("https://cfw-api-11.azurewebsites.net/me", method: .get, parameters: ["auth": userToken!]).validate().responseJSON (completionHandler: {response in
+            if let statusCode = response.response?.statusCode {
+                switch response.result {
+                case .success:
+                    user = User(value: response.result.value as! [AnyHashable:Any])
+                    tokenValid = true
+                case .failure:
+                    tokenValid = false
+                }
+            }
+        })
         
     }
     
@@ -270,7 +314,9 @@ class InsertTableViewController: UITableViewController, UIPickerViewDataSource, 
         } else {
         let image = imageArray[indexPath.row]
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "insertImageCellID", for: indexPath) as! InsertImageCollectionViewCell
+        cell.tag = indexPath.row
         cell.imageView.image = image
+        cell.delegate = self
         return cell
         }
         
@@ -308,6 +354,15 @@ class InsertTableViewController: UITableViewController, UIPickerViewDataSource, 
         }
         
         dismiss(animated: true, completion: nil)
+    }
+    
+    //  MARK: CellSubclassDelegate
+    
+    func buttonTapped(cell: InsertImageCollectionViewCell) {
+        guard let indexPath = self.imageCollectionView.indexPath(for: cell) else {return}
+        print("Button tapped on item \(indexPath.row)")
+        imageArray.remove(at: indexPath.row)
+        imageCollectionView.deleteItems(at: [indexPath])
     }
     
     
