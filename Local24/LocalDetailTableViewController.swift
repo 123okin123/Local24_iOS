@@ -247,23 +247,23 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
         }
         
         
+        print(tableView.contentOffset.y)
         
-        
-        if tableView.contentOffset.y < -64 {
+        if tableView.contentOffset.y < (-64) {
             
             image1.frame.size.height = 250 - tableView.contentOffset.y - 64
             image1.frame.origin.y = tableView.contentOffset.y + 64
             
             switch images.count {
             case 2:
-                image2.frame.size.height = 250 - tableView.contentOffset.y - 64
-                image2.frame.origin.y = tableView.contentOffset.y + 64
+                image2.frame.size.height = 250 - tableView.contentOffset.y
+                image2.frame.origin.y = tableView.contentOffset.y
             default:
-                image2.frame.size.height = 125 + (-tableView.contentOffset.y - 64)/2
-                image2.frame.origin.y = tableView.contentOffset.y + 64
+                image2.frame.size.height = 125 + (-tableView.contentOffset.y)/2
+                image2.frame.origin.y = tableView.contentOffset.y
                 
-                image3.frame.size.height = 125 + (-tableView.contentOffset.y - 64)/2 + 0.25
-                image3.frame.origin.y = image3.frame.size.height + tableView.contentOffset.y + 64 - 0.5
+                image3.frame.size.height = 125 + (-tableView.contentOffset.y)/2 + 0.25
+                image3.frame.origin.y = image3.frame.size.height + tableView.contentOffset.y - 0.5
                 
             }
             

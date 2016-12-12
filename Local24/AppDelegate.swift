@@ -18,8 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     var filter = Filter()
-    
-    
+
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
                 // Override point for customization after application launch.
@@ -54,21 +53,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
         
         
-        categoryBuilder.getCategories(completion: { (mainCat, subCat, error) in
-    
-                if error != nil {
- 
-                }
-        })
-      
-        self.checkUserToken()
-
-      
+        categoryBuilder.getCategories(completion: { (mainCat, subCat, error) in })
+        checkUserToken(completion: {_ in})
         
 
 
         window?.tintColor = greencolor
-
         let tabBarFont = UIFont(name: "OpenSans", size: 10.0)!
         UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: bluecolor, NSFontAttributeName: tabBarFont ], for: .selected)
         UITabBarItem.appearance().setTitleTextAttributes([NSFontAttributeName: tabBarFont ], for: UIControlState())
@@ -103,11 +93,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
        
         //ADWORDS CONVERSION TRACKING
         ACTConversionReporter.report(withConversionID: "1059198657", label: "vk-bCOu16WgQwa2I-QM", value: "0.50", isRepeatable: false)
-        
+      
 
-
+       
          // FACEBOOK
         return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+       
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
@@ -191,10 +182,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     
     
-    func checkUserToken() {
+    func checkUserToken(completion: @escaping (Bool) -> Void) {
         if userToken != nil {
             Alamofire.request("https://cfw-api-11.azurewebsites.net/me", method: .get, parameters: ["auth": userToken!]).validate().responseJSON (completionHandler: {response in
-                if response.response?.statusCode != nil{
+                if response.response?.statusCode != nil {
                     switch response.result {
                     case .success:
                         user = User(value: response.result.value as! [AnyHashable:Any])
@@ -202,6 +193,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     case .failure:
                         tokenValid = false
                     }
+                    completion(tokenValid)
                 }
             })
         }}

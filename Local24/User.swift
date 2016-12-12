@@ -17,6 +17,8 @@ public class User {
     var totalAdsCount :Int?
     var zipCode :String?
     var city :String?
+    var street :String?
+    var houseNumber :String?
     
     init() {}
     
@@ -38,6 +40,12 @@ public class User {
         }
         if let city = value["City"] as? String {
             self.city = city
+        }
+        if let street = value["Street"] as? String {
+            self.street = street
+        }
+        if let houseNumber = value["HouseNumber"] as? String {
+            self.houseNumber = houseNumber
         }
         
     }

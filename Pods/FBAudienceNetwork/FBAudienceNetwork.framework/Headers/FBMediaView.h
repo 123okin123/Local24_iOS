@@ -54,6 +54,10 @@ FB_CLASS_EXPORT
  */
 @property (nonatomic, strong, nonnull) FBNativeAd *nativeAd;
 
+/*!
+ @property
+ @abstract The current volume of the media view, ranging from 0.0 through 1.0.
+ */
 @property (nonatomic, assign, readonly) float volume;
 
 /*!

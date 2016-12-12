@@ -17,7 +17,8 @@ target 'Local24' do
   pod 'Alamofire', '~> 4.0'
   pod 'MapleBacon'
   pod 'SwiftValidator', :git => 'https://github.com/jpotts18/SwiftValidator.git', :branch => 'master'
-  pod 'SCLAlertView'
+  pod 'ImagePicker'
+
 
 
   target 'Local24Tests' do
