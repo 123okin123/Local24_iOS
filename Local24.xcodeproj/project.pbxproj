@@ -42,6 +42,8 @@
 		CD65D2551C60FD6400AD89DF /* ZipGeo.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD65D2541C60FD6400AD89DF /* ZipGeo.swift */; };
 		CD7754211C71C0E200253B7B /* CenterLocationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7754201C71C0E200253B7B /* CenterLocationButton.swift */; };
 		CD84C5921C88844400A6E8A4 /* LocalDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD84C5911C88844400A6E8A4 /* LocalDetailTableViewController.swift */; };
+		CD993E091DF9AFAF00F686C7 /* MyAdsDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD993E081DF9AFAF00F686C7 /* MyAdsDetailViewController.swift */; };
+		CD993E0D1DF9BD4300F686C7 /* NetworkController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD993E0C1DF9BD4300F686C7 /* NetworkController.swift */; };
 		CD9CD42B1CE214CE0080CF67 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD9CD42A1CE214CE0080CF67 /* StoreKit.framework */; };
 		CD9CD42D1CE214D70080CF67 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD9CD42C1CE214D70080CF67 /* CoreMotion.framework */; };
 		CD9CD42F1CE21A930080CF67 /* SearchCollectionViewAdCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9CD42E1CE21A930080CF67 /* SearchCollectionViewAdCell.swift */; };
@@ -150,6 +152,8 @@
 		CD65D2541C60FD6400AD89DF /* ZipGeo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZipGeo.swift; sourceTree = "<group>"; };
 		CD7754201C71C0E200253B7B /* CenterLocationButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CenterLocationButton.swift; sourceTree = "<group>"; };
 		CD84C5911C88844400A6E8A4 /* LocalDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalDetailTableViewController.swift; sourceTree = "<group>"; };
+		CD993E081DF9AFAF00F686C7 /* MyAdsDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyAdsDetailViewController.swift; sourceTree = "<group>"; };
+		CD993E0C1DF9BD4300F686C7 /* NetworkController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkController.swift; sourceTree = "<group>"; };
 		CD9CD42A1CE214CE0080CF67 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		CD9CD42C1CE214D70080CF67 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		CD9CD42E1CE21A930080CF67 /* SearchCollectionViewAdCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchCollectionViewAdCell.swift; sourceTree = "<group>"; };
@@ -342,6 +346,7 @@
 		CD62AF641DE348CF00AD06EF /* Account */ = {
 			isa = PBXGroup;
 			children = (
+				CD993E081DF9AFAF00F686C7 /* MyAdsDetailViewController.swift */,
 				CDB04ACF1DD3259100034C1F /* AccountCollectionViewController.swift */,
 				CDB04AD31DD36A3500034C1F /* MyAdsCollectionViewCell.swift */,
 				CDCA848C1DE30CA800F71A42 /* AccountHeaderView.swift */,
@@ -366,6 +371,7 @@
 			children = (
 				1081F30F1BB04E6200688F3B /* iosApp.css */,
 				CD0E3F811CE0BFA9005AA575 /* Listing.swift */,
+				CD993E0C1DF9BD4300F686C7 /* NetworkController.swift */,
 				CDCA848E1DE324AA00F71A42 /* User.swift */,
 				CD5109851C58C0CF00BA2CB8 /* Categories.swift */,
 				CDA9CCCB1C070793005ED562 /* PublicSettings.swift */,
@@ -806,6 +812,7 @@
 				CDB594E31DE5A3080056B405 /* SelectSubCategoryTableViewController.swift in Sources */,
 				CD5109821C58A3B200BA2CB8 /* HomeViewController.swift in Sources */,
 				CDB594DE1DE595130056B405 /* InsertTableViewController.swift in Sources */,
+				CD993E0D1DF9BD4300F686C7 /* NetworkController.swift in Sources */,
 				CD65D24F1C60DC3000AD89DF /* LocationViewController.swift in Sources */,
 				CDB04AD41DD36A3500034C1F /* MyAdsCollectionViewCell.swift in Sources */,
 				CD5D16F01C9054F200ACE365 /* LocationMapTableViewCell.swift in Sources */,
@@ -825,6 +832,7 @@
 				CD3E16051DF07C7700D0C300 /* InsertImageCollectionViewCell.swift in Sources */,
 				CD0A28A21C6CF76300B27AFD /* RadiusView.swift in Sources */,
 				CD5109841C58BD4700BA2CB8 /* NewCatTableViewController.swift in Sources */,
+				CD993E091DF9AFAF00F686C7 /* MyAdsDetailViewController.swift in Sources */,
 				CD286E481CCE455C004675A9 /* FilterMoreSelectTableViewController.swift in Sources */,
 				CDB3AFEA1D2BF00A00C2F254 /* NMRangeSlider.m in Sources */,
 				CD5D16F21C90673600ACE365 /* DetailImageViewController.swift in Sources */,

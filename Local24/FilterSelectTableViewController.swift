@@ -31,9 +31,6 @@ class FilterSelectTableViewController: UITableViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-            print(mainCategoryID)
-            print(subCategoryID)
-
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)

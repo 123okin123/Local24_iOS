@@ -16,6 +16,7 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
     
     var userListings = [Listing]()
     var refresher = UIRefreshControl()
+    var isLoading = false
 
 
 
@@ -36,7 +37,11 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
                 let activeAction = UIAlertAction(title: "Anzeige aktivieren", style: .default, handler: {alert in self.changeAdStateOf(listing: listing, to: "active")})
                 optionMenu.addAction(activeAction)
             }
-            let editAction = UIAlertAction(title: "Anzeige bearbeiten", style: .default, handler: {alert in })
+            let editAction = UIAlertAction(title: "Anzeige bearbeiten", style: .default, handler: {alert in
+                let editVC = self.storyboard?.instantiateViewController(withIdentifier: "insertViewControllerID") as! InsertTableViewController
+                editVC.listing = listing
+                navigationController?.pushViewController(editVC, animated: true)
+            })
             let deleteAction = UIAlertAction(title: "Anzeige löschen", style: .destructive, handler: {alert in self.delete(listing: listing)})
             let cancleAction = UIAlertAction(title: "Abbrechen", style: .cancel, handler: {alert in })
             
@@ -114,11 +119,12 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
         super.viewDidLoad()
         refresher.addTarget(self, action: #selector(getAds), for: .valueChanged)
         collectionView!.addSubview(refresher)
-        getAds()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        getAds()
         print("accountvc viewWillAppear")
         navigationItem.setHidesBackButton(true, animated: false)
         navigationController?.setNavigationBarHidden(false, animated: false)
@@ -142,6 +148,8 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
     }
 
     func getAds() {
+        if !(isLoading) {
+            isLoading = true
         userListings.removeAll()
         Alamofire.request("https://cfw-api-11.azurewebsites.net/ads/", method: .get, parameters: ["auth":userToken!]).validate().responseJSON (completionHandler: {response in
             self.refresher.endRefreshing()
@@ -158,7 +166,9 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
                     self.userListings.append(listing)
                 }
                 }
-            self.collectionView?.reloadData()
+            
+            self.collectionView?.reloadSections(IndexSet(integer: 0))
+            
             case 400, 401:
                 let errorMenu = UIAlertController(title: "Fehler", message: "Da ist leider etwas schief gegangen, das Laden der Anzeige war nicht erfolgreich.", preferredStyle: .alert)
                 let confirmAction = UIAlertAction(title: "Ok", style: .default, handler: {alert in})
@@ -168,8 +178,9 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
             default: break
                 }
             }
+            self.isLoading = false
         })
-        
+        }
     }
     
     
@@ -226,8 +237,6 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
                 }
       
                 headerView.totalAdsCountLabel.text = "Anzahl Anzeigen: " + String(describing: userListings.count)
-               
-                
             }
             return headerView
             
@@ -260,8 +269,9 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
         if segue.identifier == "AccountshowLocalDetailSegueID" {
             if let cell = sender as? MyAdsCollectionViewCell {
                 if cell.listing.adState == .active {
-                    if let localdetailVC = segue.destination as? LocalDetailTableViewController {
-                    localdetailVC.urlToShow = cell.listing.url
+                    if let detailVC = segue.destination as? MyAdsDetailViewController {
+                   // detailVC.urlToShow = cell.listing.url
+                        detailVC.listing = cell.listing
                     }
                 }
             }

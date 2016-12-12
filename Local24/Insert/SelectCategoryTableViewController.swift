@@ -16,8 +16,20 @@ class SelectCategoryTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if categoryBuilder.mainCategories.isEmpty {
+            let indicator = UIActivityIndicatorView(frame: view.bounds)
+            indicator.autoresizingMask = [.flexibleWidth, . flexibleHeight]
+            indicator.color = UIColor.darkGray
+            view.addSubview(indicator)
+            indicator.startAnimating()
+            categoryBuilder.getCategories(completion: { (mainCat, subCat, error) in
+                indicator.removeFromSuperview()
+                self.tableView.reloadData()
+            })
+        } else {
         mainCategories = categoryBuilder.mainCategories
-        print(mainCategories.count)
+        }
+        
 
     }
 

@@ -9,15 +9,15 @@
 import UIKit
 import Alamofire
 import SwiftValidator
+import ImagePicker
 
-class InsertTableViewController: UITableViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, ValidationDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIImagePickerControllerDelegate, UINavigationControllerDelegate, InsertImageCellDelegate {
 
-    var listing = Listing()
-    var imageArray = [UIImage]()
-    
-    let imagePicker = UIImagePickerController()
+class InsertTableViewController: UITableViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, ValidationDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, InsertImageCellDelegate, ImagePickerDelegate {
+
+
+
     @IBOutlet weak var imageCollectionView: UICollectionView!
-    
+
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var categoryLabel: UILabel!
     @IBOutlet weak var descriptionTextView: UITextView!
@@ -25,130 +25,39 @@ class InsertTableViewController: UITableViewController, UIPickerViewDataSource, 
     @IBOutlet weak var priceTextField: UITextField!
     @IBOutlet weak var adTypeTextField: UITextField! {didSet {adTypeTextField.delegate = self}}
     @IBOutlet weak var insertButton: UIButton! {didSet {insertButton.layer.cornerRadius = 10}}
+    @IBOutlet weak var cityLabel: UILabel! {didSet {cityLabel.text = user?.city}}
+    @IBOutlet weak var zipLabel: UILabel! {didSet {zipLabel.text = user?.zipCode}}
+    @IBOutlet weak var streetLabel: UILabel! {didSet {streetLabel.text = user?.street}}
+    @IBOutlet weak var houseNumberLabel: UILabel! {didSet {houseNumberLabel.text = user?.houseNumber}}
     
-
-    @IBAction func insertListing(_ sender: UIButton) {
-        validator.validate(self)
-        
-    }
-    // ValidationDelegate methods
+    var imageArray = [UIImage]()
+    var listingExists = false
     
-    func validationSuccessful() {
-        
-        let values = [
-            "ID_Advertiser": user!.id!,
-            "ID_Category" : listing.catID!,
-            "EntityType" : listing.entityType!,
-            "AdType": adTypeTextField.text!,
-            "Title":titleTextField.text!,
-            "Body": descriptionTextView.text!,
-            "PriceType": priceTypeTextField.text!,
-            "Price": priceTextField.text!,
-            "City": user!.city!,
-            "ZipCode": user!.zipCode!
-            ] as [String : Any]
-        
-        Alamofire.request("https://cfw-api-11.azurewebsites.net/ads?auth=\(userToken!)", method: .post, parameters: values, encoding: JSONEncoding.default).responseString (completionHandler: {response in
-            print(response.result.value!)
-            switch response.result {
-            case .success:
-                Alamofire.request("https://cfw-api-11.azurewebsites.net/ads/", method: .get, parameters: ["auth":userToken!, "pagesize":1]).validate().responseJSON (completionHandler: {response in
-                    switch response.result {
-                    case .success:
-                        let value = response.result.value  as! [[AnyHashable:Any]]
-              
-                        if let id = value[0]["Id"] as? Int {
-                            self.uploadImagesFor(adID: id) { statusCode in
-                                if statusCode == 201 {
-                                let successMenu = UIAlertController(title: "Anzeige aufgegeben", message: "Herzlichen Glückwunsch Ihre Anzeige wurde erfolgreich aufgegeben.", preferredStyle: .alert)
-                                let confirmAction = UIAlertAction(title: "Ok", style: .default, handler: {alert in})
-                                successMenu.addAction(confirmAction)
-                                self.present(successMenu, animated: true, completion: nil)
-                                } else {
-                                    let errorMenu = UIAlertController(title: "Fehler", message: "Da ist leider etwas schief gegangen, Ihrer Anzeige konnten keine Bilder hinzugefügt werden", preferredStyle: .alert)
-                                    let confirmAction = UIAlertAction(title: "Ok", style: .default, handler: {alert in})
-                                    errorMenu.addAction(confirmAction)
-                                    self.present(errorMenu, animated: true, completion: nil)
-                                }
-                            }
-                        }
-                    case .failure: print(response.response!)
-                    }
-                })
-                
-                
-            case .failure:
-                let errorMenu = UIAlertController(title: "Fehler", message: "Da ist leider etwas schief gegangen, das Inserieren der Anzeige war nicht erfolgreich.", preferredStyle: .alert)
-                let confirmAction = UIAlertAction(title: "Ok", style: .default, handler: {alert in})
-                errorMenu.addAction(confirmAction)
-                self.present(errorMenu, animated: true, completion: nil)
-             
-            }
-            
-        })
-        
-    }
+    let imagePicker = ImagePickerController()
     
-    func uploadImagesFor(adID :Int, completion: @escaping (_ statusCode: Int?) -> Void) {
-        let url = "https://cfw-api-11.azurewebsites.net/ads/\(adID)/images?auth=\(userToken!)&id=\(adID)"
-        Alamofire.upload(multipartFormData: { multipartFormData in
-            for rawImage in self.imageArray {
-                let image = self.resizeImage(image: rawImage, newWidth: 500)!
-                let imageData = UIImageJPEGRepresentation(image, 1.0)
-                let randomNum:UInt32 = arc4random_uniform(1000)
-                let imageName :String = String(randomNum)
-                multipartFormData.append(imageData!, withName: imageName, fileName: "\(imageName).jpg", mimeType: "image/jpeg")
-            }
-        }, to: url, encodingCompletion: { encodingResult in
-            switch encodingResult {
-            case .success(let upload, _, _):
-                upload.validate()
-                upload.responseJSON { response in
-                    print(response.response)
-                    print(response.response?.statusCode)
-                  completion((response.response?.statusCode))
-                }
-            case .failure(let encodingError):
-                print(encodingError)
-            }
-        })
-        
-  
-        
-        
-
-    }
-    func resizeImage(image: UIImage, newWidth: CGFloat) -> UIImage? {
-        
-        let scale = newWidth / image.size.width
-        let newHeight = image.size.height * scale
-        UIGraphicsBeginImageContext(CGSize(width: newWidth, height: newHeight))
-        image.draw(in: CGRect(x: 0, y: 0, width: newWidth, height: newHeight))
-        let newImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        return newImage
-    }
-    func validationFailed(_ errors:[(Validatable ,ValidationError)]) {
-        // turn the fields to red
-        for (field, error) in errors {
-            if let field = field as? UITextField {
-                if let contentView = field.superview {
-                    contentView.layer.backgroundColor = UIColor(red: 224/255, green: 60/255, blue: 49/255, alpha: 0.5).cgColor
-                }
-            }
-            error.errorLabel?.text = error.errorMessage // works if you added labels
-            error.errorLabel?.isHidden = false
-        }
-    }
-    
+    var listing = Listing()
     
     let pickerView = UIPickerView()
     let toolBar = UIToolbar()
     let validator = Validator()
+
+    
+    
+    @IBAction func insertListing(_ sender: UIButton) {
+        validator.validate(self)
+    }
+ 
+    
+
+    
+
+    
+    
+    // MARK: - ViewController Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if listingExists { prePopulate() }
         pickerView.delegate = self
         pickerView.dataSource = self
         imageCollectionView.dataSource = self
@@ -174,7 +83,12 @@ class InsertTableViewController: UITableViewController, UIPickerViewDataSource, 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         print("insertvc viewWillAppear")
+        if listingExists {
+        navigationItem.setHidesBackButton(false, animated: false)
+        } else {
         navigationItem.setHidesBackButton(true, animated: false)
+        }
+        
         navigationController?.setNavigationBarHidden(false, animated: false)
         Alamofire.request("https://cfw-api-11.azurewebsites.net/me", method: .get, parameters: ["auth": userToken!]).validate().responseJSON (completionHandler: {response in
             if let statusCode = response.response?.statusCode {
@@ -197,6 +111,27 @@ class InsertTableViewController: UITableViewController, UIPickerViewDataSource, 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    
+    
+    func clearAll() {
+        imageArray.removeAll()
+        titleTextField.text = ""
+        descriptionTextView.text = ""
+        priceTextField.text = ""
+        priceTypeTextField.text = "Festpreis"
+        adTypeTextField.text = "Angebot"
+        listing = Listing()
+    }
+    
+    func prePopulate() {
+        titleTextField.text = listing.title
+        categoryLabel.text  = categoryBuilder.allCategories.filter({$0.id == listing.catID})[0].name
+        descriptionTextView.text = listing.description
+        priceTextField.text = listing.price
+        priceTypeTextField.text = listing.priceType
+        adTypeTextField.text = listing.adType?.rawValue
     }
 
     // MARK: - Table view data source
@@ -248,20 +183,12 @@ class InsertTableViewController: UITableViewController, UIPickerViewDataSource, 
     }
     */
 
-    /*
-    // MARK: - Navigation
+    
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
     var currentPickerArray = [String]()
     var currentTextField = UITextField()
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        
         switch textField {
         case adTypeTextField:
             currentTextField = adTypeTextField
@@ -306,7 +233,6 @@ class InsertTableViewController: UITableViewController, UIPickerViewDataSource, 
 
     // :MARK ImageCollectionView
 
-    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.row == imageArray.count {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "insertAddImageCellID", for: indexPath) as! AddImageCollectionViewCell
@@ -319,13 +245,12 @@ class InsertTableViewController: UITableViewController, UIPickerViewDataSource, 
         cell.delegate = self
         return cell
         }
-        
     }
+    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
-    
-    
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return imageArray.count + 1
     }
@@ -338,31 +263,96 @@ class InsertTableViewController: UITableViewController, UIPickerViewDataSource, 
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print(indexPath)
-        if indexPath.row == imageArray.count {
-            imagePicker.sourceType = .photoLibrary
+      //  if indexPath.row == imageArray.count {
             present(imagePicker, animated: true, completion: nil)
+       // }
+    }
+    
+    
+    // MARK: ImagePickerDelegate
+    
+    func cancelButtonDidPress(_ imagePicker: ImagePickerController) {
+        imageArray.removeAll()
+        imageCollectionView.reloadData()
+        imageCollectionView.scrollToItem(at: IndexPath(item: imageArray.endIndex, section: 0), at: .right, animated: true)
+        imagePicker.dismiss(animated: true, completion: nil)
+    }
+    
+    func wrapperDidPress(_ imagePicker: ImagePickerController, images: [UIImage]) {
+
+    }
+    
+    func doneButtonDidPress(_ imagePicker: ImagePickerController, images: [UIImage]) {
+        imageArray = images
+        imageCollectionView.reloadData()
+        imageCollectionView.scrollToItem(at: IndexPath(item: imageArray.endIndex, section: 0), at: .right, animated: true)
+        imagePicker.dismiss(animated: true, completion: nil)
+    }
+   
+    
+    
+    // MARK: ValidationDelegate
+    
+    func validationSuccessful() {
+        
+        let pendingAlertController = UIAlertController(title: "Anzeige wird erstellt\n\n\n", message: nil, preferredStyle: .alert)
+        let indicator = UIActivityIndicatorView(frame: pendingAlertController.view.bounds)
+        indicator.autoresizingMask = [.flexibleWidth, . flexibleHeight]
+        indicator.color = UIColor.darkGray
+        pendingAlertController.view.addSubview(indicator)
+        indicator.startAnimating()
+        present(pendingAlertController, animated: true, completion: nil)
+        
+        let values = [
+            "ID_Advertiser": user!.id!,
+            "ID_Category" : listing.catID!,
+            "EntityType" : listing.entityType!,
+            "AdType": adTypeTextField.text!,
+            "Title":titleTextField.text!,
+            "Body": descriptionTextView.text!,
+            "PriceType": priceTypeTextField.text!,
+            "Price": priceTextField.text!,
+            "City": user!.city!,
+            "ZipCode": user!.zipCode!
+            ] as [String : Any]
+        
+        NetworkController.insertAdWith(values: values, images: imageArray, existing: listingExists, userToken: userToken!, completion: { error in
+            pendingAlertController.dismiss(animated: true, completion: nil)
+            if error == nil {
+                let successMenu = UIAlertController(title: "Anzeige aufgegeben", message: "Herzlichen Glückwunsch Ihre Anzeige wurde erfolgreich aufgegeben.", preferredStyle: .alert)
+                let confirmAction = UIAlertAction(title: "Ok", style: .default, handler: {alert in})
+                successMenu.addAction(confirmAction)
+                self.present(successMenu, animated: true, completion: nil)
+            } else {
+                let errorMenu = UIAlertController(title: "Fehler", message: "Da ist leider etwas schief gegangen, das Inserieren der Anzeige war nicht erfolgreich.", preferredStyle: .alert)
+                let confirmAction = UIAlertAction(title: "Ok", style: .default, handler: {alert in})
+                errorMenu.addAction(confirmAction)
+                self.present(errorMenu, animated: true, completion: nil)
+            }
+        })
+    }
+    
+    func validationFailed(_ errors:[(Validatable ,ValidationError)]) {
+        for (field, error) in errors {
+            if let field = field as? UITextField {
+                if let contentView = field.superview {
+                    contentView.layer.backgroundColor = UIColor(red: 224/255, green: 60/255, blue: 49/255, alpha: 0.5).cgColor
+                }
+            }
+            error.errorLabel?.text = error.errorMessage // works if you added labels
+            error.errorLabel?.isHidden = false
         }
     }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
-            imageArray.append(pickedImage)
-            let indexPath = IndexPath(item: imageArray.endIndex - 1, section: 0)
-            
-            imageCollectionView.insertItems(at: [indexPath])
-            imageCollectionView.scrollToItem(at: IndexPath(item: imageArray.endIndex, section: 0), at: .right, animated: true)
-        }
-        
-        dismiss(animated: true, completion: nil)
-    }
     
     //  MARK: CellSubclassDelegate
     
     func buttonTapped(cell: InsertImageCollectionViewCell) {
         guard let indexPath = self.imageCollectionView.indexPath(for: cell) else {return}
         print("Button tapped on item \(indexPath.row)")
-        imageArray.remove(at: indexPath.row)
-        imageCollectionView.deleteItems(at: [indexPath])
+        
+       // imageArray.remove(at: indexPath.row)
+       // imageCollectionView.deleteItems(at: [indexPath])
     }
     
     

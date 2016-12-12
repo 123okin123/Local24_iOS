@@ -106,7 +106,7 @@ class FilterMoreSelectTableViewController: UITableViewController {
         }
         let filterVC = self.navigationController?.viewControllers[0] as! FilterViewController
         filterVC.tableView.reloadData()
-        self.navigationController?.popToRootViewController(animated: true)
+        _ = self.navigationController?.popToRootViewController(animated: true)
     }
 
     /*

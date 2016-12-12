@@ -34,6 +34,16 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>ImagePicker-ImagePicker.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>ImagePicker.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>MapleBacon.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -54,11 +64,6 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>SCLAlertView.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>SwiftValidator.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -67,17 +72,17 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>2E303C3CE7513908EE880D9CA833AFAE</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>30D7FCF8072F5D59AE1C98D94F9A6EC9</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>392CE198BC2A10B0FCB21E20B3C6A77B</key>
+		<key>47D9093C5702ACA3F55CAC8DF73F4943</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>55BD3033702F62283C42C1F6E037342D</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -102,7 +107,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>79C9C70086380D7B07702E36E7084825</key>
+		<key>7C4108C3722F95AE55CEDD665AC9630D</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -122,17 +127,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>BC2A8D0D332D8BE6DD26E11947149662</key>
+		<key>B397AB180ACC31F73F397510DE95A1F4</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>DF965D5761DA4B355BCEBE08FD6B45C9</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>FAACF90458C8894C83A934164089D896</key>
 		<dict>
 			<key>primary</key>
 			<true/>
