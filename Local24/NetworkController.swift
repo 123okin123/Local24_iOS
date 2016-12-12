@@ -9,7 +9,7 @@
 import Foundation
 import Alamofire
 import UIKit
-
+import MapleBacon
 
 class NetworkController {
 
@@ -100,6 +100,48 @@ class NetworkController {
             }
         })
 
+    }
+    
+    
+    class func getImagePathsFor(adID :String, completion: @escaping (_ imagePaths: [String]?, _ error: Error?) -> Void) {
+        Alamofire.request("https://cfw-api-11.azurewebsites.net/public/ads/\(adID)/images/").responseJSON(completionHandler: { response in
+           
+            switch response.result {
+            case .failure(let error):
+                print(error)
+                completion(nil, error)
+            case .success:
+                if let json = response.result.value as? [[AnyHashable: Any]] {
+                    if json.count > 0 {
+                        var imagePaths = [String]()
+                        for i in 0...json.count - 1 {
+                            let url = json[i]["ImagePathLarge"] as! String
+                            imagePaths.append(url)
+                        }
+                        completion(imagePaths, nil)
+                    }
+                }
+            }
+        })
+    }
+    
+    class func getImagesFor(adID :String, completion: @escaping (_ images: [UIImage]?) -> Void) {
+        self.getImagePathsFor(adID: adID, completion: { (imagePaths, error) in
+            if error == nil {
+                var images = [UIImage]()
+                for imagePath in imagePaths!  {
+                    if let imageUrl = URL(string: imagePath) {
+                        let manager = ImageManager.sharedManager
+                        _ = manager.downloadImage(atUrl: imageUrl, cacheScaled: false, imageView: nil, completion: { imageDownloaderCompletion in
+                            images.append((imageDownloaderCompletion.0?.image)!)
+                            if imagePaths!.count == images.count {
+                                completion(images)
+                            }
+                        })
+                    }
+                }
+            }
+        })
     }
     
     

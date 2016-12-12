@@ -40,7 +40,7 @@ class MyAdsCollectionViewCell: UICollectionViewCell {
 
         
         
-        cellContentView.layer.cornerRadius = 3
+        cellContentView.layer.cornerRadius = 5
         listingPrice.layer.shadowColor = UIColor.black.cgColor
         listingPrice.layer.shadowOffset = CGSize(width: 1, height: 1)
         listingPrice.layer.shadowOpacity = 0.5

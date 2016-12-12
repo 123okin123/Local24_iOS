@@ -20,6 +20,15 @@ class Listing {
     var entityType :String?
     var price :String?
     var priceType :String?
+    var priceWithCurrency :String? {get {
+        if price != nil {
+            let formatter = NumberFormatter()
+            formatter.numberStyle = .currency
+        return formatter.string(from: NSNumber(value: Double(price!)!))
+        } else {
+        return nil
+        }
+        }}
 
     var adLat: Double?
     var adLong: Double?
@@ -35,7 +44,9 @@ class Listing {
     
     var createdDate :String?
     var updatedDate :String?
+    
     var mainImage :UIImage?
+    var images :[UIImage]?
     var hasImages: Bool?
     var imagePathMedium :String?
     
