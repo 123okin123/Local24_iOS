@@ -40,7 +40,12 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
             let editAction = UIAlertAction(title: "Anzeige bearbeiten", style: .default, handler: {alert in
                 let editVC = self.storyboard?.instantiateViewController(withIdentifier: "insertViewControllerID") as! InsertTableViewController
                 editVC.listing = listing
-                navigationController?.pushViewController(editVC, animated: true)
+                if let images = listing.images {
+                editVC.imageArray = images
+                }
+                
+                editVC.listingExists = true
+                self.navigationController?.pushViewController(editVC, animated: true)
             })
             let deleteAction = UIAlertAction(title: "Anzeige löschen", style: .destructive, handler: {alert in self.delete(listing: listing)})
             let cancleAction = UIAlertAction(title: "Abbrechen", style: .cancel, handler: {alert in })
@@ -208,18 +213,22 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
         cell.listing = listing
         cell.editButton.tag = indexPath.row
         cell.listingTitle.text = listing.title
-        cell.listingPrice.text = listing.price
+        cell.listingPrice.text = listing.priceWithCurrency
         cell.listingDate.text = listing.createdDate
         cell.listingImage.image = nil
         if listing.mainImage == nil {
             if let imagePathMedium = listing.imagePathMedium {
                 if let imageUrl = URL(string: imagePathMedium) {
                     cell.listingImage.setImage(withUrl: imageUrl)
+                    cell.listingImage.layer.add(CATransition(), forKey: nil)
                 }
             }
         } else {
             cell.listingImage.image = listing.mainImage
         }
+        NetworkController.getImagesFor(adID: String(describing: listing.adID!), completion: { images in
+        self.userListings[indexPath.row].images = images
+        })
         
     
         return cell

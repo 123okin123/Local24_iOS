@@ -86,6 +86,7 @@
 		CDEE24AB1CC78B8100F08D4E /* AbuseReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDEE24AA1CC78B8100F08D4E /* AbuseReportViewController.swift */; };
 		CDF6184D1CD8F3CA00041885 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDF6184C1CD8F3CA00041885 /* AdSupport.framework */; };
 		CDFD0BAB1CF5AE0E00B56BF6 /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDFD0BAA1CF5AE0E00B56BF6 /* Filter.swift */; };
+		CDFD59EF1DFEF4920098010B /* ChooseLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDFD59EE1DFEF4920098010B /* ChooseLocationViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -199,6 +200,7 @@
 		CDEE24AA1CC78B8100F08D4E /* AbuseReportViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AbuseReportViewController.swift; sourceTree = "<group>"; };
 		CDF6184C1CD8F3CA00041885 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		CDFD0BAA1CF5AE0E00B56BF6 /* Filter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Filter.swift; sourceTree = "<group>"; };
+		CDFD59EE1DFEF4920098010B /* ChooseLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChooseLocationViewController.swift; path = Insert/ChooseLocationViewController.swift; sourceTree = "<group>"; };
 		DAE5DB9518CCC4A7488A2757 /* Pods_Local24.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Local24.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFF4E34FAF766CF6AAB81F90 /* Pods_Local24UITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Local24UITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -460,6 +462,7 @@
 		CDB594DF1DE5951A0056B405 /* Insert */ = {
 			isa = PBXGroup;
 			children = (
+				CDFD59EE1DFEF4920098010B /* ChooseLocationViewController.swift */,
 				CDB594DD1DE595130056B405 /* InsertTableViewController.swift */,
 				CD3E16041DF07C7700D0C300 /* InsertImageCollectionViewCell.swift */,
 				CD1D88811DF072A100DF2688 /* AddImageCollectionViewCell.swift */,
@@ -803,6 +806,7 @@
 				CD84C5921C88844400A6E8A4 /* LocalDetailTableViewController.swift in Sources */,
 				CDFD0BAB1CF5AE0E00B56BF6 /* Filter.swift in Sources */,
 				CD9CD4331CE4A1900080CF67 /* SelectedFilterButton.swift in Sources */,
+				CDFD59EF1DFEF4920098010B /* ChooseLocationViewController.swift in Sources */,
 				CDB594E51DE5E6230056B405 /* TabBarController.swift in Sources */,
 				CDE529841C70782600820184 /* Reachibility.swift in Sources */,
 				CDA9CCCC1C070793005ED562 /* PublicSettings.swift in Sources */,

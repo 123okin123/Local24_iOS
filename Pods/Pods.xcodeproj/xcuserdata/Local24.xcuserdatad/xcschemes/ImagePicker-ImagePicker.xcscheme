@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'BC2A8D0D332D8BE6DD26E11947149662'
-               BlueprintName = 'SCLAlertView'
+               BlueprintIdentifier = '55BD3033702F62283C42C1F6E037342D'
+               BlueprintName = 'ImagePicker-ImagePicker'
                ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'SCLAlertView.framework'>
+               BuildableName = 'ImagePicker.bundle'>
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

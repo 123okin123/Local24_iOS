@@ -79,6 +79,11 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        let gradient = CAGradientLayer()
+        gradient.frame = view.frame
+        gradient.colors = [UIColor(red: 125/255, green: 175/255, blue: 20/255, alpha: 1).cgColor,
+                           greencolor.cgColor]
+        view.layer.insertSublayer(gradient, at: 0)
         print("loginvc viewWillAppear")
         print("token: \(userToken)")
         print("tokenValid: \(tokenValid)")

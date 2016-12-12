@@ -315,8 +315,8 @@ class MyAdsDetailViewController: UIViewController, UITableViewDataSource, UITabl
             case 0:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "priceCellID") as! PriceTableViewCell!
                 
-                cell?.adPriceLabel.text = listing.price
-                fixedPriceCellPriceLabel.text = listing.price
+                cell?.adPriceLabel.text = listing.priceWithCurrency
+                fixedPriceCellPriceLabel.text = listing.priceWithCurrency
                 
                 defaultcell = cell!
             case 1:
