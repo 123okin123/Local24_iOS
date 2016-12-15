@@ -128,7 +128,10 @@ class ChooseLocationViewController: UIViewController, UITableViewDelegate, UITab
                     insertVC.listing.adLat = location.coordinate.latitude
                     insertVC.listing.adLong = location.coordinate.longitude
                 }
-                
+                insertVC.zipLabel.textColor = UIColor.darkGray
+                insertVC.cityLabel.textColor = UIColor.darkGray
+                insertVC.houseNumberLabel.textColor = UIColor.darkGray
+                insertVC.streetLabel.textColor = UIColor.darkGray
             }
 
         }

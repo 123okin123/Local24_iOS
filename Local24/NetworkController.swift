@@ -34,12 +34,16 @@ class NetworkController {
     
     class func insertAdWith(values: [String:Any], images: [UIImage]?, existing: Bool, userToken: String, completion: @escaping (_ error :Error?) -> Void) {
         let method:  HTTPMethod
+        let url :URLConvertible
         if existing {
             method = .put
+            url = "https://cfw-api-11.azurewebsites.net/ads/\(values["ID"]!)?auth=\(userToken)"
         } else {
             method = .post
+            url = "https://cfw-api-11.azurewebsites.net/ads?auth=\(userToken)"
         }
-        Alamofire.request("https://cfw-api-11.azurewebsites.net/ads?auth=\(userToken)", method: method, parameters: values, encoding: JSONEncoding.default).responseString (completionHandler: { response in
+        Alamofire.request(url, method: method, parameters: values, encoding: JSONEncoding.default).responseString (completionHandler: { response in
+            debugPrint(response)
             switch response.result {
             case .success:
                 Alamofire.request("https://cfw-api-11.azurewebsites.net/ads/", method: .get, parameters: ["auth":userToken, "pagesize":1]).validate().responseJSON (completionHandler: {response in
@@ -72,7 +76,7 @@ class NetworkController {
                     }
                 })
             case .failure:
-                print(response.response!)
+                print(response.response)
                 completion(NCError.RuntimeError("Ad Upload Failed"))
             }
         })

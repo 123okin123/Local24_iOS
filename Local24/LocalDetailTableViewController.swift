@@ -21,6 +21,7 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
         {didSet {
             fixedPriceCell.layer.borderColor = UIColor(red: 0.783922, green: 0.780392, blue: 0.8, alpha: 1).cgColor
             fixedPriceCell.layer.borderWidth = 0.5
+            fixedPriceCell.isHidden = true
         }}
     
     @IBOutlet weak var fixedPriceCellPriceContactButton: UIButton!
@@ -237,7 +238,7 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
                 fixedPriceCell.isHidden = true
             }
         } else {
-            if tableView.contentOffset.y > (-63) {
+            if tableView.contentOffset.y > (36) {
                 priceCell?.contentView.isHidden = true
                 fixedPriceCell.isHidden = false
             } else {

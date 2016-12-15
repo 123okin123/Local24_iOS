@@ -20,6 +20,7 @@ class MyAdsDetailViewController: UIViewController, UITableViewDataSource, UITabl
         {didSet {
             fixedPriceCell.layer.borderColor = UIColor(red: 0.783922, green: 0.780392, blue: 0.8, alpha: 1).cgColor
             fixedPriceCell.layer.borderWidth = 0.5
+            fixedPriceCell.isHidden = true
         }}
     @IBOutlet weak var fixedPriceCellPriceLabel: UILabel!
 
@@ -130,7 +131,7 @@ class MyAdsDetailViewController: UIViewController, UITableViewDataSource, UITabl
                 fixedPriceCell.isHidden = true
             }
         } else {
-            if tableView.contentOffset.y > 0 {
+            if tableView.contentOffset.y > 36 {
                 priceCell?.contentView.isHidden = true
                 fixedPriceCell.isHidden = false
             } else {

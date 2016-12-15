@@ -222,8 +222,7 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
     
-        switch kind {
-        case UICollectionElementKindSectionHeader:
+     
             let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "Header", for: indexPath) as! AccountHeaderView
             if user != nil {
                 if user!.firstName != nil && user!.lastName != nil {
@@ -235,13 +234,7 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
             }
             return headerView
             
-        case UICollectionElementKindSectionFooter:
-            let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "Footer", for: indexPath)
-            return footerView
-            
-        default:
-            assert(false, "Unexpected element kind")
-        }
+
     }
     
 
