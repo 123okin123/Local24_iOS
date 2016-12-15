@@ -14,8 +14,6 @@ import ImagePicker
 
 class InsertTableViewController: UITableViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, ValidationDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, InsertImageCellDelegate, ImagePickerDelegate {
 
-
-
     @IBOutlet weak var imageCollectionView: UICollectionView!
 
     @IBOutlet weak var titleTextField: UITextField!
@@ -25,17 +23,24 @@ class InsertTableViewController: UITableViewController, UIPickerViewDataSource, 
     @IBOutlet weak var priceTextField: UITextField!
     @IBOutlet weak var adTypeTextField: UITextField! {didSet {adTypeTextField.delegate = self}}
     @IBOutlet weak var insertButton: UIButton! {didSet {insertButton.layer.cornerRadius = 10}}
-    @IBOutlet weak var cityLabel: UILabel! {didSet {cityLabel.text = user?.city}}
-    @IBOutlet weak var zipLabel: UILabel! {didSet {zipLabel.text = user?.zipCode}}
-    @IBOutlet weak var streetLabel: UILabel! {didSet {streetLabel.text = user?.street}}
-    @IBOutlet weak var houseNumberLabel: UILabel! {didSet {houseNumberLabel.text = user?.houseNumber}}
+    
+    @IBOutlet weak var cityLabel: UILabel! 
+    @IBOutlet weak var zipLabel: UILabel!
+    @IBOutlet weak var streetLabel: UILabel!
+    @IBOutlet weak var houseNumberLabel: UILabel!
+    
     
     var imageArray = [UIImage]()
     var listingExists = false
     
     let imagePicker = ImagePickerController()
     
-    var listing = Listing()
+    var listing = Listing() {didSet {
+        if let location = user?.placemark?.location {
+            listing.adLat = location.coordinate.latitude
+            listing.adLong = location.coordinate.longitude
+        }
+        }}
     
     let pickerView = UIPickerView()
     let toolBar = UIToolbar()
@@ -49,9 +54,6 @@ class InsertTableViewController: UITableViewController, UIPickerViewDataSource, 
  
     
 
-    
-
-    
     
     // MARK: - ViewController Lifecycle
     
@@ -77,7 +79,15 @@ class InsertTableViewController: UITableViewController, UIPickerViewDataSource, 
         validator.registerField(priceTypeTextField, rules: [RequiredRule()])
         validator.registerField(priceTextField, rules: [RequiredRule()])
         validator.registerField(adTypeTextField, rules: [RequiredRule()])
-
+     
+        if let placemark = user?.placemark  {
+      
+        cityLabel.text = placemark.addressDictionary?["City"] as! String?
+        zipLabel.text = placemark.addressDictionary?["ZIP"] as! String?
+        streetLabel.text = placemark.addressDictionary?["Thoroughfare"] as! String?
+        houseNumberLabel.text = placemark.addressDictionary?["SubThoroughfare"] as! String?
+        }
+        
 
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -90,16 +100,9 @@ class InsertTableViewController: UITableViewController, UIPickerViewDataSource, 
         }
         
         navigationController?.setNavigationBarHidden(false, animated: false)
-        Alamofire.request("https://cfw-api-11.azurewebsites.net/me", method: .get, parameters: ["auth": userToken!]).validate().responseJSON (completionHandler: {response in
-            if let statusCode = response.response?.statusCode {
-                switch response.result {
-                case .success:
-                    user = User(value: response.result.value as! [AnyHashable:Any])
-                    tokenValid = true
-                case .failure:
-                    tokenValid = false
-                }
-            }
+        NetworkController.getUserProfile(userToken: userToken!, completion: {(fetchedUser, statusCode) in
+            user = fetchedUser
+            
         })
         
     }
@@ -122,6 +125,8 @@ class InsertTableViewController: UITableViewController, UIPickerViewDataSource, 
         priceTextField.text = ""
         priceTypeTextField.text = "Festpreis"
         adTypeTextField.text = "Angebot"
+        categoryLabel.text = "Bitte wählen Sie ein Kategorie"
+        categoryLabel.textColor = UIColor.lightGray
         listing = Listing()
     }
     
@@ -132,6 +137,11 @@ class InsertTableViewController: UITableViewController, UIPickerViewDataSource, 
         priceTextField.text = listing.price
         priceTypeTextField.text = listing.priceType
         adTypeTextField.text = listing.adType?.rawValue
+        categoryLabel.textColor = UIColor.black
+        cityLabel.text = listing.city
+        zipLabel.text = listing.zipcode
+        streetLabel.text = listing.street
+        houseNumberLabel.text = listing.houseNumber
     }
 
     // MARK: - Table view data source
@@ -294,7 +304,21 @@ class InsertTableViewController: UITableViewController, UIPickerViewDataSource, 
     // MARK: ValidationDelegate
     
     func validationSuccessful() {
+        /* Additional Validation*/
+        guard categoryLabel.text != "Bitte wählen Sie ein Kategorie" else {
+            if let contentView = categoryLabel.superview {
+                contentView.layer.backgroundColor = UIColor(red: 224/255, green: 60/255, blue: 49/255, alpha: 0.5).cgColor
+            }
+            return
+        }
+        guard descriptionTextView.text != "" else {
+            if let contentView = descriptionTextView.superview {
+                contentView.layer.backgroundColor = UIColor(red: 224/255, green: 60/255, blue: 49/255, alpha: 0.5).cgColor
+            }
+            return
+        }
         
+        /* End of Additional Validation*/
         let pendingAlertController = UIAlertController(title: "Anzeige wird erstellt\n\n\n", message: nil, preferredStyle: .alert)
         let indicator = UIActivityIndicatorView(frame: pendingAlertController.view.bounds)
         indicator.autoresizingMask = [.flexibleWidth, . flexibleHeight]
@@ -303,7 +327,12 @@ class InsertTableViewController: UITableViewController, UIPickerViewDataSource, 
         indicator.startAnimating()
         present(pendingAlertController, animated: true, completion: nil)
         
-        let values = [
+        
+        
+        
+        
+        
+        var values = [
             "ID_Advertiser": user!.id!,
             "ID_Category" : listing.catID!,
             "EntityType" : listing.entityType!,
@@ -312,20 +341,27 @@ class InsertTableViewController: UITableViewController, UIPickerViewDataSource, 
             "Body": descriptionTextView.text!,
             "PriceType": priceTypeTextField.text!,
             "Price": priceTextField.text!,
-            "City": user!.city!,
-            "ZipCode": user!.zipCode!
+            "City": cityLabel.text!,
+            "ZipCode": zipLabel.text!,
+            "Latitude": listing.adLat!,
+            "Longitude": listing.adLong!,
             ] as [String : Any]
-        
+        if listingExists {
+        values["ID"] = listing.adID!
+        }
         NetworkController.insertAdWith(values: values, images: imageArray, existing: listingExists, userToken: userToken!, completion: { error in
             pendingAlertController.dismiss(animated: true, completion: nil)
             if error == nil {
+                self.clearAll()
                 let successMenu = UIAlertController(title: "Anzeige aufgegeben", message: "Herzlichen Glückwunsch Ihre Anzeige wurde erfolgreich aufgegeben.", preferredStyle: .alert)
-                let confirmAction = UIAlertAction(title: "Ok", style: .default, handler: {alert in})
+                let confirmAction = UIAlertAction(title: "Ok", style: .default, handler: {alert in
+                self.navigationController?.popToViewController((self.navigationController?.viewControllers[1])!, animated: true)
+                })
                 successMenu.addAction(confirmAction)
                 self.present(successMenu, animated: true, completion: nil)
             } else {
                 let errorMenu = UIAlertController(title: "Fehler", message: "Da ist leider etwas schief gegangen, das Inserieren der Anzeige war nicht erfolgreich.", preferredStyle: .alert)
-                let confirmAction = UIAlertAction(title: "Ok", style: .default, handler: {alert in})
+                let confirmAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
                 errorMenu.addAction(confirmAction)
                 self.present(errorMenu, animated: true, completion: nil)
             }

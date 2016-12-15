@@ -10,10 +10,12 @@ import Foundation
 import Alamofire
 import UIKit
 import MapleBacon
+import MapKit
 
 class NetworkController {
 
     
+    // MARK: Inserate
     
     class func loadAdWith(id: Int, completion: @escaping (_ listing: Listing?, _ error: Error?) -> Void) {
         Alamofire.request("https://cfw-api-11.azurewebsites.net/public/ads/\(id)/").responseJSON(completionHandler: { response in
@@ -29,7 +31,6 @@ class NetworkController {
             }
         })
     }
-    
     
     class func insertAdWith(values: [String:Any], images: [UIImage]?, existing: Bool, userToken: String, completion: @escaping (_ error :Error?) -> Void) {
         let method:  HTTPMethod
@@ -78,6 +79,24 @@ class NetworkController {
     }
     
     
+    class func deleteAdWith(adID: Int, userToken :String, completion: @escaping (_ error: Error?) -> Void) {
+            Alamofire.request("https://cfw-api-11.azurewebsites.net/ads/\(adID)", method: .delete,
+                              parameters:
+                ["auth": userToken,
+                 "id": adID as Any,
+                 "finally": "true"
+                ]).response {response in
+                    if response.error == nil {
+                        completion(nil)
+                    } else {
+                        completion(response.error)
+                    }
+            }
+    }
+    
+    
+    // MARK: Images
+    
     class func uploadImagesFor(adID :Int, images: [UIImage], userToken: String, completion: @escaping (_ statusCode: Int?) -> Void) {
         let url = "https://cfw-api-11.azurewebsites.net/ads/\(adID)/images?auth=\(userToken)&id=\(adID)"
         Alamofire.upload(multipartFormData: { multipartFormData in
@@ -101,7 +120,6 @@ class NetworkController {
         })
 
     }
-    
     
     class func getImagePathsFor(adID :String, completion: @escaping (_ imagePaths: [String]?, _ error: Error?) -> Void) {
         Alamofire.request("https://cfw-api-11.azurewebsites.net/public/ads/\(adID)/images/").responseJSON(completionHandler: { response in
@@ -144,7 +162,6 @@ class NetworkController {
         })
     }
     
-    
     class func resizeImage(image: UIImage, newWidth: CGFloat) -> UIImage? {
         let scale = newWidth / image.size.width
         let newHeight = image.size.height * scale
@@ -157,6 +174,73 @@ class NetworkController {
     }
 
     
+    
+    // MARK: User
+    
+    class func getUserProfile(userToken :String, completion: @escaping (_ user: User?, _ statusCode :Int) -> Void) {
+        Alamofire.request("https://cfw-api-11.azurewebsites.net/me", method: .get, parameters: ["auth": userToken]).validate().responseJSON (completionHandler: {response in
+            if let statusCode = response.response?.statusCode {
+                switch response.result {
+                case .success:
+                    tokenValid = true
+                    let user = User(value: response.result.value as! [AnyHashable:Any])
+                    self.getPlacemarkFor(user: user, completion: { (placemark, error) in
+                        if error == nil {
+                            user.placemark = placemark
+                        }
+                        completion(user, statusCode)
+                    })
+                    
+                case .failure:
+                    tokenValid = false
+                    completion(nil, statusCode)
+                }
+            }
+        })
+    }
+    
+    
+    class func getPlacemarkFor(user: User, completion: @escaping (_ placemark :CLPlacemark?, _ error :Error?)-> Void) {
+        guard let zipCode = user.zipCode else {
+            completion(nil, NCError.RuntimeError("missing User Data"))
+            return
+        }
+        guard let city = user.city else {
+            completion(nil, NCError.RuntimeError("missing User Data"))
+            return
+        }
+        guard let houseNumber = user.houseNumber else {
+            completion(nil, NCError.RuntimeError("missing User Data"))
+            return
+        }
+        guard let street = user.street else {
+            completion(nil, NCError.RuntimeError("missing User Data"))
+            return
+        }
+        let addressDict = ["City": city, "PostalCode": zipCode, "SubThoroughfare" : houseNumber, "Thoroughfare": street]
+
+        let geocoder = CLGeocoder()
+
+        print(addressDict)
+        
+        geocoder.geocodeAddressDictionary(addressDict, completionHandler: { (placemarks, error) in
+            if error == nil {
+                let placemark = placemarks?[0]
+                if placemark?.addressDictionary?["City"] != nil &&
+                    placemark?.addressDictionary?["ZIP"] != nil {
+                    completion(placemark, nil)
+                } else {
+                    completion(nil, NCError.RuntimeError("No City or PostalCode"))
+                }
+            } else {
+                completion(nil, error)
+            }
+        })
+    }
+    
+
+
+
 }
 
 

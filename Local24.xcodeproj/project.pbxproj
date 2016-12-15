@@ -71,6 +71,7 @@
 		CDB594E51DE5E6230056B405 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB594E41DE5E6230056B405 /* TabBarController.swift */; };
 		CDCA848D1DE30CA800F71A42 /* AccountHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDCA848C1DE30CA800F71A42 /* AccountHeaderView.swift */; };
 		CDCA848F1DE324AA00F71A42 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDCA848E1DE324AA00F71A42 /* User.swift */; };
+		CDDEF3E61E01393300CF737E /* ChooseLocationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDEF3E51E01393300CF737E /* ChooseLocationTableViewCell.swift */; };
 		CDE31CA01C74B93F001D9FD2 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE31C9F1C74B93F001D9FD2 /* DetailViewController.swift */; };
 		CDE4D9F91C0DEA3400FE7611 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CDE4D9EF1C0DEA3400FE7611 /* OpenSans-Bold.ttf */; };
 		CDE4D9FA1C0DEA3400FE7611 /* OpenSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CDE4D9F01C0DEA3400FE7611 /* OpenSans-BoldItalic.ttf */; };
@@ -185,6 +186,7 @@
 		CDB594E41DE5E6230056B405 /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		CDCA848C1DE30CA800F71A42 /* AccountHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountHeaderView.swift; path = Account/AccountHeaderView.swift; sourceTree = "<group>"; };
 		CDCA848E1DE324AA00F71A42 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		CDDEF3E51E01393300CF737E /* ChooseLocationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChooseLocationTableViewCell.swift; path = Insert/ChooseLocationTableViewCell.swift; sourceTree = "<group>"; };
 		CDE31C9F1C74B93F001D9FD2 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		CDE4D9EF1C0DEA3400FE7611 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
 		CDE4D9F01C0DEA3400FE7611 /* OpenSans-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-BoldItalic.ttf"; sourceTree = "<group>"; };
@@ -462,12 +464,13 @@
 		CDB594DF1DE5951A0056B405 /* Insert */ = {
 			isa = PBXGroup;
 			children = (
-				CDFD59EE1DFEF4920098010B /* ChooseLocationViewController.swift */,
 				CDB594DD1DE595130056B405 /* InsertTableViewController.swift */,
 				CD3E16041DF07C7700D0C300 /* InsertImageCollectionViewCell.swift */,
-				CD1D88811DF072A100DF2688 /* AddImageCollectionViewCell.swift */,
+				CDFD59EE1DFEF4920098010B /* ChooseLocationViewController.swift */,
+				CDDEF3E51E01393300CF737E /* ChooseLocationTableViewCell.swift */,
 				CDB594E01DE596850056B405 /* SelectCategoryTableViewController.swift */,
 				CDB594E21DE5A3080056B405 /* SelectSubCategoryTableViewController.swift */,
+				CD1D88811DF072A100DF2688 /* AddImageCollectionViewCell.swift */,
 			);
 			name = Insert;
 			sourceTree = "<group>";
@@ -836,6 +839,7 @@
 				CD3E16051DF07C7700D0C300 /* InsertImageCollectionViewCell.swift in Sources */,
 				CD0A28A21C6CF76300B27AFD /* RadiusView.swift in Sources */,
 				CD5109841C58BD4700BA2CB8 /* NewCatTableViewController.swift in Sources */,
+				CDDEF3E61E01393300CF737E /* ChooseLocationTableViewCell.swift in Sources */,
 				CD993E091DF9AFAF00F686C7 /* MyAdsDetailViewController.swift in Sources */,
 				CD286E481CCE455C004675A9 /* FilterMoreSelectTableViewController.swift in Sources */,
 				CDB3AFEA1D2BF00A00C2F254 /* NMRangeSlider.m in Sources */,
