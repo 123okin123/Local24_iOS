@@ -79,15 +79,18 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: false)
         let gradient = CAGradientLayer()
         gradient.frame = view.frame
+        gradient.frame.size.height += 64
+        gradient.frame.origin.y -= 64
         gradient.colors = [UIColor(red: 125/255, green: 175/255, blue: 20/255, alpha: 1).cgColor,
                            greencolor.cgColor]
         view.layer.insertSublayer(gradient, at: 0)
         print("loginvc viewWillAppear")
         print("token: \(userToken)")
         print("tokenValid: \(tokenValid)")
-        navigationController?.setNavigationBarHidden(true, animated: false)
+        
         if userToken != nil && tokenValid {
             if (tabBarController as! TabBarController).willSelectedIndex == 3 {
                 performSegue(withIdentifier: "fromLoginToProfilSegueID", sender: nil)

@@ -21,62 +21,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-                // Override point for customization after application launch.
         
- 
-        
+        loadDataFromDefaults()
      
-        let defaults = UserDefaults.standard
-        if defaults.string(forKey: "existingUser") != nil {
-        if let sZ = defaults.string(forKey: "searchZip") {filter.searchZip = sZ}
-        if let minP = defaults.string(forKey: "minPrice") {filter.minPrice = minP}
-        if let maxP = defaults.string(forKey: "maxPrice") {filter.maxPrice = maxP}
-        if let sls = defaults.string(forKey: "searchLocationString") {filter.searchLocationString = sls}
-        filter.searchLong = defaults.double(forKey: "long")
-        filter.searchLat = defaults.double(forKey: "lat")
-        filter.searchRadius = defaults.integer(forKey: "radius")
-        filter.mainCategoryID = defaults.integer(forKey: "mainCategoryID")
-        filter.subCategoryID = defaults.integer(forKey: "subCategoryID")
-        filter.viewedRegion.center.latitude = defaults.double(forKey: "viewedRegion.center.latitude")
-        filter.viewedRegion.center.longitude = defaults.double(forKey: "viewedRegion.center.longitude")
-        filter.viewedRegion.span.latitudeDelta = defaults.double(forKey: "viewedRegion.span.latitudeDelta")
-        filter.viewedRegion.span.longitudeDelta = defaults.double(forKey: "viewedRegion.span.longitudeDelta")
-        filter.onlyLocalListings = defaults.bool(forKey: "onlyLocalListings")
-        userToken = defaults.string(forKey: "userToken")
-        user = User()
-        user?.firstName = defaults.string(forKey: "userFirstName")
-        user?.lastName = defaults.string(forKey: "userLastName")
-        user?.totalAdsCount = defaults.integer(forKey: "userTotalAdsCount")
-        }
-     
-        
-    
+        let launchScreen = UIStoryboard(name: "LaunchScreen", bundle: nil).instantiateInitialViewController()!
+        let tabBarVC = window!.rootViewController!
+        tabBarVC.view.addSubview(launchScreen.view)
         
         
-        categoryBuilder.getCategories(completion: { (mainCat, subCat, error) in })
-        checkUserToken(completion: {_ in})
+        categoryBuilder.getCategories(completion: { (mainCat, subCat, error) in
+            if error == nil {
+                NetworkController.getUserProfile(userToken: userToken!, completion: { (fetchedUser, statusCode) in
+                    if statusCode == 200 || statusCode == 401 {
+                        user = fetchedUser
+                        UIView.transition(with: tabBarVC.view, duration: 0.2, options: .curveEaseIn, animations: {
+                            launchScreen.view.alpha = 0
+                        }, completion: { done in
+                            launchScreen.view.removeFromSuperview()
+                        })
+                    }
+                })
+            }
+        })
         
+        
+        applyCustomStyles()
 
-
-        window?.tintColor = greencolor
-        let tabBarFont = UIFont(name: "OpenSans", size: 10.0)!
-        UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: bluecolor, NSFontAttributeName: tabBarFont ], for: .selected)
-        UITabBarItem.appearance().setTitleTextAttributes([NSFontAttributeName: tabBarFont ], for: UIControlState())
-        UITabBar.appearance().tintColor = UIColor(red: 0/255, green: 80/255, blue: 141/255, alpha: 1)
-        let navBarFont = UIFont(name: "OpenSans-Semibold", size: 17.0)!
-        let buttonFont = UIFont(name: "OpenSans", size: 18.0)!
-       UINavigationBar.appearance().titleTextAttributes = [NSFontAttributeName: navBarFont, NSForegroundColorAttributeName: UIColor.white,]
-        UIButton.appearance().titleLabel?.font = buttonFont
-        UINavigationBar.appearance().tintColor = UIColor.white
-        UINavigationBar.appearance().barTintColor = greencolor
-        let segControllFont = UIFont(name: "OpenSans", size: 13.0)!
-        UISegmentedControl.appearance().setTitleTextAttributes([NSFontAttributeName: segControllFont],
-            for: UIControlState.selected)
-        UISegmentedControl.appearance().setTitleTextAttributes([NSFontAttributeName: segControllFont],
-            for: UIControlState())
-       UIApplication.shared.statusBarStyle = .lightContent
-
-        
         
         
         // Configure tracker from GoogleService-Info.plist.
@@ -124,43 +94,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         
-        
-        let defaults = UserDefaults.standard
-        
-        defaults.set("existingUser", forKey: "existingUser")
-        defaults.set(filter.searchZip, forKey: "searchZip")
-        defaults.set(filter.minPrice, forKey: "minPrice")
-        defaults.set(filter.maxPrice, forKey: "maxPrice")
-        defaults.set(filter.searchLocationString, forKey: "searchLocationString")
-        defaults.set(filter.searchLong, forKey: "long")
-        defaults.set(filter.searchLat, forKey: "lat")
-        defaults.set(filter.searchRadius, forKey: "radius")
-        defaults.set(filter.mainCategoryID, forKey: "mainCategoryID")
-        defaults.set(filter.subCategoryID, forKey: "subCategoryID")
-        defaults.set(filter.viewedRegion.center.latitude, forKey: "viewedRegion.center.latitude")
-        defaults.set(filter.viewedRegion.center.longitude, forKey: "viewedRegion.center.longitude")
-        defaults.set(filter.viewedRegion.span.latitudeDelta, forKey: "viewedRegion.span.latitudeDelta")
-        defaults.set(filter.viewedRegion.span.longitudeDelta, forKey: "viewedRegion.span.longitudeDelta")
-        defaults.set(filter.onlyLocalListings, forKey: "onlyLocalListings")
-        if userToken != nil {
-            print(userToken!)
-        defaults.set(userToken!, forKey: "userToken")
-        } else {
-        defaults.removeObject(forKey: "userToken")
-        }
-        print(user?.firstName)
-        if user != nil {
-            if let firstName = user!.firstName {
-                defaults.set(firstName, forKey: "userFirstName")
-            }
-            if let lastName = user!.lastName {
-                defaults.set(lastName, forKey: "userLastName")
-            }
-            if let totalAdsCount = user!.totalAdsCount {
-                defaults.set(totalAdsCount, forKey: "userTotalAdsCount")
-            }
-        }
-        
+        saveDataToDefaults()
     }
  
     
@@ -182,22 +116,112 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     
     
-    func checkUserToken(completion: @escaping (Bool) -> Void) {
-        if userToken != nil {
-            Alamofire.request("https://cfw-api-11.azurewebsites.net/me", method: .get, parameters: ["auth": userToken!]).validate().responseJSON (completionHandler: {response in
-                if response.response?.statusCode != nil {
-                    switch response.result {
-                    case .success:
-                        user = User(value: response.result.value as! [AnyHashable:Any])
-                        tokenValid = true
-                    case .failure:
-                        tokenValid = false
-                    }
-                    completion(tokenValid)
-                }
-            })
-        }}
+
     
 
+    
+    
+    
+    
+    
+    func loadDataFromDefaults() {
+        let defaults = UserDefaults.standard
+        if defaults.string(forKey: "existingUser") != nil {
+            if let sZ = defaults.string(forKey: "searchZip") {filter.searchZip = sZ}
+            if let minP = defaults.string(forKey: "minPrice") {filter.minPrice = minP}
+            if let maxP = defaults.string(forKey: "maxPrice") {filter.maxPrice = maxP}
+            if let sls = defaults.string(forKey: "searchLocationString") {filter.searchLocationString = sls}
+            filter.searchLong = defaults.double(forKey: "long")
+            filter.searchLat = defaults.double(forKey: "lat")
+            filter.searchRadius = defaults.integer(forKey: "radius")
+            filter.mainCategoryID = defaults.integer(forKey: "mainCategoryID")
+            filter.subCategoryID = defaults.integer(forKey: "subCategoryID")
+            filter.viewedRegion.center.latitude = defaults.double(forKey: "viewedRegion.center.latitude")
+            filter.viewedRegion.center.longitude = defaults.double(forKey: "viewedRegion.center.longitude")
+            filter.viewedRegion.span.latitudeDelta = defaults.double(forKey: "viewedRegion.span.latitudeDelta")
+            filter.viewedRegion.span.longitudeDelta = defaults.double(forKey: "viewedRegion.span.longitudeDelta")
+            filter.onlyLocalListings = defaults.bool(forKey: "onlyLocalListings")
+            userToken = defaults.string(forKey: "userToken")
+            user = User()
+            user?.firstName = defaults.string(forKey: "userFirstName")
+            user?.lastName = defaults.string(forKey: "userLastName")
+            user?.zipCode = defaults.string(forKey: "userZipCode")
+            user?.city = defaults.string(forKey: "userCity")
+            user?.street = defaults.string(forKey: "userStreet")
+            user?.houseNumber = defaults.string(forKey: "userHouseNumber")
+            user?.totalAdsCount = defaults.integer(forKey: "userTotalAdsCount")
+        }
+    }
+    func saveDataToDefaults() {
+        let defaults = UserDefaults.standard
+        defaults.set("existingUser", forKey: "existingUser")
+        defaults.set(filter.searchZip, forKey: "searchZip")
+        defaults.set(filter.minPrice, forKey: "minPrice")
+        defaults.set(filter.maxPrice, forKey: "maxPrice")
+        defaults.set(filter.searchLocationString, forKey: "searchLocationString")
+        defaults.set(filter.searchLong, forKey: "long")
+        defaults.set(filter.searchLat, forKey: "lat")
+        defaults.set(filter.searchRadius, forKey: "radius")
+        defaults.set(filter.mainCategoryID, forKey: "mainCategoryID")
+        defaults.set(filter.subCategoryID, forKey: "subCategoryID")
+        defaults.set(filter.viewedRegion.center.latitude, forKey: "viewedRegion.center.latitude")
+        defaults.set(filter.viewedRegion.center.longitude, forKey: "viewedRegion.center.longitude")
+        defaults.set(filter.viewedRegion.span.latitudeDelta, forKey: "viewedRegion.span.latitudeDelta")
+        defaults.set(filter.viewedRegion.span.longitudeDelta, forKey: "viewedRegion.span.longitudeDelta")
+        defaults.set(filter.onlyLocalListings, forKey: "onlyLocalListings")
+        if userToken != nil {
+            defaults.set(userToken!, forKey: "userToken")
+        } else {
+            defaults.removeObject(forKey: "userToken")
+        }
+        if user != nil {
+            if let firstName = user!.firstName {
+                defaults.set(firstName, forKey: "userFirstName")
+            }
+            if let lastName = user!.lastName {
+                defaults.set(lastName, forKey: "userLastName")
+            }
+            if let zipCode = user!.zipCode {
+                defaults.set(zipCode, forKey: "userZipCode")
+            }
+            if let city = user!.city {
+                defaults.set(city, forKey: "userCity")
+            }
+            if let street = user!.street {
+                defaults.set(street, forKey: "userStreet")
+            }
+            if let houseNumber = user!.houseNumber {
+                defaults.set(houseNumber, forKey: "userHouseNumber")
+            }
+            if let totalAdsCount = user!.totalAdsCount {
+                defaults.set(totalAdsCount, forKey: "userTotalAdsCount")
+            }
+        }
+    }
+
+    
+    
+    func applyCustomStyles() {
+        window?.tintColor = greencolor
+        let tabBarFont = UIFont(name: "OpenSans", size: 10.0)!
+        UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: bluecolor, NSFontAttributeName: tabBarFont ], for: .selected)
+        UITabBarItem.appearance().setTitleTextAttributes([NSFontAttributeName: tabBarFont ], for: UIControlState())
+        UITabBar.appearance().tintColor = UIColor(red: 0/255, green: 80/255, blue: 141/255, alpha: 1)
+        let navBarFont = UIFont(name: "OpenSans-Semibold", size: 17.0)!
+        let buttonFont = UIFont(name: "OpenSans", size: 18.0)!
+        UINavigationBar.appearance().titleTextAttributes = [NSFontAttributeName: navBarFont, NSForegroundColorAttributeName: UIColor.white,]
+        UIButton.appearance().titleLabel?.font = buttonFont
+        UINavigationBar.appearance().tintColor = UIColor.white
+        UINavigationBar.appearance().barTintColor = greencolor
+        let segControllFont = UIFont(name: "OpenSans", size: 13.0)!
+        UISegmentedControl.appearance().setTitleTextAttributes([NSFontAttributeName: segControllFont],
+                                                               for: UIControlState.selected)
+        UISegmentedControl.appearance().setTitleTextAttributes([NSFontAttributeName: segControllFont],
+                                                               for: UIControlState())
+        UIApplication.shared.statusBarStyle = .lightContent
+    }
+    
+    
+    
 }
 

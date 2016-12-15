@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+import MapKit
 
 public class User {
 
@@ -20,9 +20,12 @@ public class User {
     var street :String?
     var houseNumber :String?
     
+    var placemark :CLPlacemark?
+    
     init() {}
     
     init(value: [AnyHashable:Any]) {
+        debugPrint(value)
         if let id = value["ID"] as? Int {
             self.id = id
         }
@@ -47,7 +50,9 @@ public class User {
         if let houseNumber = value["HouseNumber"] as? String {
             self.houseNumber = houseNumber
         }
-        
+
     }
+
+    
 
 }

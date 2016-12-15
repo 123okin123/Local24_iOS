@@ -28,7 +28,6 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
         }
     }
     func showOptionsFor(listing :Listing) {
-  
             let optionMenu = UIAlertController(title: listing.title, message: nil, preferredStyle: .actionSheet)
             if listing.adState == .active {
                 let pauseAction = UIAlertAction(title: "Anzeige pausieren", style: .default, handler: {alert in self.changeAdStateOf(listing: listing, to: "paused")})
@@ -91,29 +90,25 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
         
     }
     
-    func delete(listing: Listing) {
+    func delete(listing :Listing) {
         let confirmMenu = UIAlertController(title: "Anzeige Löschen", message: "Bist du sicher, dass du diese Anzeige löschen möchtest?", preferredStyle: .alert)
-        let confirmAction = UIAlertAction(title: "Ok", style: .default, handler: {alert in
-            Alamofire.request("https://cfw-api-11.azurewebsites.net/ads/\(listing.adID)", method: .delete,
-                              parameters:
-                ["auth": userToken!,
-                 "id": listing.adID as Any,
-                 "finally": "true"
-                ]).response {response in
-                    if response.error == nil {
-                        if let index = self.userListings.index(where: {$0.createdDate == listing.createdDate}) {
+        let confirmAction = UIAlertAction(title: "Löschen", style: .destructive, handler: {alert in
+            NetworkController.deleteAdWith(adID: listing.adID!, userToken: userToken!, completion: { error in
+                if error == nil {
+                    if let index = self.userListings.index(where: {$0.createdDate == listing.createdDate}) {
                         self.userListings.remove(at: index)
                         self.collectionView?.deleteItems(at: [IndexPath(item: index, section: 0)])
-                        }
-                    } else {
-                        let errorMenu = UIAlertController(title: "Fehler", message: "Da ist leider etwas schief gegangen, das Löschen der Anzeige war nicht erfolgreich.", preferredStyle: .alert)
-                        let confirmAction = UIAlertAction(title: "Ok", style: .default, handler: {alert in})
-                        errorMenu.addAction(confirmAction)
-                        self.present(errorMenu, animated: true, completion: nil)
                     }
-            }
+                } else {
+                    let errorMenu = UIAlertController(title: "Fehler", message: "Da ist leider etwas schief gegangen, das Löschen der Anzeige war nicht erfolgreich.", preferredStyle: .alert)
+                    let confirmAction = UIAlertAction(title: "Ok", style: .default, handler: {alert in})
+                    errorMenu.addAction(confirmAction)
+                    self.present(errorMenu, animated: true, completion: nil)
+                }
+            })
+            
         })
-        let cancleAction = UIAlertAction(title: "Abbrechen", style: .default, handler: {alert in})
+        let cancleAction = UIAlertAction(title: "Abbrechen", style: .default, handler: nil)
         confirmMenu.addAction(confirmAction)
         confirmMenu.addAction(cancleAction)
         self.present(confirmMenu, animated: true, completion: nil)
@@ -133,17 +128,8 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
         print("accountvc viewWillAppear")
         navigationItem.setHidesBackButton(true, animated: false)
         navigationController?.setNavigationBarHidden(false, animated: false)
-        Alamofire.request("https://cfw-api-11.azurewebsites.net/me", method: .get, parameters: ["auth": userToken!]).validate().responseJSON (completionHandler: {response in
-            if let statusCode = response.response?.statusCode {
-                switch response.result {
-                case .success:
-                    user = User(value: response.result.value as! [AnyHashable:Any])
-                    tokenValid = true
-                    
-                case .failure:
-                    tokenValid = false
-                }
-            }
+        NetworkController.getUserProfile(userToken: userToken!, completion: {(fetchedUser, statusCode) in
+        user = fetchedUser
         })
     }
 
@@ -172,7 +158,7 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
                 }
                 }
             
-            self.collectionView?.reloadSections(IndexSet(integer: 0))
+            self.collectionView?.reloadData()
             
             case 400, 401:
                 let errorMenu = UIAlertController(title: "Fehler", message: "Da ist leider etwas schief gegangen, das Laden der Anzeige war nicht erfolgreich.", preferredStyle: .alert)
@@ -261,8 +247,6 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
 
     // MARK: UICollectionViewDelegate
 
-    
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: (screenwidth - 30)/2, height: 230)
     }
