@@ -12,7 +12,7 @@ import SwiftValidator
 import ImagePicker
 
 
-class InsertTableViewController: UITableViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, ValidationDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, InsertImageCellDelegate, ImagePickerDelegate {
+class InsertTableViewController: UITableViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, InsertImageCellDelegate, ImagePickerDelegate {
 
     @IBOutlet weak var imageCollectionView: UICollectionView!
 
@@ -44,12 +44,14 @@ class InsertTableViewController: UITableViewController, UIPickerViewDataSource, 
     
     let pickerView = UIPickerView()
     let toolBar = UIToolbar()
-    let validator = Validator()
+   
 
     
     
     @IBAction func insertListing(_ sender: UIButton) {
-        validator.validate(self)
+        if validate() {
+        submitAd()
+        }
     }
  
     
@@ -74,11 +76,7 @@ class InsertTableViewController: UITableViewController, UIPickerViewDataSource, 
         let doneButton = UIBarButtonItem(title: "Fertig", style: UIBarButtonItemStyle.plain, target: self, action: #selector(pickerDonePressed))
         toolBar.setItems([spaceButton, doneButton], animated: false)
         toolBar.isUserInteractionEnabled = true
-        
-        validator.registerField(titleTextField, rules: [RequiredRule()])
-        validator.registerField(priceTypeTextField, rules: [RequiredRule()])
-        validator.registerField(priceTextField, rules: [RequiredRule()])
-        validator.registerField(adTypeTextField, rules: [RequiredRule()])
+  
      
         if let placemark = user?.placemark  {
       
@@ -102,7 +100,6 @@ class InsertTableViewController: UITableViewController, UIPickerViewDataSource, 
         navigationController?.setNavigationBarHidden(false, animated: false)
         NetworkController.getUserProfile(userToken: userToken!, completion: {(fetchedUser, statusCode) in
             user = fetchedUser
-            
         })
         
     }
@@ -301,24 +298,62 @@ class InsertTableViewController: UITableViewController, UIPickerViewDataSource, 
    
     
     
-    // MARK: ValidationDelegate
+    // MARK: Validation
     
-    func validationSuccessful() {
-        /* Additional Validation*/
-        guard categoryLabel.text != "Bitte wählen Sie ein Kategorie" else {
-            if let contentView = categoryLabel.superview {
-                contentView.layer.backgroundColor = UIColor(red: 224/255, green: 60/255, blue: 49/255, alpha: 0.5).cgColor
-            }
-            return
+    
+    
+    func validate() -> Bool {
+        var success = true
+        let failColor = UIColor(red: 224/255, green: 60/255, blue: 49/255, alpha: 0.5).cgColor
+        if titleTextField.text == nil {
+            success = false
+            titleTextField.superview?.layer.borderColor = failColor
+            titleTextField.superview?.layer.borderWidth = 2
+        } else if titleTextField.text!.characters.count < 3 {
+            success = false
+            titleTextField.superview?.layer.borderColor = failColor
+            titleTextField.superview?.layer.borderWidth = 2
+        } else {
+            titleTextField.superview?.layer.borderWidth = 0
         }
-        guard descriptionTextView.text != "" else {
-            if let contentView = descriptionTextView.superview {
-                contentView.layer.backgroundColor = UIColor(red: 224/255, green: 60/255, blue: 49/255, alpha: 0.5).cgColor
-            }
-            return
+        if categoryLabel.text == "Bitte wählen Sie ein Kategorie" {
+            success = false
+            categoryLabel.textColor = UIColor(cgColor: failColor)
+        } else {
+            categoryLabel.textColor = UIColor.black
         }
+        if descriptionTextView.text.characters.count < 10  {
+            success = false
+            descriptionTextView.superview?.layer.borderColor = failColor
+            descriptionTextView.superview?.layer.borderWidth = 2
+        } else {
+            descriptionTextView.superview?.layer.borderWidth = 0
+        }
+        if priceTextField.text == nil {
+            success = false
+            priceTextField.superview?.layer.borderColor = failColor
+            priceTextField.superview?.layer.borderWidth = 2
+        } else {
+            priceTextField.superview?.layer.borderWidth = 0
+        }
+        if cityLabel.text == "..." || zipLabel.text == "Artikelstandort" {
+            success = false
+            zipLabel.textColor = UIColor(cgColor: failColor)
+            cityLabel.textColor = UIColor(cgColor: failColor)
+        } else {
+            zipLabel.textColor = UIColor.darkGray
+            cityLabel.textColor = UIColor.darkGray
+        }
+
+        return success
+    }
+    
+    
+    func submitAd() {
         
-        /* End of Additional Validation*/
+
+        
+    
         let pendingAlertController = UIAlertController(title: "Anzeige wird erstellt\n\n\n", message: nil, preferredStyle: .alert)
         let indicator = UIActivityIndicatorView(frame: pendingAlertController.view.bounds)
         indicator.autoresizingMask = [.flexibleWidth, . flexibleHeight]
@@ -343,12 +378,29 @@ class InsertTableViewController: UITableViewController, UIPickerViewDataSource, 
             "Price": priceTextField.text!,
             "City": cityLabel.text!,
             "ZipCode": zipLabel.text!,
-            "Latitude": listing.adLat!,
-            "Longitude": listing.adLong!,
             ] as [String : Any]
+        
         if listingExists {
-        values["ID"] = listing.adID!
+        values["ID"] = String(listing.adID!)
         }
+        
+        // Optional Values
+        if let adLat = listing.adLat {
+        values["Latitude"] = adLat
+        }
+        if let adLong = listing.adLong {
+            values["Longitude"] = adLong
+        }
+        if let street = streetLabel.text {
+            values["Street"] = street
+        }
+        if let houseNumber = houseNumberLabel.text {
+            values["HouseNumber"] = houseNumber
+        }
+        if let houseNumber = houseNumberLabel.text {
+            values["HouseNumber"] = houseNumber
+        }
+        // End of Optional Values
         NetworkController.insertAdWith(values: values, images: imageArray, existing: listingExists, userToken: userToken!, completion: { error in
             pendingAlertController.dismiss(animated: true, completion: nil)
             if error == nil {
@@ -368,17 +420,7 @@ class InsertTableViewController: UITableViewController, UIPickerViewDataSource, 
         })
     }
     
-    func validationFailed(_ errors:[(Validatable ,ValidationError)]) {
-        for (field, error) in errors {
-            if let field = field as? UITextField {
-                if let contentView = field.superview {
-                    contentView.layer.backgroundColor = UIColor(red: 224/255, green: 60/255, blue: 49/255, alpha: 0.5).cgColor
-                }
-            }
-            error.errorLabel?.text = error.errorMessage // works if you added labels
-            error.errorLabel?.isHidden = false
-        }
-    }
+
     
     
     //  MARK: CellSubclassDelegate

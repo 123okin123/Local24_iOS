@@ -31,16 +31,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         categoryBuilder.getCategories(completion: { (mainCat, subCat, error) in
             if error == nil {
-                NetworkController.getUserProfile(userToken: userToken!, completion: { (fetchedUser, statusCode) in
-                    if statusCode == 200 || statusCode == 401 {
-                        user = fetchedUser
-                        UIView.transition(with: tabBarVC.view, duration: 0.2, options: .curveEaseIn, animations: {
-                            launchScreen.view.alpha = 0
-                        }, completion: { done in
-                            launchScreen.view.removeFromSuperview()
-                        })
-                    }
-                })
+                if userToken != nil {
+                    NetworkController.getUserProfile(userToken: userToken!, completion: { (fetchedUser, statusCode) in
+                        if statusCode == 200 {
+                            user = fetchedUser
+                            UIView.transition(with: tabBarVC.view, duration: 0.2, options: .curveEaseIn, animations: {
+                                launchScreen.view.alpha = 0
+                            }, completion: { done in
+                                launchScreen.view.removeFromSuperview()
+                            })
+                        }
+                    })
+                } else {
+                    UIView.transition(with: tabBarVC.view, duration: 0.2, options: .curveEaseIn, animations: {
+                        launchScreen.view.alpha = 0
+                    }, completion: { done in
+                        launchScreen.view.removeFromSuperview()
+                    })
+                }
+
             }
         })
         
@@ -142,14 +151,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             filter.viewedRegion.span.longitudeDelta = defaults.double(forKey: "viewedRegion.span.longitudeDelta")
             filter.onlyLocalListings = defaults.bool(forKey: "onlyLocalListings")
             userToken = defaults.string(forKey: "userToken")
-            user = User()
-            user?.firstName = defaults.string(forKey: "userFirstName")
-            user?.lastName = defaults.string(forKey: "userLastName")
-            user?.zipCode = defaults.string(forKey: "userZipCode")
-            user?.city = defaults.string(forKey: "userCity")
-            user?.street = defaults.string(forKey: "userStreet")
-            user?.houseNumber = defaults.string(forKey: "userHouseNumber")
-            user?.totalAdsCount = defaults.integer(forKey: "userTotalAdsCount")
+//            user = User()
+//            user?.firstName = defaults.string(forKey: "userFirstName")
+//            user?.lastName = defaults.string(forKey: "userLastName")
+//            user?.zipCode = defaults.string(forKey: "userZipCode")
+//            user?.city = defaults.string(forKey: "userCity")
+//            user?.street = defaults.string(forKey: "userStreet")
+//            user?.houseNumber = defaults.string(forKey: "userHouseNumber")
+//            user?.totalAdsCount = defaults.integer(forKey: "userTotalAdsCount")
         }
     }
     func saveDataToDefaults() {
@@ -174,29 +183,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else {
             defaults.removeObject(forKey: "userToken")
         }
-        if user != nil {
-            if let firstName = user!.firstName {
-                defaults.set(firstName, forKey: "userFirstName")
-            }
-            if let lastName = user!.lastName {
-                defaults.set(lastName, forKey: "userLastName")
-            }
-            if let zipCode = user!.zipCode {
-                defaults.set(zipCode, forKey: "userZipCode")
-            }
-            if let city = user!.city {
-                defaults.set(city, forKey: "userCity")
-            }
-            if let street = user!.street {
-                defaults.set(street, forKey: "userStreet")
-            }
-            if let houseNumber = user!.houseNumber {
-                defaults.set(houseNumber, forKey: "userHouseNumber")
-            }
-            if let totalAdsCount = user!.totalAdsCount {
-                defaults.set(totalAdsCount, forKey: "userTotalAdsCount")
-            }
-        }
+//        if user != nil {
+//            if let firstName = user!.firstName {
+//                defaults.set(firstName, forKey: "userFirstName")
+//            }
+//            if let lastName = user!.lastName {
+//                defaults.set(lastName, forKey: "userLastName")
+//            }
+//            if let zipCode = user!.zipCode {
+//                defaults.set(zipCode, forKey: "userZipCode")
+//            }
+//            if let city = user!.city {
+//                defaults.set(city, forKey: "userCity")
+//            }
+//            if let street = user!.street {
+//                defaults.set(street, forKey: "userStreet")
+//            }
+//            if let houseNumber = user!.houseNumber {
+//                defaults.set(houseNumber, forKey: "userHouseNumber")
+//            }
+//            if let totalAdsCount = user!.totalAdsCount {
+//                defaults.set(totalAdsCount, forKey: "userTotalAdsCount")
+//            }
+//        }
     }
 
     
