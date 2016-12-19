@@ -58,36 +58,18 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
     }
     
     func changeAdStateOf(listing :Listing, to adState: String) {
-        var values = [
-                         "ID": listing.adID!,
-                         "ID_Advertiser": listing.advertiserID!,
-                         "ID_Category" : listing.catID!,
-                         "EntityType" : listing.entityType!,
-                         "AdState": adState,
-                         "AdType": listing.adType!.rawValue,
-                         "Title":listing.title!,
-                         "Body": listing.description!,
-                         "City": listing.city!,
-                         "ZipCode": listing.zipcode!
-        ] as [String : Any]
-        if listing.priceType != nil {
-        values["PriceType"] = listing.priceType!
-        }
-        Alamofire.request("https://cfw-api-11.azurewebsites.net/ads/\(listing.adID!)/?auth=\(userToken!)&id=\(listing.adID!)", method: .put, parameters: values, encoding: JSONEncoding.default).response(completionHandler: {response in
-            if let response = response.response {
-            switch response.statusCode {
-            case 200:
+        NetworkController.changeAdWith(adID: listing.adID!, to: adState, userToken: userToken!, completion: {error in
+            if error == nil {
                 self.getAds()
-            default:
+            } else {
+                debugPrint(error)
                 let errorMenu = UIAlertController(title: "Fehler", message: "Da ist leider etwas schief gegangen, das Pausieren oder Aktivieren der Anzeige war nicht erfolgreich.", preferredStyle: .alert)
                 let confirmAction = UIAlertAction(title: "Ok", style: .default, handler: {alert in})
                 errorMenu.addAction(confirmAction)
                 self.present(errorMenu, animated: true, completion: nil)
             }
-            }
         })
-
-        
+ 
     }
     
     func delete(listing :Listing) {

@@ -350,8 +350,8 @@
 		CD62AF641DE348CF00AD06EF /* Account */ = {
 			isa = PBXGroup;
 			children = (
-				CD993E081DF9AFAF00F686C7 /* MyAdsDetailViewController.swift */,
 				CDB04ACF1DD3259100034C1F /* AccountCollectionViewController.swift */,
+				CD993E081DF9AFAF00F686C7 /* MyAdsDetailViewController.swift */,
 				CDB04AD31DD36A3500034C1F /* MyAdsCollectionViewCell.swift */,
 				CDCA848C1DE30CA800F71A42 /* AccountHeaderView.swift */,
 			);
@@ -465,11 +465,11 @@
 			isa = PBXGroup;
 			children = (
 				CDB594DD1DE595130056B405 /* InsertTableViewController.swift */,
-				CD3E16041DF07C7700D0C300 /* InsertImageCollectionViewCell.swift */,
 				CDFD59EE1DFEF4920098010B /* ChooseLocationViewController.swift */,
-				CDDEF3E51E01393300CF737E /* ChooseLocationTableViewCell.swift */,
 				CDB594E01DE596850056B405 /* SelectCategoryTableViewController.swift */,
 				CDB594E21DE5A3080056B405 /* SelectSubCategoryTableViewController.swift */,
+				CDDEF3E51E01393300CF737E /* ChooseLocationTableViewCell.swift */,
+				CD3E16041DF07C7700D0C300 /* InsertImageCollectionViewCell.swift */,
 				CD1D88811DF072A100DF2688 /* AddImageCollectionViewCell.swift */,
 			);
 			name = Insert;
@@ -563,13 +563,14 @@
 		1081F2D21BB02A7600688F3B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0810;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "Nikolai Kratz";
 				TargetAttributes = {
 					1081F2D91BB02A7600688F3B = {
 						CreatedOnToolsVersion = 7.0;
 						DevelopmentTeam = BVW8NCAK5E;
 						LastSwiftMigration = 0800;
+						ProvisioningStyle = Automatic;
 					};
 					1081F2ED1BB02A7700688F3B = {
 						CreatedOnToolsVersion = 7.0;

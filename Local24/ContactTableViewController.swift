@@ -141,7 +141,7 @@ class ContactTableViewController: UITableViewController, UITextViewDelegate {
                     }
                     }
 
-                    print(String(data: data!, encoding: String.Encoding.utf8))
+                    print(String(data: data!, encoding: String.Encoding.utf8)!)
                 }
             }
             

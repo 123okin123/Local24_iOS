@@ -8,7 +8,6 @@
 
 import UIKit
 import Alamofire
-import SwiftValidator
 import ImagePicker
 
 
@@ -329,12 +328,8 @@ class InsertTableViewController: UITableViewController, UIPickerViewDataSource, 
         } else {
             descriptionTextView.superview?.layer.borderWidth = 0
         }
-        if priceTextField.text == nil {
-            success = false
-            priceTextField.superview?.layer.borderColor = failColor
-            priceTextField.superview?.layer.borderWidth = 2
-        } else {
-            priceTextField.superview?.layer.borderWidth = 0
+        if priceTextField.text == "" || priceTextField.text == nil {
+            priceTextField.text = "0"
         }
         if cityLabel.text == "..." || zipLabel.text == "Artikelstandort" {
             success = false
