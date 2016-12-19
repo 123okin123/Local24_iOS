@@ -64,20 +64,10 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>SwiftValidator.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
 		<key>30D7FCF8072F5D59AE1C98D94F9A6EC9</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>47D9093C5702ACA3F55CAC8DF73F4943</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -117,17 +107,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>8DED27C9D6FCF2A49A012EB48357AD25</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>92BB131FA876445E027D20AE23EA7B5F</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>9D0F2E5EA1B46A5D72FFD42B0B39DBBC</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>B397AB180ACC31F73F397510DE95A1F4</key>
 		<dict>
 			<key>primary</key>
 			<true/>

@@ -75,7 +75,7 @@ class NewCatTableViewController: UITableViewController {
            
                 tabBarController?.selectedViewController = navVC
                 navVC.popToRootViewController(animated: true)
-                navigationController?.popToRootViewController(animated: true)
+                _ = navigationController?.popToRootViewController(animated: true)
                 tableView.deselectRow(at: indexPath, animated: true)
             
         }

@@ -76,12 +76,26 @@ class NetworkController {
                     }
                 })
             case .failure:
-                print(response.response)
+                print(response.response!)
                 completion(NCError.RuntimeError("Ad Upload Failed"))
             }
         })
     }
-    
+    class func changeAdWith(adID: Int, to state: String, userToken: String, completion: @escaping (_ error: Error?) -> Void) {
+        Alamofire.request("https://cfw-api-11.azurewebsites.net/ads/\(adID)", method: .get, parameters: ["auth": userToken, "id": adID]).validate().responseJSON { response in
+            if response.result.error == nil {
+                var values = response.result.value as! [String:Any]
+                values["AdState"] = state
+                let url = "https://cfw-api-11.azurewebsites.net/ads/\(adID)/?auth=\(userToken)&id=\(adID)"
+                Alamofire.request(url, method: HTTPMethod.put, parameters: values, encoding: JSONEncoding.default).responseString(completionHandler: {response  in
+                completion(response.result.error)
+                })
+            } else {
+            completion(response.result.error)
+            }
+        }
+
+    }
     
     class func deleteAdWith(adID: Int, userToken :String, completion: @escaping (_ error: Error?) -> Void) {
             Alamofire.request("https://cfw-api-11.azurewebsites.net/ads/\(adID)", method: .delete,

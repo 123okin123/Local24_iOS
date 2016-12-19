@@ -23,6 +23,7 @@ class ChooseLocationViewController: UIViewController, UITableViewDelegate, UITab
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureSearchBar()
         tableView.delegate = self
         tableView.dataSource = self
         searchBar.delegate = self
@@ -32,6 +33,22 @@ class ChooseLocationViewController: UIViewController, UITableViewDelegate, UITab
         selectedIndex = 0
         }
         
+        
+    }
+    
+    func configureSearchBar() {
+        searchBar.delegate = self
+        searchBar.setImage(UIImage(named: "lupe_grau"), for: UISearchBarIcon.search, state: UIControlState())
+        let searchTextField: UITextField? = searchBar.value(forKey: "searchField") as? UITextField
+        if searchTextField!.responds(to: #selector(getter: UITextField.attributedPlaceholder)) {
+            let font = UIFont(name: "OpenSans", size: 13.0)
+            let attributeDict = [
+                NSFontAttributeName: font!,
+                NSForegroundColorAttributeName: UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
+            ]
+            searchTextField!.attributedPlaceholder = NSAttributedString(string: "Was suchen Sie?", attributes: attributeDict)
+        }
+        searchTextField?.textColor = UIColor.gray
         
     }
     override func viewDidDisappear(_ animated: Bool) {
