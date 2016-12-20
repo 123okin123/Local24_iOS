@@ -40,6 +40,7 @@
 		CD65D24F1C60DC3000AD89DF /* LocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD65D24E1C60DC3000AD89DF /* LocationViewController.swift */; };
 		CD65D2511C60E5EF00AD89DF /* LocationResultsTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD65D2501C60E5EF00AD89DF /* LocationResultsTableController.swift */; };
 		CD65D2551C60FD6400AD89DF /* ZipGeo.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD65D2541C60FD6400AD89DF /* ZipGeo.swift */; };
+		CD6A262B1E08047A00CD22EB /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6A262A1E08047A00CD22EB /* RegisterViewController.swift */; };
 		CD7754211C71C0E200253B7B /* CenterLocationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7754201C71C0E200253B7B /* CenterLocationButton.swift */; };
 		CD84C5921C88844400A6E8A4 /* LocalDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD84C5911C88844400A6E8A4 /* LocalDetailTableViewController.swift */; };
 		CD993E091DF9AFAF00F686C7 /* MyAdsDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD993E081DF9AFAF00F686C7 /* MyAdsDetailViewController.swift */; };
@@ -152,6 +153,7 @@
 		CD65D24E1C60DC3000AD89DF /* LocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationViewController.swift; sourceTree = "<group>"; };
 		CD65D2501C60E5EF00AD89DF /* LocationResultsTableController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationResultsTableController.swift; sourceTree = "<group>"; };
 		CD65D2541C60FD6400AD89DF /* ZipGeo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZipGeo.swift; sourceTree = "<group>"; };
+		CD6A262A1E08047A00CD22EB /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterViewController.swift; path = ../RegisterViewController.swift; sourceTree = "<group>"; };
 		CD7754201C71C0E200253B7B /* CenterLocationButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CenterLocationButton.swift; sourceTree = "<group>"; };
 		CD84C5911C88844400A6E8A4 /* LocalDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalDetailTableViewController.swift; sourceTree = "<group>"; };
 		CD993E081DF9AFAF00F686C7 /* MyAdsDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyAdsDetailViewController.swift; sourceTree = "<group>"; };
@@ -272,6 +274,7 @@
 				CD65D2581C6101CE00AD89DF /* Location */,
 				CD5D16EA1C9037EE00ACE365 /* Detail */,
 				CD62AF621DE3412700AD06EF /* LoginViewController.swift */,
+				CD6A262A1E08047A00CD22EB /* RegisterViewController.swift */,
 				CD62AF641DE348CF00AD06EF /* Account */,
 				CDB594DF1DE5951A0056B405 /* Insert */,
 				CD860CF91CAA9DFC003361D4 /* More */,
@@ -837,6 +840,7 @@
 				CD9CD42F1CE21A930080CF67 /* SearchCollectionViewAdCell.swift in Sources */,
 				CDB594E11DE596850056B405 /* SelectCategoryTableViewController.swift in Sources */,
 				CDA9CCCE1C070D2B005ED562 /* SearchViewController.swift in Sources */,
+				CD6A262B1E08047A00CD22EB /* RegisterViewController.swift in Sources */,
 				CD3E16051DF07C7700D0C300 /* InsertImageCollectionViewCell.swift in Sources */,
 				CD0A28A21C6CF76300B27AFD /* RadiusView.swift in Sources */,
 				CD5109841C58BD4700BA2CB8 /* NewCatTableViewController.swift in Sources */,

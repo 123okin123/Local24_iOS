@@ -48,13 +48,16 @@ class SelectSubCategoryTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        let insertVC = navigationController?.viewControllers[1] as! InsertTableViewController
-        insertVC.listing.catID = subCategories[indexPath.row].id!
-        insertVC.listing.entityType = subCategories[indexPath.row].adclass!
-        insertVC.categoryLabel.text = subCategories[indexPath.row].name
-        insertVC.categoryLabel.textColor = UIColor.black
-         _ = navigationController?.popToViewController(insertVC, animated: true)
+        for vcs in navigationController!.viewControllers {
+            if let insertVC = vcs as? InsertTableViewController {
+                insertVC.listing.catID = subCategories[indexPath.row].id!
+                insertVC.listing.entityType = subCategories[indexPath.row].adclass!
+                insertVC.categoryLabel.text = subCategories[indexPath.row].name
+                insertVC.categoryLabel.textColor = UIColor.black
+                _ = navigationController?.popToViewController(insertVC, animated: true)
+            }
+        }
+
         
     }
     

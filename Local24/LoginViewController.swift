@@ -8,6 +8,7 @@
 
 import UIKit
 import Alamofire
+import MZFormSheetPresentationController
 
 class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var inputBGViewBottomContraint: NSLayoutConstraint!
@@ -31,6 +32,17 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         view.endEditing(true)
     }
     
+    @IBAction func registerButtonPressed(_ sender: UIButton) {
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+
+        let navigationController = self.storyboard!.instantiateViewController(withIdentifier: "formSheetController") as! UINavigationController
+        let formSheetController = MZFormSheetPresentationViewController(contentViewController: navigationController)
+        formSheetController.presentationController?.contentViewSize = CGSize(width: screenwidth - 20, height: screenheight - 60)
+        formSheetController.interactivePanGestureDismissalDirection = .down
+        formSheetController.presentationController?.portraitTopInset = 20
+        self.present(formSheetController, animated: true, completion: nil)
+    }
     
     
     func submitCredentials() {
@@ -65,8 +77,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
         NotificationCenter.default.addObserver(self, selector: #selector(LoginViewController.keyboardWillShow(_:)), name:NSNotification.Name.UIKeyboardWillShow, object: nil);
         NotificationCenter.default.addObserver(self, selector: #selector(LoginViewController.keyboardWillHide(_:)), name:NSNotification.Name.UIKeyboardWillHide, object: nil)
         emailTextField.delegate = self
@@ -99,11 +109,13 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 performSegue(withIdentifier: "fromLoginToInsertSegueID", sender: nil)
             }
         }
+  
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.setNavigationBarHidden(false, animated: false)
+
     }
 
     
@@ -134,6 +146,16 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             self.view.layoutIfNeeded()
         }) 
     }
+    
+    
+    // MARK: Navigation
+    
+    
+    @IBAction func backfromRegisterToLogin(_ segue:UIStoryboardSegue) {
+        NotificationCenter.default.addObserver(self, selector: #selector(LoginViewController.keyboardWillShow(_:)), name:NSNotification.Name.UIKeyboardWillShow, object: nil);
+        NotificationCenter.default.addObserver(self, selector: #selector(LoginViewController.keyboardWillHide(_:)), name:NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
+    
 
 
 

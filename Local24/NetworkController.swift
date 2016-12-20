@@ -195,6 +195,20 @@ class NetworkController {
     
     // MARK: User
     
+
+    class func registerUserWith(values :[String: Any], completion: @escaping (_ error:Error?) -> Void) {
+        Alamofire.request("https://www.local24.de/registrieren/", method: .post, parameters: values).responseString { responseResult in
+        debugPrint(responseResult)
+            if responseResult.result.isSuccess {
+            completion(nil)
+            } else {
+            completion(responseResult.result.error)
+            }
+        }
+    }
+    
+    
+    
     class func getUserProfile(userToken :String, completion: @escaping (_ user: User?, _ statusCode :Int) -> Void) {
         Alamofire.request("https://cfw-api-11.azurewebsites.net/me", method: .get, parameters: ["auth": userToken]).validate().responseJSON (completionHandler: {response in
             if let statusCode = response.response?.statusCode {

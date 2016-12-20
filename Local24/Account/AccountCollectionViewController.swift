@@ -106,13 +106,27 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        getAds()
+        
         print("accountvc viewWillAppear")
         navigationItem.setHidesBackButton(true, animated: false)
         navigationController?.setNavigationBarHidden(false, animated: false)
         NetworkController.getUserProfile(userToken: userToken!, completion: {(fetchedUser, statusCode) in
         user = fetchedUser
         })
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if userListings.count == 0 {
+        if collectionView!.contentOffset.y == 0 {
+            UIView.animate(withDuration: 0.25, animations: {
+            self.collectionView?.contentOffset.y = -self.refresher.frame.size.height
+            }, completion: { _ in
+            self.refresher.beginRefreshing()
+            })
+        }
+        }
+        getAds()
     }
 
     

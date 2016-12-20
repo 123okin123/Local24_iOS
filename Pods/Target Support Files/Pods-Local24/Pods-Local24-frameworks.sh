@@ -91,6 +91,8 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/FBSDKShareKit/FBSDKShareKit.framework"
   install_framework "$BUILT_PRODUCTS_DIR/GoogleToolboxForMac/GoogleToolboxForMac.framework"
   install_framework "$BUILT_PRODUCTS_DIR/ImagePicker/ImagePicker.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/MZAppearance/MZAppearance.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/MZFormSheetPresentationController/MZFormSheetPresentationController.framework"
   install_framework "$BUILT_PRODUCTS_DIR/MapleBacon/MapleBacon.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
@@ -101,5 +103,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/FBSDKShareKit/FBSDKShareKit.framework"
   install_framework "$BUILT_PRODUCTS_DIR/GoogleToolboxForMac/GoogleToolboxForMac.framework"
   install_framework "$BUILT_PRODUCTS_DIR/ImagePicker/ImagePicker.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/MZAppearance/MZAppearance.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/MZFormSheetPresentationController/MZFormSheetPresentationController.framework"
   install_framework "$BUILT_PRODUCTS_DIR/MapleBacon/MapleBacon.framework"
 fi

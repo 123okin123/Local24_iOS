@@ -12,7 +12,6 @@ import WebKit
 //------Important------//
 /*
 set 
- localCSS = false
  dryRunGA = false
  mode = "www"
  gaLogging = false
