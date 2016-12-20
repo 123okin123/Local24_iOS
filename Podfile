@@ -17,7 +17,7 @@ target 'Local24' do
   pod 'Alamofire', '~> 4.0'
   pod 'MapleBacon'
   pod 'ImagePicker'
-
+  pod 'MZFormSheetPresentationController'
 
 
   target 'Local24Tests' do
