@@ -67,8 +67,16 @@ class SelectSubCategoryTableViewController: UITableViewController {
                 insertVC.listing.entityType = subCategories[indexPath.row].adclass!
                 insertVC.categoryLabel.text = subCategories[indexPath.row].name
                 insertVC.categoryLabel.textColor = UIColor.black
-               
+                if subCategories[indexPath.row].adclass != "AdPlain" {
+                    let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
+                    let customFieldVCID = storyboard.instantiateViewController(withIdentifier: "customFieldVCID") as! CustomFieldTableViewController
+                    customFieldVCID.catID = subCategories[indexPath.row].id!
+                    customFieldVCID.entityType = subCategories[indexPath.row].adclass!
+                    
+                    navigationController?.pushViewController(customFieldVCID, animated: true)
+                } else {
                 _ = navigationController?.popToViewController(insertVC, animated: true)
+                }
             }
         }
 

@@ -24,6 +24,7 @@
 		CD1D88821DF072A100DF2688 /* AddImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD1D88811DF072A100DF2688 /* AddImageCollectionViewCell.swift */; };
 		CD286E461CCE383B004675A9 /* FilterSelectTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD286E451CCE383B004675A9 /* FilterSelectTableViewController.swift */; };
 		CD286E481CCE455C004675A9 /* FilterMoreSelectTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD286E471CCE455C004675A9 /* FilterMoreSelectTableViewController.swift */; };
+		CD358E801E0C105C00C63020 /* CustomFieldTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD358E7F1E0C105C00C63020 /* CustomFieldTableViewController.swift */; };
 		CD3E16051DF07C7700D0C300 /* InsertImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD3E16041DF07C7700D0C300 /* InsertImageCollectionViewCell.swift */; };
 		CD4432C61CD0CC1B00295EC0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CD4432C51CD0CC1B00295EC0 /* GoogleService-Info.plist */; };
 		CD5109821C58A3B200BA2CB8 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5109811C58A3B200BA2CB8 /* HomeViewController.swift */; };
@@ -143,6 +144,7 @@
 		CD1D88811DF072A100DF2688 /* AddImageCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddImageCollectionViewCell.swift; path = Insert/AddImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		CD286E451CCE383B004675A9 /* FilterSelectTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterSelectTableViewController.swift; sourceTree = "<group>"; };
 		CD286E471CCE455C004675A9 /* FilterMoreSelectTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterMoreSelectTableViewController.swift; sourceTree = "<group>"; };
+		CD358E7F1E0C105C00C63020 /* CustomFieldTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomFieldTableViewController.swift; path = Insert/CustomFieldTableViewController.swift; sourceTree = "<group>"; };
 		CD3E16041DF07C7700D0C300 /* InsertImageCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InsertImageCollectionViewCell.swift; path = Insert/InsertImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		CD4432C51CD0CC1B00295EC0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CD4432C71CD0D19500295EC0 /* Local24-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Local24-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -488,6 +490,7 @@
 				CDFD59EE1DFEF4920098010B /* ChooseLocationViewController.swift */,
 				CDB594E01DE596850056B405 /* SelectCategoryTableViewController.swift */,
 				CDB594E21DE5A3080056B405 /* SelectSubCategoryTableViewController.swift */,
+				CD358E7F1E0C105C00C63020 /* CustomFieldTableViewController.swift */,
 				CDDEF3E51E01393300CF737E /* ChooseLocationTableViewCell.swift */,
 				CD3E16041DF07C7700D0C300 /* InsertImageCollectionViewCell.swift */,
 				CD1D88811DF072A100DF2688 /* AddImageCollectionViewCell.swift */,
@@ -852,6 +855,7 @@
 				CDE529841C70782600820184 /* Reachibility.swift in Sources */,
 				CDA9CCCC1C070793005ED562 /* PublicSettings.swift in Sources */,
 				CDB04AD01DD3259100034C1F /* AccountCollectionViewController.swift in Sources */,
+				CD358E801E0C105C00C63020 /* CustomFieldTableViewController.swift in Sources */,
 				CDCA848F1DE324AA00F71A42 /* User.swift in Sources */,
 				CD286E461CCE383B004675A9 /* FilterSelectTableViewController.swift in Sources */,
 				CDB594E31DE5A3080056B405 /* SelectSubCategoryTableViewController.swift in Sources */,

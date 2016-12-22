@@ -119,27 +119,16 @@ class NetworkController {
     // MARK: Forms
     
     
-    class func getValuesForDepending(field: String, of independendField: String, with value: String, entityType: String, completion: (_ values: [String]?, _ error: Error?) -> Void) {
+    class func getValuesForDepending(field: String, independendField: String, value: String, entityType: String, completion: (_ values: [String]?, _ error: Error?) -> Void) {
         Alamofire.request("https://cfw-api-11.azurewebsites.net/forms/\(entityType)/options", method: .get, parameters: ["name": entityType,"dependson": independendField, "value": value]).responseJSON(completionHandler: { response in
         debugPrint(response)
         })
     }
     
 
-    class func getCustomFieldsFor(entityType: String, completion: @escaping (_ fields:[(String,[String])]?, _ error: Error?) -> Void) {
-        let customFieldNamesCar = [
-            ("Make", "Marke"),
-            ("Model", "Modell"),
-            ("Condition", "Zustand"),
-            ("BodyColor", "Außenfarbe"),
-            ("BodyForm", "Karosserieform"),
-            ("GearType", "Getriebeart"),
-            ("FuelType", "Kraftstoffart"),
-            ("InitialRegistration", "Erstzulassung"),
-            ("Mileage", "Kilometerstand"),
-            ("Power", "Leistung")
-        ]
-        
+    
+    
+    class func getOptionsFor(customFields :[(String,String)], entityType: String, completion: @escaping (_ fields:[((String,String),[String])]?, _ error: Error?) -> Void) {
         
         Alamofire.request("https://cfw-api-11.azurewebsites.net/forms/\(entityType)/schema", method: .get).responseJSON(completionHandler: { response in
             
@@ -148,15 +137,17 @@ class NetworkController {
                     do {
                         let doc = try XMLDocument(string: responseString)
                         if let properties = doc.root?.firstChild(tag: "Properties") {
-                            var fields = [(String,[String])]()
+                            var fields = [((String,String),[String])]()
                             for property in properties.children {
                                 if let propertyName = property.attr("name") {
-                                    if customFieldNamesCar.contains(where: {(string0, string1) in
+                                    var visibleName = ""
+                                    if customFields.contains(where: {(string0, string1) in
+                                        visibleName = string1
                                         return string0 == propertyName
                                     }) {
                                         if let options = property.firstChild(tag: "Constraints")?.firstChild(tag: "OptionsOnly") {
                                             if let optionsArray = options.attr("options")?.components(separatedBy: ",") {
-                                            fields.append((propertyName, optionsArray))
+                                            fields.append(((propertyName, visibleName), optionsArray))
                                             }
                                         }
                                     }
@@ -164,6 +155,11 @@ class NetworkController {
                             }
                             switch entityType {
                             case "AdCar":
+                                var visibleName = ""
+                                if customFields.contains(where: {(string0, string1) in
+                                    visibleName = string1
+                                    return string0 == "InitialRegistration"
+                                }) {
                                 var initialRegistration = [String]()
                                 let months = ["01","02","03","04","05","06","07","08","09","10","11","12"]
                                 for i in 1960...2050 {
@@ -171,17 +167,28 @@ class NetworkController {
                                     initialRegistration.append(month+"/"+String(i))
                                     }
                                 }
-                                fields.append(("InitialRegistration", initialRegistration))
+                                fields.append((("InitialRegistration", visibleName), initialRegistration))
+                                }
+                                if customFields.contains(where: {(string0, string1) in
+                                    visibleName = string1
+                                    return string0 == "Mileage"
+                                }) {
                                 var mileAge = [String]()
                                 for i in 0...100 {
                                     mileAge.append(String(i*5000))
                                 }
-                                fields.append(("Mileage", mileAge))
+                                fields.append((("Mileage", visibleName), mileAge))
+                                }
+                                if customFields.contains(where: {(string0, string1) in
+                                    visibleName = string1
+                                    return string0 == "Power"
+                                }) {
                                 var power = [String]()
                                 for i in 0...500 {
                                     power.append(String(i))
                                 }
-                                fields.append(("Power", power))
+                                fields.append((("Power", visibleName), power))
+                                }
                             default: break
                             }
                             debugPrint(fields)
