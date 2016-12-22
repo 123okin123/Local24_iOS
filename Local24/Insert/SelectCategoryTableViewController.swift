@@ -23,11 +23,37 @@ class SelectCategoryTableViewController: UITableViewController {
             view.addSubview(indicator)
             indicator.startAnimating()
             categoryBuilder.getCategories(completion: { (mainCat, subCat, error) in
+                self.mainCategories = categoryBuilder.mainCategories.filter {
+                        $0.adclass != "AdTruck" &&
+                        $0.adclass != "AdApartment" &&
+                        $0.adclass != "AdCat" &&
+                        $0.adclass != "AdCommune" &&
+                        $0.adclass != "AdDating" &&
+                        $0.adclass != "AdDog" &&
+                        $0.adclass != "AdHorse" &&
+                        $0.adclass != "AdHouse" &&
+                        $0.adclass != "AdJob" &&
+                        $0.adclass != "AdMotorcycle" &&
+                        $0.adclass != "AdOtherProperty"
+                }
+
                 indicator.removeFromSuperview()
                 self.tableView.reloadData()
             })
         } else {
-        mainCategories = categoryBuilder.mainCategories
+            mainCategories = categoryBuilder.mainCategories.filter {
+                    $0.adclass != "AdTruck" &&
+                    $0.adclass != "AdApartment" &&
+                    $0.adclass != "AdCat" &&
+                    $0.adclass != "AdCommune" &&
+                    $0.adclass != "AdDating" &&
+                    $0.adclass != "AdDog" &&
+                    $0.adclass != "AdHorse" &&
+                    $0.adclass != "AdHouse" &&
+                    $0.adclass != "AdJob" &&
+                    $0.adclass != "AdMotorcycle" &&
+                    $0.adclass != "AdOtherProperty"
+                }
         }
         
 

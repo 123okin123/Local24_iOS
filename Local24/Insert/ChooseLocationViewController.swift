@@ -13,6 +13,7 @@ class ChooseLocationViewController: UIViewController, UITableViewDelegate, UITab
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     
     var addresses = [CLPlacemark]()
@@ -46,7 +47,7 @@ class ChooseLocationViewController: UIViewController, UITableViewDelegate, UITab
                 NSFontAttributeName: font!,
                 NSForegroundColorAttributeName: UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
             ]
-            searchTextField!.attributedPlaceholder = NSAttributedString(string: "Was suchen Sie?", attributes: attributeDict)
+            searchTextField!.attributedPlaceholder = NSAttributedString(string: "Geben Sie Ihre Adresse ein", attributes: attributeDict)
         }
         searchTextField?.textColor = UIColor.gray
         
@@ -74,10 +75,12 @@ class ChooseLocationViewController: UIViewController, UITableViewDelegate, UITab
     }
     
     func searchForAddressString(string :String) {
+        activityIndicator.startAnimating()
             selectedIndex = nil
             let center = CLLocationCoordinate2D(latitude: 50.428453, longitude: 10.256778)
             let region = CLCircularRegion(center: center, radius: 600000, identifier: "searchRegion")
             geocoder.geocodeAddressString(string, in: region, completionHandler: {(placemarks, error) in
+                self.activityIndicator.stopAnimating()
                 if error == nil && placemarks != nil {
                     self.addresses.removeAll()
                     if let userPlacemark = user?.placemark {
@@ -128,7 +131,9 @@ class ChooseLocationViewController: UIViewController, UITableViewDelegate, UITab
     }
 
     
-    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        view.endEditing(true)
+    }
 
     
     // MARK: - Navigation

@@ -11,6 +11,7 @@ import Alamofire
 import ImagePicker
 
 
+
 class InsertTableViewController: UITableViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, InsertImageCellDelegate, ImagePickerDelegate {
 
     @IBOutlet weak var imageCollectionView: UICollectionView!
@@ -44,6 +45,7 @@ class InsertTableViewController: UITableViewController, UIPickerViewDataSource, 
     let pickerView = UIPickerView()
     let toolBar = UIToolbar()
    
+    var customFields = [(String,[String])]()
 
     
     
@@ -87,6 +89,9 @@ class InsertTableViewController: UITableViewController, UIPickerViewDataSource, 
         
 
     }
+    
+    
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         print("insertvc viewWillAppear")
@@ -100,7 +105,18 @@ class InsertTableViewController: UITableViewController, UIPickerViewDataSource, 
         NetworkController.getUserProfile(userToken: userToken!, completion: {(fetchedUser, statusCode) in
             user = fetchedUser
         })
-        
+//        NetworkController.getValuesForDepending(field: "Model", of: "Make", with: "Volkswagen", entityType: "AdCar", completion: { (values, error) in
+//        })
+        if listing.entityType != nil {
+            NetworkController.getCustomFieldsFor(entityType: listing.entityType!, completion: {(fields, error) in
+                if error == nil && fields != nil {
+                    self.customFields = fields!
+                    
+                }
+                self.tableView.reloadSections(IndexSet(integer: 2), with: .none)
+            })
+        }
+       
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -140,56 +156,8 @@ class InsertTableViewController: UITableViewController, UIPickerViewDataSource, 
         houseNumberLabel.text = listing.houseNumber
     }
 
-    // MARK: - Table view data source
+ 
 
-//    override func numberOfSections(in tableView: UITableView) -> Int {
-//        // #warning Incomplete implementation, return the number of sections
-//        return 0
-//    }
-//
-//    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        // #warning Incomplete implementation, return the number of rows
-//        return 0
-//    }
-
-
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    
 
     var currentPickerArray = [String]()
     var currentTextField = UITextField()
@@ -346,9 +314,6 @@ class InsertTableViewController: UITableViewController, UIPickerViewDataSource, 
     
     func submitAd() {
         
-
-        
-    
         let pendingAlertController = UIAlertController(title: "Anzeige wird erstellt\n\n\n", message: nil, preferredStyle: .alert)
         let indicator = UIActivityIndicatorView(frame: pendingAlertController.view.bounds)
         indicator.autoresizingMask = [.flexibleWidth, . flexibleHeight]
@@ -356,10 +321,6 @@ class InsertTableViewController: UITableViewController, UIPickerViewDataSource, 
         pendingAlertController.view.addSubview(indicator)
         indicator.startAnimating()
         present(pendingAlertController, animated: true, completion: nil)
-        
-        
-        
-        
         
         
         var values = [
@@ -402,7 +363,7 @@ class InsertTableViewController: UITableViewController, UIPickerViewDataSource, 
                 self.clearAll()
                 let successMenu = UIAlertController(title: "Anzeige aufgegeben", message: "Herzlichen Glückwunsch Ihre Anzeige wurde erfolgreich aufgegeben.", preferredStyle: .alert)
                 let confirmAction = UIAlertAction(title: "Ok", style: .default, handler: {alert in
-                self.navigationController?.popToViewController((self.navigationController?.viewControllers[1])!, animated: true)
+                _ = self.navigationController?.popToViewController((self.navigationController?.viewControllers[1])!, animated: true)
                 })
                 successMenu.addAction(confirmAction)
                 self.present(successMenu, animated: true, completion: nil)
@@ -428,6 +389,106 @@ class InsertTableViewController: UITableViewController, UIPickerViewDataSource, 
        // imageCollectionView.deleteItems(at: [indexPath])
     }
     
+    
+    
+    // MARK: - Table view data source
+    
+//    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        switch section {
+//        case 4:
+//            return sliderSectionHeaderString
+//        default:
+//            return nil
+//        }
+//        
+//    }
+    
+//    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+//        let headerView = UITableViewHeaderFooterView()
+//        return headerView
+//    }
+//    
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        switch section {
+        case 0: return 1
+        case 1: return 1
+        case 2: return customFields.count
+        case 3: return 1
+        case 4: return 3
+        case 5: return 1
+        case 6: return 1
+        default: return 0
+        }
+    }
+
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if indexPath.section == 2 {
+            let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
+            cell.textLabel?.text = customFields[indexPath.row].0
+            let frame = CGRect(x: 15, y: 0, width: cell.contentView.bounds.size.width - 30, height: cell.contentView.bounds.size.height)
+            let textField = UITextField(frame: frame)
+            textField.textAlignment = .right
+            textField.placeholder = customFields[indexPath.row].1[0]
+            cell.addSubview(textField)
+            return cell
+        } else {
+            return super.tableView(tableView, cellForRowAt: indexPath)
+        }
+    }
+
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if shouldHideSection((indexPath as NSIndexPath).section) {
+            return 0
+        } else {
+            return super.tableView(tableView, heightForRowAt: indexPath)
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if shouldHideSection(section) {
+            return 0.1
+        } else {
+            return super.tableView(tableView, heightForHeaderInSection: section)
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        if shouldHideSection(section) {
+            return 0.1
+        } else {
+            return super.tableView(tableView, heightForFooterInSection: section)
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        if shouldHideSection(section) {
+            let headerView = view as! UITableViewHeaderFooterView
+            headerView.textLabel!.textColor = UIColor.clear
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
+        if shouldHideSection(section) {
+            let footerView = view as! UITableViewHeaderFooterView
+            footerView.textLabel!.textColor = UIColor.clear
+        }
+    }
+    
+    
+    func shouldHideSection(_ section: Int) -> Bool {
+        switch section {
+        case 2:
+            if listing.entityType == "AdCar" {
+            return false
+            } else {
+            return true
+            }
+        default: return false
+        }
+        
+    }
     
 }
 

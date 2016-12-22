@@ -19,7 +19,20 @@ class SelectSubCategoryTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        subCategories = categoryBuilder.subCategories.filter({$0.idParentCategory == parentCategoryID})
+        subCategories = categoryBuilder.subCategories.filter({
+                $0.idParentCategory == parentCategoryID &&
+                        $0.adclass != "AdTruck" &&
+                        $0.adclass != "AdApartment" &&
+                        $0.adclass != "AdCat" &&
+                        $0.adclass != "AdCommune" &&
+                        $0.adclass != "AdDating" &&
+                        $0.adclass != "AdDog" &&
+                        $0.adclass != "AdHorse" &&
+                        $0.adclass != "AdHouse" &&
+                        $0.adclass != "AdJob" &&
+                        $0.adclass != "AdMotorcycle" &&
+                        $0.adclass != "AdOtherProperty"
+                })
   
     }
     
@@ -54,6 +67,7 @@ class SelectSubCategoryTableViewController: UITableViewController {
                 insertVC.listing.entityType = subCategories[indexPath.row].adclass!
                 insertVC.categoryLabel.text = subCategories[indexPath.row].name
                 insertVC.categoryLabel.textColor = UIColor.black
+               
                 _ = navigationController?.popToViewController(insertVC, animated: true)
             }
         }

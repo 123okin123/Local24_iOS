@@ -29,6 +29,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Fuzi.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>GoogleToolboxForMac.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -82,12 +87,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>55BD3033702F62283C42C1F6E037342D</key>
+		<key>3E19FB5CFCB8600C109A178F9D1E75A6</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>59BC1BDE709E3A58623B9003A77A41D4</key>
+		<key>55BD3033702F62283C42C1F6E037342D</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -133,6 +138,11 @@
 			<true/>
 		</dict>
 		<key>9D0F2E5EA1B46A5D72FFD42B0B39DBBC</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D24519273989AFE937A4210301497C7E</key>
 		<dict>
 			<key>primary</key>
 			<true/>

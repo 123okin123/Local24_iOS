@@ -51,15 +51,15 @@ class MoreViewController: UIViewController, WKNavigationDelegate {
         
         // configure webView
         webView.frame.origin = CGPoint(x: 0, y: 0)
-        webView.frame.size = CGSize(width: screenwidth, height: screenheight)
-        webView.scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        webView.frame.size = CGSize(width: screenwidth, height: screenheight - 64)
+        webView.scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 50, right: 0)
         webView.scrollView.showsVerticalScrollIndicator = false
         view.insertSubview(webView, at: 0)
         
         
         // configure and hide loading views
         loaderView.frame = CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: webView.frame.size.width, height: webView.frame.size.height))
-        loaderView.backgroundColor = UIColor.groupTableViewBackground
+        loaderView.backgroundColor = UIColor.white
         webView.addSubview(loaderView)
 
         
