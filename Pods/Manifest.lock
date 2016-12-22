@@ -23,6 +23,7 @@ PODS:
     - GoogleInterchangeUtilities (~> 1.2)
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
   - FirebaseInstanceID (1.0.8)
+  - Fuzi (1.0.1)
   - Google (3.0.3):
     - Google/Core (= 3.0.3)
   - Google/Analytics (3.0.3):
@@ -51,6 +52,7 @@ DEPENDENCIES:
   - FBSDKCoreKit
   - FBSDKLoginKit
   - FBSDKShareKit
+  - Fuzi (~> 1.0.0)
   - Google
   - Google/Analytics
   - GoogleConversionTracking
@@ -69,6 +71,7 @@ SPEC CHECKSUMS:
   FirebaseAnalytics: 9c67af0ebeb8d2146c9b4ea2616439affa947b58
   FirebaseCore: 03da1cb32615569bbc2830a22f9ad753d9a02ef5
   FirebaseInstanceID: ba1e640935235e5fac39dfa816fe7660e72e1a8a
+  Fuzi: 851403654bac55675aaeed815d0c8a1d3e3d3e8b
   Google: 813c467362eabc11385f5a5cc9ad0cb651a58f4e
   GoogleAnalytics: f42cc53a87a51fe94334821868d9c8481ff47a7b
   GoogleConversionTracking: ca8c89abda2bd28bb6472b316eeb4ece9264e279
@@ -81,6 +84,6 @@ SPEC CHECKSUMS:
   MZAppearance: 0c06d3fa9cc55142f1da14bc8631fbe8fd6e19d5
   MZFormSheetPresentationController: c1dc3bce639d2393b3cc416fcb6e050eb5bca062
 
-PODFILE CHECKSUM: 3a73895580057dac4e26f0bcee9a7796bd4f08d2
+PODFILE CHECKSUM: d69282834e47ca853943b39fe76e36721698625f
 
 COCOAPODS: 1.1.0.rc.2

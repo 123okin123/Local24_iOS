@@ -35,12 +35,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     NetworkController.getUserProfile(userToken: userToken!, completion: { (fetchedUser, statusCode) in
                         if statusCode == 200 {
                             user = fetchedUser
+                        }
                             UIView.transition(with: tabBarVC.view, duration: 0.2, options: .curveEaseIn, animations: {
                                 launchScreen.view.alpha = 0
                             }, completion: { done in
                                 launchScreen.view.removeFromSuperview()
                             })
-                        }
+                        
                     })
                 } else {
                     UIView.transition(with: tabBarVC.view, duration: 0.2, options: .curveEaseIn, animations: {

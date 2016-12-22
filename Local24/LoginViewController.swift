@@ -11,6 +11,9 @@ import Alamofire
 import MZFormSheetPresentationController
 
 class LoginViewController: UIViewController, UITextFieldDelegate {
+    
+    
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var inputBGViewBottomContraint: NSLayoutConstraint!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
@@ -33,8 +36,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func registerButtonPressed(_ sender: UIButton) {
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+
 
         let navigationController = self.storyboard!.instantiateViewController(withIdentifier: "formSheetController") as! UINavigationController
         let formSheetController = MZFormSheetPresentationViewController(contentViewController: navigationController)
@@ -46,11 +48,13 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     
     func submitCredentials() {
+        activityIndicator.startAnimating()
         let credentials = emailTextField.text! + ":" + passwordTextField.text!
         let utf8credentials = credentials.data(using: String.Encoding.utf8)
         if let base64Encoded = utf8credentials?.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
         {
             Alamofire.request("https://cfw-api-11.azurewebsites.net/tokens/\(base64Encoded)", method: .post).validate().responseJSON (completionHandler: {response in
+                self.activityIndicator.stopAnimating()
                 switch response.result {
                 case .success:
                     userToken = String(describing: response.result.value!)
@@ -79,6 +83,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(LoginViewController.keyboardWillShow(_:)), name:NSNotification.Name.UIKeyboardWillShow, object: nil);
         NotificationCenter.default.addObserver(self, selector: #selector(LoginViewController.keyboardWillHide(_:)), name:NSNotification.Name.UIKeyboardWillHide, object: nil)
+        
         emailTextField.delegate = self
         passwordTextField.delegate = self
         emailTextField.addTarget(self, action: #selector(LoginViewController.textFieldDidChange(_:)), for: UIControlEvents.editingChanged)
@@ -152,8 +157,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     
     @IBAction func backfromRegisterToLogin(_ segue:UIStoryboardSegue) {
-        NotificationCenter.default.addObserver(self, selector: #selector(LoginViewController.keyboardWillShow(_:)), name:NSNotification.Name.UIKeyboardWillShow, object: nil);
-        NotificationCenter.default.addObserver(self, selector: #selector(LoginViewController.keyboardWillHide(_:)), name:NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
 

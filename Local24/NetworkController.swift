@@ -11,6 +11,8 @@ import Alamofire
 import UIKit
 import MapleBacon
 import MapKit
+import Fuzi
+
 
 class NetworkController {
 
@@ -112,6 +114,91 @@ class NetworkController {
             }
     }
     
+    
+    
+    // MARK: Forms
+    
+    
+    class func getValuesForDepending(field: String, of independendField: String, with value: String, entityType: String, completion: (_ values: [String]?, _ error: Error?) -> Void) {
+        Alamofire.request("https://cfw-api-11.azurewebsites.net/forms/\(entityType)/options", method: .get, parameters: ["name": entityType,"dependson": independendField, "value": value]).responseJSON(completionHandler: { response in
+        debugPrint(response)
+        })
+    }
+    
+
+    class func getCustomFieldsFor(entityType: String, completion: @escaping (_ fields:[(String,[String])]?, _ error: Error?) -> Void) {
+        let customFieldNamesCar = [
+            ("Make", "Marke"),
+            ("Model", "Modell"),
+            ("Condition", "Zustand"),
+            ("BodyColor", "Außenfarbe"),
+            ("BodyForm", "Karosserieform"),
+            ("GearType", "Getriebeart"),
+            ("FuelType", "Kraftstoffart"),
+            ("InitialRegistration", "Erstzulassung"),
+            ("Mileage", "Kilometerstand"),
+            ("Power", "Leistung")
+        ]
+        
+        
+        Alamofire.request("https://cfw-api-11.azurewebsites.net/forms/\(entityType)/schema", method: .get).responseJSON(completionHandler: { response in
+            
+            if response.result.isSuccess {
+                if let responseString = response.result.value as? String {
+                    do {
+                        let doc = try XMLDocument(string: responseString)
+                        if let properties = doc.root?.firstChild(tag: "Properties") {
+                            var fields = [(String,[String])]()
+                            for property in properties.children {
+                                if let propertyName = property.attr("name") {
+                                    if customFieldNamesCar.contains(where: {(string0, string1) in
+                                        return string0 == propertyName
+                                    }) {
+                                        if let options = property.firstChild(tag: "Constraints")?.firstChild(tag: "OptionsOnly") {
+                                            if let optionsArray = options.attr("options")?.components(separatedBy: ",") {
+                                            fields.append((propertyName, optionsArray))
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            switch entityType {
+                            case "AdCar":
+                                var initialRegistration = [String]()
+                                let months = ["01","02","03","04","05","06","07","08","09","10","11","12"]
+                                for i in 1960...2050 {
+                                    for month in months {
+                                    initialRegistration.append(month+"/"+String(i))
+                                    }
+                                }
+                                fields.append(("InitialRegistration", initialRegistration))
+                                var mileAge = [String]()
+                                for i in 0...100 {
+                                    mileAge.append(String(i*5000))
+                                }
+                                fields.append(("Mileage", mileAge))
+                                var power = [String]()
+                                for i in 0...500 {
+                                    power.append(String(i))
+                                }
+                                fields.append(("Power", power))
+                            default: break
+                            }
+                            debugPrint(fields)
+                            completion(fields,nil)
+                        }
+                    } catch let error {
+                        print(error)
+                        completion(nil,error)
+                    }
+                
+                }
+            } else {
+            completion(nil, response.result.error)
+            }
+        })
+    }
+
     
     // MARK: Images
     

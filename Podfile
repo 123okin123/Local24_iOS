@@ -18,6 +18,7 @@ target 'Local24' do
   pod 'MapleBacon'
   pod 'ImagePicker'
   pod 'MZFormSheetPresentationController'
+  pod 'Fuzi', '~> 1.0.0'
 
 
   target 'Local24Tests' do

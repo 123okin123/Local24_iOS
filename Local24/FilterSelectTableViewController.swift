@@ -128,7 +128,7 @@ class FilterSelectTableViewController: UITableViewController {
             filterVC.filter.mainCategoryID = 99
             filterVC.filter.subCategoryID = 99
             filterVC.tableView.reloadData()
-            self.navigationController?.popToRootViewController(animated: true)
+            _ = self.navigationController?.popToRootViewController(animated: true)
             }
         case 1:
             switch (indexPath as NSIndexPath).row {
@@ -142,7 +142,7 @@ class FilterSelectTableViewController: UITableViewController {
             default: break
             }
             filterVC.filter.sorting = sorting
-            self.navigationController?.popToRootViewController(animated: true)
+            _ = self.navigationController?.popToRootViewController(animated: true)
         default: break
         
         }

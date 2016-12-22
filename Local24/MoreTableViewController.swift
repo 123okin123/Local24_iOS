@@ -65,7 +65,7 @@ class MoreTableViewController: UITableViewController {
         var numberOfRows = Int()
         switch section {
         case 0:
-            numberOfRows = 6
+            numberOfRows = 7
         case 1:
             numberOfRows = 1
         default: break

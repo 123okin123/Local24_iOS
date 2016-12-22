@@ -62,7 +62,7 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
             if error == nil {
                 self.getAds()
             } else {
-                debugPrint(error)
+                debugPrint(error as Any)
                 let errorMenu = UIAlertController(title: "Fehler", message: "Da ist leider etwas schief gegangen, das Pausieren oder Aktivieren der Anzeige war nicht erfolgreich.", preferredStyle: .alert)
                 let confirmAction = UIAlertAction(title: "Ok", style: .default, handler: {alert in})
                 errorMenu.addAction(confirmAction)
@@ -210,6 +210,7 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
         }
         NetworkController.getImagesFor(adID: String(describing: listing.adID!), completion: { images in
         self.userListings[indexPath.row].images = images
+        cell.listing.images = images
         })
         
     
