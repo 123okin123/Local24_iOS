@@ -17,7 +17,8 @@ class InsertTableViewController: UITableViewController, UIPickerViewDataSource, 
     @IBOutlet weak var imageCollectionView: UICollectionView!
 
     @IBOutlet weak var titleTextField: UITextField!
-    @IBOutlet weak var categoryLabel: UILabel!
+    @IBOutlet weak var categoryLabel: UILabel!    
+    @IBOutlet weak var independentFieldLabel: UILabel!
     @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var priceTypeTextField: UITextField! {didSet {priceTypeTextField.delegate = self}}
     @IBOutlet weak var priceTextField: UITextField!
@@ -45,8 +46,8 @@ class InsertTableViewController: UITableViewController, UIPickerViewDataSource, 
     let pickerView = UIPickerView()
     let toolBar = UIToolbar()
    
-    var customFields = [(String,[String])]()
-
+    var customFields = [((String, String),[String])]()
+    
     
     
     @IBAction func insertListing(_ sender: UIButton) {
@@ -105,18 +106,49 @@ class InsertTableViewController: UITableViewController, UIPickerViewDataSource, 
         NetworkController.getUserProfile(userToken: userToken!, completion: {(fetchedUser, statusCode) in
             user = fetchedUser
         })
-//        NetworkController.getValuesForDepending(field: "Model", of: "Make", with: "Volkswagen", entityType: "AdCar", completion: { (values, error) in
-//        })
+        populateCustomFields()
+
+       
+    }
+    
+    
+    func populateCustomFields() {
         if listing.entityType != nil {
-            NetworkController.getCustomFieldsFor(entityType: listing.entityType!, completion: {(fields, error) in
-                if error == nil && fields != nil {
-                    self.customFields = fields!
+            if listing.entityType != "AdPlain" {
+                var customFieldNames = [(String, String)]()
+                switch listing.entityType! {
+                case "AdCar":
+                    NetworkController.getValuesForDepending(field: "Model", independendField: "Make", value: independentFieldLabel.text!, entityType: "AdCar", completion: {(values, error) in
+                    })
+                    customFieldNames = [
+                        ("Condition", "Zustand"),
+                        ("BodyColor", "Außenfarbe"),
+                        ("BodyForm", "Karosserieform"),
+                        ("GearType", "Getriebeart"),
+                        ("FuelType", "Kraftstoffart"),
+                        ("InitialRegistration", "Erstzulassung"),
+                        ("Mileage", "Kilometerstand"),
+                        ("Power", "Leistung")
+                    ]
+                    
+                default: break
                     
                 }
+                    NetworkController.getOptionsFor(customFields: customFieldNames, entityType: listing.entityType!, completion: {(fields, error) in
+                        if error == nil && fields != nil {
+                            self.customFields = fields!
+                        }
+                        self.tableView.reloadSections(IndexSet(integer: 2), with: .none)
+                        
+                    })
+                
+            } else {
+                self.customFields.removeAll()
+                self.independentFieldLabel.text = ""
                 self.tableView.reloadSections(IndexSet(integer: 2), with: .none)
-            })
+            }
         }
-       
+        
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -425,7 +457,7 @@ class InsertTableViewController: UITableViewController, UIPickerViewDataSource, 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 2 {
             let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
-            cell.textLabel?.text = customFields[indexPath.row].0
+            cell.textLabel?.text = customFields[indexPath.row].0.1
             let frame = CGRect(x: 15, y: 0, width: cell.contentView.bounds.size.width - 30, height: cell.contentView.bounds.size.height)
             let textField = UITextField(frame: frame)
             textField.textAlignment = .right
