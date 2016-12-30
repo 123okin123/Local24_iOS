@@ -60,7 +60,10 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
     func changeAdStateOf(listing :Listing, to adState: String) {
         NetworkController.changeAdWith(adID: listing.adID!, to: adState, userToken: userToken!, completion: {error in
             if error == nil {
-                self.getAds()
+                if let index = self.userListings.index(where: {$0.adID == listing.adID}) {
+                    self.userListings[index].adState = AdState(rawValue: adState)
+                    self.collectionView?.reloadItems(at: [IndexPath(item: index, section: 0)])
+                }
             } else {
                 debugPrint(error as Any)
                 let errorMenu = UIAlertController(title: "Fehler", message: "Da ist leider etwas schief gegangen, das Pausieren oder Aktivieren der Anzeige war nicht erfolgreich.", preferredStyle: .alert)
@@ -136,23 +139,21 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
     func getAds() {
         if !(isLoading) {
             isLoading = true
-        userListings.removeAll()
+
         Alamofire.request("https://cfw-api-11.azurewebsites.net/ads/", method: .get, parameters: ["auth":userToken!]).validate().responseJSON (completionHandler: {response in
             self.refresher.endRefreshing()
             if let statusCode = response.response?.statusCode {
             
             switch statusCode {
             case 200:
-
             let ads = response.result.value as! [[AnyHashable:Any]]
+            self.userListings.removeAll()
             if ads.count > 0 {
                 for ad in ads {
-  
                     let listing = Listing(value: ad)
                     self.userListings.append(listing)
                 }
-                }
-            
+            }
             self.collectionView?.reloadData()
             
             case 400, 401:

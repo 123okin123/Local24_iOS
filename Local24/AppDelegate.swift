@@ -115,7 +115,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
  
     
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
-        print(url)
+      
         
         if url.absoluteString.contains("/mein-local24/")  {
             if let tvc = self.window?.rootViewController as? UITabBarController {

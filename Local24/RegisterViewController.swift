@@ -141,7 +141,7 @@ class RegisterViewController: UITableViewController, UIPickerViewDelegate, UIPic
                 passwordField.superview?.backgroundColor = UIColor.white
                 passwordRepetionField.superview?.backgroundColor = UIColor.white
             }
-            if cityField.text == "" {
+            if cityField.text == "" || zipCodeField.text == "" {
                 success = false
                 cityField.superview?.superview?.backgroundColor = failColor
             } else {
