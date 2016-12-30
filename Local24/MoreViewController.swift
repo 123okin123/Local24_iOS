@@ -13,7 +13,7 @@ class MoreViewController: UIViewController, WKNavigationDelegate {
 
     
     
-    // MARK: Outlets & Variables
+    // MARK: - Outlets & Variables
 
 
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
@@ -49,13 +49,18 @@ class MoreViewController: UIViewController, WKNavigationDelegate {
        // set the delegate
         webView.navigationDelegate = self
         
+       
+        
+        
         // configure webView
         webView.frame.origin = CGPoint(x: 0, y: 0)
-        webView.frame.size = CGSize(width: screenwidth, height: screenheight - 64)
+        webView.frame.size = CGSize(width: view.frame.size.width, height: view.frame.size.height - 64)
         webView.scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 50, right: 0)
-        webView.scrollView.showsVerticalScrollIndicator = false
         view.insertSubview(webView, at: 0)
-        
+        let previousVC = navigationController!.viewControllers[navigationController!.viewControllers.endIndex - 2]
+        if previousVC is RegisterViewController {
+        webView.frame.size.width -= 20
+        }
         
         // configure and hide loading views
         loaderView.frame = CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: webView.frame.size.width, height: webView.frame.size.height))
@@ -116,17 +121,17 @@ class MoreViewController: UIViewController, WKNavigationDelegate {
         super.viewWillAppear(animated)
         switch moreTag {
         case 0:
-            gaUserTracking("MoreImprint")
+            gaUserTracking("More/Imprint")
         case 1:
-            gaUserTracking("MoreContact")
+            gaUserTracking("More/Contact")
         case 2:
-            gaUserTracking("MoreAbout")
+            gaUserTracking("More/About")
         case 3:
-            gaUserTracking("MoreHelp")
+            gaUserTracking("More/Help")
         case 4:
-            gaUserTracking("MorePrivacyPolicy")
+            gaUserTracking("More/PrivacyPolicy")
         case 5:
-            gaUserTracking("MoreTermsAndConditions")
+            gaUserTracking("More/TermsAndConditions")
         default:
             break
         }
@@ -232,16 +237,4 @@ class MoreViewController: UIViewController, WKNavigationDelegate {
         
     }
     
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

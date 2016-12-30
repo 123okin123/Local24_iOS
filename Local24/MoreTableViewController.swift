@@ -77,6 +77,8 @@ class MoreTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if (tableView.indexPathForSelectedRow as NSIndexPath?)?.section == 1 {
             if (tableView.indexPathForSelectedRow as NSIndexPath?)?.row == 0 {
+                let tracker = GAI.sharedInstance().defaultTracker
+                tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Login", action: "logout", label: "", value: 0).build() as NSDictionary as! [AnyHashable: Any])
                 userToken = nil
                 tokenValid = false
                 (tabBarController?.viewControllers?[2] as! UINavigationController).popToRootViewController(animated: false)

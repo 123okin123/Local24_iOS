@@ -91,8 +91,8 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
             
         })
         let cancleAction = UIAlertAction(title: "Abbrechen", style: .default, handler: nil)
-        confirmMenu.addAction(confirmAction)
         confirmMenu.addAction(cancleAction)
+        confirmMenu.addAction(confirmAction)
         self.present(confirmMenu, animated: true, completion: nil)
     }
     
@@ -106,8 +106,7 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        print("accountvc viewWillAppear")
+        gaUserTracking("Profil")
         navigationItem.setHidesBackButton(true, animated: false)
         navigationController?.setNavigationBarHidden(false, animated: false)
         NetworkController.getUserProfile(userToken: userToken!, completion: {(fetchedUser, statusCode) in

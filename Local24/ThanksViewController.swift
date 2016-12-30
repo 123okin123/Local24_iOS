@@ -12,7 +12,7 @@ class ThanksViewController: UIViewController {
 
     @IBOutlet weak var textView: UITextView!
     
-    var textToShow :String?
+    var textToShow :String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +20,7 @@ class ThanksViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        gaUserTracking("More/ThanksOverview/ThanksTo: \(textToShow!)")
         if let path = Bundle.main.path(forResource: textToShow, ofType: "txt") {
             do {
                 let data = try String(contentsOfFile: path, encoding: .utf8)

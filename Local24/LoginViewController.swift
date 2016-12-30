@@ -30,6 +30,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBAction func submitButtonPressed(_ sender: UIButton) {
             view.endEditing(true)
             submitCredentials()
+            let tracker = GAI.sharedInstance().defaultTracker
+            tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Login", action: "login", label: "", value: 0).build() as NSDictionary as! [AnyHashable: Any])
     }
     @IBAction func backgroundTapped(_ sender: UITapGestureRecognizer) {
         view.endEditing(true)
@@ -94,6 +96,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        gaUserTracking("Login")
         navigationController?.setNavigationBarHidden(true, animated: false)
         let gradient = CAGradientLayer()
         gradient.frame = view.frame

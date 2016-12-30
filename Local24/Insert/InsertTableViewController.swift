@@ -12,13 +12,21 @@ import ImagePicker
 
 
 
-class InsertTableViewController: UITableViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, InsertImageCellDelegate, ImagePickerDelegate {
+class InsertTableViewController: UITableViewController {
 
+    
+    // MARK: - IBOutlets
     @IBOutlet weak var imageCollectionView: UICollectionView!
+    @IBOutlet var customFieldCellCollection: [InsertCustomFieldCell]! {didSet {
+        for cell in customFieldCellCollection {
+            cell.textField.delegate = self
+        }
+        }}
 
     @IBOutlet weak var titleTextField: UITextField!
-    @IBOutlet weak var categoryLabel: UILabel!    
+    @IBOutlet weak var categoryLabel: UILabel!
     @IBOutlet weak var independentFieldLabel: UILabel!
+    @IBOutlet weak var dependentFieldLabel: UILabel!
     @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var priceTypeTextField: UITextField! {didSet {priceTypeTextField.delegate = self}}
     @IBOutlet weak var priceTextField: UITextField!
@@ -31,11 +39,10 @@ class InsertTableViewController: UITableViewController, UIPickerViewDataSource, 
     @IBOutlet weak var houseNumberLabel: UILabel!
     
     
-    var imageArray = [UIImage]()
     var listingExists = false
-    
-    let imagePicker = ImagePickerController()
-    
+
+    var imageArray = [UIImage]()
+    var imagePicker  = ImagePickerController()
     var listing = Listing() {didSet {
         if let location = user?.placemark?.location {
             listing.adLat = location.coordinate.latitude
@@ -43,15 +50,22 @@ class InsertTableViewController: UITableViewController, UIPickerViewDataSource, 
         }
         }}
     
-    let pickerView = UIPickerView()
-    let toolBar = UIToolbar()
+    
    
-    var customFields = [((String, String),[String])]()
+    var customFields = [SpecialField]()
+    
+    var pickerView = UIPickerView()
+    var toolBar = UIToolbar()
+    var currentPickerArray = [String]()
+    var currentTextField  = UITextField()
     
     
     
+    // MARK: - IBActions
     @IBAction func insertListing(_ sender: UIButton) {
         if validate() {
+        let tracker = GAI.sharedInstance().defaultTracker
+        tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Insert", action: "insertion", label: categoryLabel.text!, value: 0).build() as NSDictionary as! [AnyHashable: Any])
         submitAd()
         }
     }
@@ -76,16 +90,18 @@ class InsertTableViewController: UITableViewController, UIPickerViewDataSource, 
         toolBar.sizeToFit()
         let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
         let doneButton = UIBarButtonItem(title: "Fertig", style: UIBarButtonItemStyle.plain, target: self, action: #selector(pickerDonePressed))
-        toolBar.setItems([spaceButton, doneButton], animated: false)
+        let previousButton  = UIBarButtonItem(image: UIImage(named: "keyboardPreviousButton"), style: .plain, target: self, action: #selector(pickerPreviousPressed))
+        previousButton.width = 50.0
+        let nextButton  = UIBarButtonItem(image: UIImage(named: "keyboardNextButton"), style: .plain, target: self, action: #selector(pickerNextPressed))
+        toolBar.setItems([previousButton, nextButton, spaceButton, doneButton], animated: false)
         toolBar.isUserInteractionEnabled = true
   
      
         if let placemark = user?.placemark  {
-      
-        cityLabel.text = placemark.addressDictionary?["City"] as! String?
-        zipLabel.text = placemark.addressDictionary?["ZIP"] as! String?
-        streetLabel.text = placemark.addressDictionary?["Thoroughfare"] as! String?
-        houseNumberLabel.text = placemark.addressDictionary?["SubThoroughfare"] as! String?
+            cityLabel.text = placemark.addressDictionary?["City"] as! String?
+            zipLabel.text = placemark.addressDictionary?["ZIP"] as! String?
+            streetLabel.text = placemark.addressDictionary?["Thoroughfare"] as! String?
+            houseNumberLabel.text = placemark.addressDictionary?["SubThoroughfare"] as! String?
         }
         
 
@@ -95,13 +111,13 @@ class InsertTableViewController: UITableViewController, UIPickerViewDataSource, 
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print("insertvc viewWillAppear")
         if listingExists {
-        navigationItem.setHidesBackButton(false, animated: false)
+            gaUserTracking("Insert(EditExistingAd)")
+            navigationItem.setHidesBackButton(false, animated: false)
         } else {
-        navigationItem.setHidesBackButton(true, animated: false)
+            gaUserTracking("Insert")
+            navigationItem.setHidesBackButton(true, animated: false)
         }
-        
         navigationController?.setNavigationBarHidden(false, animated: false)
         NetworkController.getUserProfile(userToken: userToken!, completion: {(fetchedUser, statusCode) in
             user = fetchedUser
@@ -112,54 +128,8 @@ class InsertTableViewController: UITableViewController, UIPickerViewDataSource, 
     }
     
     
-    func populateCustomFields() {
-        if listing.entityType != nil {
-            if listing.entityType != "AdPlain" {
-                var customFieldNames = [(String, String)]()
-                switch listing.entityType! {
-                case "AdCar":
-                    NetworkController.getValuesForDepending(field: "Model", independendField: "Make", value: independentFieldLabel.text!, entityType: "AdCar", completion: {(values, error) in
-                    })
-                    customFieldNames = [
-                        ("Condition", "Zustand"),
-                        ("BodyColor", "Außenfarbe"),
-                        ("BodyForm", "Karosserieform"),
-                        ("GearType", "Getriebeart"),
-                        ("FuelType", "Kraftstoffart"),
-                        ("InitialRegistration", "Erstzulassung"),
-                        ("Mileage", "Kilometerstand"),
-                        ("Power", "Leistung")
-                    ]
-                    
-                default: break
-                    
-                }
-                    NetworkController.getOptionsFor(customFields: customFieldNames, entityType: listing.entityType!, completion: {(fields, error) in
-                        if error == nil && fields != nil {
-                            self.customFields = fields!
-                        }
-                        self.tableView.reloadSections(IndexSet(integer: 2), with: .none)
-                        
-                    })
-                
-            } else {
-                self.customFields.removeAll()
-                self.independentFieldLabel.text = ""
-                self.tableView.reloadSections(IndexSet(integer: 2), with: .none)
-            }
-        }
-        
-    }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-    }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     
     
     func clearAll() {
@@ -171,10 +141,13 @@ class InsertTableViewController: UITableViewController, UIPickerViewDataSource, 
         adTypeTextField.text = "Angebot"
         categoryLabel.text = "Bitte wählen Sie ein Kategorie"
         categoryLabel.textColor = UIColor.lightGray
+        independentFieldLabel.text = ""
+        dependentFieldLabel.text = ""
         listing = Listing()
     }
     
     func prePopulate() {
+        
         titleTextField.text = listing.title
         categoryLabel.text  = categoryBuilder.allCategories.filter({$0.id == listing.catID})[0].name
         descriptionTextView.text = listing.description
@@ -182,6 +155,16 @@ class InsertTableViewController: UITableViewController, UIPickerViewDataSource, 
         priceTypeTextField.text = listing.priceType
         adTypeTextField.text = listing.adType?.rawValue
         categoryLabel.textColor = UIColor.black
+        independentFieldLabel.text = listing.specialFields?.first(where: {$0.dependingField != nil})?.name
+        dependentFieldLabel.text = listing.specialFields?.first(where: {$0.dependsOn != nil})?.name
+        if let specialFields = listing.specialFields?.filter({$0.dependingField == nil && $0.dependsOn == nil}) {
+            if specialFields.count > 0 {
+            customFields = specialFields
+            for i in 0...customFields.count - 1 {
+            customFieldCellCollection[i].textField.text = customFields[i].value
+            }
+            }
+        }
         cityLabel.text = listing.city
         zipLabel.text = listing.zipcode
         streetLabel.text = listing.street
@@ -191,111 +174,11 @@ class InsertTableViewController: UITableViewController, UIPickerViewDataSource, 
  
 
 
-    var currentPickerArray = [String]()
-    var currentTextField = UITextField()
-    
-    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        switch textField {
-        case adTypeTextField:
-            currentTextField = adTypeTextField
-            adTypeTextField.inputView = pickerView
-            adTypeTextField.inputAccessoryView = toolBar
-            currentPickerArray = Array(AdType.allValues.values)
-            adTypeTextField.text = currentPickerArray[0]
-        case priceTypeTextField:
-            currentTextField = priceTypeTextField
-            priceTypeTextField.inputView = pickerView
-            priceTypeTextField.inputAccessoryView = toolBar
-            currentPickerArray = Array(PriceType.allValues.values)
-            priceTypeTextField.text = currentPickerArray[0]
-        default: break
-        }
-       pickerView.reloadAllComponents()
-        return true
-    }
-
-
     override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         view.endEditing(true)
     }
     
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return currentPickerArray.count
-    }
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return currentPickerArray[row]
-    }
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        
-        currentTextField.text = currentPickerArray[row]
-    }
-    func pickerDonePressed() {
-    view.endEditing(true)
-    }
-    
 
-    // :MARK ImageCollectionView
-
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if indexPath.row == imageArray.count {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "insertAddImageCellID", for: indexPath) as! AddImageCollectionViewCell
-        return cell
-        } else {
-        let image = imageArray[indexPath.row]
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "insertImageCellID", for: indexPath) as! InsertImageCollectionViewCell
-        cell.tag = indexPath.row
-        cell.imageView.image = image
-        cell.delegate = self
-        return cell
-        }
-    }
-    
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
-    }
-
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return imageArray.count + 1
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 130 , height: 130)
-    }
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-    }
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(indexPath)
-      //  if indexPath.row == imageArray.count {
-            present(imagePicker, animated: true, completion: nil)
-       // }
-    }
-    
-    
-    // MARK: ImagePickerDelegate
-    
-    func cancelButtonDidPress(_ imagePicker: ImagePickerController) {
-        imageArray.removeAll()
-        imageCollectionView.reloadData()
-        imageCollectionView.scrollToItem(at: IndexPath(item: imageArray.endIndex, section: 0), at: .right, animated: true)
-        imagePicker.dismiss(animated: true, completion: nil)
-    }
-    
-    func wrapperDidPress(_ imagePicker: ImagePickerController, images: [UIImage]) {
-
-    }
-    
-    func doneButtonDidPress(_ imagePicker: ImagePickerController, images: [UIImage]) {
-        imageArray = images
-        imageCollectionView.reloadData()
-        imageCollectionView.scrollToItem(at: IndexPath(item: imageArray.endIndex, section: 0), at: .right, animated: true)
-        imagePicker.dismiss(animated: true, completion: nil)
-    }
-   
-    
     
     // MARK: Validation
     
@@ -388,10 +271,46 @@ class InsertTableViewController: UITableViewController, UIPickerViewDataSource, 
         if let houseNumber = houseNumberLabel.text {
             values["HouseNumber"] = houseNumber
         }
+        
+        if customFields.count > 0 {
+        for i in 0...customFields.count - 1 {
+            if let value = customFieldCellCollection[i].textField.text {
+                customFields[i].value = value
+            }
+        }
+        }
+        listing.specialFields = [SpecialField]()
+        listing.specialFields?.append(contentsOf: customFields)
+        
+        switch listing.entityType! {
+        case "AdCar":
+            let independetField = SpecialField(name: "Make", descriptiveString: "Marke", value: independentFieldLabel.text, possibleValues: nil)
+            let dependentField = SpecialField(name: "Model", descriptiveString: "Model", value: dependentFieldLabel.text, possibleValues: nil)
+            listing.specialFields?.append(independetField)
+            listing.specialFields?.append(dependentField)
+        case "AdApartment":
+            let independetField = SpecialField(name: "SellOrRent", descriptiveString: "Verkauf oder Vermietung", value: independentFieldLabel.text, possibleValues: nil)
+            let dependentField = SpecialField(name: "PriceTypeProperty", descriptiveString: "Preisart", value: dependentFieldLabel.text, possibleValues: nil)
+            listing.specialFields?.append(independetField)
+            listing.specialFields?.append(dependentField)
+        default:
+            break
+        }
+        
+        if listing.specialFields != nil {
+        for specialField in listing.specialFields! {
+            if let name = specialField.name {
+                if let value = specialField.value {
+                    values[name] = value
+                }
+            }
+        }
+        }
         // End of Optional Values
-        NetworkController.insertAdWith(values: values, images: imageArray, existing: listingExists, userToken: userToken!, completion: { error in
-            pendingAlertController.dismiss(animated: true, completion: nil)
-            if error == nil {
+        
+        NetworkController.insertAdWith(values: values, images: imageArray, existing: listingExists, userToken: userToken!, completion: { errorString in
+            pendingAlertController.dismiss(animated: true, completion: {
+            if errorString == nil {
                 self.clearAll()
                 let successMenu = UIAlertController(title: "Anzeige aufgegeben", message: "Herzlichen Glückwunsch Ihre Anzeige wurde erfolgreich aufgegeben.", preferredStyle: .alert)
                 let confirmAction = UIAlertAction(title: "Ok", style: .default, handler: {alert in
@@ -400,129 +319,19 @@ class InsertTableViewController: UITableViewController, UIPickerViewDataSource, 
                 successMenu.addAction(confirmAction)
                 self.present(successMenu, animated: true, completion: nil)
             } else {
-                let errorMenu = UIAlertController(title: "Fehler", message: "Da ist leider etwas schief gegangen, das Inserieren der Anzeige war nicht erfolgreich.", preferredStyle: .alert)
+                let errorMenu = UIAlertController(title: "Fehler", message: errorString, preferredStyle: .alert)
                 let confirmAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
                 errorMenu.addAction(confirmAction)
                 self.present(errorMenu, animated: true, completion: nil)
             }
+            })
         })
     }
     
 
+  
     
-    
-    //  MARK: CellSubclassDelegate
-    
-    func buttonTapped(cell: InsertImageCollectionViewCell) {
-        guard let indexPath = self.imageCollectionView.indexPath(for: cell) else {return}
-        print("Button tapped on item \(indexPath.row)")
-        
-       // imageArray.remove(at: indexPath.row)
-       // imageCollectionView.deleteItems(at: [indexPath])
     }
-    
-    
-    
-    // MARK: - Table view data source
-    
-//    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//        switch section {
-//        case 4:
-//            return sliderSectionHeaderString
-//        default:
-//            return nil
-//        }
-//        
-//    }
-    
-//    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        let headerView = UITableViewHeaderFooterView()
-//        return headerView
-//    }
-//    
-    
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
-        case 0: return 1
-        case 1: return 1
-        case 2: return customFields.count
-        case 3: return 1
-        case 4: return 3
-        case 5: return 1
-        case 6: return 1
-        default: return 0
-        }
-    }
-
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.section == 2 {
-            let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
-            cell.textLabel?.text = customFields[indexPath.row].0.1
-            let frame = CGRect(x: 15, y: 0, width: cell.contentView.bounds.size.width - 30, height: cell.contentView.bounds.size.height)
-            let textField = UITextField(frame: frame)
-            textField.textAlignment = .right
-            textField.placeholder = customFields[indexPath.row].1[0]
-            cell.addSubview(textField)
-            return cell
-        } else {
-            return super.tableView(tableView, cellForRowAt: indexPath)
-        }
-    }
-
-    
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if shouldHideSection((indexPath as NSIndexPath).section) {
-            return 0
-        } else {
-            return super.tableView(tableView, heightForRowAt: indexPath)
-        }
-    }
-    
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if shouldHideSection(section) {
-            return 0.1
-        } else {
-            return super.tableView(tableView, heightForHeaderInSection: section)
-        }
-    }
-    
-    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        if shouldHideSection(section) {
-            return 0.1
-        } else {
-            return super.tableView(tableView, heightForFooterInSection: section)
-        }
-    }
-    
-    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        if shouldHideSection(section) {
-            let headerView = view as! UITableViewHeaderFooterView
-            headerView.textLabel!.textColor = UIColor.clear
-        }
-    }
-    
-    override func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
-        if shouldHideSection(section) {
-            let footerView = view as! UITableViewHeaderFooterView
-            footerView.textLabel!.textColor = UIColor.clear
-        }
-    }
-    
-    
-    func shouldHideSection(_ section: Int) -> Bool {
-        switch section {
-        case 2:
-            if listing.entityType == "AdCar" {
-            return false
-            } else {
-            return true
-            }
-        default: return false
-        }
-        
-    }
-    
-}
 
 
 

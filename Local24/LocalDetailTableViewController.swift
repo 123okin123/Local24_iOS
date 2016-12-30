@@ -216,7 +216,7 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        gaUserTracking("DetailInMainCategory_\(adMainCat)")
+        gaUserTracking("Search/DetailInMainCategory_\(adMainCat)")
         navigationController?.hidesBarsOnSwipe = false
         
     }

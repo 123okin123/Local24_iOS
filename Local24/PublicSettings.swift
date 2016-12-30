@@ -15,7 +15,6 @@ set
  dryRunGA = false
  mode = "www"
  gaLogging = false
- adultContent = false
  
 befor publishing!!!!
 

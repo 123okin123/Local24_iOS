@@ -92,6 +92,7 @@ class LocationViewController: UIViewController, UISearchBarDelegate, UISearchRes
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        navigationController?.viewControllers
         gaUserTracking("SelectLocation")
         
         

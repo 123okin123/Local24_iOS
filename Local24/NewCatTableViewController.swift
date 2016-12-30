@@ -23,7 +23,7 @@ class NewCatTableViewController: UITableViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        gaUserTracking("HomeChooseSubCategoryInMainCategory=\(categories.mainCatsStrings[mainCatTag])")
+        gaUserTracking("Home/\(categories.mainCatsStrings[mainCatTag])/ChooseSubCategory")
         navigationItem.title = categories.mainCatsStrings[mainCatTag]
         
     }

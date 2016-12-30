@@ -342,10 +342,10 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UIScrollViewD
             webView.load(request)
         }
         updateFilterButtons()
-        if searchBar.text != nil {
+
             let tracker = GAI.sharedInstance().defaultTracker
-            tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Search", action: "searchInListings", label: searchBar.text!, value: 0).build() as NSDictionary as! [AnyHashable: Any])
-        }
+            tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Search", action: "searchInListings", label: filter.searchString, value: 0).build() as NSDictionary as! [AnyHashable: Any])
+        
  
     }
 
@@ -387,9 +387,9 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UIScrollViewD
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
          print("webViewURL:\(webView.url!.absoluteString)")
         if filter.mainCategoryID != 99 {
-        gaUserTracking("Search_in_\(filter.categories.mainCatsStrings[filter.mainCategoryID])")
+        gaUserTracking("Search/\(filter.categories.mainCatsStrings[filter.mainCategoryID])")
         } else {
-        gaUserTracking("Search_in_AlleAnzeigen")
+        gaUserTracking("Search/AlleAnzeigen")
         }
         
         let loadMeta = "var meta = document.createElement('meta'); meta.name = 'viewport'; meta.content = 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0'; document.getElementsByTagName('head')[0].appendChild(meta);"

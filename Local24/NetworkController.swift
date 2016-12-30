@@ -34,7 +34,7 @@ class NetworkController {
         })
     }
     
-    class func insertAdWith(values: [String:Any], images: [UIImage]?, existing: Bool, userToken: String, completion: @escaping (_ error :Error?) -> Void) {
+    class func insertAdWith(values: [String:Any], images: [UIImage]?, existing: Bool, userToken: String, completion: @escaping (_ errorString :String?) -> Void) {
         let method:  HTTPMethod
         let url :URLConvertible
         if existing {
@@ -44,10 +44,11 @@ class NetworkController {
             method = .post
             url = "https://cfw-api-11.azurewebsites.net/ads?auth=\(userToken)"
         }
-        Alamofire.request(url, method: method, parameters: values, encoding: JSONEncoding.default).responseString (completionHandler: { response in
-            debugPrint(response)
-            switch response.result {
-            case .success:
+        Alamofire.request(url, method: method, parameters: values, encoding: JSONEncoding.default).responseJSON (completionHandler: { responseData in
+            debugPrint(responseData)
+            if let response = responseData.response {
+            switch response.statusCode {
+            case 201:
                 Alamofire.request("https://cfw-api-11.azurewebsites.net/ads/", method: .get, parameters: ["auth":userToken, "pagesize":1]).validate().responseJSON (completionHandler: {response in
                     switch response.result {
                     case .success:
@@ -60,7 +61,7 @@ class NetworkController {
                                             if statusCode == 201 {
                                                 completion(nil)
                                             } else {
-                                                completion(NCError.RuntimeError("Image Upload Failed"))
+                                                completion("Image Upload Failed")
                                                 Alamofire.request("https://cfw-api-11.azurewebsites.net/ads/", method: .delete, parameters: ["auth":userToken, "id":id, "finally": true]).validate().responseJSON(completionHandler: {response in
                                                     debugPrint(response)
                                                 })
@@ -74,12 +75,17 @@ class NetworkController {
                                 
                             })
                         }
-                    case .failure: print(response.response!)
+                    case .failure: completion("Ad Upload Fails")
                     }
                 })
-            case .failure:
-                print(response.response!)
-                completion(NCError.RuntimeError("Ad Upload Failed"))
+            default:
+                let values = responseData.result.value as! [String : String]
+                var errorString = ""
+                for (_,value) in values {
+                errorString = errorString + value + "\n"
+                }
+                completion(errorString)
+            }
             }
         })
     }
@@ -119,16 +125,33 @@ class NetworkController {
     // MARK: Forms
     
     
-    class func getValuesForDepending(field: String, independendField: String, value: String, entityType: String, completion: (_ values: [String]?, _ error: Error?) -> Void) {
+    class func getValuesForDepending(field: String, independendField: String, value: String, entityType: String, completion: @escaping (_ values: [String]?, _ error: Error?) -> Void) {
         Alamofire.request("https://cfw-api-11.azurewebsites.net/forms/\(entityType)/options", method: .get, parameters: ["name": entityType,"dependson": independendField, "value": value]).responseJSON(completionHandler: { response in
         debugPrint(response)
+            if response.result.isSuccess {
+                if let json = response.result.value as? [[AnyHashable: Any]] {
+               
+                    if json.count > 0 {
+                        var values = [String]()
+                        for i in 0...json.count - 1 {
+                            let value = json[i]["OptionValue"] as! String
+                            values.append(value)
+                        }
+                        completion(values, nil)
+                    } else {
+                    completion(nil, NCError.RuntimeError("no values"))
+                    }
+                }
+            } else {
+            completion(nil, response.result.error)
+            }
         })
     }
     
 
     
     
-    class func getOptionsFor(customFields :[(String,String)], entityType: String, completion: @escaping (_ fields:[((String,String),[String])]?, _ error: Error?) -> Void) {
+    class func getOptionsFor(customFields :[(String,String)], entityType: String, completion: @escaping (_ fields:[SpecialField]?, _ error: Error?) -> Void) {
         
         Alamofire.request("https://cfw-api-11.azurewebsites.net/forms/\(entityType)/schema", method: .get).responseJSON(completionHandler: { response in
             
@@ -137,7 +160,7 @@ class NetworkController {
                     do {
                         let doc = try XMLDocument(string: responseString)
                         if let properties = doc.root?.firstChild(tag: "Properties") {
-                            var fields = [((String,String),[String])]()
+                            var fields = [SpecialField]()
                             for property in properties.children {
                                 if let propertyName = property.attr("name") {
                                     var visibleName = ""
@@ -147,7 +170,8 @@ class NetworkController {
                                     }) {
                                         if let options = property.firstChild(tag: "Constraints")?.firstChild(tag: "OptionsOnly") {
                                             if let optionsArray = options.attr("options")?.components(separatedBy: ",") {
-                                            fields.append(((propertyName, visibleName), optionsArray))
+                                            fields.append(SpecialField(name: propertyName, descriptiveString: visibleName, value: nil, possibleValues: optionsArray))
+                                               
                                             }
                                         }
                                     }
@@ -167,31 +191,99 @@ class NetworkController {
                                     initialRegistration.append(month+"/"+String(i))
                                     }
                                 }
-                                fields.append((("InitialRegistration", visibleName), initialRegistration))
+                                fields.append(SpecialField(name: "InitialRegistration", descriptiveString: visibleName, value: nil, possibleValues: initialRegistration))
                                 }
                                 if customFields.contains(where: {(string0, string1) in
                                     visibleName = string1
                                     return string0 == "Mileage"
                                 }) {
                                 var mileAge = [String]()
-                                for i in 0...100 {
-                                    mileAge.append(String(i*5000))
+                                for i in 1...100 {
+                                    mileAge.append(String(i*2500))
                                 }
-                                fields.append((("Mileage", visibleName), mileAge))
+                                fields.append(SpecialField(name: "Mileage", descriptiveString: visibleName, value: nil, possibleValues: mileAge))
                                 }
                                 if customFields.contains(where: {(string0, string1) in
                                     visibleName = string1
                                     return string0 == "Power"
                                 }) {
                                 var power = [String]()
-                                for i in 0...500 {
+                                for i in 1...500 {
                                     power.append(String(i))
                                 }
-                                fields.append((("Power", visibleName), power))
+                                fields.append(SpecialField(name: "Power", descriptiveString: visibleName, value: nil, possibleValues: power))
                                 }
+                            case "AdApartment":
+                                var visibleName = ""
+                                if customFields.contains(where: {(string0, string1) in
+                                    visibleName = string1
+                                    return string0 == "Size"
+                                }) {
+                                    var size = [String]()
+                                    for i in 1...1000 {
+                                        size.append(String(i))
+                                    }
+                                    fields.append(SpecialField(name: "Size", descriptiveString: visibleName, value: nil, possibleValues: size))
+                                }
+                                if customFields.contains(where: {(string0, string1) in
+                                    visibleName = string1
+                                    return string0 == "AvailableFrom"
+                                }) {
+                                    var availableFrom = [String]()
+                                    let months = ["01","02","03","04","05","06","07","08","09","10","11","12"]
+                                    for i in 2016...2020 {
+                                        for month in months {
+                                            availableFrom.append(month+"/"+String(i))
+                                        }
+                                    }
+                                    fields.append(SpecialField(name: "AvailableFrom", descriptiveString: visibleName, value: nil, possibleValues: availableFrom))
+                                }
+                                if customFields.contains(where: {(string0, string1) in
+                                    visibleName = string1
+                                    return string0 == "CommissionAmount"
+                                }) {
+                                    var commissionAmount = [String]()
+                                    for i in 0...5000 {
+                                        commissionAmount.append(String(i*10))
+                                    }
+                                    fields.append(SpecialField(name: "CommissionAmount", descriptiveString: visibleName, value: nil, possibleValues: commissionAmount))
+                                }
+                                if customFields.contains(where: {(string0, string1) in
+                                    visibleName = string1
+                                    return string0 == "AdditionalCosts"
+                                }) {
+                                    var additionalCosts = [String]()
+                                    for i in 0...500 {
+                                        additionalCosts.append(String(i*10))
+                                    }
+                                    fields.append(SpecialField(name: "AdditionalCosts", descriptiveString: visibleName, value: nil, possibleValues: additionalCosts))
+                                }
+                                if customFields.contains(where: {(string0, string1) in
+                                    visibleName = string1
+                                    return string0 == "DepositAmount"
+                                }) {
+                                    var depositAmount = [String]()
+                                    for i in 0...5000 {
+                                        depositAmount.append(String(i*10))
+                                    }
+                                    fields.append(SpecialField(name: "DepositAmount", descriptiveString: visibleName, value: nil, possibleValues: depositAmount))
+                                }
+                                if customFields.contains(where: {(string0, string1) in
+                                    visibleName = string1
+                                    return string0 == "TotalRooms"
+                                }) {
+                                    var totalRooms = [String]()
+                                    for i in 1...20 {
+                                        totalRooms.append(String(i))
+                                    }
+                                    fields.append(SpecialField(name: "TotalRooms", descriptiveString: visibleName, value: nil, possibleValues: totalRooms))
+                                }
+                                
+                                
+                                
+                                
                             default: break
                             }
-                            debugPrint(fields)
                             completion(fields,nil)
                         }
                     } catch let error {
@@ -294,7 +386,15 @@ class NetworkController {
         Alamofire.request("https://www.local24.de/registrieren/", method: .post, parameters: values).responseString { responseResult in
         debugPrint(responseResult)
             if responseResult.result.isSuccess {
-            completion(nil)
+                if let string = responseResult.result.value {
+                    if string.contains("successBox") {
+                        completion(nil)
+                    } else {
+                        completion(NCError.RuntimeError("Fehler"))
+                    }
+                } else {
+                    completion(NCError.RuntimeError("Fehler"))
+                }
             } else {
             completion(responseResult.result.error)
             }

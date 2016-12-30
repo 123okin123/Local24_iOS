@@ -16,6 +16,9 @@ class Listing {
     var advertiserID :Int?
     var title :String?
     var description :String?
+
+    var specialFields :[SpecialField]?
+    
     var adType :AdType?
     var entityType :String?
     var price :String?
@@ -53,7 +56,7 @@ class Listing {
     var url :URL?
     
     
-    var infos = [(String, String)]()
+    //var infos = [(String, String)]()
     // Auto
     var condition :String?
     var make : String?
@@ -77,6 +80,9 @@ class Listing {
     
     
     init(value: [AnyHashable:Any]) {
+        
+        specialFields = [SpecialField]()
+        
         if let adID = value["Id"] as? Int {
             self.adID = adID
         }
@@ -106,7 +112,7 @@ class Listing {
         }
         if let priceType = value["PriceType"] as? String {
             self.priceType = priceType
-            self.infos.append(("Preisart", priceType))
+          //  self.infos.append(("Preisart", priceType))
         }
 
         if let listingPrice = value["Price"] as? Float {
@@ -123,7 +129,7 @@ class Listing {
             let listingDateDay = listingDate[Range(listingDate.characters.index(listingDate.startIndex, offsetBy: 8) ..< listingDate.characters.index(listingDate.startIndex, offsetBy: 10))]
             listingDate = "\(listingDateDay).\(listingDateMonth).\(listingDateYear)"
             self.createdDate = listingDate
-            self.infos.append(("Datum", listingDate))
+           // self.infos.append(("Datum", listingDate))
         }
         if var updatedAt = value["UpdatedAt"] as? String {
             let updatedAtYear = updatedAt[Range(updatedAt.startIndex ..< updatedAt.characters.index(updatedAt.startIndex, offsetBy: 4))]
@@ -131,7 +137,7 @@ class Listing {
             let updatedAtDay = updatedAt[Range(updatedAt.characters.index(updatedAt.startIndex, offsetBy: 8) ..< updatedAt.characters.index(updatedAt.startIndex, offsetBy: 10))]
             updatedAt = "\(updatedAtDay).\(updatedAtMonth).\(updatedAtYear)"
             self.updatedDate = updatedAt
-            self.infos.append(("Aktualisiert", updatedAt))
+            //self.infos.append(("Aktualisiert", updatedAt))
         }
         if let hasImages = value["HasImages"] as? Bool {
         if hasImages  {
@@ -174,68 +180,73 @@ class Listing {
         
         //Autos
         if let condition = value["Condition"] as? String {
-            self.condition = condition
+            self.specialFields?.append(SpecialField(name: "Condition", descriptiveString: "Zustand", value: condition, possibleValues: nil))
         }
         if let make = value["Make"] as? String {
-            self.make = make
+            let specialField = SpecialField(name: "Make", descriptiveString: "Marke", value: make, possibleValues: nil)
+            specialField.dependingField = SpecialField(name: "Model", descriptiveString: "Model", value: nil, possibleValues: nil)
+            self.specialFields?.append(specialField)
+            
         }
         if let model = value["Model"] as? String {
-            self.model = model
+            let spicalField = SpecialField(name: "Model", descriptiveString: "Model", value: model, possibleValues: nil)
+            spicalField.dependsOn = SpecialField(name: "Make", descriptiveString: "Marke", value: nil, possibleValues: nil)
+            self.specialFields?.append(spicalField)
         }
         if let mileage = value["Mileage"] as? Float {
             let formatter = NumberFormatter()
             formatter.numberStyle = .decimal
             let mileageString = formatter.string(from: NSNumber(value: mileage))! + " km"
-            self.mileageString = mileageString
+            self.specialFields?.append(SpecialField(name: "Mileage", descriptiveString: "Laufleistung", value: mileageString, possibleValues: nil))
         }
         if let initialRegistration = value["InitialRegistration"] as? String {
-            self.initialRegistration = initialRegistration
+            self.specialFields?.append(SpecialField(name: "InitialRegistration", descriptiveString: "Erstzulassung", value: initialRegistration, possibleValues: nil))
         }
         if let fuelType = value["FuelType"] as? String {
-            self.fuelType = fuelType
+            self.specialFields?.append(SpecialField(name: "FuelType", descriptiveString: "Kraftstoffart", value: fuelType, possibleValues: nil))
         }
         if let fuelConsumption = value["FuelConsumption"] as? Float {
             let formatter = NumberFormatter()
             formatter.numberStyle = .none
             let fuelConsumptionString = formatter.string(from: NSNumber(value: fuelConsumption))! + " l/100km (kombiniert)"
-            self.fuelConsumptionString = fuelConsumptionString
+            self.specialFields?.append(SpecialField(name: "FuelConsumption", descriptiveString: "Verbrauch", value: fuelConsumptionString, possibleValues: nil))
         }
         if let power = value["Power"] as? Float {
             let formatter = NumberFormatter()
             formatter.numberStyle = .none
             let kWpower = power * 0.735499
             let powerString = formatter.string(from: NSNumber(value: power))! + "PS / " + formatter.string(from: NSNumber(value: kWpower))! + "kW"
-            self.powerString = powerString
+            self.specialFields?.append(SpecialField(name: "Power", descriptiveString: "Leistung", value: powerString, possibleValues: nil))
         }
         if let gearType = value["GearType"] as? String {
-            self.gearType = gearType
+            self.specialFields?.append(SpecialField(name: "GearType", descriptiveString: "Getriebeart", value: gearType, possibleValues: nil))
         }
         
         // Immobilien
         if let priceTypeProperty = value["PriceTypeProperty"] as? String {
-            self.priceTypeProperty = priceTypeProperty
+            self.specialFields?.append(SpecialField(name: "PriceTypeProperty", descriptiveString: "Preisart", value: priceTypeProperty, possibleValues: nil))
         }
         if var additionalCostsFloat = value["AdditionalCosts"] as? Float {
             additionalCostsFloat = (additionalCostsFloat * 1000)/1000
             //let additionalCosts = "\(String(format: "%.2f", additionalCostsFloat).replacingOccurrences(of: ".", with: ",")) €"
-            self.additionalCostsFloat = additionalCostsFloat
+            self.specialFields?.append(SpecialField(name: "AdditionalCosts", descriptiveString: "Nebenkosten", value: String(additionalCostsFloat), possibleValues: nil))
         }
         if var depositAmountFloat = value["DepositAmount"] as? Float {
             depositAmountFloat = (depositAmountFloat * 1000)/1000
             //let depositAmount = "\(String(format: "%.2f", depositAmountFloat).replacingOccurrences(of: ".", with: ",")) €"
-            self.depositAmountFloat = depositAmountFloat
+            self.specialFields?.append(SpecialField(name: "DepositAmount", descriptiveString: "Kaution", value: String(depositAmountFloat), possibleValues: nil))
         }
         if var sizeFloat = value["Size"] as? Float {
             sizeFloat = (sizeFloat * 1000)/1000
             //let size = "\(String(format: "%.2f", sizeFloat).replacingOccurrences(of: ".", with: ",")) m²"
-            self.size = sizeFloat
+            self.specialFields?.append(SpecialField(name: "Size", descriptiveString: "Wohnfläche", value: String(sizeFloat), possibleValues: nil))
         }
         if let totalRoomsInt = value["TotalRooms"] as? Int {
             //let totalRooms = String(totalRoomsInt)
-            self.totalRoomsInt = totalRoomsInt
+            self.specialFields?.append(SpecialField(name: "TotalRooms", descriptiveString: "Anzahl Räume", value: String(totalRoomsInt), possibleValues: nil))
         }
         if let apartmentType = value["ApartmentType"] as? String {
-            self.apartmentType = apartmentType
+            self.specialFields?.append(SpecialField(name: "ApartmentType", descriptiveString: "Wohungstyp", value: apartmentType, possibleValues: nil))
         }
     }
     
@@ -263,3 +274,27 @@ enum PriceType :String {
     case keineAngabe = "Keine Angabe"
     static let allValues = [zuVerschenken : "Zu verschenken", vhb : "VHB", festpreis : "Festpreis", keineAngabe : "Keine Angabe"]
 }
+
+
+
+
+class SpecialField {
+    var name:String?
+    var descriptiveString :String?
+    var value :String?
+    var possibleValues :[String]?
+    var isIndipendent = true
+    var isDependent = false
+    var dependsOn :SpecialField?
+    var dependingField :SpecialField?
+    
+    init(name: String?, descriptiveString :String?, value: String?, possibleValues: [String]?) {
+        self.name = name
+        self.descriptiveString = descriptiveString
+        self.value = value
+        self.possibleValues = possibleValues
+    }
+}
+
+
+
