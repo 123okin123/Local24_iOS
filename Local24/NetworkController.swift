@@ -21,7 +21,6 @@ class NetworkController {
     
     class func loadAdWith(id: Int, completion: @escaping (_ listing: Listing?, _ error: Error?) -> Void) {
         Alamofire.request("https://cfw-api-11.azurewebsites.net/public/ads/\(id)/").responseJSON(completionHandler: { response in
-            debugPrint(response)
             switch response.result {
             case .failure(let error):
                 completion(nil, error)
@@ -45,7 +44,6 @@ class NetworkController {
             url = "https://cfw-api-11.azurewebsites.net/ads?auth=\(userToken)"
         }
         Alamofire.request(url, method: method, parameters: values, encoding: JSONEncoding.default).responseJSON (completionHandler: { responseData in
-            debugPrint(responseData)
             if let response = responseData.response {
             switch response.statusCode {
             case 201:
@@ -63,7 +61,6 @@ class NetworkController {
                                             } else {
                                                 completion("Image Upload Failed")
                                                 Alamofire.request("https://cfw-api-11.azurewebsites.net/ads/", method: .delete, parameters: ["auth":userToken, "id":id, "finally": true]).validate().responseJSON(completionHandler: {response in
-                                                    debugPrint(response)
                                                 })
                                             }
                                         }
@@ -127,7 +124,6 @@ class NetworkController {
     
     class func getValuesForDepending(field: String, independendField: String, value: String, entityType: String, completion: @escaping (_ values: [String]?, _ error: Error?) -> Void) {
         Alamofire.request("https://cfw-api-11.azurewebsites.net/forms/\(entityType)/options", method: .get, parameters: ["name": entityType,"dependson": independendField, "value": value]).responseJSON(completionHandler: { response in
-        debugPrint(response)
             if response.result.isSuccess {
                 if let json = response.result.value as? [[AnyHashable: Any]] {
                
@@ -287,7 +283,6 @@ class NetworkController {
                             completion(fields,nil)
                         }
                     } catch let error {
-                        print(error)
                         completion(nil,error)
                     }
                 
@@ -318,8 +313,7 @@ class NetworkController {
                 upload.responseJSON { response in
                     completion((response.response?.statusCode))
                 }
-            case .failure(let encodingError):
-                print(encodingError)
+            case .failure: break
             }
         })
 
@@ -330,7 +324,6 @@ class NetworkController {
            
             switch response.result {
             case .failure(let error):
-                print(error)
                 completion(nil, error)
             case .success:
                 if let json = response.result.value as? [[AnyHashable: Any]] {
@@ -384,7 +377,6 @@ class NetworkController {
 
     class func registerUserWith(values :[String: Any], completion: @escaping (_ error:Error?) -> Void) {
         Alamofire.request("https://www.local24.de/registrieren/", method: .post, parameters: values).responseString { responseResult in
-        debugPrint(responseResult)
             if responseResult.result.isSuccess {
                 if let string = responseResult.result.value {
                     if string.contains("successBox") {
@@ -447,7 +439,6 @@ class NetworkController {
 
         let geocoder = CLGeocoder()
 
-        print(addressDict)
         
         geocoder.geocodeAddressDictionary(addressDict, completionHandler: { (placemarks, error) in
             if error == nil {

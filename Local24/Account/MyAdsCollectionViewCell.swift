@@ -26,6 +26,7 @@ class MyAdsCollectionViewCell: UICollectionViewCell {
     var listing :Listing! {didSet {
         if listing.adState == .paused {
             pausedIndicatorView.isHidden = false
+            self.layer.add(CATransition(), forKey: nil)
         } else {
             pausedIndicatorView.isHidden = true
         }
