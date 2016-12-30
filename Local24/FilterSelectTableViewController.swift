@@ -34,7 +34,7 @@ class FilterSelectTableViewController: UITableViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        gaUserTracking("FilterSelect1")
+        gaUserTracking("Filter/\(self.title)")
     }
 
     override func didReceiveMemoryWarning() {

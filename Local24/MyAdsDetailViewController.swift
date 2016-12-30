@@ -40,6 +40,17 @@ class MyAdsDetailViewController: UIViewController, UITableViewDataSource, UITabl
     
     var listing = Listing()
 
+    var infos : [(name: String?, value: String?)] {
+        var infos = [(name: String?, value: String?)]()
+        if let specialFields = listing.specialFields {
+            for specialField in specialFields {
+                infos.append((specialField.descriptiveString, specialField.value))
+            }
+        }
+        infos.append(("Erstellt am",listing.createdDate))
+        infos.append(("Aktuallisiert am",listing.updatedDate))
+        return infos
+    }
     
     let activityIndi = UIActivityIndicatorView(activityIndicatorStyle: .gray)
     
@@ -109,7 +120,7 @@ class MyAdsDetailViewController: UIViewController, UITableViewDataSource, UITabl
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        gaUserTracking("MyAdsDetail")
+        gaUserTracking("Profil/MyAdsDetail")
         navigationController?.hidesBarsOnSwipe = false
         
     }
@@ -272,7 +283,7 @@ class MyAdsDetailViewController: UIViewController, UITableViewDataSource, UITabl
         case 0:
             return nil
         case 1:
-            if listing.infos.count > 0 {
+            if infos.count > 0 {
                 return "Info"
             } else {
                 return nil
@@ -294,7 +305,7 @@ class MyAdsDetailViewController: UIViewController, UITableViewDataSource, UITabl
         case 0:
             numberOfRows = 2
         case 1:
-            numberOfRows = listing.infos.count
+            numberOfRows = infos.count
         case 2:
             numberOfRows = 1
         case 3:
@@ -330,8 +341,8 @@ class MyAdsDetailViewController: UIViewController, UITableViewDataSource, UITabl
             }
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "infoCellID") as UITableViewCell!
-            cell?.textLabel!.text! = listing.infos[indexPath.row].0
-            cell?.detailTextLabel!.text! = listing.infos[indexPath.row].1
+            cell?.textLabel?.text = infos[indexPath.row].name
+            cell?.detailTextLabel?.text = infos[indexPath.row].value
             defaultcell = cell!
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "desriptionCellID") as! DescriptionTableViewCell!

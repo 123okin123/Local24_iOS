@@ -22,8 +22,9 @@ class SelectSubCategoryTableViewController: UITableViewController {
         subCategories = categoryBuilder.subCategories.filter({
                 $0.idParentCategory == parentCategoryID &&
                         $0.adclass != "AdTruck" &&
-                        $0.adclass != "AdApartment" &&
                         $0.adclass != "AdCat" &&
+                        $0.adclass != "AdCar" &&
+                        $0.adclass != "AdApartment" &&
                         $0.adclass != "AdCommune" &&
                         $0.adclass != "AdDating" &&
                         $0.adclass != "AdDog" &&
@@ -34,6 +35,11 @@ class SelectSubCategoryTableViewController: UITableViewController {
                         $0.adclass != "AdOtherProperty"
                 })
   
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        gaUserTracking("Insert/SelectSubCategory")
     }
     
     override func didReceiveMemoryWarning() {
@@ -67,6 +73,7 @@ class SelectSubCategoryTableViewController: UITableViewController {
                 insertVC.listing.entityType = subCategories[indexPath.row].adclass!
                 insertVC.categoryLabel.text = subCategories[indexPath.row].name
                 insertVC.categoryLabel.textColor = UIColor.black
+                /* Work in Progress
                 if subCategories[indexPath.row].adclass != "AdPlain" {
                     let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
                     let customFieldVCID = storyboard.instantiateViewController(withIdentifier: "customFieldVCID") as! CustomFieldTableViewController
@@ -75,8 +82,10 @@ class SelectSubCategoryTableViewController: UITableViewController {
                     
                     navigationController?.pushViewController(customFieldVCID, animated: true)
                 } else {
+ */
                 _ = navigationController?.popToViewController(insertVC, animated: true)
-                }
+               /* }*/
+ 
             }
         }
 

@@ -13,9 +13,15 @@ class ThanksTableViewController: UITableViewController {
     
     
     let thanks = ["Alamofire", "Bolts", "Facebook-iOS-SDK", "MapleBacon", "MZFormSheetPresentationController"]
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        gaUserTracking("More/ThanksOverview")
     }
     
     

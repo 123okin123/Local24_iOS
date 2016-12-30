@@ -37,6 +37,11 @@ class ChooseLocationViewController: UIViewController, UITableViewDelegate, UITab
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        gaUserTracking("Insert/ChooseLocation")
+    }
+    
     func configureSearchBar() {
         searchBar.delegate = self
         searchBar.setImage(UIImage(named: "lupe_grau"), for: UISearchBarIcon.search, state: UIControlState())

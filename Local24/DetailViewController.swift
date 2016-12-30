@@ -70,7 +70,7 @@ class DetailViewController: UIViewController, WKNavigationDelegate, WKUIDelegate
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         showMode(webView,view: self.view)
-        gaUserTracking("Detail_Partneranzeige")
+        gaUserTracking("Search/Detail_Partneranzeige")
         self.navigationController?.hidesBarsOnSwipe = false
         if !(urlToShow.absoluteString.lowercased().contains("local24.de/detail/")) {
         self.title = "Partneranzeige"

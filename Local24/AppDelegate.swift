@@ -27,7 +27,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let launchScreen = UIStoryboard(name: "LaunchScreen", bundle: nil).instantiateInitialViewController()!
         let tabBarVC = window!.rootViewController!
         tabBarVC.view.addSubview(launchScreen.view)
-        
+        let indicator = UIActivityIndicatorView()
+        indicator.frame.size = CGSize(width: 50, height: 50)
+        indicator.frame.origin = CGPoint(x: (launchScreen.view.frame.size.width/2) - 25, y: launchScreen.view.bounds.height - 120)
+        indicator.autoresizingMask = [.flexibleWidth, . flexibleHeight]
+        indicator.color = UIColor.lightGray
+        launchScreen.view.addSubview(indicator)
+        indicator.startAnimating()
         
         categoryBuilder.getCategories(completion: { (mainCat, subCat, error) in
             if error == nil {
@@ -39,6 +45,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             UIView.transition(with: tabBarVC.view, duration: 0.2, options: .curveEaseIn, animations: {
                                 launchScreen.view.alpha = 0
                             }, completion: { done in
+                                indicator.stopAnimating()
                                 launchScreen.view.removeFromSuperview()
                             })
                         
@@ -74,8 +81,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //ADWORDS CONVERSION TRACKING
         ACTConversionReporter.report(withConversionID: "1059198657", label: "vk-bCOu16WgQwa2I-QM", value: "0.50", isRepeatable: false)
       
-
-       
+        
          // FACEBOOK
         return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
        
