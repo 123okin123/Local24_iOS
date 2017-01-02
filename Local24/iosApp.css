@@ -107,10 +107,10 @@ body[data-page="search"] #wrapper, body[data-page="myclassifieds"] #wrapper,  bo
  height: 280px;
 }
 #s24_headline {
-font-size: 10px;
+font-size: 10px !important;
 }
 #s24_promotion {
-    display: none;
+    display: none !important;
 }
 #ads_listing_left {
     float: none;

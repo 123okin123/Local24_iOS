@@ -161,7 +161,9 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
                 let confirmAction = UIAlertAction(title: "Ok", style: .default, handler: {alert in})
                 errorMenu.addAction(confirmAction)
                 self.present(errorMenu, animated: true, completion: nil)
-            case 404: break // keine Inserate
+            case 404:
+            self.collectionView?.reloadData()
+            // keine Inserate
             default: break
                 }
             }

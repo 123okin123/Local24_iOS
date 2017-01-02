@@ -43,10 +43,12 @@ class NetworkController {
             method = .post
             url = "https://cfw-api-11.azurewebsites.net/ads?auth=\(userToken)"
         }
+        
         Alamofire.request(url, method: method, parameters: values, encoding: JSONEncoding.default).responseJSON (completionHandler: { responseData in
+            debugPrint(responseData)
             if let response = responseData.response {
             switch response.statusCode {
-            case 201:
+            case 201, 200:
                 Alamofire.request("https://cfw-api-11.azurewebsites.net/ads/", method: .get, parameters: ["auth":userToken, "pagesize":1]).validate().responseJSON (completionHandler: {response in
                     switch response.result {
                     case .success:
@@ -76,12 +78,16 @@ class NetworkController {
                     }
                 })
             default:
+                if responseData.result.isSuccess {
                 let values = responseData.result.value as! [String : String]
                 var errorString = ""
                 for (_,value) in values {
                 errorString = errorString + value + "\n"
                 }
                 completion(errorString)
+                } else {
+                completion(responseData.result.error!.localizedDescription)
+                }
             }
             }
         })

@@ -134,6 +134,7 @@ class InsertTableViewController: UITableViewController {
     
     func clearAll() {
         imageArray.removeAll()
+        imageCollectionView.reloadData()
         titleTextField.text = ""
         descriptionTextView.text = ""
         priceTextField.text = ""
