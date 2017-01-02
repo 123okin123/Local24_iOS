@@ -54,7 +54,6 @@
 		CD9CD4331CE4A1900080CF67 /* SelectedFilterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9CD4321CE4A1900080CF67 /* SelectedFilterButton.swift */; };
 		CDA32CB31E096F3A004969E7 /* Bolts.txt in Resources */ = {isa = PBXBuildFile; fileRef = CDA32CB21E096F3A004969E7 /* Bolts.txt */; };
 		CDA418CE1E0D1B3B00CFDD20 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CDA418CD1E0D1B3B00CFDD20 /* Assets.xcassets */; };
-		CDA418D01E0D1DF600CFDD20 /* LaunchScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA418CF1E0D1DF600CFDD20 /* LaunchScreenViewController.swift */; };
 		CDA9CCCC1C070793005ED562 /* PublicSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA9CCCB1C070793005ED562 /* PublicSettings.swift */; };
 		CDA9CCCE1C070D2B005ED562 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA9CCCD1C070D2B005ED562 /* SearchViewController.swift */; };
 		CDA9CCD81C0715B3005ED562 /* MoreTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA9CCD71C0715B3005ED562 /* MoreTableViewController.swift */; };
@@ -181,7 +180,6 @@
 		CD9CD4321CE4A1900080CF67 /* SelectedFilterButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectedFilterButton.swift; sourceTree = "<group>"; };
 		CDA32CB21E096F3A004969E7 /* Bolts.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Bolts.txt; path = Licences/Bolts.txt; sourceTree = "<group>"; };
 		CDA418CD1E0D1B3B00CFDD20 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		CDA418CF1E0D1DF600CFDD20 /* LaunchScreenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchScreenViewController.swift; sourceTree = "<group>"; };
 		CDA9CCCB1C070793005ED562 /* PublicSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PublicSettings.swift; sourceTree = "<group>"; };
 		CDA9CCCD1C070D2B005ED562 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		CDA9CCD51C071456005ED562 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Main.strings; sourceTree = "<group>"; };
@@ -191,16 +189,16 @@
 		CDB04ACF1DD3259100034C1F /* AccountCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountCollectionViewController.swift; path = Account/AccountCollectionViewController.swift; sourceTree = "<group>"; };
 		CDB04AD31DD36A3500034C1F /* MyAdsCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MyAdsCollectionViewCell.swift; path = Account/MyAdsCollectionViewCell.swift; sourceTree = "<group>"; };
 		CDB3AFE11D2BEF2200C2F254 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		CDB3AFE81D2BF00A00C2F254 /* NMRangeSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NMRangeSlider.h; sourceTree = "<group>"; };
-		CDB3AFE91D2BF00A00C2F254 /* NMRangeSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NMRangeSlider.m; sourceTree = "<group>"; };
-		CDB3AFED1D2BF0B800C2F254 /* slider-default7-trackBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-default7-trackBackground.png"; sourceTree = "<group>"; };
-		CDB3AFEE1D2BF0B800C2F254 /* slider-default7-trackBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-default7-trackBackground@2x.png"; sourceTree = "<group>"; };
-		CDB3AFEF1D2BF0B800C2F254 /* slider-default7-trackCrossedOver.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-default7-trackCrossedOver.png"; sourceTree = "<group>"; };
-		CDB3AFF01D2BF0B800C2F254 /* slider-default7-trackCrossedOver@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-default7-trackCrossedOver@2x.png"; sourceTree = "<group>"; };
-		CDB3AFF11D2BF0B800C2F254 /* slider-default7-track.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-default7-track.png"; sourceTree = "<group>"; };
-		CDB3AFF21D2BF0B800C2F254 /* slider-default7-track@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-default7-track@2x.png"; sourceTree = "<group>"; };
-		CDB3AFF31D2BF0B800C2F254 /* slider-default7-handle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-default7-handle.png"; sourceTree = "<group>"; };
-		CDB3AFF41D2BF0B800C2F254 /* slider-default7-handle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-default7-handle@2x.png"; sourceTree = "<group>"; };
+		CDB3AFE81D2BF00A00C2F254 /* NMRangeSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NMRangeSlider.h; path = NMRangeSlider/NMRangeSlider.h; sourceTree = "<group>"; };
+		CDB3AFE91D2BF00A00C2F254 /* NMRangeSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NMRangeSlider.m; path = NMRangeSlider/NMRangeSlider.m; sourceTree = "<group>"; };
+		CDB3AFED1D2BF0B800C2F254 /* slider-default7-trackBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "slider-default7-trackBackground.png"; path = "NMRangeSlider/slider-default7-trackBackground.png"; sourceTree = "<group>"; };
+		CDB3AFEE1D2BF0B800C2F254 /* slider-default7-trackBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "slider-default7-trackBackground@2x.png"; path = "NMRangeSlider/slider-default7-trackBackground@2x.png"; sourceTree = "<group>"; };
+		CDB3AFEF1D2BF0B800C2F254 /* slider-default7-trackCrossedOver.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "slider-default7-trackCrossedOver.png"; path = "NMRangeSlider/slider-default7-trackCrossedOver.png"; sourceTree = "<group>"; };
+		CDB3AFF01D2BF0B800C2F254 /* slider-default7-trackCrossedOver@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "slider-default7-trackCrossedOver@2x.png"; path = "NMRangeSlider/slider-default7-trackCrossedOver@2x.png"; sourceTree = "<group>"; };
+		CDB3AFF11D2BF0B800C2F254 /* slider-default7-track.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "slider-default7-track.png"; path = "NMRangeSlider/slider-default7-track.png"; sourceTree = "<group>"; };
+		CDB3AFF21D2BF0B800C2F254 /* slider-default7-track@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "slider-default7-track@2x.png"; path = "NMRangeSlider/slider-default7-track@2x.png"; sourceTree = "<group>"; };
+		CDB3AFF31D2BF0B800C2F254 /* slider-default7-handle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "slider-default7-handle.png"; path = "NMRangeSlider/slider-default7-handle.png"; sourceTree = "<group>"; };
+		CDB3AFF41D2BF0B800C2F254 /* slider-default7-handle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "slider-default7-handle@2x.png"; path = "NMRangeSlider/slider-default7-handle@2x.png"; sourceTree = "<group>"; };
 		CDB594DD1DE595130056B405 /* InsertTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InsertTableViewController.swift; path = Insert/InsertTableViewController.swift; sourceTree = "<group>"; };
 		CDB594E01DE596850056B405 /* SelectCategoryTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SelectCategoryTableViewController.swift; path = Insert/SelectCategoryTableViewController.swift; sourceTree = "<group>"; };
 		CDB594E21DE5A3080056B405 /* SelectSubCategoryTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SelectSubCategoryTableViewController.swift; path = Insert/SelectSubCategoryTableViewController.swift; sourceTree = "<group>"; };
@@ -218,16 +216,16 @@
 		CDD7290B1E13CD06009F0B99 /* CustomField2TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomField2TableViewController.swift; path = Insert/CustomField2TableViewController.swift; sourceTree = "<group>"; };
 		CDDEF3E51E01393300CF737E /* ChooseLocationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChooseLocationTableViewCell.swift; path = Insert/ChooseLocationTableViewCell.swift; sourceTree = "<group>"; };
 		CDE31C9F1C74B93F001D9FD2 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
-		CDE4D9EF1C0DEA3400FE7611 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
-		CDE4D9F01C0DEA3400FE7611 /* OpenSans-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-BoldItalic.ttf"; sourceTree = "<group>"; };
-		CDE4D9F11C0DEA3400FE7611 /* OpenSans-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-ExtraBold.ttf"; sourceTree = "<group>"; };
-		CDE4D9F21C0DEA3400FE7611 /* OpenSans-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
-		CDE4D9F31C0DEA3400FE7611 /* OpenSans-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Italic.ttf"; sourceTree = "<group>"; };
-		CDE4D9F41C0DEA3400FE7611 /* OpenSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Light.ttf"; sourceTree = "<group>"; };
-		CDE4D9F51C0DEA3400FE7611 /* OpenSans-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-LightItalic.ttf"; sourceTree = "<group>"; };
-		CDE4D9F61C0DEA3400FE7611 /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
-		CDE4D9F71C0DEA3400FE7611 /* OpenSans-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Semibold.ttf"; sourceTree = "<group>"; };
-		CDE4D9F81C0DEA3400FE7611 /* OpenSans-SemiboldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-SemiboldItalic.ttf"; sourceTree = "<group>"; };
+		CDE4D9EF1C0DEA3400FE7611 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Bold.ttf"; path = "OpenSans/OpenSans-Bold.ttf"; sourceTree = "<group>"; };
+		CDE4D9F01C0DEA3400FE7611 /* OpenSans-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-BoldItalic.ttf"; path = "OpenSans/OpenSans-BoldItalic.ttf"; sourceTree = "<group>"; };
+		CDE4D9F11C0DEA3400FE7611 /* OpenSans-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-ExtraBold.ttf"; path = "OpenSans/OpenSans-ExtraBold.ttf"; sourceTree = "<group>"; };
+		CDE4D9F21C0DEA3400FE7611 /* OpenSans-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-ExtraBoldItalic.ttf"; path = "OpenSans/OpenSans-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
+		CDE4D9F31C0DEA3400FE7611 /* OpenSans-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Italic.ttf"; path = "OpenSans/OpenSans-Italic.ttf"; sourceTree = "<group>"; };
+		CDE4D9F41C0DEA3400FE7611 /* OpenSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Light.ttf"; path = "OpenSans/OpenSans-Light.ttf"; sourceTree = "<group>"; };
+		CDE4D9F51C0DEA3400FE7611 /* OpenSans-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-LightItalic.ttf"; path = "OpenSans/OpenSans-LightItalic.ttf"; sourceTree = "<group>"; };
+		CDE4D9F61C0DEA3400FE7611 /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Regular.ttf"; path = "OpenSans/OpenSans-Regular.ttf"; sourceTree = "<group>"; };
+		CDE4D9F71C0DEA3400FE7611 /* OpenSans-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Semibold.ttf"; path = "OpenSans/OpenSans-Semibold.ttf"; sourceTree = "<group>"; };
+		CDE4D9F81C0DEA3400FE7611 /* OpenSans-SemiboldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-SemiboldItalic.ttf"; path = "OpenSans/OpenSans-SemiboldItalic.ttf"; sourceTree = "<group>"; };
 		CDE529831C70782600820184 /* Reachibility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachibility.swift; sourceTree = "<group>"; };
 		CDEE24AA1CC78B8100F08D4E /* AbuseReportViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AbuseReportViewController.swift; sourceTree = "<group>"; };
 		CDF6184C1CD8F3CA00041885 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
@@ -313,7 +311,6 @@
 				CD4432C51CD0CC1B00295EC0 /* GoogleService-Info.plist */,
 				CD4432C71CD0D19500295EC0 /* Local24-Bridging-Header.h */,
 				CDA418CD1E0D1B3B00CFDD20 /* Assets.xcassets */,
-				CDA418CF1E0D1DF600CFDD20 /* LaunchScreenViewController.swift */,
 			);
 			path = Local24;
 			sourceTree = "<group>";
@@ -917,7 +914,6 @@
 				CD5D16EE1C903F7F00ACE365 /* DescriptionTableViewCell.swift in Sources */,
 				CDE31CA01C74B93F001D9FD2 /* DetailViewController.swift in Sources */,
 				CDEE24AB1CC78B8100F08D4E /* AbuseReportViewController.swift in Sources */,
-				CDA418D01E0D1DF600CFDD20 /* LaunchScreenViewController.swift in Sources */,
 				CD5D16EC1C903AF900ACE365 /* TitleTableViewCell.swift in Sources */,
 				CD5109861C58C0CF00BA2CB8 /* Categories.swift in Sources */,
 				CD62AF631DE3412700AD06EF /* LoginViewController.swift in Sources */,
