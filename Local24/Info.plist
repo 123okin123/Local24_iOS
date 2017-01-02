@@ -31,11 +31,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-<<<<<<< HEAD
 	<string>4</string>
-=======
-	<string>7</string>
->>>>>>> master
 	<key>FacebookAppID</key>
 	<string>1737515613173620</string>
 	<key>FacebookDisplayName</key>
@@ -60,15 +56,11 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Um Ihrem Inserat Bilder hinzuzufügen, benötigt Local24 Zugriff auf Ihre Bilder.</string>
+	<string>Um Ihrem Inserat Fotod hinzuzufügen, benötigt Local24 Zugriff auf Ihre Kamera.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Ihr Standort wird benötigt um Kleinanzeigen in Ihrer Nähe zu finden. Keine Sorge, Ihr Standort wird nur abgefragt während Sie Local24 benutzen. </string>
 	<key>NSPhotoLibraryUsageDescription</key>
-<<<<<<< HEAD
-	<string>Um Ihrem Inserat Bilder hinzuzufügen, benötigt Local24 Zugriff auf Ihre Bilder.</string>
-=======
 	<string>Um Ihrem Inserat Fotos hinzuzufügen, benötigt Local24 Zugriff auf Ihre Bibliothek.</string>
->>>>>>> master
 	<key>UIAppFonts</key>
 	<array>
 		<string>OpenSans-SemiboldItalic.ttf</string>
