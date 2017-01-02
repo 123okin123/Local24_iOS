@@ -274,7 +274,7 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UIScrollViewD
         webView.scrollView.backgroundColor = UIColor.groupTableViewBackground
         webView.scrollView.contentInset = UIEdgeInsets(top: 40, left: 0, bottom: 114, right: 0)
         webView.scrollView.showsVerticalScrollIndicator = false
-        webView.allowsBackForwardNavigationGestures = true
+        webView.allowsBackForwardNavigationGestures = false
         webView.scrollView.scrollsToTop = true
         webView.scrollView.delegate = self
         webView.scrollView.bounces = true

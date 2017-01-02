@@ -41,23 +41,29 @@ footer {
     display: none;
 }
 /*Search*/
+#bottomAd {
+    display: none;
+}
+.search_resultTeaser>div {
+    padding: 0px;
+}
 
 .search_resultTeaser {
 width: 100% !important;
+min-height: auto;
 }
 
 .search_resultMobileAd {
     display: block;
     text-align: center;
     width: 100%;
-    border-radius: 3px;
     background-color: #fff;
     border-top: none;
-    box-shadow: 0px 1px 0px #e4e4e4;
     cursor: none;
-    float: none;
+    float: left;
     margin: auto;
     margin-bottom: 10px;
+    margin-top: 10px;
 }
 .search_resultMobileAd>div {
     border-top: none;
@@ -83,17 +89,29 @@ body[data-page="search"] #wrapper, body[data-page="myclassifieds"] #wrapper,  bo
     background-color: rgb(238, 238, 244);
 }
 .search_result {
-    border-radius: 3px;
-    background-color: #fff;
+    border-radius: 5px;
+    background-color: #ffffff;
     border-top: none;
-    margin: auto;
-    box-shadow: 0px 1px 0px #e4e4e4;
     cursor: none;
-    float: none;
-    margin-bottom: 10px;
-    width: 95%;
+    float: left;
+    margin: 2%;
+    width: 46%;
+    display: block;
+    overflow: hidden;
+    min-height: 290px;
 }
-
+.search_result>a {
+    padding: 0px;
+}
+#shopping_24 {
+ height: 280px;
+}
+#s24_headline {
+font-size: 10px;
+}
+#s24_promotion {
+    display: none;
+}
 #ads_listing_left {
     float: none;
 }
@@ -104,11 +122,27 @@ body[data-page="search"] #wrapper, body[data-page="myclassifieds"] #wrapper,  bo
     display: none;
 }
 .search_resultImageHolder {
-    width: 45%;
-    margin-left: 8px;
-    margin-right: 10px;
+    width: 98%;
+    min-width: 98%;
+    height: 150px;
+    margin-left: 1%;
+    margin-top: 1%;
+    border-radius: 5px 5px 0px 0px;
+    margin-right: 0px;
+    overflow: hidden;
+    text-align: center;
+    max-height: 150px;
+    border-bottom: 1px solid #eee;
 }
-
+.search_resultImage {
+    min-width: 125%;
+    min-height: 104%;
+    max-width: 200%;
+    display: block;
+    margin: auto;
+    margin-left: -36px;
+    margin-top: -2px;
+}
 #search_resultHolder {
     margin-top: 0px;
 }
@@ -123,6 +157,7 @@ body[data-page="search"] #wrapper, body[data-page="myclassifieds"] #wrapper,  bo
     margin: auto;
     float: none;
     margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 #search_adsTop .m3_container div .a {
@@ -138,6 +173,33 @@ body[data-page="search"] #wrapper, body[data-page="myclassifieds"] #wrapper,  bo
 #search_pagination {
     border: none;
     margin: 0px;
+}
+#search_pagination .active {
+    display: none !important;
+}
+#search_pagination a {
+    height: 52px;
+    margin: 10px;
+    width: 50px;
+    border: 2px solid #b7b7b7;
+    font-size: 50px;
+    border-radius: 5px;
+    display: none;
+}
+#search_pagination a[rel="prev"] {
+    display: inline;
+    float: left;
+    background-color: rgba(139, 139, 139, 0.21);
+    padding-top: 20px !important;
+    margin-left: 30px;
+}
+
+#search_pagination a[rel="next"] {
+    display: inline;
+    float: right;
+    background-color: rgba(139, 139, 139, 0.21);
+    padding-top: 20px !important;
+    margin-right: 30px;
 }
 
 #main.home  {
@@ -264,6 +326,7 @@ display: -webkit-box;
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
     text-decoration: none;
+    color: #333;
 }
 .search_resultTitle:hover , .search_resultTitle:active {
     text-decoration: none;
@@ -271,9 +334,9 @@ display: -webkit-box;
 .search_resultData {
     display: block;
     float: left;
-    width: 40%;
+    width: 92%;
     overflow: hidden;
-    margin-right: 10px;
+    padding: 4%;
 
 }
 .search_resultDataLeft {
@@ -421,11 +484,6 @@ border-color: rgba(217, 217, 217, 1.0);
     height: 200px;
 }
 
-body[data-page="detail"] .search_result {
-    height: 120px;
-    padding: 10px;
-    width: 90%;
-}
 body[data-page="detail"] #search_resultHolder {
     margin-top: 10px;
 }
