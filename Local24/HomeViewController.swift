@@ -61,7 +61,7 @@ class HomeViewController: UIViewController, UISearchBarDelegate, UIScrollViewDel
         self.navigationItem.titleView = imageView
         
         
-        let contentheight :CGFloat = 675
+        let contentheight :CGFloat = 600
         scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 50, right: 0)
         stackView.frame.size = CGSize(width: screenwidth - 32, height: contentheight)
         scrollView.contentSize = stackView.frame.size

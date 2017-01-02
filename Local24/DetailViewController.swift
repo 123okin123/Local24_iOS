@@ -39,7 +39,7 @@ class DetailViewController: UIViewController, WKNavigationDelegate, WKUIDelegate
         webView.uiDelegate = self
         webView.frame.origin = CGPoint(x: 0, y: 0)
         webView.frame.size = CGSize(width: screenwidth, height: screenheight)
-        webView.scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 50, right: 0)
+        webView.scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 114, right: 0)
         webView.scrollView.showsVerticalScrollIndicator = false
         
         
@@ -70,7 +70,7 @@ class DetailViewController: UIViewController, WKNavigationDelegate, WKUIDelegate
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         showMode(webView,view: self.view)
-        gaUserTracking("Detail_Partneranzeige")
+        gaUserTracking("Search/Detail_Partneranzeige")
         self.navigationController?.hidesBarsOnSwipe = false
         if !(urlToShow.absoluteString.lowercased().contains("local24.de/detail/")) {
         self.title = "Partneranzeige"

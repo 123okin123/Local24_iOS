@@ -16,6 +16,10 @@ target 'Local24' do
   pod 'FBAudienceNetwork'
   pod 'Alamofire', '~> 4.0'
   pod 'MapleBacon'
+  pod 'ImagePicker'
+  pod 'MZFormSheetPresentationController'
+  pod 'Fuzi', '~> 1.0.0'
+
 
   target 'Local24Tests' do
     inherit! :search_paths

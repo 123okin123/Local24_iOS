@@ -31,13 +31,10 @@ class FilterSelectTableViewController: UITableViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-            print(mainCategoryID)
-            print(subCategoryID)
-
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        gaUserTracking("FilterSelect1")
+        gaUserTracking("Filter/\(self.title)")
     }
 
     override func didReceiveMemoryWarning() {
@@ -131,7 +128,7 @@ class FilterSelectTableViewController: UITableViewController {
             filterVC.filter.mainCategoryID = 99
             filterVC.filter.subCategoryID = 99
             filterVC.tableView.reloadData()
-            self.navigationController?.popToRootViewController(animated: true)
+            _ = self.navigationController?.popToRootViewController(animated: true)
             }
         case 1:
             switch (indexPath as NSIndexPath).row {
@@ -145,7 +142,7 @@ class FilterSelectTableViewController: UITableViewController {
             default: break
             }
             filterVC.filter.sorting = sorting
-            self.navigationController?.popToRootViewController(animated: true)
+            _ = self.navigationController?.popToRootViewController(animated: true)
         default: break
         
         }

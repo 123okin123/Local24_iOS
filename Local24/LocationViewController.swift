@@ -92,8 +92,9 @@ class LocationViewController: UIViewController, UISearchBarDelegate, UISearchRes
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
- 
         gaUserTracking("SelectLocation")
+        
+        
         checkLocationAuthorizationStatus()
         mapView.setRegion(filter.viewedRegion, animated: true)
         

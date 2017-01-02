@@ -33,8 +33,8 @@ class ContactTableViewController: UITableViewController, UITextViewDelegate {
         super.viewDidLoad()
 
         messageTextView.delegate = self
-        tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 44
+        //tableView.rowHeight = UITableViewAutomaticDimension
+        //tableView.estimatedRowHeight = 44
         messageTextView.text = "Nachricht*"
         messageTextView.textColor = UIColor(red: 206/255, green: 206/255, blue: 211/255, alpha: 1.0)
         
@@ -141,7 +141,7 @@ class ContactTableViewController: UITableViewController, UITextViewDelegate {
                     }
                     }
 
-                    print(String(data: data!, encoding: String.Encoding.utf8))
+                    print(String(data: data!, encoding: String.Encoding.utf8)!)
                 }
             }
             
@@ -166,23 +166,7 @@ class ContactTableViewController: UITableViewController, UITextViewDelegate {
 
     
     
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        switch (indexPath as NSIndexPath).section {
-        case 0:
-            let height = street.frame.size.height + city.frame.size.height + telefonNumber.frame.size.height + 8
-            return height
-        case 1:
-            switch (indexPath as NSIndexPath).row {
-            case 0: return 44
-            case 1: return 44
-            case 2: return 130
-            default: return 44
-            }
-        case 2: return 44
-        default: return 44
-        }
-        
-    }
+
 
     // MARK: - Table view data source
 

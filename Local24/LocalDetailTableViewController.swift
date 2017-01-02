@@ -21,6 +21,7 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
         {didSet {
             fixedPriceCell.layer.borderColor = UIColor(red: 0.783922, green: 0.780392, blue: 0.8, alpha: 1).cgColor
             fixedPriceCell.layer.borderWidth = 0.5
+            fixedPriceCell.isHidden = true
         }}
     
     @IBOutlet weak var fixedPriceCellPriceContactButton: UIButton!
@@ -215,7 +216,7 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        gaUserTracking("DetailInMainCategory_\(adMainCat)")
+        gaUserTracking("Search/DetailInMainCategory_\(adMainCat)")
         navigationController?.hidesBarsOnSwipe = false
         
     }
@@ -229,7 +230,7 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
         
         let priceCell = tableView.cellForRow(at: IndexPath(row: 0, section: 0))
         if images.count > 0 {
-            if tableView.contentOffset.y > 187 {
+            if tableView.contentOffset.y > 250 {
                 priceCell?.contentView.isHidden = true
                 fixedPriceCell.isHidden = false
             } else {
@@ -237,7 +238,7 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
                 fixedPriceCell.isHidden = true
             }
         } else {
-            if tableView.contentOffset.y > (-63) {
+            if tableView.contentOffset.y > (36) {
                 priceCell?.contentView.isHidden = true
                 fixedPriceCell.isHidden = false
             } else {
@@ -247,23 +248,23 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
         }
         
         
+        print(tableView.contentOffset.y)
         
-        
-        if tableView.contentOffset.y < -64 {
+        if tableView.contentOffset.y < 0 {
             
-            image1.frame.size.height = 250 - tableView.contentOffset.y - 64
-            image1.frame.origin.y = tableView.contentOffset.y + 64
+            image1.frame.size.height = 250 - tableView.contentOffset.y
+            image1.frame.origin.y = tableView.contentOffset.y
             
             switch images.count {
             case 2:
-                image2.frame.size.height = 250 - tableView.contentOffset.y - 64
-                image2.frame.origin.y = tableView.contentOffset.y + 64
+                image2.frame.size.height = 250 - tableView.contentOffset.y
+                image2.frame.origin.y = tableView.contentOffset.y
             default:
-                image2.frame.size.height = 125 + (-tableView.contentOffset.y - 64)/2
-                image2.frame.origin.y = tableView.contentOffset.y + 64
+                image2.frame.size.height = 125 + (-tableView.contentOffset.y)/2
+                image2.frame.origin.y = tableView.contentOffset.y
                 
-                image3.frame.size.height = 125 + (-tableView.contentOffset.y - 64)/2 + 0.25
-                image3.frame.origin.y = image3.frame.size.height + tableView.contentOffset.y + 64 - 0.5
+                image3.frame.size.height = 125 + (-tableView.contentOffset.y)/2 + 0.25
+                image3.frame.origin.y = image3.frame.size.height + tableView.contentOffset.y - 0.5
                 
             }
             
@@ -483,7 +484,7 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
             request.httpMethod = "GET"
             let task = session.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
                 if error != nil {
-                    print(error)
+                    print(error as Any)
                 } else {
                     DispatchQueue.main.async {
                         if let image = UIImage(data: data!) {

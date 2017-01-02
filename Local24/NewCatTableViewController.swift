@@ -23,7 +23,7 @@ class NewCatTableViewController: UITableViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        gaUserTracking("HomeChooseSubCategoryInMainCategory=\(categories.mainCatsStrings[mainCatTag])")
+        gaUserTracking("Home/\(categories.mainCatsStrings[mainCatTag])/ChooseSubCategory")
         navigationItem.title = categories.mainCatsStrings[mainCatTag]
         
     }
@@ -75,7 +75,7 @@ class NewCatTableViewController: UITableViewController {
            
                 tabBarController?.selectedViewController = navVC
                 navVC.popToRootViewController(animated: true)
-                navigationController?.popToRootViewController(animated: true)
+                _ = navigationController?.popToRootViewController(animated: true)
                 tableView.deselectRow(at: indexPath, animated: true)
             
         }

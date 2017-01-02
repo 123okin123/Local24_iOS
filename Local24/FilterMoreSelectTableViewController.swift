@@ -32,7 +32,7 @@ class FilterMoreSelectTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        gaUserTracking("FilterSelect2")
+        gaUserTracking("Filter/Kategorien/\(self.title)/")
     }
     
     // MARK: - Table view data source
@@ -106,7 +106,7 @@ class FilterMoreSelectTableViewController: UITableViewController {
         }
         let filterVC = self.navigationController?.viewControllers[0] as! FilterViewController
         filterVC.tableView.reloadData()
-        self.navigationController?.popToRootViewController(animated: true)
+        _ = self.navigationController?.popToRootViewController(animated: true)
     }
 
     /*

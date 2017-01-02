@@ -53,8 +53,6 @@ class AbuseReportViewController: UIViewController, UITextViewDelegate {
                                 self.present(alert, animated: true, completion: nil)
                             }
                         }
-                        
-                        print(String(data: data!, encoding: String.Encoding.utf8))
                     }
                 }
                 
