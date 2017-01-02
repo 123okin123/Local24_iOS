@@ -311,11 +311,7 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
                         
                         self.adPrice = formatter.string(from: NSNumber(value: adPriceFloat))!
                     } else {
-                        if let pricetype = json["PriceType"] as? String {
-                            self.adPrice = pricetype
-                        } else {
                             self.adPrice = "k.A."
-                        }
                     }
                     if let pricetype = json["PriceType"] as? String {
                         self.infos.append(["Preisart", pricetype])

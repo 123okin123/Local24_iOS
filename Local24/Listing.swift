@@ -27,7 +27,11 @@ class Listing {
         if price != nil {
             let formatter = NumberFormatter()
             formatter.numberStyle = .currency
-        return formatter.string(from: NSNumber(value: Double(price!)!))
+            if let price = Double(price!) {
+            return formatter.string(from: NSNumber(value: price))
+            } else {
+            return "k.A."
+            }
         } else {
         return nil
         }
@@ -118,9 +122,7 @@ class Listing {
         if let listingPrice = value["Price"] as? Float {
             self.price = String(describing: Int(listingPrice))
         } else {
-            if let price = value["Price"] as? String {
-                self.price = price
-            } 
+            self.price = "k.A."
         }
 
         if var listingDate = value["CreatedAt"] as? String {

@@ -21,6 +21,7 @@
 		CD0E3F801CE0A06C005AA575 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD0E3F7F1CE0A06C005AA575 /* CollectionViewCell.swift */; };
 		CD0E3F821CE0BFA9005AA575 /* Listing.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD0E3F811CE0BFA9005AA575 /* Listing.swift */; };
 		CD1D88821DF072A100DF2688 /* AddImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD1D88811DF072A100DF2688 /* AddImageCollectionViewCell.swift */; };
+		CD1F670C1E1A6E5D00DB54CC /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CD1F670B1E1A6E5D00DB54CC /* Default-568h@2x.png */; };
 		CD286E461CCE383B004675A9 /* FilterSelectTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD286E451CCE383B004675A9 /* FilterSelectTableViewController.swift */; };
 		CD286E481CCE455C004675A9 /* FilterMoreSelectTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD286E471CCE455C004675A9 /* FilterMoreSelectTableViewController.swift */; };
 		CD358E801E0C105C00C63020 /* CustomFieldTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD358E7F1E0C105C00C63020 /* CustomFieldTableViewController.swift */; };
@@ -146,6 +147,7 @@
 		CD0E3F7F1CE0A06C005AA575 /* CollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
 		CD0E3F811CE0BFA9005AA575 /* Listing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Listing.swift; sourceTree = "<group>"; };
 		CD1D88811DF072A100DF2688 /* AddImageCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddImageCollectionViewCell.swift; path = Insert/AddImageCollectionViewCell.swift; sourceTree = "<group>"; };
+		CD1F670B1E1A6E5D00DB54CC /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "NMRangeSlider/Default-568h@2x.png"; sourceTree = "<group>"; };
 		CD286E451CCE383B004675A9 /* FilterSelectTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterSelectTableViewController.swift; sourceTree = "<group>"; };
 		CD286E471CCE455C004675A9 /* FilterMoreSelectTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterMoreSelectTableViewController.swift; sourceTree = "<group>"; };
 		CD358E7F1E0C105C00C63020 /* CustomFieldTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomFieldTableViewController.swift; path = Insert/CustomFieldTableViewController.swift; sourceTree = "<group>"; };
@@ -481,6 +483,7 @@
 		CDB3AFEC1D2BF0AA00C2F254 /* DefaultTheme7 */ = {
 			isa = PBXGroup;
 			children = (
+				CD1F670B1E1A6E5D00DB54CC /* Default-568h@2x.png */,
 				CDB3AFED1D2BF0B800C2F254 /* slider-default7-trackBackground.png */,
 				CDB3AFEE1D2BF0B800C2F254 /* slider-default7-trackBackground@2x.png */,
 				CDB3AFEF1D2BF0B800C2F254 /* slider-default7-trackCrossedOver.png */,
@@ -691,6 +694,7 @@
 				CDB3AFF91D2BF0B800C2F254 /* slider-default7-track.png in Resources */,
 				CD4432C61CD0CC1B00295EC0 /* GoogleService-Info.plist in Resources */,
 				1081F3101BB04E6200688F3B /* iosApp.css in Resources */,
+				CD1F670C1E1A6E5D00DB54CC /* Default-568h@2x.png in Resources */,
 				CDB3AFF51D2BF0B800C2F254 /* slider-default7-trackBackground.png in Resources */,
 				CDB3AFFB1D2BF0B800C2F254 /* slider-default7-handle.png in Resources */,
 				CDB3AFFC1D2BF0B800C2F254 /* slider-default7-handle@2x.png in Resources */,
