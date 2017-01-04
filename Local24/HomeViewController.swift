@@ -21,15 +21,7 @@ class HomeViewController: UIViewController, UISearchBarDelegate, UIScrollViewDel
     @IBOutlet weak var searchLocationButton: UIButton!
     @IBOutlet weak var showAllCatsView: UIView! {
         didSet {
-            showAllCatsView.layer.cornerRadius = 3
-            showAllCatsView.layer.masksToBounds = false
-            showAllCatsView.layer.shadowColor = UIColor(red: 220/255, green: 220/255, blue: 220/255, alpha: 1).cgColor
-            showAllCatsView.layer.shadowRadius = 0.0
-            showAllCatsView.layer.shadowOpacity = 1.0
-            showAllCatsView.layer.shadowOffset = CGSize(width: 0.0, height: 1.5)
-            let rect = CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: screenwidth - 20, height: showAllCatsView.bounds.height))
-            showAllCatsView.layer.shadowPath = CGPath(roundedRect: rect, cornerWidth: 3, cornerHeight: 3, transform: nil)
-
+            showAllCatsView.layer.cornerRadius = 5
         }}
 
     var filter = (UIApplication.shared.delegate as! AppDelegate).filter
@@ -70,15 +62,7 @@ class HomeViewController: UIViewController, UISearchBarDelegate, UIScrollViewDel
         for i in 0...1 {
         for n in 0...7 {
             let subView = stackView.subviews[i].subviews[n]
-            subView.layer.cornerRadius = 3
-            subView.layer.masksToBounds = false
-            subView.layer.shadowColor = UIColor(red: 220/255, green: 220/255, blue: 220/255, alpha: 1).cgColor
-            subView.layer.shadowRadius = 0.0
-            subView.layer.shadowOpacity = 1.0
-            subView.layer.shadowOffset = CGSize(width: 0.0, height: 1.5)
-            let rect = CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: screenwidth/2 - 5 - 10, height: subView.bounds.height))
-            subView.layer.shadowPath = CGPath(roundedRect: rect, cornerWidth: 3, cornerHeight: 3, transform: nil)
-
+            subView.layer.cornerRadius = 5
         }
         }
        
