@@ -64,9 +64,13 @@ class InsertTableViewController: UITableViewController {
     // MARK: - IBActions
     @IBAction func insertListing(_ sender: UIButton) {
         if validate() {
-        let tracker = GAI.sharedInstance().defaultTracker
-        tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Insert", action: "insertion", label: categoryLabel.text!, value: 0).build() as NSDictionary as! [AnyHashable: Any])
-        submitAd()
+            let tracker = GAI.sharedInstance().defaultTracker
+            if listingExists {
+                tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Insert", action: "edited", label: categoryLabel.text!, value: 0).build() as NSDictionary as! [AnyHashable: Any])
+            } else {
+                tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Insert", action: "insertion", label: categoryLabel.text!, value: 0).build() as NSDictionary as! [AnyHashable: Any])
+            }
+            submitAd()
         }
     }
  
@@ -313,6 +317,11 @@ class InsertTableViewController: UITableViewController {
             pendingAlertController.dismiss(animated: true, completion: {
             if errorString == nil {
                 self.clearAll()
+                if let navVC = self.tabBarController?.viewControllers?[3] as? UINavigationController {
+                    if let accountVC = navVC.viewControllers[1] as? AccountCollectionViewController {
+                        accountVC.getAds()
+                    }
+                }
                 let successMenu = UIAlertController(title: "Anzeige aufgegeben", message: "Herzlichen Glückwunsch Ihre Anzeige wurde erfolgreich aufgegeben.", preferredStyle: .alert)
                 let confirmAction = UIAlertAction(title: "Ok", style: .default, handler: {alert in
                 _ = self.navigationController?.popToViewController((self.navigationController?.viewControllers[1])!, animated: true)

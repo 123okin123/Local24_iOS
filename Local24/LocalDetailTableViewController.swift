@@ -247,9 +247,6 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
             }
         }
         
-        
-        print(tableView.contentOffset.y)
-        
         if tableView.contentOffset.y < 0 {
             
             image1.frame.size.height = 250 - tableView.contentOffset.y

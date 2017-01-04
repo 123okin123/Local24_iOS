@@ -1,7 +1,19 @@
 
+
+
 #main, #contentWrapper {
     width: 100%;
 }
+
+body {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 /*Header*/
 #logo {
     display: none;
@@ -51,6 +63,7 @@ footer {
 .search_resultTeaser {
 width: 100% !important;
 min-height: auto;
+display: none !important;
 }
 
 .search_resultMobileAd {
@@ -98,19 +111,21 @@ body[data-page="search"] #wrapper, body[data-page="myclassifieds"] #wrapper,  bo
     width: 46%;
     display: block;
     overflow: hidden;
-    min-height: 290px;
+    height: 250px;
 }
 .search_result>a {
     padding: 0px;
 }
-#shopping_24 {
- height: 280px;
-}
-#s24_headline {
+
+.s24_headline {
 font-size: 10px !important;
+line-height: 10px !imporant;
 }
-#s24_promotion {
+.s24_promotion {
     display: none !important;
+}
+.s24_products {
+    margin: 13px 0 !important;
 }
 #ads_listing_left {
     float: none;
@@ -318,15 +333,15 @@ display: -webkit-box;
 }
 .search_resultTitle {
     width: 100%;
-    font-size: 13px;
-    height: 68px;
+    font-size: 14px;
+    height: 36px;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
-    -webkit-line-clamp: 4;
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     text-decoration: none;
-    color: #333;
+    color: #333 !important;
 }
 .search_resultTitle:hover , .search_resultTitle:active {
     text-decoration: none;
@@ -346,6 +361,8 @@ display: -webkit-box;
 }
 .search_resultDataLeft span {
     font-size: 90%;
+    overflow: hidden;
+    height: 20px;
 }
 
 a[data-remove-param-on-click="center"] {
@@ -498,186 +515,6 @@ body[data-page="detail"] #search_resultHolder {
     margin-bottom: 18px;
 }
 
-/*Meine Anzeigen*/
-
-#myclassifiedsPage .mobile-edit-button {
-    margin-top: 10px;
-    width: auto;
-}
-.loginpages h2 {
-    display: none;
-}
-#myclassifiedsPage p {
-    color: #aaa;
-    text-align: center;
-}
-
-#myclassifiedsPage .search_resultData h2 {
-    width: 100%;
-    display: block;
-    margin-left: 0px;
-    font-size: 15px;
-}
-#myclassifiedsPage .search_result {
-    min-height: 120px;
-}
-
-#main.loginpages .loginContent {
-    margin-top: 0px;
-}
-#myclassifiedsPage p{
-    margin-left: 7px;
-}
-.insertion_buttons , #detailActionButtons , .insertion_success_copylink {
-    display: none;
-}
-#main.insertion_success h2 {
-    display: none;
-}
-#main.insertion_success h1 {
-    line-height: 25px;
-}
-#main.insertion_success {
-    padding: 0 10px;
-}
-#main.insertion_success #insertion_success_ads div {
-    margin: auto;
-}
-#main.insertion_success #insertion_success_container {
-    margin-bottom: 30px;
-    text-align: center;
-}
-button[data-attr-action="print"] {
-    display: none;
-}
-button.social-function.button-secondary.button-small.ad-active {
-    display: none;
-}
-#myclassifiedsPage .buttonList button, #myclassifiedsPage .buttonList a.button {
-height: 40px;
-line-height: 30px;
-}
-.input-form {
-font-size: 16px;
-padding: 4px;
-background: white;
-border-color: rgba(217, 217, 217, 1.0);
-box-shadow: none;
--webkit-appearance: none;
-font-family: "open_sansregular";
-}
-.input-form[type="radio"] {
--webkit-appearance: radio !important;
-}
-input[type="radio"], input[type="checkbox"] {
--webkit-appearance: radio !important;
-}
-#isCommercial {
-    border-color: rgba(217, 217, 217, 1.0);
-}
-#main.insertion_form .select_span {
-border: 1px solid rgba(217, 217, 217, 1.0);
-margin-top: 2px;
-}
-#main.insertion_form select {
-font-size: 15px;
-padding: 4.5px;
-}
-#main.mydata .input-form[type="radio"] {
-    margin-left: 11px;
-    margin-bottom: -3px;
-}
-#myclassifiedsPage .buttonList {
-border: 1px solid #dfdfdf;
-background: #fff;
-border-radius: 5px;
-box-shadow: 0px 0px 6000px rgba(0, 0, 0, 1);
-margin-left: -140px;
-}
-.button-small {
-    font-size: 15px;
-}
-.button-secondary {
-    border: 1px solid #005a90;
-    background-color: #fff;
-}
-#loginPage.preInsertion #registerTeaser {
-    width: 100%;
-}
-/*Anzeige aufgeben*/
-#main.insertion_form .uploaded_image .insertion_image_preview {
-    width: 50%;
-}
-#main.insertion_form .uploaded_image .image_description.input-form {
-    width: 80%;
-}
-#main.insertion_form .uploaded_image .button {
-    margin-left: 10px;
-}
-
-
-.insertion_categories #categorysearchHolder {
-    margin-top: 0px;
-}
-#main.insertion.insertion_categories {
-    width: 100%;
-    margin-top: 0px;
-    padding: 0px;
-}
-#main.insertion_form .insertion_form_box {
-    width: 100%;
-}
-#main.insertion_form #insertion_form_container .col1 {
-    margin: 0px;
-}
-#main.insertion_form #insertion_form_container .col2 {
-    margin: 0px;
-    float: none;
-}
-
-.insertion_categories .insertion_categories_container {
-    margin-top: 20px;
-}
-.insertion_categories #categorysearchHolder #categorysearch {
-    border: none;
-}
-.insertion_categories .button-primary {
-    height: 32px;
-    font-size: 16px;
-    line-height: 23px;
-    padding: none;
-}
-.insertion_categories #categorysearchHolder {
-    margin-top: 0px;
-}
-.insertion_categories ul.options li {
-    max-width: none;
-}
-.insertion_categories ul.options li a {
-    line-height: 22px;
-    font-size: 16px;
-}
-.insertion_categories .column {
-    border: none;
-}
-.insertion_categories .options_wrapper {
-    border: none;
-    height: auto !important;
-}
-
-#headerInsertion {
-    padding: 0px;
-}
-.insertion_categories .nano .content {
-    overflow-x: visible;
-    position: relative;
-}
-#main.insertion_form #insertion_form_container {
-margin-bottom: 18px;
-}
-#forgotpasswordPage #loginBox button {
-    float: left;
-}
 
 
 /*mehr*/
@@ -698,5 +535,18 @@ margin-bottom: 18px;
 body[data-page="contentpages-kontakt"] #main.contentpages .contentPages h3 {
     display: none;
 }
-
+body[data-page="contentpages-kontakt"] #main.contentpages .contentPages {
+    margin-top: 0px;
+}
+body[data-page="contentpages-kontakt"] #main.contentpages #suppportContact .contentPages h3 {
+    border-top: none;
+    padding-top: 0px;
+    margin-top: 0px;
+}
+.form-element-fullwidth .input-form[type="radio"] {
+    margin-bottom: 0px;
+}
+.form-element-fullwidth {
+    margin-bottom: 20px;
+}
 

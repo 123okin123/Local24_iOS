@@ -19,7 +19,7 @@ target 'Local24' do
   pod 'ImagePicker'
   pod 'MZFormSheetPresentationController'
   pod 'Fuzi', '~> 1.0.0'
-
+  pod 'NVActivityIndicatorView'
 
   target 'Local24Tests' do
     inherit! :search_paths

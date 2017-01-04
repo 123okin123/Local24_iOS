@@ -8,6 +8,7 @@
 
 import UIKit
 import WebKit
+import NVActivityIndicatorView
 
 class SearchViewController: UIViewController, UISearchBarDelegate, UIScrollViewDelegate, WKNavigationDelegate, WKUIDelegate {
     
@@ -41,24 +42,22 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UIScrollViewD
         }
     
 
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView! {didSet {
-        activityIndicator.isHidden = true
-        }}
     @IBOutlet weak var reloadButton: UIButton! {didSet {
-        reloadButton.layer.borderColor = bluecolor.cgColor
-        reloadButton.layer.borderWidth = 1
         reloadButton.layer.cornerRadius = 5.0
         reloadButton.isHidden = true
         }}
     @IBOutlet weak var reloadLable: UILabel! {didSet {
         reloadLable.isHidden = true
         }}
+    
+    var indicator = NVActivityIndicatorView(frame: CGRect(x: screenwidth/2 - 25, y: screenheight/2 - 80, width: 50, height: 50))
 
     var currentNavigationActionRequestURL :URL!
     var webView = WKWebView()
     var loaderView =  UIView()
     var nav = WKNavigation()
     var navAction = WKNavigationAction()
+    
     
 
     var filter = (UIApplication.shared.delegate as! AppDelegate).filter
@@ -261,7 +260,10 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UIScrollViewD
         selectedFiltersScrollView.addSubview(selectedFilterStackView)
         selectedFiltersScrollView.contentInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
         selectedFiltersScrollView.scrollsToTop = false
-    
+        
+        indicator.color = greencolor
+        indicator.type = .ballPulse
+        
 
         // configure webView
         
@@ -363,8 +365,8 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UIScrollViewD
         reloadButton.isHidden = true
         reloadLable.isHidden = true
         self.loaderView.isHidden = false
-        self.activityIndicator.startAnimating()
-        self.activityIndicator.isHidden = false
+        self.view.addSubview(indicator)
+        indicator.startAnimating()
         
         let delay = 10.0 * Double(NSEC_PER_SEC)
         let time = DispatchTime.now() + Double(Int64(delay)) / Double(NSEC_PER_SEC)
@@ -392,7 +394,7 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UIScrollViewD
         gaUserTracking("Search/AlleAnzeigen")
         }
         
-        let loadMeta = "var meta = document.createElement('meta'); meta.name = 'viewport'; meta.content = 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0'; document.getElementsByTagName('head')[0].appendChild(meta);"
+        let loadMeta = "var meta = document.createElement('meta'); meta.name = 'viewport'; meta.content = 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0'; document.getElementsByTagName('head')[0].appendChild(meta); var local24shopping24 = document.getElementById('shopping_24').parentElement; local24shopping24.style.display = 'none';"
         self.webView.evaluateJavaScript(loadMeta, completionHandler: nil)
 
         var loadStylesString = ""
@@ -418,8 +420,9 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UIScrollViewD
             DispatchQueue.main.asyncAfter(deadline: time) {
                 // hide loader Views
                 self.loaderView.isHidden = true
-                self.activityIndicator.stopAnimating()
-                self.activityIndicator.isHidden = true
+                self.webView.scrollView.setContentOffset(CGPoint(x: 0,y: -40), animated: false)
+                self.indicator.stopAnimating()
+                self.indicator.removeFromSuperview()
                 self.reloadButton.isHidden = true
                 self.reloadLable.isHidden = true
             }

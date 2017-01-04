@@ -63,6 +63,7 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
                 if let index = self.userListings.index(where: {$0.adID == listing.adID}) {
                     self.userListings[index].adState = AdState(rawValue: adState)
                     self.collectionView?.reloadItems(at: [IndexPath(item: index, section: 0)])
+                    self.collectionView?.cellForItem(at: IndexPath(item: index, section: 0))?.layer.add(CATransition(), forKey: nil)
                 }
             } else {
                 debugPrint(error as Any)
@@ -126,9 +127,9 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
             }, completion: { _ in
             self.refresher.beginRefreshing()
             })
+            self.getAds()
         }
         }
-        getAds()
     }
 
     
@@ -199,12 +200,15 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
         cell.listingTitle.text = listing.title
         cell.listingPrice.text = listing.priceWithCurrency
         cell.listingDate.text = listing.createdDate
-        cell.listingImage.image = nil
+        
         if listing.mainImage == nil {
             if let imagePathMedium = listing.imagePathMedium {
                 if let imageUrl = URL(string: imagePathMedium) {
-                    cell.listingImage.setImage(withUrl: imageUrl)
-                    cell.listingImage.layer.add(CATransition(), forKey: nil)
+                    cell.listingImage.setImage(withUrl: imageUrl, placeholder: nil, crossFadePlaceholder: true, cacheScaled: true, completion: { instance, error in
+                        cell.listingImage.layer.add(CATransition(), forKey: nil)
+                        self.userListings[indexPath.row].mainImage = instance?.image
+                    })
+                    
                 }
             }
         } else {
