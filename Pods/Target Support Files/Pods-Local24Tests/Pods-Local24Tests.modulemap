@@ -1,6 +1,0 @@
-framework module Pods_Local24Tests {
-  umbrella header "Pods-Local24Tests-umbrella.h"
-
-  export *
-  module * { export * }
-}
