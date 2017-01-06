@@ -13,7 +13,6 @@
 		1081F2F31BB02A7700688F3B /* Local24Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1081F2F21BB02A7700688F3B /* Local24Tests.swift */; };
 		1081F2FE1BB02A7700688F3B /* Local24UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1081F2FD1BB02A7700688F3B /* Local24UITests.swift */; };
 		1081F3101BB04E6200688F3B /* iosApp.css in Resources */ = {isa = PBXBuildFile; fileRef = 1081F30F1BB04E6200688F3B /* iosApp.css */; };
-		10D00FCF1E1FF459006199E8 /* specialFields.json in Resources */ = {isa = PBXBuildFile; fileRef = 10D00FCE1E1FF459006199E8 /* specialFields.json */; };
 		622AED0118902B345F72C845 /* Pods_Local24UITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFF4E34FAF766CF6AAB81F90 /* Pods_Local24UITests.framework */; };
 		946AE2445CFC457A49DFDAEF /* Pods_Local24.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAE5DB9518CCC4A7488A2757 /* Pods_Local24.framework */; };
 		A3AF0A635067C4E9A1AE8920 /* Pods_Local24Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43DD49A8287E5B1D5DEA9BC8 /* Pods_Local24Tests.framework */; };
@@ -75,6 +74,7 @@
 		CDB594E11DE596850056B405 /* SelectCategoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB594E01DE596850056B405 /* SelectCategoryTableViewController.swift */; };
 		CDB594E31DE5A3080056B405 /* SelectSubCategoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB594E21DE5A3080056B405 /* SelectSubCategoryTableViewController.swift */; };
 		CDB594E51DE5E6230056B405 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB594E41DE5E6230056B405 /* TabBarController.swift */; };
+		CDBF65C01E1FFBE40036E7F4 /* specialFields.json in Resources */ = {isa = PBXBuildFile; fileRef = CDBF65BF1E1FFBE40036E7F4 /* specialFields.json */; };
 		CDCA848D1DE30CA800F71A42 /* AccountHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDCA848C1DE30CA800F71A42 /* AccountHeaderView.swift */; };
 		CDCA848F1DE324AA00F71A42 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDCA848E1DE324AA00F71A42 /* User.swift */; };
 		CDCF317F1E09710D00379468 /* Alamofire.txt in Resources */ = {isa = PBXBuildFile; fileRef = CDCF317E1E09710D00379468 /* Alamofire.txt */; };
@@ -137,7 +137,6 @@
 		1081F2FF1BB02A7700688F3B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1081F30F1BB04E6200688F3B /* iosApp.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = iosApp.css; sourceTree = "<group>"; };
 		10D00FCD1E1FE3E6006199E8 /* Local24.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Local24.entitlements; sourceTree = "<group>"; };
-		10D00FCE1E1FF459006199E8 /* specialFields.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = specialFields.json; sourceTree = "<group>"; };
 		3F30DDA7EF437ED36AD0AEDE /* Pods-Local24UITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Local24UITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Local24UITests/Pods-Local24UITests.release.xcconfig"; sourceTree = "<group>"; };
 		43DD49A8287E5B1D5DEA9BC8 /* Pods_Local24Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Local24Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CDEA113629D68866C9D275C /* Pods-Local24.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Local24.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Local24/Pods-Local24.debug.xcconfig"; sourceTree = "<group>"; };
@@ -206,6 +205,7 @@
 		CDB594E01DE596850056B405 /* SelectCategoryTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SelectCategoryTableViewController.swift; path = Insert/SelectCategoryTableViewController.swift; sourceTree = "<group>"; };
 		CDB594E21DE5A3080056B405 /* SelectSubCategoryTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SelectSubCategoryTableViewController.swift; path = Insert/SelectSubCategoryTableViewController.swift; sourceTree = "<group>"; };
 		CDB594E41DE5E6230056B405 /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		CDBF65BF1E1FFBE40036E7F4 /* specialFields.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = specialFields.json; sourceTree = "<group>"; };
 		CDCA848C1DE30CA800F71A42 /* AccountHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountHeaderView.swift; path = Account/AccountHeaderView.swift; sourceTree = "<group>"; };
 		CDCA848E1DE324AA00F71A42 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		CDCF317E1E09710D00379468 /* Alamofire.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Alamofire.txt; path = Licences/Alamofire.txt; sourceTree = "<group>"; };
@@ -408,7 +408,7 @@
 			children = (
 				CDCF31801E09725900379468 /* Licences */,
 				1081F30F1BB04E6200688F3B /* iosApp.css */,
-				10D00FCE1E1FF459006199E8 /* specialFields.json */,
+				CDBF65BF1E1FFBE40036E7F4 /* specialFields.json */,
 				CD0E3F811CE0BFA9005AA575 /* Listing.swift */,
 				CD993E0C1DF9BD4300F686C7 /* NetworkController.swift */,
 				CDCA848E1DE324AA00F71A42 /* User.swift */,
@@ -711,7 +711,7 @@
 				CDE4D9FB1C0DEA3400FE7611 /* OpenSans-ExtraBold.ttf in Resources */,
 				1081F2E81BB02A7600688F3B /* LaunchScreen.storyboard in Resources */,
 				CDE4D9FF1C0DEA3400FE7611 /* OpenSans-LightItalic.ttf in Resources */,
-				10D00FCF1E1FF459006199E8 /* specialFields.json in Resources */,
+				CDBF65C01E1FFBE40036E7F4 /* specialFields.json in Resources */,
 				CDCF31861E0972C500379468 /* MZFormSheetPresentationController.txt in Resources */,
 				CDB3AFF81D2BF0B800C2F254 /* slider-default7-trackCrossedOver@2x.png in Resources */,
 				CDA418CE1E0D1B3B00CFDD20 /* Assets.xcassets in Resources */,

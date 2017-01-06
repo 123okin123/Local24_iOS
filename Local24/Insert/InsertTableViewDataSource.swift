@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import SwiftyJSON
 
 //InsertTableViewDataSource
 
@@ -16,6 +16,48 @@ extension InsertTableViewController: InsertImageCellDelegate {
     
     
     func populateCustomFields() {
+        
+        if let path = Bundle.main.path(forResource: "specialFields", ofType: "json") {
+            print(path)
+            do {
+                let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .alwaysMapped)
+                let json = JSON(data: data)
+                print(data)
+                if json != JSON.null {
+                    guard let entityType = listing.entityType else {return}
+                    if let fields = json[entityType].dictionary {
+                        for field in fields {
+                            if let descriptiveString = field.value["descriptiveString"].string {
+                                if let possibleValues = field.value["possibleValues"].arrayObject as? [String] {
+                                    let specialField = SpecialField(name: field.key, descriptiveString: descriptiveString, value: nil, possibleValues: possibleValues)
+                                    self.customFields.append(specialField)
+                                }
+                            }
+                        }
+                        if self.customFields.count > 0 {
+                            for i in 0...self.customFields.count - 1 {
+                                self.customFieldCellCollection[i].textLabel?.text = self.customFields[i].descriptiveString
+                                self.customFieldCellCollection[i].textField.placeholder = self.customFields[i].possibleValues?[0]
+                            }
+                        }
+                        
+                        self.tableView.reloadData()
+                    } else {
+                    print("entitytype not in json")
+                        self.customFields.removeAll()
+                        self.independentFieldLabel.text = ""
+                        self.dependentFieldLabel.text = ""
+                        self.tableView.reloadSections(IndexSet(integer: 2), with: .automatic)
+                    }
+                } else {
+                    print("Could not get json from file, make sure that file contains valid json.")
+                }
+            } catch let error {
+                print(error.localizedDescription)
+            }
+        }
+        
+        /*
         if listing.entityType != nil {
             if listing.entityType != "AdPlain" {
                 var customFieldNames = [(String, String)]()
@@ -72,6 +114,7 @@ extension InsertTableViewController: InsertImageCellDelegate {
                 self.tableView.reloadSections(IndexSet(integer: 2), with: .automatic)
             }
         }
+ */
         
     }
 
@@ -134,12 +177,13 @@ extension InsertTableViewController: InsertImageCellDelegate {
         case 2:
             return true
             // Work in Progress
-//            if listing.entityType == "AdPlain" || listing.entityType == nil
-//                {
-//                return true
-//            } else {
-//                return false
-//            }
+            /*
+            if listing.entityType == "AdPlain" || listing.entityType == nil {
+                return true
+            } else {
+                return false
+            }
+ */
         default: return false
         }
         
