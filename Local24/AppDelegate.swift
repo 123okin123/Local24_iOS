@@ -117,21 +117,46 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
       
         
-        if url.absoluteString.contains("/mein-local24/")  {
-            if let tvc = self.window?.rootViewController as? UITabBarController {
-            tvc.selectedIndex = 3
-            }
-        }
-        if url.absoluteString.contains("/anzeige-aufgeben/")  {
-            if let tvc = self.window?.rootViewController as? UITabBarController {
-                tvc.selectedIndex = 2
-            }
-        }
+
         return FBSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
     }
 
     
-    
+    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
+        guard userActivity.activityType == NSUserActivityTypeBrowsingWeb,
+            let url = userActivity.webpageURL,
+            let components = URLComponents(url: url, resolvingAgainstBaseURL: true) else {
+                return false
+        }
+        
+        // if condition is met Do something and return true
+        if components.path.contains("/mein-local24/")  {
+            if let tvc = self.window?.rootViewController as? UITabBarController {
+                tvc.selectedIndex = 3
+                return true
+            }
+        }
+        if components.path.contains("/anzeige-aufgeben/")  {
+            if let tvc = self.window?.rootViewController as? UITabBarController {
+                tvc.selectedIndex = 2
+                return true
+            }
+        }
+        /* Example:
+         
+         if let computer = ItemHandler.sharedInstance.items.filter({ $0.path == components.path}).first {
+         self.presentDetailViewController(computer)
+         return true
+         }
+         */
+        
+        
+        // condition is not met
+
+        application.openURL(url)
+        return false
+ 
+    }
 
     
 
@@ -237,6 +262,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UIApplication.shared.statusBarStyle = .lightContent
     }
     
+    
+    func rateApp(appId: String, completion: @escaping ((_ success: Bool)->())) {
+        guard let url = URL(string : "itms-apps://itunes.apple.com/app/" + appId) else {
+            completion(false)
+            return
+        }
+        guard #available(iOS 10, *) else {
+            completion(UIApplication.shared.openURL(url))
+            return
+        }
+        UIApplication.shared.open(url, options: [:], completionHandler: completion)
+    }
     
     
 }

@@ -20,6 +20,7 @@ target 'Local24' do
   pod 'MZFormSheetPresentationController'
   pod 'Fuzi', '~> 1.0.0'
   pod 'NVActivityIndicatorView'
+  pod 'SwiftyJSON'
 
   target 'Local24Tests' do
     inherit! :search_paths

@@ -14,6 +14,7 @@ class Listing {
     var adID :Int?
     var adState :AdState?
     var advertiserID :Int?
+    var user :User?
     var title :String?
     var description :String?
 
@@ -59,26 +60,7 @@ class Listing {
     
     var url :URL?
     
-    
-    //var infos = [(String, String)]()
-    // Auto
-    var condition :String?
-    var make : String?
-    var model :String?
-    var mileageString :String?
-    var initialRegistration :String?
-    var fuelType :String?
-    var fuelConsumptionString :String?
-    var powerString :String?
-    var gearType :String?
-    
-    //Immo
-    var priceTypeProperty :String?
-    var additionalCostsFloat :Float?
-    var depositAmountFloat :Float?
-    var size :Float?
-    var totalRoomsInt :Int?
-    var apartmentType :String?
+
     
     init() {}
     

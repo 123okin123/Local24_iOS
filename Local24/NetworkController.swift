@@ -92,6 +92,8 @@ class NetworkController {
             }
         })
     }
+    
+    
     class func changeAdWith(adID: Int, to state: String, userToken: String, completion: @escaping (_ error: Error?) -> Void) {
         Alamofire.request("https://cfw-api-11.azurewebsites.net/ads/\(adID)", method: .get, parameters: ["auth": userToken, "id": adID]).validate().responseJSON { response in
             if response.result.error == nil {
