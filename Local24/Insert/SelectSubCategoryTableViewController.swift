@@ -23,7 +23,6 @@ class SelectSubCategoryTableViewController: UITableViewController {
                 $0.idParentCategory == parentCategoryID &&
                         $0.adclass != "AdTruck" &&
                         $0.adclass != "AdCat" &&
-                        $0.adclass != "AdApartment" &&
                         $0.adclass != "AdCommune" &&
                         $0.adclass != "AdDating" &&
                         $0.adclass != "AdDog" &&

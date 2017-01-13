@@ -24,12 +24,10 @@ class SelectCategoryTableViewController: UITableViewController {
             indicator.startAnimating()
             categoryBuilder.getCategories(completion: { (mainCat, subCat, error) in
                 self.mainCategories = categoryBuilder.mainCategories.filter {
-                        $0.name != "Immobilien" &&
                         $0.name != "Kontaktanzeigen" &&
                         $0.name != "Flirt & Abenteuer" &&
                         $0.name != "Job" &&
                         $0.adclass != "AdTruck" &&
-                        $0.adclass != "AdApartment" &&
                         $0.adclass != "AdCat" &&
                         $0.adclass != "AdCommune" &&
                         $0.adclass != "AdDating" &&
@@ -46,13 +44,11 @@ class SelectCategoryTableViewController: UITableViewController {
             })
         } else {
             mainCategories = categoryBuilder.mainCategories.filter {
-                    $0.name != "Immobilien" &&
                     $0.name != "Kontaktanzeigen" &&
                     $0.name != "Flirt & Abenteuer" &&
                     $0.name != "Job" &&
                     $0.adclass != "AdTruck" &&
                     $0.adclass != "AdCat" &&
-                    $0.adclass != "AdApartment" &&
                     $0.adclass != "AdCommune" &&
                     $0.adclass != "AdDating" &&
                     $0.adclass != "AdDog" &&

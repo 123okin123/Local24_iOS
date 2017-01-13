@@ -16,7 +16,7 @@ extension InsertTableViewController: InsertImageCellDelegate {
     
     
     func populateCustomFields() {
-       self.customFields.removeAll()
+        self.customFields.removeAll()
         if let path = Bundle.main.path(forResource: "specialFields", ofType: "json") {
             do {
                 let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .alwaysMapped)
@@ -26,15 +26,14 @@ extension InsertTableViewController: InsertImageCellDelegate {
                     guard let entityType = listing.entityType else {return}
                     
                     if let fields = json[entityType].dictionary {
-                        
                         for field in fields {
-                            if let descriptiveString = field.value["descriptiveString"].string {
-                                if let possibleValues = field.value["possibleValues"].arrayObject as [Any]! {
-                                    if let type = field.value["type"].string {
-                                        let specialField = SpecialField(name: field.key, descriptiveString: descriptiveString, value: nil, possibleValues: possibleValues, type: SpecialField.SpecialFieldType(rawValue: type))
-                                        self.customFields.append(specialField)
-                                    }
-                                }
+                            let specialField = SpecialField(entityType: entityType, name: field.key)
+                            self.customFields.append(specialField)
+                            if entityType == "AdApartment" && self.independentFieldLabel.text == "Verkauf"{
+                                if let index = self.customFields.index(where: {$0.name == "AdditionalCosts"}) {self.customFields.remove(at: index)}
+                                if let index = self.customFields.index(where: {$0.name == "DepositAmount"}) {self.customFields.remove(at: index)}
+                                
+                                
                             }
                         }
                         if self.customFields.count > 0 {
@@ -45,7 +44,7 @@ extension InsertTableViewController: InsertImageCellDelegate {
                         }
                         self.tableView.reloadData()
                     } else {
-                    print("entitytype not in json")
+                        print("entitytype not in json")
                         self.customFields.removeAll()
                         self.independentFieldLabel.text = ""
                         self.dependentFieldLabel.text = ""
@@ -58,9 +57,9 @@ extension InsertTableViewController: InsertImageCellDelegate {
                 print(error.localizedDescription)
             }
         }
-        
-               
     }
+    
+    
 
 
     
@@ -81,7 +80,11 @@ extension InsertTableViewController: InsertImageCellDelegate {
         if shouldHideSection((indexPath as NSIndexPath).section) {
             return 0
         } else {
-            return super.tableView(tableView, heightForRowAt: indexPath)
+            if shouldHideCell(atIndexPath: indexPath) {
+                return 0
+            } else {
+                return super.tableView(tableView, heightForRowAt: indexPath)
+            }
         }
     }
     
@@ -125,10 +128,17 @@ extension InsertTableViewController: InsertImageCellDelegate {
             } else {
                 return false
             }
+    
 
         default: return false
         }
-        
+    }
+    func shouldHideCell(atIndexPath indexPath: IndexPath) -> Bool {
+        if indexPath == IndexPath(row: 1, section: 4) {
+            if listing.entityType == "AdApartment" {
+            return true
+            } else {return false}
+        } else {return false}
     }
     
     

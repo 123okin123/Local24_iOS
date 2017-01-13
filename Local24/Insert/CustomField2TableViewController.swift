@@ -72,6 +72,9 @@ class CustomField2TableViewController: UITableViewController {
                 insertVC.independentFieldLabel.text = independetFieldValue
                 insertVC.dependentFieldLabel.text = dependentFieldOptions[indexPath.row]
                 insertVC.populateCustomFields()
+                for cell in insertVC.customFieldCellCollection {
+                cell.textField.text = ""
+                }
                 _ = navigationController?.popToViewController(insertVC, animated: true)
             }
         }

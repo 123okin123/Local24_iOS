@@ -152,10 +152,10 @@ class InsertTableViewController: UITableViewController {
         categoryLabel.textColor = UIColor.lightGray
         independentFieldLabel.text = ""
         dependentFieldLabel.text = ""
-        
+        customFields.removeAll()
         listing = Listing()
         tableView.reloadData()
-        //populateCustomFields()
+        
         
     }
     
@@ -164,7 +164,12 @@ class InsertTableViewController: UITableViewController {
         titleTextField.text = listing.title
         categoryLabel.text  = categoryBuilder.allCategories.filter({$0.id == listing.catID})[0].name
         descriptionTextView.text = listing.description
-        priceTextField.text = listing.price
+        if listing.price == "k.A." {
+            priceTextField.text = ""
+
+        } else {
+            priceTextField.text = listing.price
+        }
         priceTypeTextField.text = listing.priceType
         adTypeTextField.text = listing.adType?.rawValue
         categoryLabel.textColor = UIColor.black
@@ -336,6 +341,11 @@ class InsertTableViewController: UITableViewController {
             if let name = specialField.name {
                 if let value = specialField.value {
                     values[name] = value
+                } else {
+                    if let possibleValues = specialField.possibleValues as [Any]! {
+                        values[name] = possibleValues[0]
+                    }
+                    
                 }
             }
         }
@@ -345,14 +355,16 @@ class InsertTableViewController: UITableViewController {
         NetworkController.insertAdWith(values: values, images: imageArray, existing: listingExists, userToken: userToken!, completion: { errorString in
             pendingAlertController.dismiss(animated: true, completion: {
             if errorString == nil {
-                self.clearAll()
+                /* wired bug
                 if let navVC = self.tabBarController?.viewControllers?[3] as? UINavigationController {
                     if let accountVC = navVC.viewControllers[1] as? AccountCollectionViewController {
                         accountVC.getAds()
                     }
                 }
+                */
                 let successMenu = UIAlertController(title: "Anzeige aufgegeben", message: "Herzlichen Glückwunsch Ihre Anzeige wurde erfolgreich aufgegeben.", preferredStyle: .alert)
                 let confirmAction = UIAlertAction(title: "Ok", style: .default, handler: {alert in
+                self.clearAll()
                 _ = self.navigationController?.popToViewController((self.navigationController?.viewControllers[1])!, animated: true)
                 })
                 successMenu.addAction(confirmAction)

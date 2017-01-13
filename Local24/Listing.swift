@@ -174,6 +174,19 @@ class Listing {
             self.specialFields?.append(spicalField)
         }
         
+        
+        if let sellOrRent = value["SellOrRent"] as? String {
+            let specialField = SpecialField(name: "SellOrRent", descriptiveString: "Verkauf oder Vermietung", value: sellOrRent, possibleValues: nil, type: .string)
+            specialField.dependingField = SpecialField(name: "PriceTypeProperty", descriptiveString: "Preisart", value: nil, possibleValues: nil, type: .string)
+            self.specialFields?.append(specialField)
+            
+        }
+        if let priceTypeProperty = value["PriceTypeProperty"] as? String {
+            let spicalField = SpecialField(name: "PriceTypeProperty", descriptiveString: "Preisart", value: priceTypeProperty, possibleValues: nil, type: .string)
+            spicalField.dependsOn = SpecialField(name: "SellOrRent", descriptiveString: "Verkauf oder Vermietung", value: nil, possibleValues: nil, type: .string)
+            self.specialFields?.append(spicalField)
+        }
+        
         if let path = Bundle.main.path(forResource: "specialFields", ofType: "json") {
             do {
                 let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .alwaysMapped)
@@ -265,7 +278,9 @@ class SpecialField {
         var stringValues  :[String]?
         switch type {
         case .string?:
-            stringValues = possibleValues as! [String]?
+            if let strings = possibleValues as? [String]? {
+            stringValues = strings
+            }
         case .int?:
             let numberFormatter = NumberFormatter()
             numberFormatter.numberStyle = NumberFormatter.Style.decimal

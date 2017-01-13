@@ -17,6 +17,7 @@
 		946AE2445CFC457A49DFDAEF /* Pods_Local24.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAE5DB9518CCC4A7488A2757 /* Pods_Local24.framework */; };
 		A3AF0A635067C4E9A1AE8920 /* Pods_Local24Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43DD49A8287E5B1D5DEA9BC8 /* Pods_Local24Tests.framework */; };
 		CD0A28A21C6CF76300B27AFD /* RadiusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD0A28A11C6CF76300B27AFD /* RadiusView.swift */; };
+		CD0CD2EA1E2919A30053D223 /* specialFields.json in Resources */ = {isa = PBXBuildFile; fileRef = CD0CD2E91E2919A30053D223 /* specialFields.json */; };
 		CD0E3F7E1CE09C6C005AA575 /* SearchCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD0E3F7D1CE09C6C005AA575 /* SearchCollectionViewController.swift */; };
 		CD0E3F801CE0A06C005AA575 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD0E3F7F1CE0A06C005AA575 /* CollectionViewCell.swift */; };
 		CD0E3F821CE0BFA9005AA575 /* Listing.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD0E3F811CE0BFA9005AA575 /* Listing.swift */; };
@@ -25,7 +26,6 @@
 		CD286E461CCE383B004675A9 /* FilterSelectTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD286E451CCE383B004675A9 /* FilterSelectTableViewController.swift */; };
 		CD286E481CCE455C004675A9 /* FilterMoreSelectTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD286E471CCE455C004675A9 /* FilterMoreSelectTableViewController.swift */; };
 		CD358E801E0C105C00C63020 /* CustomFieldTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD358E7F1E0C105C00C63020 /* CustomFieldTableViewController.swift */; };
-		CD37E1CB1E27C31200AD3A33 /* specialFields.json in Resources */ = {isa = PBXBuildFile; fileRef = CD37E1CA1E27C31200AD3A33 /* specialFields.json */; };
 		CD3E16051DF07C7700D0C300 /* InsertImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD3E16041DF07C7700D0C300 /* InsertImageCollectionViewCell.swift */; };
 		CD4432C61CD0CC1B00295EC0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CD4432C51CD0CC1B00295EC0 /* GoogleService-Info.plist */; };
 		CD5109821C58A3B200BA2CB8 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5109811C58A3B200BA2CB8 /* HomeViewController.swift */; };
@@ -145,6 +145,7 @@
 		6EA1B7368DC3BE4B3C6EA32E /* Pods-Local24Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Local24Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Local24Tests/Pods-Local24Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		BF19EF7F4AEA34E8E7663AF8 /* Pods-Local24Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Local24Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Local24Tests/Pods-Local24Tests.release.xcconfig"; sourceTree = "<group>"; };
 		CD0A28A11C6CF76300B27AFD /* RadiusView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RadiusView.swift; sourceTree = "<group>"; };
+		CD0CD2E91E2919A30053D223 /* specialFields.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = specialFields.json; sourceTree = "<group>"; };
 		CD0E3F7D1CE09C6C005AA575 /* SearchCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchCollectionViewController.swift; sourceTree = "<group>"; };
 		CD0E3F7F1CE0A06C005AA575 /* CollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
 		CD0E3F811CE0BFA9005AA575 /* Listing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Listing.swift; sourceTree = "<group>"; };
@@ -152,7 +153,6 @@
 		CD286E451CCE383B004675A9 /* FilterSelectTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterSelectTableViewController.swift; sourceTree = "<group>"; };
 		CD286E471CCE455C004675A9 /* FilterMoreSelectTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterMoreSelectTableViewController.swift; sourceTree = "<group>"; };
 		CD358E7F1E0C105C00C63020 /* CustomFieldTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomFieldTableViewController.swift; path = Insert/CustomFieldTableViewController.swift; sourceTree = "<group>"; };
-		CD37E1CA1E27C31200AD3A33 /* specialFields.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = specialFields.json; sourceTree = "<group>"; };
 		CD3E16041DF07C7700D0C300 /* InsertImageCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InsertImageCollectionViewCell.swift; path = Insert/InsertImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		CD4432C51CD0CC1B00295EC0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CD4432C71CD0D19500295EC0 /* Local24-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Local24-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -409,7 +409,7 @@
 			children = (
 				CDCF31801E09725900379468 /* Licences */,
 				1081F30F1BB04E6200688F3B /* iosApp.css */,
-				CD37E1CA1E27C31200AD3A33 /* specialFields.json */,
+				CD0CD2E91E2919A30053D223 /* specialFields.json */,
 				CD0E3F811CE0BFA9005AA575 /* Listing.swift */,
 				CD993E0C1DF9BD4300F686C7 /* NetworkController.swift */,
 				CDCA848E1DE324AA00F71A42 /* User.swift */,
@@ -716,7 +716,7 @@
 				CDCF31861E0972C500379468 /* MZFormSheetPresentationController.txt in Resources */,
 				CDB3AFF81D2BF0B800C2F254 /* slider-default7-trackCrossedOver@2x.png in Resources */,
 				CDA418CE1E0D1B3B00CFDD20 /* Assets.xcassets in Resources */,
-				CD37E1CB1E27C31200AD3A33 /* specialFields.json in Resources */,
+				CD0CD2EA1E2919A30053D223 /* specialFields.json in Resources */,
 				CDB3AFF61D2BF0B800C2F254 /* slider-default7-trackBackground@2x.png in Resources */,
 				CDE4D9F91C0DEA3400FE7611 /* OpenSans-Bold.ttf in Resources */,
 				1081F2E31BB02A7600688F3B /* Main.storyboard in Resources */,
