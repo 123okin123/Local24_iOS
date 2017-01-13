@@ -15,6 +15,10 @@ class ChooseLocationViewController: UIViewController, UITableViewDelegate, UITab
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
+    @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var centerView: UIView! {didSet {
+        centerView.layer.cornerRadius = 25
+        }}
     
     var addresses = [CLPlacemark]()
     let geocoder = CLGeocoder()
@@ -99,6 +103,11 @@ class ChooseLocationViewController: UIViewController, UITableViewDelegate, UITab
                             {
                                 self.addresses.append(placemark)
                         }
+                    }
+                    if let coordinate = placemarks![0].location?.coordinate {
+                        let region = self.mapView.regionThatFits(MKCoordinateRegionMakeWithDistance(coordinate, 100, 100))
+                        self.mapView.setRegion(region, animated: true)
+
                     }
                     self.tableView.reloadData()
                 }
