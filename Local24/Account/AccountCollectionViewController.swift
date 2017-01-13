@@ -152,9 +152,11 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
             if ads.count > 0 {
                 for ad in ads {
                     let listing = Listing(value: ad)
+                    
                     self.userListings.append(listing)
                 }
             }
+            
             self.collectionView?.reloadData()
             
             case 400, 401:

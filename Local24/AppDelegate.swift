@@ -9,6 +9,7 @@
 import UIKit
 import FBSDKCoreKit
 import Alamofire
+import Branch
 
 public var myContext = 0
 
@@ -64,6 +65,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         applyCustomStyles()
 
+        // Configure Branch.io
+        let branch: Branch = Branch.getInstance()
+        branch.initSession(launchOptions: launchOptions, andRegisterDeepLinkHandler: {params, error in
+            if error == nil {
+                // params are the deep linked params associated with the link that the user clicked -> was re-directed to this app
+                // params will be empty if no data found
+                // ... insert custom logic here ...
+                print("params: %@", params?.description as Any)
+            }
+        })
+        
+        
         
         
         // Configure tracker from GoogleService-Info.plist.
@@ -83,8 +96,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       
         
          // FACEBOOK
-        return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
-       
+        
+        _ = FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+        return true
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
@@ -123,6 +137,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     
     func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
+        print("wooooooooorks")
+        /*
         guard userActivity.activityType == NSUserActivityTypeBrowsingWeb,
             let url = userActivity.webpageURL,
             let components = URLComponents(url: url, resolvingAgainstBaseURL: true) else {
@@ -142,6 +158,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 return true
             }
         }
+ */
         /* Example:
          
          if let computer = ItemHandler.sharedInstance.items.filter({ $0.path == components.path}).first {
@@ -151,10 +168,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
          */
         
         
-        // condition is not met
-
-        application.openURL(url)
-        return false
+        return Branch.getInstance().continue(userActivity)
  
     }
 

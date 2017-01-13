@@ -2,6 +2,13 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>branch_app_domain</key>
+	<string>local24.app.link</string>
+	<key>branch_key</key>
+	<dict>
+		<key>live</key>
+		<string>key_live_dovbXqEdKJz8EuORjtZ3TnjfxvikcdtI</string>
+	</dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
@@ -29,6 +36,7 @@
 				<string>fb1737515613173620</string>
 			</array>
 		</dict>
+		<dict/>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>6</string>
@@ -56,7 +64,7 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Um Ihrem Inserat Fotod hinzuzufügen, benötigt Local24 Zugriff auf Ihre Kamera.</string>
+	<string>Um Ihrem Inserat Fotos hinzuzufügen, benötigt Local24 Zugriff auf Ihre Kamera.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Ihr Standort wird benötigt um Kleinanzeigen in Ihrer Nähe zu finden. Keine Sorge, Ihr Standort wird nur abgefragt während Sie Local24 benutzen. </string>
 	<key>NSPhotoLibraryUsageDescription</key>

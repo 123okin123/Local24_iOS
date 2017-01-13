@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+import SwiftyJSON
 
 class Listing {
 
@@ -162,76 +162,43 @@ class Listing {
         
         
         
-        //Autos
-        if let condition = value["Condition"] as? String {
-            self.specialFields?.append(SpecialField(name: "Condition", descriptiveString: "Zustand", value: condition, possibleValues: nil))
-        }
         if let make = value["Make"] as? String {
-            let specialField = SpecialField(name: "Make", descriptiveString: "Marke", value: make, possibleValues: nil)
-            specialField.dependingField = SpecialField(name: "Model", descriptiveString: "Model", value: nil, possibleValues: nil)
+            let specialField = SpecialField(name: "Make", descriptiveString: "Marke", value: make, possibleValues: nil, type: .string)
+            specialField.dependingField = SpecialField(name: "Model", descriptiveString: "Model", value: nil, possibleValues: nil, type: .string)
             self.specialFields?.append(specialField)
             
         }
         if let model = value["Model"] as? String {
-            let spicalField = SpecialField(name: "Model", descriptiveString: "Model", value: model, possibleValues: nil)
-            spicalField.dependsOn = SpecialField(name: "Make", descriptiveString: "Marke", value: nil, possibleValues: nil)
+            let spicalField = SpecialField(name: "Model", descriptiveString: "Model", value: model, possibleValues: nil, type: .string)
+            spicalField.dependsOn = SpecialField(name: "Make", descriptiveString: "Marke", value: nil, possibleValues: nil, type: .string)
             self.specialFields?.append(spicalField)
         }
-        if let mileage = value["Mileage"] as? Float {
-            let formatter = NumberFormatter()
-            formatter.numberStyle = .decimal
-            let mileageString = formatter.string(from: NSNumber(value: mileage))! + " km"
-            self.specialFields?.append(SpecialField(name: "Mileage", descriptiveString: "Laufleistung", value: mileageString, possibleValues: nil))
-        }
-        if let initialRegistration = value["InitialRegistration"] as? String {
-            self.specialFields?.append(SpecialField(name: "InitialRegistration", descriptiveString: "Erstzulassung", value: initialRegistration, possibleValues: nil))
-        }
-        if let fuelType = value["FuelType"] as? String {
-            self.specialFields?.append(SpecialField(name: "FuelType", descriptiveString: "Kraftstoffart", value: fuelType, possibleValues: nil))
-        }
-        if let fuelConsumption = value["FuelConsumption"] as? Float {
-            let formatter = NumberFormatter()
-            formatter.numberStyle = .none
-            let fuelConsumptionString = formatter.string(from: NSNumber(value: fuelConsumption))! + " l/100km (kombiniert)"
-            self.specialFields?.append(SpecialField(name: "FuelConsumption", descriptiveString: "Verbrauch", value: fuelConsumptionString, possibleValues: nil))
-        }
-        if let power = value["Power"] as? Float {
-            let formatter = NumberFormatter()
-            formatter.numberStyle = .none
-            let kWpower = power * 0.735499
-            let powerString = formatter.string(from: NSNumber(value: power))! + "PS / " + formatter.string(from: NSNumber(value: kWpower))! + "kW"
-            self.specialFields?.append(SpecialField(name: "Power", descriptiveString: "Leistung", value: powerString, possibleValues: nil))
-        }
-        if let gearType = value["GearType"] as? String {
-            self.specialFields?.append(SpecialField(name: "GearType", descriptiveString: "Getriebeart", value: gearType, possibleValues: nil))
-        }
         
-        // Immobilien
-        if let priceTypeProperty = value["PriceTypeProperty"] as? String {
-            self.specialFields?.append(SpecialField(name: "PriceTypeProperty", descriptiveString: "Preisart", value: priceTypeProperty, possibleValues: nil))
+        if let path = Bundle.main.path(forResource: "specialFields", ofType: "json") {
+            do {
+                let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .alwaysMapped)
+                let json = JSON(data: data)
+                if json != JSON.null {
+                    guard let entityType = self.entityType else {return}
+                    if let fields = json[entityType].dictionary {
+                        for field in fields {
+                            let specialField = SpecialField(entityType: entityType, name: field.key)
+                            specialField.value = value[field.key]
+                            self.specialFields?.append(specialField)
+                        }
+                        
+                    } else {
+                        print("entitytype not in json")
+                    }
+                } else {
+                    print("Could not get json from file, make sure that file contains valid json.")
+                }
+            } catch let error {
+                print(error.localizedDescription)
+            }
         }
-        if var additionalCostsFloat = value["AdditionalCosts"] as? Float {
-            additionalCostsFloat = (additionalCostsFloat * 1000)/1000
-            //let additionalCosts = "\(String(format: "%.2f", additionalCostsFloat).replacingOccurrences(of: ".", with: ",")) €"
-            self.specialFields?.append(SpecialField(name: "AdditionalCosts", descriptiveString: "Nebenkosten", value: String(additionalCostsFloat), possibleValues: nil))
-        }
-        if var depositAmountFloat = value["DepositAmount"] as? Float {
-            depositAmountFloat = (depositAmountFloat * 1000)/1000
-            //let depositAmount = "\(String(format: "%.2f", depositAmountFloat).replacingOccurrences(of: ".", with: ",")) €"
-            self.specialFields?.append(SpecialField(name: "DepositAmount", descriptiveString: "Kaution", value: String(depositAmountFloat), possibleValues: nil))
-        }
-        if var sizeFloat = value["Size"] as? Float {
-            sizeFloat = (sizeFloat * 1000)/1000
-            //let size = "\(String(format: "%.2f", sizeFloat).replacingOccurrences(of: ".", with: ",")) m²"
-            self.specialFields?.append(SpecialField(name: "Size", descriptiveString: "Wohnfläche", value: String(sizeFloat), possibleValues: nil))
-        }
-        if let totalRoomsInt = value["TotalRooms"] as? Int {
-            //let totalRooms = String(totalRoomsInt)
-            self.specialFields?.append(SpecialField(name: "TotalRooms", descriptiveString: "Anzahl Räume", value: String(totalRoomsInt), possibleValues: nil))
-        }
-        if let apartmentType = value["ApartmentType"] as? String {
-            self.specialFields?.append(SpecialField(name: "ApartmentType", descriptiveString: "Wohungstyp", value: apartmentType, possibleValues: nil))
-        }
+
+        
     }
     
 }
@@ -265,18 +232,108 @@ enum PriceType :String {
 class SpecialField {
     var name:String?
     var descriptiveString :String?
-    var value :String?
-    var possibleValues :[String]?
+    var value :Any?
+    var possibleValues :[Any]?
+    var type :SpecialFieldType?
     var isIndipendent = true
     var isDependent = false
     var dependsOn :SpecialField?
     var dependingField :SpecialField?
+    var unit: String?
     
-    init(name: String?, descriptiveString :String?, value: String?, possibleValues: [String]?) {
+    var valueString :String? {
+        var string :String?
+        switch type {
+        case .string?:
+            string = value as! String?
+        case .int?:
+            let numberFormatter = NumberFormatter()
+            numberFormatter.numberStyle = NumberFormatter.Style.decimal
+            if let value = value as? Int {
+                string =  numberFormatter.string(from: NSNumber(value: value))
+            }
+        case nil:
+            return nil
+        }
+        if unit != nil {
+            string?.append(unit!)
+        }
+        return string
+    }
+    
+    var possibleStringValues :[String]? {
+        var stringValues  :[String]?
+        switch type {
+        case .string?:
+            stringValues = possibleValues as! [String]?
+        case .int?:
+            let numberFormatter = NumberFormatter()
+            numberFormatter.numberStyle = NumberFormatter.Style.decimal
+            if let ints = possibleValues as? [Int] {
+                stringValues = ints.map {numberFormatter.string(from: NSNumber(value: $0))!}
+            }
+        case nil:
+            return nil
+        }
+        if unit != nil {
+            if stringValues != nil {
+                stringValues = stringValues!.map {$0 + unit!}
+            }
+        }
+        return stringValues
+    }
+    
+    enum SpecialFieldType :String {
+    case string
+    case int
+    }
+    
+    
+    init(entityType: String, name: String) {
+    self.name = name
+        if let path = Bundle.main.path(forResource: "specialFields", ofType: "json") {
+            do {
+                let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .alwaysMapped)
+                let json = JSON(data: data)
+                if json != JSON.null {
+                    if let fields = json[entityType].dictionary {
+                        if let field = fields[name]?.dictionary {
+                            self.descriptiveString = field["descriptiveString"]?.string
+                            self.possibleValues = field["possibleValues"]?.arrayObject as [Any]?
+                            self.unit = field["unit"]?.string
+                            if let type = field["type"]?.string {
+                            self.type = SpecialFieldType.init(rawValue: type)
+                            }
+                        }
+                    }
+                } else {
+                    print("Could not get json from file, make sure that file contains valid json.")
+                }
+            } catch let error {
+                print(error.localizedDescription)
+            }
+        }
+        
+    }
+    
+    init(name: String?, descriptiveString :String?, value: Any?) {
+        self.name = name
+        self.descriptiveString = descriptiveString
+        self.value = value
+    }
+    
+    init(name: String?, descriptiveString :String?, value: Any?, possibleValues: [Any]?) {
         self.name = name
         self.descriptiveString = descriptiveString
         self.value = value
         self.possibleValues = possibleValues
+    }
+    init(name: String?, descriptiveString :String?, value: Any?, possibleValues: [Any]?, type: SpecialFieldType?) {
+        self.name = name
+        self.descriptiveString = descriptiveString
+        self.value = value
+        self.possibleValues = possibleValues
+        self.type = type
     }
 }
 

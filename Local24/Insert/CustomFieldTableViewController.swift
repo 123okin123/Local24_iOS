@@ -37,7 +37,7 @@ class CustomFieldTableViewController: UITableViewController {
         indicator.startAnimating()
         NetworkController.getOptionsFor(customFields: [(independetField.0, independetField.1)], entityType: entityType, completion: {(fields ,error) in
             if error == nil && fields != nil {
-                self.independentFieldOptions = fields![0].possibleValues!
+                self.independentFieldOptions = fields![0].possibleValues! as! [String]
                 indicator.removeFromSuperview()
                 self.tableView.reloadData()
             }

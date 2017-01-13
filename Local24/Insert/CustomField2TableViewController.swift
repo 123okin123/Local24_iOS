@@ -67,10 +67,11 @@ class CustomField2TableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         for vcs in navigationController!.viewControllers {
             if let insertVC = vcs as? InsertTableViewController {
-                insertVC.listing.specialFields?.append(SpecialField(name: independetField.name, descriptiveString: independetField.descriptiveString, value: independetFieldValue, possibleValues: nil))
-                insertVC.listing.specialFields?.append(SpecialField(name: dependentField.name, descriptiveString: dependentField.descriptiveString, value: dependentFieldOptions[indexPath.row], possibleValues: nil))
+                insertVC.listing.specialFields?.append(SpecialField(name: independetField.name, descriptiveString: independetField.descriptiveString, value: independetFieldValue, possibleValues: nil, type :nil))
+                insertVC.listing.specialFields?.append(SpecialField(name: dependentField.name, descriptiveString: dependentField.descriptiveString, value: dependentFieldOptions[indexPath.row], possibleValues: nil, type :nil))
                 insertVC.independentFieldLabel.text = independetFieldValue
                 insertVC.dependentFieldLabel.text = dependentFieldOptions[indexPath.row]
+                insertVC.populateCustomFields()
                 _ = navigationController?.popToViewController(insertVC, animated: true)
             }
         }

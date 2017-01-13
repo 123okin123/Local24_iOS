@@ -23,7 +23,7 @@ befor publishing!!!!
 public var user :User?
 
 public var localCSS = true
-public var dryRunGA = false
+public var dryRunGA = true
 public var gaLogging = false
 public let mode = "www"
 public var adultContent = true

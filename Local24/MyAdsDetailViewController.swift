@@ -42,13 +42,15 @@ class MyAdsDetailViewController: UIViewController, UITableViewDataSource, UITabl
 
     var infos : [(name: String?, value: String?)] {
         var infos = [(name: String?, value: String?)]()
-        if let specialFields = listing.specialFields {
-            for specialField in specialFields {
-                infos.append((specialField.descriptiveString, specialField.value))
-            }
-        }
         infos.append(("Erstellt am",listing.createdDate))
         infos.append(("Aktuallisiert am",listing.updatedDate))
+        if let specialFields = listing.specialFields {
+            for specialField in specialFields {
+                infos.append((specialField.descriptiveString, specialField.valueString))
+                
+            }
+        }
+
         return infos
     }
     

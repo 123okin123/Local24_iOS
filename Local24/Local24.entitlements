@@ -4,7 +4,9 @@
 <dict>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
-		<string>applinks:www.local24.de</string>
+		<string>applinks:*.local24.de</string>
+		<string>applinks:local24.de</string>
+		<string>applinks:local24.app.link</string>
 	</array>
 </dict>
 </plist>

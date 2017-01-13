@@ -127,7 +127,8 @@ class InsertTableViewController: UITableViewController {
             user = fetchedUser
         })
        
-        populateCustomFields()
+        
+       
         
         
         
@@ -151,7 +152,11 @@ class InsertTableViewController: UITableViewController {
         categoryLabel.textColor = UIColor.lightGray
         independentFieldLabel.text = ""
         dependentFieldLabel.text = ""
+        
         listing = Listing()
+        tableView.reloadData()
+        //populateCustomFields()
+        
     }
     
     func prePopulate() {
@@ -163,13 +168,39 @@ class InsertTableViewController: UITableViewController {
         priceTypeTextField.text = listing.priceType
         adTypeTextField.text = listing.adType?.rawValue
         categoryLabel.textColor = UIColor.black
-        independentFieldLabel.text = listing.specialFields?.first(where: {$0.dependingField != nil})?.name
-        dependentFieldLabel.text = listing.specialFields?.first(where: {$0.dependsOn != nil})?.name
+        
+        independentFieldLabel.text = listing.specialFields?.first(where: {$0.dependingField != nil})?.valueString
+        dependentFieldLabel.text = listing.specialFields?.first(where: {$0.dependsOn != nil})?.valueString
         if let specialFields = listing.specialFields?.filter({$0.dependingField == nil && $0.dependsOn == nil}) {
             if specialFields.count > 0 {
             customFields = specialFields
             for i in 0...customFields.count - 1 {
-            customFieldCellCollection[i].textField.text = customFields[i].value
+                customFieldCellCollection[i].textField.text = customFields[i].valueString
+                customFieldCellCollection[i].textLabel?.text = customFields[i].descriptiveString
+                if let path = Bundle.main.path(forResource: "specialFields", ofType: "json") {
+                    do {
+                        let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .alwaysMapped)
+                        let json = JSON(data: data)
+                        if json != JSON.null {
+                            if let entityType = listing.entityType {
+                                if let fields = json[entityType].dictionary {
+                                    if let field = fields[customFields[i].name!] {
+                                        if let possibleValues = field["possibleValues"].arrayObject as [Any]! {
+                                        customFields[i].possibleValues = possibleValues
+                                        }
+                                    }
+                                }
+                            }
+                        } else {
+                            print("Could not get json from file, make sure that file contains valid json.")
+                        }
+                    } catch let error {
+                        print(error.localizedDescription)
+                    }
+                }
+                
+                
+                
             }
             }
         }
@@ -246,6 +277,8 @@ class InsertTableViewController: UITableViewController {
         present(pendingAlertController, animated: true, completion: nil)
         
         
+        
+        
         var values = [
             "ID_Advertiser": user!.id!,
             "ID_Category" : listing.catID!,
@@ -280,32 +313,25 @@ class InsertTableViewController: UITableViewController {
             values["HouseNumber"] = houseNumber
         }
         
-        if customFields.count > 0 {
-        for i in 0...customFields.count - 1 {
-            if let value = customFieldCellCollection[i].textField.text {
-                customFields[i].value = value
-            }
-        }
-        }
         listing.specialFields = [SpecialField]()
         listing.specialFields?.append(contentsOf: customFields)
         
         switch listing.entityType! {
         case "AdCar":
-            let independetField = SpecialField(name: "Make", descriptiveString: "Marke", value: independentFieldLabel.text, possibleValues: nil)
-            let dependentField = SpecialField(name: "Model", descriptiveString: "Model", value: dependentFieldLabel.text, possibleValues: nil)
+            let independetField = SpecialField(name: "Make", descriptiveString: "Marke", value: independentFieldLabel.text, possibleValues: nil, type :nil)
+            let dependentField = SpecialField(name: "Model", descriptiveString: "Model", value: dependentFieldLabel.text, possibleValues: nil, type :nil)
             listing.specialFields?.append(independetField)
             listing.specialFields?.append(dependentField)
         case "AdApartment":
-            let independetField = SpecialField(name: "SellOrRent", descriptiveString: "Verkauf oder Vermietung", value: independentFieldLabel.text, possibleValues: nil)
-            let dependentField = SpecialField(name: "PriceTypeProperty", descriptiveString: "Preisart", value: dependentFieldLabel.text, possibleValues: nil)
+            let independetField = SpecialField(name: "SellOrRent", descriptiveString: "Verkauf oder Vermietung", value: independentFieldLabel.text, possibleValues: nil, type :nil)
+            let dependentField = SpecialField(name: "PriceTypeProperty", descriptiveString: "Preisart", value: dependentFieldLabel.text, possibleValues: nil, type :nil)
             listing.specialFields?.append(independetField)
             listing.specialFields?.append(dependentField)
         default:
             break
         }
         
-        if listing.specialFields != nil {
+        if listing.specialFields!.count > 0 {
         for specialField in listing.specialFields! {
             if let name = specialField.name {
                 if let value = specialField.value {

@@ -50,7 +50,6 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     }
     
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
-        print("shouldSelect \(viewController)")
         if let index = tabBarController.viewControllers?.index(of: viewController) {
             willSelectedIndex = index
             if index == 2 {

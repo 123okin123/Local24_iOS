@@ -25,7 +25,7 @@ public class User {
     init() {}
     
     init(value: [AnyHashable:Any]) {
-        debugPrint(value)
+   
         if let id = value["ID"] as? Int {
             self.id = id
         }

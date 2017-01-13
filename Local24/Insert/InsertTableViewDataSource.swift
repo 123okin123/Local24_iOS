@@ -16,38 +16,40 @@ extension InsertTableViewController: InsertImageCellDelegate {
     
     
     func populateCustomFields() {
-        
+       self.customFields.removeAll()
         if let path = Bundle.main.path(forResource: "specialFields", ofType: "json") {
-            print(path)
             do {
                 let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .alwaysMapped)
                 let json = JSON(data: data)
-                print(data)
                 if json != JSON.null {
+                    
                     guard let entityType = listing.entityType else {return}
+                    
                     if let fields = json[entityType].dictionary {
+                        
                         for field in fields {
                             if let descriptiveString = field.value["descriptiveString"].string {
-                                if let possibleValues = field.value["possibleValues"].arrayObject as? [String] {
-                                    let specialField = SpecialField(name: field.key, descriptiveString: descriptiveString, value: nil, possibleValues: possibleValues)
-                                    self.customFields.append(specialField)
+                                if let possibleValues = field.value["possibleValues"].arrayObject as [Any]! {
+                                    if let type = field.value["type"].string {
+                                        let specialField = SpecialField(name: field.key, descriptiveString: descriptiveString, value: nil, possibleValues: possibleValues, type: SpecialField.SpecialFieldType(rawValue: type))
+                                        self.customFields.append(specialField)
+                                    }
                                 }
                             }
                         }
                         if self.customFields.count > 0 {
                             for i in 0...self.customFields.count - 1 {
                                 self.customFieldCellCollection[i].textLabel?.text = self.customFields[i].descriptiveString
-                                self.customFieldCellCollection[i].textField.placeholder = self.customFields[i].possibleValues?[0]
+                                self.customFieldCellCollection[i].textField.placeholder = self.customFields[i].possibleStringValues?[0]
                             }
                         }
-                        
                         self.tableView.reloadData()
                     } else {
                     print("entitytype not in json")
                         self.customFields.removeAll()
                         self.independentFieldLabel.text = ""
                         self.dependentFieldLabel.text = ""
-                        self.tableView.reloadSections(IndexSet(integer: 2), with: .automatic)
+                        self.tableView.reloadData()
                     }
                 } else {
                     print("Could not get json from file, make sure that file contains valid json.")
@@ -57,65 +59,7 @@ extension InsertTableViewController: InsertImageCellDelegate {
             }
         }
         
-        /*
-        if listing.entityType != nil {
-            if listing.entityType != "AdPlain" {
-                var customFieldNames = [(String, String)]()
-                switch listing.entityType! {
-                case "AdCar":
-                    customFieldNames = [
-                        ("Condition", "Zustand"),
-                        ("BodyColor", "Außenfarbe"),
-                        ("BodyForm", "Karosserieform"),
-                        ("GearType", "Getriebeart"),
-                        ("FuelType", "Kraftstoffart"),
-                        ("InitialRegistration", "Erstzulassung"),
-                        ("Mileage", "Kilometerstand in km"),
-                        ("Power", "Leistung in PS")
-                    ]
-                case "AdApartment":
-                    customFieldNames = [
-                        ("Size", "Wohnfläche in m2"),
-                        ("AvailableFrom", "Verfügbar ab"),
-                        ("Commission", "Provision"),
-                        ("CommissionAmount", "Provisionshöhe in €"),
-                        ("AdditionalCosts", "Nebenkosten in €"),
-                        ("DepositAmount", "Kaution in €"),
-                        ("TotalRooms", "Anzahl Räume"),
-                        ("ApartmentType", "Wohnungstyp"),
-                        ("ConditionOfProperty", "Objektzustand")
-                    ]
-                default: break
-                    
-                }
-                NetworkController.getOptionsFor(customFields: customFieldNames, entityType: listing.entityType!, completion: {(fields, error) in
-                    if error == nil && fields != nil {
-                        self.customFields = fields!
-                    }
-                    if self.customFields.count > 0 {
-                        for i in 0...self.customFields.count - 1 {
-                            self.customFieldCellCollection[i].textLabel?.text = self.customFields[i].descriptiveString
-                            self.customFieldCellCollection[i].textField.placeholder = self.customFields[i].possibleValues?[0]
-                        }
-                    }
-                    var indexPaths = [IndexPath]()
-                    for i in 0...self.customFields.count - 1 {
-                        let indexPath = IndexPath(row: i, section: 2)
-                        indexPaths.append(indexPath)
-                    }
-                    self.tableView.reloadData()
-                    
-                })
-                
-            } else {
-                self.customFields.removeAll()
-                self.independentFieldLabel.text = ""
-                self.dependentFieldLabel.text = ""
-                self.tableView.reloadSections(IndexSet(integer: 2), with: .automatic)
-            }
-        }
- */
-        
+               
     }
 
 
@@ -162,28 +106,26 @@ extension InsertTableViewController: InsertImageCellDelegate {
             let headerView = view as! UITableViewHeaderFooterView
             headerView.textLabel!.textColor = UIColor.clear
         }
+        
     }
     
     override func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
         if shouldHideSection(section) {
             let footerView = view as! UITableViewHeaderFooterView
             footerView.textLabel!.textColor = UIColor.clear
-        }
+        } 
     }
     
     
     func shouldHideSection(_ section: Int) -> Bool {
         switch section {
-        case 2:
-            return true
-            // Work in Progress
-            /*
+        case 2: 
             if listing.entityType == "AdPlain" || listing.entityType == nil {
                 return true
             } else {
                 return false
             }
- */
+
         default: return false
         }
         

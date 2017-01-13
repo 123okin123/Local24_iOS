@@ -13,19 +13,22 @@ extension InsertTableViewController: UIPickerViewDataSource, UIPickerViewDelegat
 
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        debugPrint(textField)
         
         currentTextField = textField
         
         if let index = customFieldCellCollection.index(where:{$0.textField == currentTextField}) {
-            currentPickerArray = customFields[index].possibleValues!
+            currentPickerArray = customFields[index].possibleStringValues!
+            
+        
             customFieldCellCollection[index].textField.inputView = pickerView
             customFieldCellCollection[index].textField.inputAccessoryView = toolBar
-            if let selectedIndex = customFields[index].possibleValues?.index(where: {$0 == customFieldCellCollection[index].textField.text}) {
+            if let selectedIndex = currentPickerArray.index(where: {$0 == customFieldCellCollection[index].textField.text}) {
                 pickerView.selectRow(selectedIndex, inComponent: 0, animated: true)
+                customFields[index].value = customFields[index].possibleValues?[selectedIndex]
             } else {
                 pickerView.selectRow(0, inComponent: 0, animated: true)
                 currentTextField.text = currentPickerArray[0]
+                customFields[index].value = customFields[index].possibleValues?[0]
             }
         }
         
@@ -58,7 +61,11 @@ extension InsertTableViewController: UIPickerViewDataSource, UIPickerViewDelegat
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         
+        if let index = customFieldCellCollection.index(where:{$0.textField == currentTextField}) {
+            customFields[index].value = customFields[index].possibleValues?[row]
+        }
         currentTextField.text = currentPickerArray[row]
+
     }
     func pickerDonePressed() {
         view.endEditing(true)

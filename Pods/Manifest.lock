@@ -6,6 +6,11 @@ PODS:
   - Bolts/AppLinks (1.8.4):
     - Bolts/Tasks
   - Bolts/Tasks (1.8.4)
+  - Branch (0.12.24):
+    - Branch/Core (= 0.12.24)
+    - Branch/without-IDFA (= 0.12.24)
+  - Branch/Core (0.12.24)
+  - Branch/without-IDFA (0.12.24)
   - FBAudienceNetwork (4.18.0)
   - FBSDKCoreKit (4.18.0):
     - Bolts (~> 1.7)
@@ -37,19 +42,20 @@ PODS:
   - GoogleInterchangeUtilities (1.2.2):
     - GoogleSymbolUtilities (~> 1.1)
   - GoogleSymbolUtilities (1.1.2)
-  - GoogleToolboxForMac/Defines (2.1.0)
-  - GoogleToolboxForMac/NSData+zlib (2.1.0):
-    - GoogleToolboxForMac/Defines (= 2.1.0)
+  - GoogleToolboxForMac/Defines (2.1.1)
+  - GoogleToolboxForMac/NSData+zlib (2.1.1):
+    - GoogleToolboxForMac/Defines (= 2.1.1)
   - ImagePicker (2.0.0)
   - MapleBacon (3.0.1)
   - MZAppearance (1.1.6)
   - MZFormSheetPresentationController (2.4.2):
     - MZAppearance
   - NVActivityIndicatorView (3.1)
-  - SwiftyJSON (3.1.3)
+  - SwiftyJSON (3.1.4)
 
 DEPENDENCIES:
   - Alamofire (~> 4.0)
+  - Branch
   - FBAudienceNetwork
   - FBSDKCoreKit
   - FBSDKLoginKit
@@ -68,6 +74,7 @@ DEPENDENCIES:
 SPEC CHECKSUMS:
   Alamofire: aa2e09d871c9160ac53c90e83c68064a94e3dfbe
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
+  Branch: 91bd039aab277cffce763662050d0b4a12b5d196
   FBAudienceNetwork: 56c08468fbd5366f06c84037d859964403d83ce3
   FBSDKCoreKit: 15fef8804a4629f98c6f4e55e81a76c9d725d85e
   FBSDKLoginKit: 6773073e970b2b15fb12e451ce7f11da0532b880
@@ -82,14 +89,14 @@ SPEC CHECKSUMS:
   GoogleIDFASupport: aaf8c10bd429abb1c15349d5252244f5eda8ead1
   GoogleInterchangeUtilities: d5bc4d88d5b661ab72f9d70c58d02ca8c27ad1f7
   GoogleSymbolUtilities: 631ee17048aa5e9ab133470d768ea997a5ef9b96
-  GoogleToolboxForMac: 2b2596cbb7186865e98cadf2b1e262d851c2b168
+  GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
   ImagePicker: 81175d36c2852cb543cb4f5d6c19e28f3e8d90eb
   MapleBacon: 8fb0c45a0f147049ad49af6b36ac04a649baa74d
   MZAppearance: 0c06d3fa9cc55142f1da14bc8631fbe8fd6e19d5
   MZFormSheetPresentationController: c1dc3bce639d2393b3cc416fcb6e050eb5bca062
   NVActivityIndicatorView: 9f47e8a4affb860ef729aeec99b1550219e6c233
-  SwiftyJSON: 38a8ea2006779c0fc4c310cb2ee8195327740faf
+  SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
 
-PODFILE CHECKSUM: 77a376baf1eb615f33c1223ccc49a0326c7ee21d
+PODFILE CHECKSUM: f5916b2b515b2514b507363d09c0dff0614b8387
 
 COCOAPODS: 1.1.1

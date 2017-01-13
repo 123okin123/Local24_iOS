@@ -29,7 +29,6 @@ class SelectCategoryTableViewController: UITableViewController {
                         $0.name != "Flirt & Abenteuer" &&
                         $0.name != "Job" &&
                         $0.adclass != "AdTruck" &&
-                        $0.adclass != "AdCar" &&
                         $0.adclass != "AdApartment" &&
                         $0.adclass != "AdCat" &&
                         $0.adclass != "AdCommune" &&
@@ -53,7 +52,6 @@ class SelectCategoryTableViewController: UITableViewController {
                     $0.name != "Job" &&
                     $0.adclass != "AdTruck" &&
                     $0.adclass != "AdCat" &&
-                    $0.adclass != "AdCar" &&
                     $0.adclass != "AdApartment" &&
                     $0.adclass != "AdCommune" &&
                     $0.adclass != "AdDating" &&
