@@ -14,12 +14,15 @@ import MapKit
 import Fuzi
 
 
-class NetworkController {
+public class NetworkController  {
 
+    private var request :Request?
+    
+    init() {}
     
     // MARK: Inserate
     
-    class func loadAdWith(id: Int, completion: @escaping (_ listing: Listing?, _ error: Error?) -> Void) {
+     func loadAdWith(id: Int, completion: @escaping (_ listing: Listing?, _ error: Error?) -> Void) {
         Alamofire.request("https://cfw-api-11.azurewebsites.net/public/ads/\(id)/").responseJSON(completionHandler: { response in
             switch response.result {
             case .failure(let error):
@@ -33,7 +36,7 @@ class NetworkController {
         })
     }
     
-    class func insertAdWith(values: [String:Any], images: [UIImage]?, existing: Bool, userToken: String, completion: @escaping (_ errorString :String?) -> Void) {
+     func insertAdWith(values: [String:Any], images: [UIImage]?, existing: Bool, userToken: String, completion: @escaping (_ errorString :String?) -> Void)  {
         let method:  HTTPMethod
         let url :URLConvertible
         if existing {
@@ -44,57 +47,51 @@ class NetworkController {
             url = "https://cfw-api-11.azurewebsites.net/ads?auth=\(userToken)"
         }
         
-        Alamofire.request(url, method: method, parameters: values, encoding: JSONEncoding.default).responseJSON (completionHandler: { responseData in
+        request = Alamofire.request(url, method: method, parameters: values, encoding: JSONEncoding.default).responseJSON (completionHandler: { responseData in
             debugPrint(responseData)
             if let response = responseData.response {
-            switch response.statusCode {
-            case 201, 200:
-                Alamofire.request("https://cfw-api-11.azurewebsites.net/ads/", method: .get, parameters: ["auth":userToken, "pagesize":1]).validate().responseJSON (completionHandler: {response in
-                    switch response.result {
-                    case .success:
-                        let value = response.result.value  as! [[AnyHashable:Any]]
-                        if let id = value[0]["Id"] as? Int {
-                            Alamofire.request("https://cfw-api-11.azurewebsites.net/ads/\(id)/images?auth=\(userToken)&id=\(id)", method: .delete).validate().responseJSON (completionHandler: {response in
-                                if images != nil {
-                                    if !images!.isEmpty {
-                                        self.uploadImagesFor(adID: id, images: images!, userToken: userToken) { statusCode in
-                                            if statusCode == 201 {
-                                                completion(nil)
-                                            } else {
-                                                completion("Image Upload Failed")
-                                                Alamofire.request("https://cfw-api-11.azurewebsites.net/ads/", method: .delete, parameters: ["auth":userToken, "id":id, "finally": true]).validate().responseJSON(completionHandler: {response in
-                                                })
-                                            }
+                switch response.statusCode {
+                case 201, 200:
+                    if let location = response.allHeaderFields["Location"] as? String {
+                        if let id = location.components(separatedBy: "/").last {
+                            if images != nil {
+                                if !images!.isEmpty {
+                                    self.uploadImagesFor(adID: id, images: images!, userToken: userToken) { statusCode in
+                                        if statusCode == 201 {
+                                            completion(nil)
+                                        } else {
+                                            completion("Image Upload Failed")
+                                            Alamofire.request("https://cfw-api-11.azurewebsites.net/ads/", method: .delete, parameters: ["auth":userToken, "id":id, "finally": true]).validate().responseJSON(completionHandler: {response in
+                                            })
                                         }
-                                    } else {
-                                        completion(nil)
-                                    } }else {
+                                    }
+                                } else {
                                     completion(nil)
                                 }
-                                
-                            })
+                            }else {
+                                completion(nil)
+                            }
+                            
                         }
-                    case .failure: completion("Ad Upload Fails")
                     }
-                })
-            default:
-                if responseData.result.isSuccess {
-                let values = responseData.result.value as! [String : String]
-                var errorString = ""
-                for (_,value) in values {
-                errorString = errorString + value + "\n"
+                default:
+                    if responseData.result.isSuccess {
+                        let values = responseData.result.value as! [String : String]
+                        var errorString = ""
+                        for (_,value) in values {
+                            errorString = errorString + value + "\n"
+                        }
+                        completion(errorString)
+                    } else {
+                        completion(responseData.result.error!.localizedDescription)
+                    }
                 }
-                completion(errorString)
-                } else {
-                completion(responseData.result.error!.localizedDescription)
-                }
-            }
             }
         })
     }
     
     
-    class func changeAdWith(adID: Int, to state: String, userToken: String, completion: @escaping (_ error: Error?) -> Void) {
+     func changeAdWith(adID: Int, to state: String, userToken: String, completion: @escaping (_ error: Error?) -> Void) {
         Alamofire.request("https://cfw-api-11.azurewebsites.net/ads/\(adID)", method: .get, parameters: ["auth": userToken, "id": adID]).validate().responseJSON { response in
             if response.result.error == nil {
                 var values = response.result.value as! [String:Any]
@@ -110,7 +107,7 @@ class NetworkController {
 
     }
     
-    class func deleteAdWith(adID: Int, userToken :String, completion: @escaping (_ error: Error?) -> Void) {
+     func deleteAdWith(adID: Int, userToken :String, completion: @escaping (_ error: Error?) -> Void) {
             Alamofire.request("https://cfw-api-11.azurewebsites.net/ads/\(adID)", method: .delete,
                               parameters:
                 ["auth": userToken,
@@ -125,6 +122,11 @@ class NetworkController {
             }
     }
     
+    
+     func cancelCurrentRequest() {
+        request?.cancel()
+        request = nil
+    }
     
     
     // MARK: Forms
@@ -155,179 +157,38 @@ class NetworkController {
 
     
     
-    class func getOptionsFor(customFields :[(String,String)], entityType: String, completion: @escaping (_ fields:[SpecialField]?, _ error: Error?) -> Void) {
-        
-        Alamofire.request("https://cfw-api-11.azurewebsites.net/forms/\(entityType)/schema", method: .get).responseJSON(completionHandler: { response in
-            
-            if response.result.isSuccess {
-                if let responseString = response.result.value as? String {
-                    do {
-                        let doc = try XMLDocument(string: responseString)
-                        if let properties = doc.root?.firstChild(tag: "Properties") {
-                            var fields = [SpecialField]()
-                            for property in properties.children {
-                                if let propertyName = property.attr("name") {
-                                    var visibleName = ""
-                                    if customFields.contains(where: {(string0, string1) in
-                                        visibleName = string1
-                                        return string0 == propertyName
-                                    }) {
-                                        if let options = property.firstChild(tag: "Constraints")?.firstChild(tag: "OptionsOnly") {
-                                            if let optionsArray = options.attr("options")?.components(separatedBy: ",") {
-                                            fields.append(SpecialField(name: propertyName, descriptiveString: visibleName, value: nil, possibleValues: optionsArray))
-                                               
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                            switch entityType {
-                            case "AdCar":
-                                var visibleName = ""
-                                if customFields.contains(where: {(string0, string1) in
-                                    visibleName = string1
-                                    return string0 == "InitialRegistration"
-                                }) {
-                                var initialRegistration = [String]()
-                                let months = ["01","02","03","04","05","06","07","08","09","10","11","12"]
-                                for i in 1960...2050 {
-                                    for month in months {
-                                    initialRegistration.append(month+"/"+String(i))
-                                    }
-                                }
-                                fields.append(SpecialField(name: "InitialRegistration", descriptiveString: visibleName, value: nil, possibleValues: initialRegistration))
-                                }
-                                if customFields.contains(where: {(string0, string1) in
-                                    visibleName = string1
-                                    return string0 == "Mileage"
-                                }) {
-                                var mileAge = [String]()
-                                for i in 1...100 {
-                                    mileAge.append(String(i*2500))
-                                }
-                                fields.append(SpecialField(name: "Mileage", descriptiveString: visibleName, value: nil, possibleValues: mileAge))
-                                }
-                                if customFields.contains(where: {(string0, string1) in
-                                    visibleName = string1
-                                    return string0 == "Power"
-                                }) {
-                                var power = [String]()
-                                for i in 1...500 {
-                                    power.append(String(i))
-                                }
-                                fields.append(SpecialField(name: "Power", descriptiveString: visibleName, value: nil, possibleValues: power))
-                                }
-                            case "AdApartment":
-                                var visibleName = ""
-                                if customFields.contains(where: {(string0, string1) in
-                                    visibleName = string1
-                                    return string0 == "Size"
-                                }) {
-                                    var size = [String]()
-                                    for i in 1...1000 {
-                                        size.append(String(i))
-                                    }
-                                    fields.append(SpecialField(name: "Size", descriptiveString: visibleName, value: nil, possibleValues: size))
-                                }
-                                if customFields.contains(where: {(string0, string1) in
-                                    visibleName = string1
-                                    return string0 == "AvailableFrom"
-                                }) {
-                                    var availableFrom = [String]()
-                                    let months = ["01","02","03","04","05","06","07","08","09","10","11","12"]
-                                    for i in 2016...2020 {
-                                        for month in months {
-                                            availableFrom.append(month+"/"+String(i))
-                                        }
-                                    }
-                                    fields.append(SpecialField(name: "AvailableFrom", descriptiveString: visibleName, value: nil, possibleValues: availableFrom))
-                                }
-                                if customFields.contains(where: {(string0, string1) in
-                                    visibleName = string1
-                                    return string0 == "CommissionAmount"
-                                }) {
-                                    var commissionAmount = [String]()
-                                    for i in 0...5000 {
-                                        commissionAmount.append(String(i*10))
-                                    }
-                                    fields.append(SpecialField(name: "CommissionAmount", descriptiveString: visibleName, value: nil, possibleValues: commissionAmount))
-                                }
-                                if customFields.contains(where: {(string0, string1) in
-                                    visibleName = string1
-                                    return string0 == "AdditionalCosts"
-                                }) {
-                                    var additionalCosts = [String]()
-                                    for i in 0...500 {
-                                        additionalCosts.append(String(i*10))
-                                    }
-                                    fields.append(SpecialField(name: "AdditionalCosts", descriptiveString: visibleName, value: nil, possibleValues: additionalCosts))
-                                }
-                                if customFields.contains(where: {(string0, string1) in
-                                    visibleName = string1
-                                    return string0 == "DepositAmount"
-                                }) {
-                                    var depositAmount = [String]()
-                                    for i in 0...5000 {
-                                        depositAmount.append(String(i*10))
-                                    }
-                                    fields.append(SpecialField(name: "DepositAmount", descriptiveString: visibleName, value: nil, possibleValues: depositAmount))
-                                }
-                                if customFields.contains(where: {(string0, string1) in
-                                    visibleName = string1
-                                    return string0 == "TotalRooms"
-                                }) {
-                                    var totalRooms = [String]()
-                                    for i in 1...20 {
-                                        totalRooms.append(String(i))
-                                    }
-                                    fields.append(SpecialField(name: "TotalRooms", descriptiveString: visibleName, value: nil, possibleValues: totalRooms))
-                                }
-                                
-                                
-                                
-                                
-                            default: break
-                            }
-                            completion(fields,nil)
-                        }
-                    } catch let error {
-                        completion(nil,error)
-                    }
-                
-                }
-            } else {
-            completion(nil, response.result.error)
-            }
-        })
-    }
+
 
     
     // MARK: Images
     
-    class func uploadImagesFor(adID :Int, images: [UIImage], userToken: String, completion: @escaping (_ statusCode: Int?) -> Void) {
-        let url = "https://cfw-api-11.azurewebsites.net/ads/\(adID)/images?auth=\(userToken)&id=\(adID)"
-        Alamofire.upload(multipartFormData: { multipartFormData in
-            for rawImage in images {
-                let image = self.resizeImage(image: rawImage, newWidth: 500)!
-                let imageData = UIImageJPEGRepresentation(image, 1.0)
-                let randomNum:UInt32 = arc4random_uniform(1000)
-                let imageName :String = String(randomNum)
-                multipartFormData.append(imageData!, withName: imageName, fileName: "\(imageName).jpg", mimeType: "image/jpeg")
-            }
-        }, to: url, encodingCompletion: { encodingResult in
-            switch encodingResult {
-            case .success(let upload, _, _):
-                upload.validate()
-                upload.responseJSON { response in
-                    completion((response.response?.statusCode))
+     func uploadImagesFor(adID :String, images: [UIImage], userToken: String, completion: @escaping (_ statusCode: Int?) -> Void) {
+        request = Alamofire.request("https://cfw-api-11.azurewebsites.net/ads/\(adID)/images?auth=\(userToken)&id=\(adID)", method: .delete).validate().responseJSON (completionHandler: {response in
+            let url = "https://cfw-api-11.azurewebsites.net/ads/\(adID)/images?auth=\(userToken)&id=\(adID)"
+            Alamofire.upload(multipartFormData: { multipartFormData in
+                for rawImage in images {
+                    let image = self.resizeImage(image: rawImage, newWidth: 1000)!
+                    let imageData = UIImageJPEGRepresentation(image, 1.0)
+                    let randomNum:UInt32 = arc4random_uniform(1000)
+                    let imageName :String = String(randomNum)
+                    multipartFormData.append(imageData!, withName: imageName, fileName: "\(imageName).jpg", mimeType: "image/jpeg")
                 }
-            case .failure: break
-            }
+            }, to: url, encodingCompletion: { encodingResult in
+                switch encodingResult {
+                case .success(let upload, _, _):
+                    self.request = upload
+                    upload.validate()
+                    upload.responseJSON { response in
+                        self.request = nil
+                        completion((response.response?.statusCode))
+                    }
+                case .failure: break
+                }
+            })
         })
-
     }
     
-    class func getImagePathsFor(adID :String, completion: @escaping (_ imagePaths: [String]?, _ error: Error?) -> Void) {
+     func getImagePathsFor(adID :String, completion: @escaping (_ imagePaths: [String]?, _ error: Error?) -> Void) {
         Alamofire.request("https://cfw-api-11.azurewebsites.net/public/ads/\(adID)/images/").responseJSON(completionHandler: { response in
            
             switch response.result {
@@ -348,7 +209,7 @@ class NetworkController {
         })
     }
     
-    class func getImagesFor(adID :String, completion: @escaping (_ images: [UIImage]?) -> Void) {
+     func getImagesFor(adID :String, completion: @escaping (_ images: [UIImage]?) -> Void) {
         self.getImagePathsFor(adID: adID, completion: { (imagePaths, error) in
             if error == nil {
                 var images = [UIImage]()
@@ -367,7 +228,7 @@ class NetworkController {
         })
     }
     
-    class func resizeImage(image: UIImage, newWidth: CGFloat) -> UIImage? {
+    private func resizeImage(image: UIImage, newWidth: CGFloat) -> UIImage? {
         let scale = newWidth / image.size.width
         let newHeight = image.size.height * scale
         UIGraphicsBeginImageContext(CGSize(width: newWidth, height: newHeight))
@@ -383,7 +244,7 @@ class NetworkController {
     // MARK: User
     
 
-    class func registerUserWith(values :[String: Any], completion: @escaping (_ error:Error?) -> Void) {
+     func registerUserWith(values :[String: Any], completion: @escaping (_ error:Error?) -> Void) {
         Alamofire.request("https://www.local24.de/registrieren/", method: .post, parameters: values).responseString { responseResult in
             if responseResult.result.isSuccess {
                 if let string = responseResult.result.value {
@@ -403,7 +264,7 @@ class NetworkController {
     
     
     
-    class func getUserProfile(userToken :String, completion: @escaping (_ user: User?, _ statusCode :Int) -> Void) {
+     func getUserProfile(userToken :String, completion: @escaping (_ user: User?, _ statusCode :Int) -> Void) {
         Alamofire.request("https://cfw-api-11.azurewebsites.net/me", method: .get, parameters: ["auth": userToken]).validate().responseJSON (completionHandler: {response in
             if let statusCode = response.response?.statusCode {
                 switch response.result {
@@ -426,7 +287,7 @@ class NetworkController {
     }
     
     
-    class func getPlacemarkFor(user: User, completion: @escaping (_ placemark :CLPlacemark?, _ error :Error?)-> Void) {
+     func getPlacemarkFor(user: User, completion: @escaping (_ placemark :CLPlacemark?, _ error :Error?)-> Void) {
         guard let zipCode = user.zipCode else {
             completion(nil, NCError.RuntimeError("missing User Data"))
             return

@@ -14,11 +14,11 @@ class SelectSubCategoryTableViewController: UITableViewController {
     
     var subCategories = [CategoryModel]()
     var parentCategoryID :Int!
-    
+    var parentCategoryName :String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.title = parentCategoryName
         subCategories = categoryBuilder.subCategories.filter({
                 $0.idParentCategory == parentCategoryID &&
                         $0.adclass != "AdTruck" &&
@@ -70,6 +70,7 @@ class SelectSubCategoryTableViewController: UITableViewController {
                 insertVC.listing.entityType = subCategories[indexPath.row].adclass!
                 insertVC.categoryLabel.text = subCategories[indexPath.row].name
                 insertVC.categoryLabel.textColor = UIColor.black
+                insertVC.populateCustomFields()
                 
                 if subCategories[indexPath.row].adclass != "AdPlain" {
                     let storyboard = UIStoryboard.init(name: "Main", bundle: nil)

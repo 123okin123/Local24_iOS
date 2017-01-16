@@ -10,6 +10,7 @@ import UIKit
 import FBSDKCoreKit
 import Alamofire
 import Branch
+import Firebase
 
 public var myContext = 0
 
@@ -39,7 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         categoryBuilder.getCategories(completion: { (mainCat, subCat, error) in
             if error == nil {
                 if userToken != nil {
-                    NetworkController.getUserProfile(userToken: userToken!, completion: { (fetchedUser, statusCode) in
+                    networkController.getUserProfile(userToken: userToken!, completion: { (fetchedUser, statusCode) in
                         if statusCode == 200 {
                             user = fetchedUser
                         }
@@ -94,6 +95,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //ADWORDS CONVERSION TRACKING
         ACTConversionReporter.report(withConversionID: "1059198657", label: "vk-bCOu16WgQwa2I-QM", value: "0.50", isRepeatable: false)
       
+        // FIREBASE CONFIG
+        FIRApp.configure()
         
          // FACEBOOK
         
@@ -197,14 +200,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             filter.viewedRegion.span.longitudeDelta = defaults.double(forKey: "viewedRegion.span.longitudeDelta")
             filter.onlyLocalListings = defaults.bool(forKey: "onlyLocalListings")
             userToken = defaults.string(forKey: "userToken")
-//            user = User()
-//            user?.firstName = defaults.string(forKey: "userFirstName")
-//            user?.lastName = defaults.string(forKey: "userLastName")
-//            user?.zipCode = defaults.string(forKey: "userZipCode")
-//            user?.city = defaults.string(forKey: "userCity")
-//            user?.street = defaults.string(forKey: "userStreet")
-//            user?.houseNumber = defaults.string(forKey: "userHouseNumber")
-//            user?.totalAdsCount = defaults.integer(forKey: "userTotalAdsCount")
         }
     }
     func saveDataToDefaults() {
@@ -229,29 +224,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else {
             defaults.removeObject(forKey: "userToken")
         }
-//        if user != nil {
-//            if let firstName = user!.firstName {
-//                defaults.set(firstName, forKey: "userFirstName")
-//            }
-//            if let lastName = user!.lastName {
-//                defaults.set(lastName, forKey: "userLastName")
-//            }
-//            if let zipCode = user!.zipCode {
-//                defaults.set(zipCode, forKey: "userZipCode")
-//            }
-//            if let city = user!.city {
-//                defaults.set(city, forKey: "userCity")
-//            }
-//            if let street = user!.street {
-//                defaults.set(street, forKey: "userStreet")
-//            }
-//            if let houseNumber = user!.houseNumber {
-//                defaults.set(houseNumber, forKey: "userHouseNumber")
-//            }
-//            if let totalAdsCount = user!.totalAdsCount {
-//                defaults.set(totalAdsCount, forKey: "userTotalAdsCount")
-//            }
-//        }
+
     }
 
     

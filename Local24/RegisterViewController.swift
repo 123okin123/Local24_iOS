@@ -69,7 +69,7 @@ class RegisterViewController: UITableViewController, UIPickerViewDelegate, UIPic
             values["ZipCode"] = zipCodeField.text!
             }
         
-        NetworkController.registerUserWith(values: values, completion: { error in
+        networkController.registerUserWith(values: values, completion: { error in
             pendingAlertController.dismiss(animated: true, completion: {
             if error == nil {
                 let errorAlert = UIAlertController(title: "Registrierung erfolgreich", message: "Um Ihre Registrierung abzuschließen, klicken Sie bitte auf den Link in der an die angegebene Adresse versendete E-Mail", preferredStyle: .alert)

@@ -28,7 +28,12 @@ extension InsertTableViewController: InsertImageCellDelegate {
                     if let fields = json[entityType].dictionary {
                         for field in fields {
                             let specialField = SpecialField(entityType: entityType, name: field.key)
-                            self.customFields.append(specialField)
+                            if !specialField.hasDependentField {
+                                self.customFields.append(specialField)
+                            }
+                            
+                            
+                            
                             if entityType == "AdApartment" && self.independentFieldLabel.text == "Verkauf"{
                                 if let index = self.customFields.index(where: {$0.name == "AdditionalCosts"}) {self.customFields.remove(at: index)}
                                 if let index = self.customFields.index(where: {$0.name == "DepositAmount"}) {self.customFields.remove(at: index)}
@@ -61,9 +66,6 @@ extension InsertTableViewController: InsertImageCellDelegate {
         }
     }
     
-    
-
-
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
@@ -107,18 +109,22 @@ extension InsertTableViewController: InsertImageCellDelegate {
     }
     
     override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        let headerView = view as! UITableViewHeaderFooterView
         if shouldHideSection(section) {
-            let headerView = view as! UITableViewHeaderFooterView
             headerView.textLabel!.textColor = UIColor.clear
+        } else {
+            headerView.textLabel!.textColor = UIColor.darkGray
         }
         
     }
     
     override func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
+        let footerView = view as! UITableViewHeaderFooterView
         if shouldHideSection(section) {
-            let footerView = view as! UITableViewHeaderFooterView
             footerView.textLabel!.textColor = UIColor.clear
-        } 
+        } else {
+            footerView.textLabel!.textColor = UIColor.darkGray
+        }
     }
     
     

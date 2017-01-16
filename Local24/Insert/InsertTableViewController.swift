@@ -16,6 +16,7 @@ class InsertTableViewController: UITableViewController {
 
     
     // MARK: - IBOutlets
+    
     @IBOutlet weak var imageCollectionView: UICollectionView!
     @IBOutlet var customFieldCellCollection: [InsertCustomFieldCell]! {didSet {
         var i = 1
@@ -120,7 +121,7 @@ class InsertTableViewController: UITableViewController {
             navigationItem.setHidesBackButton(true, animated: false)
         }
         navigationController?.setNavigationBarHidden(false, animated: false)
-        NetworkController.getUserProfile(userToken: userToken!, completion: {(fetchedUser, statusCode) in
+        networkController.getUserProfile(userToken: userToken!, completion: {(fetchedUser, statusCode) in
             user = fetchedUser
         })
        
@@ -275,6 +276,10 @@ class InsertTableViewController: UITableViewController {
         indicator.autoresizingMask = [.flexibleWidth, . flexibleHeight]
         indicator.color = UIColor.darkGray
         pendingAlertController.view.addSubview(indicator)
+        indicator.isUserInteractionEnabled = false
+        let cancleAction = UIAlertAction(title: "Abbrechen", style: .cancel, handler: { _ in networkController.cancelCurrentRequest()})
+        
+        pendingAlertController.addAction(cancleAction)
         indicator.startAnimating()
         present(pendingAlertController, animated: true, completion: nil)
         
@@ -344,12 +349,12 @@ class InsertTableViewController: UITableViewController {
         }
         // End of Optional Values
         
-        NetworkController.insertAdWith(values: values, images: imageArray, existing: listingExists, userToken: userToken!, completion: { errorString in
+         networkController.insertAdWith(values: values, images: imageArray, existing: listingExists, userToken: userToken!, completion: { errorString in
             pendingAlertController.dismiss(animated: true, completion: {
             if errorString == nil {
 
                 let successMenu = UIAlertController(title: "Anzeige aufgegeben", message: "Herzlichen Glückwunsch Ihre Anzeige wurde erfolgreich aufgegeben.", preferredStyle: .alert)
-                let confirmAction = UIAlertAction(title: "Ok", style: .default, handler: {alert in
+                let confirmAction = UIAlertAction(title: "Ok", style: .cancel, handler: {alert in
                 self.clearAll()
                 _ = self.navigationController?.popToViewController((self.navigationController?.viewControllers[1])!, animated: true)
                 })
@@ -357,12 +362,14 @@ class InsertTableViewController: UITableViewController {
                 self.present(successMenu, animated: true, completion: nil)
             } else {
                 let errorMenu = UIAlertController(title: "Fehler", message: errorString, preferredStyle: .alert)
-                let confirmAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
+                let confirmAction = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
                 errorMenu.addAction(confirmAction)
                 self.present(errorMenu, animated: true, completion: nil)
             }
             })
         })
+        
+        
     }
     
 

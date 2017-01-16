@@ -22,6 +22,7 @@ target 'Local24' do
   pod 'NVActivityIndicatorView'
   pod 'SwiftyJSON'
   pod 'Branch'
+  pod 'Firebase/Core'
 
   target 'Local24Tests' do
     inherit! :search_paths

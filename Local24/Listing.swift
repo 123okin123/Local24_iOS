@@ -113,7 +113,6 @@ class Listing {
             let listingDateDay = listingDate[Range(listingDate.characters.index(listingDate.startIndex, offsetBy: 8) ..< listingDate.characters.index(listingDate.startIndex, offsetBy: 10))]
             listingDate = "\(listingDateDay).\(listingDateMonth).\(listingDateYear)"
             self.createdDate = listingDate
-           // self.infos.append(("Datum", listingDate))
         }
         if var updatedAt = value["UpdatedAt"] as? String {
             let updatedAtYear = updatedAt[Range(updatedAt.startIndex ..< updatedAt.characters.index(updatedAt.startIndex, offsetBy: 4))]
@@ -121,7 +120,6 @@ class Listing {
             let updatedAtDay = updatedAt[Range(updatedAt.characters.index(updatedAt.startIndex, offsetBy: 8) ..< updatedAt.characters.index(updatedAt.startIndex, offsetBy: 10))]
             updatedAt = "\(updatedAtDay).\(updatedAtMonth).\(updatedAtYear)"
             self.updatedDate = updatedAt
-            //self.infos.append(("Aktualisiert", updatedAt))
         }
         if let hasImages = value["HasImages"] as? Bool {
         if hasImages  {
@@ -162,25 +160,13 @@ class Listing {
         
         
         
-        if let make = value["Make"] as? String {
-            let specialField = SpecialField(name: "Make", descriptiveString: "Marke", value: make, possibleValues: nil, type: .string)
-            specialField.dependingField = SpecialField(name: "Model", descriptiveString: "Model", value: nil, possibleValues: nil, type: .string)
-            self.specialFields?.append(specialField)
-            
-        }
+
         if let model = value["Model"] as? String {
             let spicalField = SpecialField(name: "Model", descriptiveString: "Model", value: model, possibleValues: nil, type: .string)
             spicalField.dependsOn = SpecialField(name: "Make", descriptiveString: "Marke", value: nil, possibleValues: nil, type: .string)
             self.specialFields?.append(spicalField)
         }
-        
-        
-        if let sellOrRent = value["SellOrRent"] as? String {
-            let specialField = SpecialField(name: "SellOrRent", descriptiveString: "Verkauf oder Vermietung", value: sellOrRent, possibleValues: nil, type: .string)
-            specialField.dependingField = SpecialField(name: "PriceTypeProperty", descriptiveString: "Preisart", value: nil, possibleValues: nil, type: .string)
-            self.specialFields?.append(specialField)
-            
-        }
+
         if let priceTypeProperty = value["PriceTypeProperty"] as? String {
             let spicalField = SpecialField(name: "PriceTypeProperty", descriptiveString: "Preisart", value: priceTypeProperty, possibleValues: nil, type: .string)
             spicalField.dependsOn = SpecialField(name: "SellOrRent", descriptiveString: "Verkauf oder Vermietung", value: nil, possibleValues: nil, type: .string)
@@ -197,6 +183,7 @@ class Listing {
                         for field in fields {
                             let specialField = SpecialField(entityType: entityType, name: field.key)
                             specialField.value = value[field.key]
+                            
                             // Hide Nebenkosten / Kaution
                             if specialField.name == "AdditionalCosts" || specialField.name == "DepositAmount" {
                                 if let sellOrRent = self.specialFields?.first(where: {$0.name == "SellOrRent"}) {
@@ -209,6 +196,7 @@ class Listing {
                             } else {
                                 // Default case
                                 self.specialFields?.append(specialField)
+                                
                             }
                             
 
@@ -261,6 +249,7 @@ class SpecialField {
     var descriptiveString :String?
     var value :Any?
     var possibleValues :[Any]?
+    var hasDependentField = false
     var type :SpecialFieldType?
     var isIndipendent = true
     var isDependent = false
@@ -330,6 +319,9 @@ class SpecialField {
                             self.descriptiveString = field["descriptiveString"]?.string
                             self.possibleValues = field["possibleValues"]?.arrayObject as [Any]?
                             self.unit = field["unit"]?.string
+                            if let hasDependentField = field["hasDependentField"]?.bool {
+                            self.hasDependentField = hasDependentField
+                            }
                             if let type = field["type"]?.string {
                             self.type = SpecialFieldType.init(rawValue: type)
                             }
