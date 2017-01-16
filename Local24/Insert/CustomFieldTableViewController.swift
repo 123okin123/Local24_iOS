@@ -17,6 +17,7 @@ class CustomFieldTableViewController: UITableViewController {
         switch entityType {
         case "AdCar": return ("Make", "Marke")
         case "AdApartment": return ("SellOrRent", "Verkauf oder Vermietung")
+        case "AdHouse": return ("SellOrRent", "Verkauf oder Vermietung")
         default: return nil
         }
         }}

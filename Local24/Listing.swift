@@ -197,7 +197,21 @@ class Listing {
                         for field in fields {
                             let specialField = SpecialField(entityType: entityType, name: field.key)
                             specialField.value = value[field.key]
-                            self.specialFields?.append(specialField)
+                            // Hide Nebenkosten / Kaution
+                            if specialField.name == "AdditionalCosts" || specialField.name == "DepositAmount" {
+                                if let sellOrRent = self.specialFields?.first(where: {$0.name == "SellOrRent"}) {
+                                    if let value = sellOrRent.value as? String {
+                                        if value == "Vermietung" {
+                                        self.specialFields?.append(specialField)
+                                        }
+                                    }
+                                }
+                            } else {
+                                // Default case
+                                self.specialFields?.append(specialField)
+                            }
+                            
+
                         }
                         
                     } else {

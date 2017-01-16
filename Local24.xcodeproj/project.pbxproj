@@ -17,7 +17,6 @@
 		946AE2445CFC457A49DFDAEF /* Pods_Local24.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAE5DB9518CCC4A7488A2757 /* Pods_Local24.framework */; };
 		A3AF0A635067C4E9A1AE8920 /* Pods_Local24Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43DD49A8287E5B1D5DEA9BC8 /* Pods_Local24Tests.framework */; };
 		CD0A28A21C6CF76300B27AFD /* RadiusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD0A28A11C6CF76300B27AFD /* RadiusView.swift */; };
-		CD0CD2EA1E2919A30053D223 /* specialFields.json in Resources */ = {isa = PBXBuildFile; fileRef = CD0CD2E91E2919A30053D223 /* specialFields.json */; };
 		CD0E3F7E1CE09C6C005AA575 /* SearchCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD0E3F7D1CE09C6C005AA575 /* SearchCollectionViewController.swift */; };
 		CD0E3F801CE0A06C005AA575 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD0E3F7F1CE0A06C005AA575 /* CollectionViewCell.swift */; };
 		CD0E3F821CE0BFA9005AA575 /* Listing.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD0E3F811CE0BFA9005AA575 /* Listing.swift */; };
@@ -56,6 +55,7 @@
 		CD9CD4331CE4A1900080CF67 /* SelectedFilterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9CD4321CE4A1900080CF67 /* SelectedFilterButton.swift */; };
 		CDA32CB31E096F3A004969E7 /* Bolts.txt in Resources */ = {isa = PBXBuildFile; fileRef = CDA32CB21E096F3A004969E7 /* Bolts.txt */; };
 		CDA418CE1E0D1B3B00CFDD20 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CDA418CD1E0D1B3B00CFDD20 /* Assets.xcassets */; };
+		CDA8D7F51E2CB37400AB5065 /* specialFields.json in Resources */ = {isa = PBXBuildFile; fileRef = CDA8D7F41E2CB37400AB5065 /* specialFields.json */; };
 		CDA9CCCC1C070793005ED562 /* PublicSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA9CCCB1C070793005ED562 /* PublicSettings.swift */; };
 		CDA9CCCE1C070D2B005ED562 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA9CCCD1C070D2B005ED562 /* SearchViewController.swift */; };
 		CDA9CCD81C0715B3005ED562 /* MoreTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA9CCD71C0715B3005ED562 /* MoreTableViewController.swift */; };
@@ -145,7 +145,6 @@
 		6EA1B7368DC3BE4B3C6EA32E /* Pods-Local24Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Local24Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Local24Tests/Pods-Local24Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		BF19EF7F4AEA34E8E7663AF8 /* Pods-Local24Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Local24Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Local24Tests/Pods-Local24Tests.release.xcconfig"; sourceTree = "<group>"; };
 		CD0A28A11C6CF76300B27AFD /* RadiusView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RadiusView.swift; sourceTree = "<group>"; };
-		CD0CD2E91E2919A30053D223 /* specialFields.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = specialFields.json; sourceTree = "<group>"; };
 		CD0E3F7D1CE09C6C005AA575 /* SearchCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchCollectionViewController.swift; sourceTree = "<group>"; };
 		CD0E3F7F1CE0A06C005AA575 /* CollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
 		CD0E3F811CE0BFA9005AA575 /* Listing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Listing.swift; sourceTree = "<group>"; };
@@ -184,6 +183,7 @@
 		CD9CD4321CE4A1900080CF67 /* SelectedFilterButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectedFilterButton.swift; sourceTree = "<group>"; };
 		CDA32CB21E096F3A004969E7 /* Bolts.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Bolts.txt; path = Licences/Bolts.txt; sourceTree = "<group>"; };
 		CDA418CD1E0D1B3B00CFDD20 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		CDA8D7F41E2CB37400AB5065 /* specialFields.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = specialFields.json; sourceTree = "<group>"; };
 		CDA9CCCB1C070793005ED562 /* PublicSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PublicSettings.swift; sourceTree = "<group>"; };
 		CDA9CCCD1C070D2B005ED562 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		CDA9CCD51C071456005ED562 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Main.strings; sourceTree = "<group>"; };
@@ -409,7 +409,7 @@
 			children = (
 				CDCF31801E09725900379468 /* Licences */,
 				1081F30F1BB04E6200688F3B /* iosApp.css */,
-				CD0CD2E91E2919A30053D223 /* specialFields.json */,
+				CDA8D7F41E2CB37400AB5065 /* specialFields.json */,
 				CD0E3F811CE0BFA9005AA575 /* Listing.swift */,
 				CD993E0C1DF9BD4300F686C7 /* NetworkController.swift */,
 				CDCA848E1DE324AA00F71A42 /* User.swift */,
@@ -716,7 +716,7 @@
 				CDCF31861E0972C500379468 /* MZFormSheetPresentationController.txt in Resources */,
 				CDB3AFF81D2BF0B800C2F254 /* slider-default7-trackCrossedOver@2x.png in Resources */,
 				CDA418CE1E0D1B3B00CFDD20 /* Assets.xcassets in Resources */,
-				CD0CD2EA1E2919A30053D223 /* specialFields.json in Resources */,
+				CDA8D7F51E2CB37400AB5065 /* specialFields.json in Resources */,
 				CDB3AFF61D2BF0B800C2F254 /* slider-default7-trackBackground@2x.png in Resources */,
 				CDE4D9F91C0DEA3400FE7611 /* OpenSans-Bold.ttf in Resources */,
 				1081F2E31BB02A7600688F3B /* Main.storyboard in Resources */,

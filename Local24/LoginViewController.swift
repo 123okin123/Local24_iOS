@@ -96,7 +96,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        gaUserTracking("Login")
         navigationController?.setNavigationBarHidden(true, animated: false)
         let gradient = CAGradientLayer()
         gradient.frame = view.frame
@@ -116,6 +115,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             if (tabBarController as! TabBarController).willSelectedIndex == 2 {
                 performSegue(withIdentifier: "fromLoginToInsertSegueID", sender: nil)
             }
+        } else {
+            gaUserTracking("Login")
         }
   
     }

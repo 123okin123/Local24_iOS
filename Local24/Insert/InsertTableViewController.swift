@@ -18,8 +18,11 @@ class InsertTableViewController: UITableViewController {
     // MARK: - IBOutlets
     @IBOutlet weak var imageCollectionView: UICollectionView!
     @IBOutlet var customFieldCellCollection: [InsertCustomFieldCell]! {didSet {
+        var i = 1
         for cell in customFieldCellCollection {
             cell.textField.delegate = self
+            cell.textField.tag = i
+            i += 1
         }
         }}
 
@@ -66,9 +69,9 @@ class InsertTableViewController: UITableViewController {
         if validate() {
             let tracker = GAI.sharedInstance().defaultTracker
             if listingExists {
-                tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Insert", action: "edited", label: categoryLabel.text!, value: 0).build() as NSDictionary as! [AnyHashable: Any])
+                tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Insertion", action: "edited", label: categoryLabel.text!, value: 0).build() as NSDictionary as! [AnyHashable: Any])
             } else {
-                tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Insert", action: "insertion", label: categoryLabel.text!, value: 0).build() as NSDictionary as! [AnyHashable: Any])
+                tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Insertion", action: "insertion", label: categoryLabel.text!, value: 0).build() as NSDictionary as! [AnyHashable: Any])
             }
             submitAd()
         }
@@ -92,14 +95,8 @@ class InsertTableViewController: UITableViewController {
         toolBar.isTranslucent = true
         toolBar.tintColor = greencolor
         toolBar.sizeToFit()
-        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
-        let doneButton = UIBarButtonItem(title: "Fertig", style: UIBarButtonItemStyle.plain, target: self, action: #selector(pickerDonePressed))
-        let previousButton  = UIBarButtonItem(image: UIImage(named: "keyboardPreviousButton"), style: .plain, target: self, action: #selector(pickerPreviousPressed))
-        previousButton.width = 50.0
-        let nextButton  = UIBarButtonItem(image: UIImage(named: "keyboardNextButton"), style: .plain, target: self, action: #selector(pickerNextPressed))
-        toolBar.setItems([previousButton, nextButton, spaceButton, doneButton], animated: false)
+        
         toolBar.isUserInteractionEnabled = true
-  
      
         if let placemark = user?.placemark  {
             cityLabel.text = placemark.addressDictionary?["City"] as! String?
@@ -116,7 +113,7 @@ class InsertTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if listingExists {
-            gaUserTracking("Insert(EditExistingAd)")
+            gaUserTracking("Insert(editExisting)")
             navigationItem.setHidesBackButton(false, animated: false)
         } else {
             gaUserTracking("Insert")
@@ -327,7 +324,7 @@ class InsertTableViewController: UITableViewController {
             let dependentField = SpecialField(name: "Model", descriptiveString: "Model", value: dependentFieldLabel.text, possibleValues: nil, type :nil)
             listing.specialFields?.append(independetField)
             listing.specialFields?.append(dependentField)
-        case "AdApartment":
+        case "AdApartment", "AdHouse":
             let independetField = SpecialField(name: "SellOrRent", descriptiveString: "Verkauf oder Vermietung", value: independentFieldLabel.text, possibleValues: nil, type :nil)
             let dependentField = SpecialField(name: "PriceTypeProperty", descriptiveString: "Preisart", value: dependentFieldLabel.text, possibleValues: nil, type :nil)
             listing.specialFields?.append(independetField)
@@ -341,12 +338,7 @@ class InsertTableViewController: UITableViewController {
             if let name = specialField.name {
                 if let value = specialField.value {
                     values[name] = value
-                } else {
-                    if let possibleValues = specialField.possibleValues as [Any]! {
-                        values[name] = possibleValues[0]
-                    }
-                    
-                }
+                } 
             }
         }
         }
@@ -355,13 +347,7 @@ class InsertTableViewController: UITableViewController {
         NetworkController.insertAdWith(values: values, images: imageArray, existing: listingExists, userToken: userToken!, completion: { errorString in
             pendingAlertController.dismiss(animated: true, completion: {
             if errorString == nil {
-                /* wired bug
-                if let navVC = self.tabBarController?.viewControllers?[3] as? UINavigationController {
-                    if let accountVC = navVC.viewControllers[1] as? AccountCollectionViewController {
-                        accountVC.getAds()
-                    }
-                }
-                */
+
                 let successMenu = UIAlertController(title: "Anzeige aufgegeben", message: "Herzlichen Glückwunsch Ihre Anzeige wurde erfolgreich aufgegeben.", preferredStyle: .alert)
                 let confirmAction = UIAlertAction(title: "Ok", style: .default, handler: {alert in
                 self.clearAll()

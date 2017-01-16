@@ -12,7 +12,7 @@ import MapKit
 
 
 
-class LocationViewController: UIViewController, UISearchBarDelegate, UISearchResultsUpdating, UISearchControllerDelegate, MKMapViewDelegate , UIGestureRecognizerDelegate {
+class LocationViewController: UIViewController, UISearchBarDelegate, UISearchResultsUpdating, UISearchControllerDelegate, MKMapViewDelegate , UIGestureRecognizerDelegate, CLLocationManagerDelegate {
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var radiusLabel: UILabel!
 
@@ -38,8 +38,6 @@ class LocationViewController: UIViewController, UISearchBarDelegate, UISearchRes
             locationManager.requestWhenInUseAuthorization()
             
         }
-
-
     }
     
    
@@ -47,17 +45,8 @@ class LocationViewController: UIViewController, UISearchBarDelegate, UISearchRes
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
 
-
-   
-        
-        //MapView
         mapView.delegate = self
-  
-       print(filter.viewedRegion)
-  
-        // SearchController
         resultsTableController = LocationResultsTableController()
         searchController = UISearchController(searchResultsController: resultsTableController)
         searchController.searchResultsUpdater = self
@@ -83,12 +72,17 @@ class LocationViewController: UIViewController, UISearchBarDelegate, UISearchRes
     func checkLocationAuthorizationStatus() {
         if CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
             mapView.showsUserLocation = true
-            
         } else {
             locationManager.requestWhenInUseAuthorization()
             
         }
     }
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
+            mapView.showsUserLocation = true
+        }
+    }
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)

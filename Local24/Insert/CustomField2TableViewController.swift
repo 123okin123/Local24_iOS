@@ -21,6 +21,7 @@ class CustomField2TableViewController: UITableViewController {
         switch entityType {
         case "AdCar": return ("Model", "Model")
         case "AdApartment": return ("PriceTypeProperty", "Preisart")
+        case "AdHouse": return ("PriceTypeProperty", "Preisart")
         default: return nil
         }
         }}

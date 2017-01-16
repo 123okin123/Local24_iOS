@@ -27,7 +27,6 @@ class SelectSubCategoryTableViewController: UITableViewController {
                         $0.adclass != "AdDating" &&
                         $0.adclass != "AdDog" &&
                         $0.adclass != "AdHorse" &&
-                        $0.adclass != "AdHouse" &&
                         $0.adclass != "AdJob" &&
                         $0.adclass != "AdMotorcycle" &&
                         $0.adclass != "AdOtherProperty"

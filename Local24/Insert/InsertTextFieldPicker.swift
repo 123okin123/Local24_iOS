@@ -16,10 +16,16 @@ extension InsertTableViewController: UIPickerViewDataSource, UIPickerViewDelegat
         
         currentTextField = textField
         
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+        let doneButton = UIBarButtonItem(title: "Fertig", style: .plain, target: self, action: #selector(pickerDonePressed))
+        let previousButton  = UIBarButtonItem(image: UIImage(named: "previousArrow"), style: .plain, target: self, action: #selector(pickerPreviousPressed))
+        previousButton.width = 50.0
+        let nextButton  = UIBarButtonItem(image: UIImage(named: "nextArrow"), style: .plain, target: self, action: #selector(pickerNextPressed))
+        nextButton.width = 50.0
+        
         if let index = customFieldCellCollection.index(where:{$0.textField == currentTextField}) {
             currentPickerArray = customFields[index].possibleStringValues!
-            
-        
+            toolBar.setItems([previousButton, nextButton, spaceButton, doneButton], animated: false)
             customFieldCellCollection[index].textField.inputView = pickerView
             customFieldCellCollection[index].textField.inputAccessoryView = toolBar
             if let selectedIndex = currentPickerArray.index(where: {$0 == customFieldCellCollection[index].textField.text}) {
@@ -34,17 +40,20 @@ extension InsertTableViewController: UIPickerViewDataSource, UIPickerViewDelegat
         
         switch currentTextField {
         case adTypeTextField:
+            toolBar.setItems([spaceButton, doneButton], animated: false)
             adTypeTextField.inputView = pickerView
             adTypeTextField.inputAccessoryView = toolBar
             currentPickerArray = Array(AdType.allValues.values)
         case priceTypeTextField:
+            toolBar.setItems([spaceButton, doneButton], animated: false)
             priceTypeTextField.inputView = pickerView
             priceTypeTextField.inputAccessoryView = toolBar
             currentPickerArray = Array(PriceType.allValues.values)
         default: break
         }
-        pickerView.reloadAllComponents()
         
+        
+        pickerView.reloadAllComponents()
         return true
     }
     
@@ -71,9 +80,17 @@ extension InsertTableViewController: UIPickerViewDataSource, UIPickerViewDelegat
         view.endEditing(true)
     }
     func pickerPreviousPressed() {
+        currentTextField.resignFirstResponder()
+        if let previousTextField = view.viewWithTag(currentTextField.tag - 1) as? UITextField {
+            previousTextField.becomeFirstResponder()
+        }
     }
     func pickerNextPressed() {
-            currentTextField.resignFirstResponder()
+        currentTextField.resignFirstResponder()
+        if let nextTextField = view.viewWithTag(currentTextField.tag + 1) as? UITextField {
+           nextTextField.becomeFirstResponder()
+        }
+        
     }
     
 }

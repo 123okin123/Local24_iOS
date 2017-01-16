@@ -10,9 +10,7 @@ import UIKit
 
 class ContactTableViewController: UITableViewController, UITextViewDelegate {
 
-    @IBOutlet weak var sendButton: UIButton! {didSet {
-        sendButton.layer.cornerRadius = 5
-        }}
+    @IBOutlet weak var sendButton: UIButton! {didSet { sendButton.layer.cornerRadius = 10}}
     @IBOutlet weak var copyForMeSwitch: UISwitch!
     @IBOutlet weak var messageTextView: UITextView!
     @IBOutlet weak var emailTextField: UITextField!
@@ -33,8 +31,6 @@ class ContactTableViewController: UITableViewController, UITextViewDelegate {
         super.viewDidLoad()
 
         messageTextView.delegate = self
-        //tableView.rowHeight = UITableViewAutomaticDimension
-        //tableView.estimatedRowHeight = 44
         messageTextView.text = "Nachricht*"
         messageTextView.textColor = UIColor(red: 206/255, green: 206/255, blue: 211/255, alpha: 1.0)
         

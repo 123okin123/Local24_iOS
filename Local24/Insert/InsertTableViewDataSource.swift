@@ -32,8 +32,10 @@ extension InsertTableViewController: InsertImageCellDelegate {
                             if entityType == "AdApartment" && self.independentFieldLabel.text == "Verkauf"{
                                 if let index = self.customFields.index(where: {$0.name == "AdditionalCosts"}) {self.customFields.remove(at: index)}
                                 if let index = self.customFields.index(where: {$0.name == "DepositAmount"}) {self.customFields.remove(at: index)}
-                                
-                                
+                            }
+                            if entityType == "AdHouse" && self.independentFieldLabel.text == "Verkauf"{
+                                if let index = self.customFields.index(where: {$0.name == "AdditionalCosts"}) {self.customFields.remove(at: index)}
+                                if let index = self.customFields.index(where: {$0.name == "DepositAmount"}) {self.customFields.remove(at: index)}
                             }
                         }
                         if self.customFields.count > 0 {
@@ -135,7 +137,7 @@ extension InsertTableViewController: InsertImageCellDelegate {
     }
     func shouldHideCell(atIndexPath indexPath: IndexPath) -> Bool {
         if indexPath == IndexPath(row: 1, section: 4) {
-            if listing.entityType == "AdApartment" {
+            if listing.entityType == "AdApartment" || listing.entityType == "AdHouse" {
             return true
             } else {return false}
         } else {return false}
