@@ -76,12 +76,6 @@ class DetailViewController: UIViewController, WKNavigationDelegate, WKUIDelegate
         self.title = "Partneranzeige"
     
         }
-        if !Reachability.isConnectedToNetwork() {
-            let alert = UIAlertController(title: "Keine Internetverbindung", message: "Sie scheinen nicht mit dem Internet verbunden zu sein.", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-            present(alert, animated: true, completion: nil)
-            
-        }
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)

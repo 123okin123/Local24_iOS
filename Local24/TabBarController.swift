@@ -18,7 +18,8 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         super.viewDidLoad()
         self.delegate = self
         self.setupInsertButton()
-     
+        self.tabBar.shadowImage = UIImage(named: "tabBarShadow")
+        self.tabBar.backgroundImage = UIImage()
     }
 
     override func didReceiveMemoryWarning() {
@@ -32,11 +33,9 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         insertButton.frame = insertButtonFrame
         insertButton.backgroundColor = UIColor.white
         insertButton.layer.cornerRadius = insertButtonFrame.height/2
+        insertButton.layer.borderColor = UIColor(red: 217/255, green: 217/255, blue: 217/255, alpha: 1).cgColor
+        insertButton.layer.borderWidth = 1
         self.view.addSubview(insertButton)
-        insertButton.layer.shadowColor = UIColor.black.cgColor
-        insertButton.layer.shadowOpacity = 0.3
-        insertButton.layer.shadowOffset = CGSize.zero
-        insertButton.layer.shadowRadius = 3
         insertButton.setImage(UIImage(named: "insert"), for: UIControlState.normal)
         insertButton.addTarget(self, action: #selector(insertButtonAction), for: UIControlEvents.touchUpInside)
         
@@ -54,9 +53,11 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
             willSelectedIndex = index
             if index == 2 {
                 insertButton.backgroundColor = bluecolor
+                insertButton.layer.borderWidth = 0
                 insertButton.setImage(UIImage(named: "insert_white"), for: .normal)
             }else {
                 insertButton.backgroundColor = UIColor.white
+                insertButton.layer.borderWidth = 1
                 insertButton.setImage(UIImage(named: "insert"), for: .normal)
             }
             if index == 3 && selectedIndex == 3 {
@@ -67,17 +68,5 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         }
         return true
     }
-
-
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
