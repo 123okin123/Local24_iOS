@@ -21,7 +21,6 @@ target 'Local24' do
   pod 'Fuzi', '~> 1.0.0'
   pod 'NVActivityIndicatorView'
   pod 'SwiftyJSON'
-  pod 'Branch'
   pod 'Firebase/Core'
 
   target 'Local24Tests' do
