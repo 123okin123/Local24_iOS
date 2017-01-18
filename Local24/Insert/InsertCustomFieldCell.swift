@@ -16,8 +16,10 @@ class InsertCustomFieldCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        let frame = CGRect(x: 15, y: 0, width: screenwidth - 30, height: self.contentView.bounds.size.height)
+        let frame = CGRect(x: (screenwidth/2) - 15, y: 0, width: screenwidth/2, height: self.contentView.bounds.size.height)
         textField.frame = frame
+        textField.adjustsFontSizeToFitWidth = true
+        textField.minimumFontSize = 12
         textField.textAlignment = .right
         self.addSubview(textField)
     }
@@ -25,7 +27,6 @@ class InsertCustomFieldCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
-        // Configure the view for the selected state
     }
 
 }

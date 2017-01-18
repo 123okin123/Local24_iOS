@@ -9,6 +9,7 @@
 import UIKit
 import FBSDKCoreKit
 import Alamofire
+import Firebase
 
 public var myContext = 0
 
@@ -38,7 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         categoryBuilder.getCategories(completion: { (mainCat, subCat, error) in
             if error == nil {
                 if userToken != nil {
-                    NetworkController.getUserProfile(userToken: userToken!, completion: { (fetchedUser, statusCode) in
+                    networkController.getUserProfile(userToken: userToken!, completion: { (fetchedUser, statusCode) in
                         if statusCode == 200 {
                             user = fetchedUser
                         }
@@ -66,6 +67,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         
         
+        
         // Configure tracker from GoogleService-Info.plist.
         var configureError:NSError?
         GGLContext.sharedInstance().configureWithError(&configureError)
@@ -81,10 +83,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //ADWORDS CONVERSION TRACKING
         ACTConversionReporter.report(withConversionID: "1059198657", label: "vk-bCOu16WgQwa2I-QM", value: "0.50", isRepeatable: false)
       
+        // FIREBASE CONFIG
+        FIRApp.configure()
         
          // FACEBOOK
         return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
-       
+
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
@@ -123,6 +127,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     
     func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
+        print("wooooooooorks")
+        /*
         guard userActivity.activityType == NSUserActivityTypeBrowsingWeb,
             let url = userActivity.webpageURL,
             let components = URLComponents(url: url, resolvingAgainstBaseURL: true) else {
@@ -142,6 +148,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 return true
             }
         }
+ */
         /* Example:
          
          if let computer = ItemHandler.sharedInstance.items.filter({ $0.path == components.path}).first {
@@ -151,10 +158,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
          */
         
         
-        // condition is not met
-
-        application.openURL(url)
-        return false
+        return true
  
     }
 
@@ -183,14 +187,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             filter.viewedRegion.span.longitudeDelta = defaults.double(forKey: "viewedRegion.span.longitudeDelta")
             filter.onlyLocalListings = defaults.bool(forKey: "onlyLocalListings")
             userToken = defaults.string(forKey: "userToken")
-//            user = User()
-//            user?.firstName = defaults.string(forKey: "userFirstName")
-//            user?.lastName = defaults.string(forKey: "userLastName")
-//            user?.zipCode = defaults.string(forKey: "userZipCode")
-//            user?.city = defaults.string(forKey: "userCity")
-//            user?.street = defaults.string(forKey: "userStreet")
-//            user?.houseNumber = defaults.string(forKey: "userHouseNumber")
-//            user?.totalAdsCount = defaults.integer(forKey: "userTotalAdsCount")
         }
     }
     func saveDataToDefaults() {
@@ -215,29 +211,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else {
             defaults.removeObject(forKey: "userToken")
         }
-//        if user != nil {
-//            if let firstName = user!.firstName {
-//                defaults.set(firstName, forKey: "userFirstName")
-//            }
-//            if let lastName = user!.lastName {
-//                defaults.set(lastName, forKey: "userLastName")
-//            }
-//            if let zipCode = user!.zipCode {
-//                defaults.set(zipCode, forKey: "userZipCode")
-//            }
-//            if let city = user!.city {
-//                defaults.set(city, forKey: "userCity")
-//            }
-//            if let street = user!.street {
-//                defaults.set(street, forKey: "userStreet")
-//            }
-//            if let houseNumber = user!.houseNumber {
-//                defaults.set(houseNumber, forKey: "userHouseNumber")
-//            }
-//            if let totalAdsCount = user!.totalAdsCount {
-//                defaults.set(totalAdsCount, forKey: "userTotalAdsCount")
-//            }
-//        }
+
     }
 
     

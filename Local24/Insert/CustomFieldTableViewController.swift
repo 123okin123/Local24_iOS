@@ -17,6 +17,7 @@ class CustomFieldTableViewController: UITableViewController {
         switch entityType {
         case "AdCar": return ("Make", "Marke")
         case "AdApartment": return ("SellOrRent", "Verkauf oder Vermietung")
+        case "AdHouse": return ("SellOrRent", "Verkauf oder Vermietung")
         default: return nil
         }
         }}
@@ -35,14 +36,12 @@ class CustomFieldTableViewController: UITableViewController {
         indicator.color = UIColor.darkGray
         view.addSubview(indicator)
         indicator.startAnimating()
-        NetworkController.getOptionsFor(customFields: [(independetField.0, independetField.1)], entityType: entityType, completion: {(fields ,error) in
-            if error == nil && fields != nil {
-                self.independentFieldOptions = fields![0].possibleValues!
-                indicator.removeFromSuperview()
-                self.tableView.reloadData()
-            }
-        })
-        
+        let specialField = SpecialField(entityType: entityType, name: independetField.name)
+        if let values = specialField.possibleStringValues {
+            indicator.removeFromSuperview()
+            independentFieldOptions = values
+            tableView.reloadData()
+        }        
     }
 
     override func didReceiveMemoryWarning() {

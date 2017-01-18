@@ -29,9 +29,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     @IBAction func submitButtonPressed(_ sender: UIButton) {
             view.endEditing(true)
-            submitCredentials()
-            let tracker = GAI.sharedInstance().defaultTracker
-            tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Login", action: "login", label: "", value: 0).build() as NSDictionary as! [AnyHashable: Any])
+        submitCredentials()
+        let tracker = GAI.sharedInstance().defaultTracker
+        tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Login", action: "loginTry", label: "", value: 0).build() as NSDictionary as! [AnyHashable: Any])
     }
     @IBAction func backgroundTapped(_ sender: UITapGestureRecognizer) {
         view.endEditing(true)
@@ -59,6 +59,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 self.activityIndicator.stopAnimating()
                 switch response.result {
                 case .success:
+                    let tracker = GAI.sharedInstance().defaultTracker
+                    tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Login", action: "login", label: "", value: 0).build() as NSDictionary as! [AnyHashable: Any])
                     userToken = String(describing: response.result.value!)
                     tokenValid = true
                     if self.tabBarController?.selectedIndex == 3 {
@@ -96,7 +98,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        gaUserTracking("Login")
         navigationController?.setNavigationBarHidden(true, animated: false)
         let gradient = CAGradientLayer()
         gradient.frame = view.frame
@@ -116,6 +117,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             if (tabBarController as! TabBarController).willSelectedIndex == 2 {
                 performSegue(withIdentifier: "fromLoginToInsertSegueID", sender: nil)
             }
+        } else {
+            gaUserTracking("Login")
         }
   
     }

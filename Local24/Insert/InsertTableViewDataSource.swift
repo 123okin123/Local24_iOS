@@ -16,38 +16,46 @@ extension InsertTableViewController: InsertImageCellDelegate {
     
     
     func populateCustomFields() {
-        
+        self.customFields.removeAll()
         if let path = Bundle.main.path(forResource: "specialFields", ofType: "json") {
-            print(path)
             do {
                 let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .alwaysMapped)
                 let json = JSON(data: data)
-                print(data)
                 if json != JSON.null {
+                    
                     guard let entityType = listing.entityType else {return}
+                    
                     if let fields = json[entityType].dictionary {
                         for field in fields {
-                            if let descriptiveString = field.value["descriptiveString"].string {
-                                if let possibleValues = field.value["possibleValues"].arrayObject as? [String] {
-                                    let specialField = SpecialField(name: field.key, descriptiveString: descriptiveString, value: nil, possibleValues: possibleValues)
-                                    self.customFields.append(specialField)
-                                }
+                            let specialField = SpecialField(entityType: entityType, name: field.key)
+                            if !specialField.hasDependentField {
+                                self.customFields.append(specialField)
+                            }
+                            
+                            
+                            
+                            if entityType == "AdApartment" && self.independentFieldLabel.text == "Verkauf"{
+                                if let index = self.customFields.index(where: {$0.name == "AdditionalCosts"}) {self.customFields.remove(at: index)}
+                                if let index = self.customFields.index(where: {$0.name == "DepositAmount"}) {self.customFields.remove(at: index)}
+                            }
+                            if entityType == "AdHouse" && self.independentFieldLabel.text == "Verkauf"{
+                                if let index = self.customFields.index(where: {$0.name == "AdditionalCosts"}) {self.customFields.remove(at: index)}
+                                if let index = self.customFields.index(where: {$0.name == "DepositAmount"}) {self.customFields.remove(at: index)}
                             }
                         }
                         if self.customFields.count > 0 {
                             for i in 0...self.customFields.count - 1 {
                                 self.customFieldCellCollection[i].textLabel?.text = self.customFields[i].descriptiveString
-                                self.customFieldCellCollection[i].textField.placeholder = self.customFields[i].possibleValues?[0]
+                                self.customFieldCellCollection[i].textField.placeholder = self.customFields[i].possibleStringValues?[0]
                             }
                         }
-                        
                         self.tableView.reloadData()
                     } else {
-                    print("entitytype not in json")
+                        print("entitytype not in json")
                         self.customFields.removeAll()
                         self.independentFieldLabel.text = ""
                         self.dependentFieldLabel.text = ""
-                        self.tableView.reloadSections(IndexSet(integer: 2), with: .automatic)
+                        self.tableView.reloadData()
                     }
                 } else {
                     print("Could not get json from file, make sure that file contains valid json.")
@@ -56,69 +64,8 @@ extension InsertTableViewController: InsertImageCellDelegate {
                 print(error.localizedDescription)
             }
         }
-        
-        /*
-        if listing.entityType != nil {
-            if listing.entityType != "AdPlain" {
-                var customFieldNames = [(String, String)]()
-                switch listing.entityType! {
-                case "AdCar":
-                    customFieldNames = [
-                        ("Condition", "Zustand"),
-                        ("BodyColor", "Außenfarbe"),
-                        ("BodyForm", "Karosserieform"),
-                        ("GearType", "Getriebeart"),
-                        ("FuelType", "Kraftstoffart"),
-                        ("InitialRegistration", "Erstzulassung"),
-                        ("Mileage", "Kilometerstand in km"),
-                        ("Power", "Leistung in PS")
-                    ]
-                case "AdApartment":
-                    customFieldNames = [
-                        ("Size", "Wohnfläche in m2"),
-                        ("AvailableFrom", "Verfügbar ab"),
-                        ("Commission", "Provision"),
-                        ("CommissionAmount", "Provisionshöhe in €"),
-                        ("AdditionalCosts", "Nebenkosten in €"),
-                        ("DepositAmount", "Kaution in €"),
-                        ("TotalRooms", "Anzahl Räume"),
-                        ("ApartmentType", "Wohnungstyp"),
-                        ("ConditionOfProperty", "Objektzustand")
-                    ]
-                default: break
-                    
-                }
-                NetworkController.getOptionsFor(customFields: customFieldNames, entityType: listing.entityType!, completion: {(fields, error) in
-                    if error == nil && fields != nil {
-                        self.customFields = fields!
-                    }
-                    if self.customFields.count > 0 {
-                        for i in 0...self.customFields.count - 1 {
-                            self.customFieldCellCollection[i].textLabel?.text = self.customFields[i].descriptiveString
-                            self.customFieldCellCollection[i].textField.placeholder = self.customFields[i].possibleValues?[0]
-                        }
-                    }
-                    var indexPaths = [IndexPath]()
-                    for i in 0...self.customFields.count - 1 {
-                        let indexPath = IndexPath(row: i, section: 2)
-                        indexPaths.append(indexPath)
-                    }
-                    self.tableView.reloadData()
-                    
-                })
-                
-            } else {
-                self.customFields.removeAll()
-                self.independentFieldLabel.text = ""
-                self.dependentFieldLabel.text = ""
-                self.tableView.reloadSections(IndexSet(integer: 2), with: .automatic)
-            }
-        }
- */
-        
     }
-
-
+    
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
@@ -137,7 +84,11 @@ extension InsertTableViewController: InsertImageCellDelegate {
         if shouldHideSection((indexPath as NSIndexPath).section) {
             return 0
         } else {
-            return super.tableView(tableView, heightForRowAt: indexPath)
+            if shouldHideCell(atIndexPath: indexPath) {
+                return 0
+            } else {
+                return super.tableView(tableView, heightForRowAt: indexPath)
+            }
         }
     }
     
@@ -158,35 +109,44 @@ extension InsertTableViewController: InsertImageCellDelegate {
     }
     
     override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        let headerView = view as! UITableViewHeaderFooterView
         if shouldHideSection(section) {
-            let headerView = view as! UITableViewHeaderFooterView
             headerView.textLabel!.textColor = UIColor.clear
+        } else {
+            headerView.textLabel!.textColor = UIColor.darkGray
         }
+        
     }
     
     override func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
+        let footerView = view as! UITableViewHeaderFooterView
         if shouldHideSection(section) {
-            let footerView = view as! UITableViewHeaderFooterView
             footerView.textLabel!.textColor = UIColor.clear
+        } else {
+            footerView.textLabel!.textColor = UIColor.darkGray
         }
     }
     
     
     func shouldHideSection(_ section: Int) -> Bool {
         switch section {
-        case 2:
-            return true
-            // Work in Progress
-            /*
+        case 2: 
             if listing.entityType == "AdPlain" || listing.entityType == nil {
                 return true
             } else {
                 return false
             }
- */
+    
+
         default: return false
         }
-        
+    }
+    func shouldHideCell(atIndexPath indexPath: IndexPath) -> Bool {
+        if indexPath == IndexPath(row: 1, section: 4) {
+            if listing.entityType == "AdApartment" || listing.entityType == "AdHouse" {
+            return true
+            } else {return false}
+        } else {return false}
     }
     
     

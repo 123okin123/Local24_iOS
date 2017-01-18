@@ -16,10 +16,14 @@ class InsertTableViewController: UITableViewController {
 
     
     // MARK: - IBOutlets
+    
     @IBOutlet weak var imageCollectionView: UICollectionView!
     @IBOutlet var customFieldCellCollection: [InsertCustomFieldCell]! {didSet {
+        var i = 1
         for cell in customFieldCellCollection {
             cell.textField.delegate = self
+            cell.textField.tag = i
+            i += 1
         }
         }}
 
@@ -66,9 +70,9 @@ class InsertTableViewController: UITableViewController {
         if validate() {
             let tracker = GAI.sharedInstance().defaultTracker
             if listingExists {
-                tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Insert", action: "edited", label: categoryLabel.text!, value: 0).build() as NSDictionary as! [AnyHashable: Any])
+                tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Insertion", action: "edited", label: categoryLabel.text!, value: 0).build() as NSDictionary as! [AnyHashable: Any])
             } else {
-                tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Insert", action: "insertion", label: categoryLabel.text!, value: 0).build() as NSDictionary as! [AnyHashable: Any])
+                tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Insertion", action: "insertion", label: categoryLabel.text!, value: 0).build() as NSDictionary as! [AnyHashable: Any])
             }
             submitAd()
         }
@@ -92,14 +96,8 @@ class InsertTableViewController: UITableViewController {
         toolBar.isTranslucent = true
         toolBar.tintColor = greencolor
         toolBar.sizeToFit()
-        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
-        let doneButton = UIBarButtonItem(title: "Fertig", style: UIBarButtonItemStyle.plain, target: self, action: #selector(pickerDonePressed))
-        let previousButton  = UIBarButtonItem(image: UIImage(named: "keyboardPreviousButton"), style: .plain, target: self, action: #selector(pickerPreviousPressed))
-        previousButton.width = 50.0
-        let nextButton  = UIBarButtonItem(image: UIImage(named: "keyboardNextButton"), style: .plain, target: self, action: #selector(pickerNextPressed))
-        toolBar.setItems([previousButton, nextButton, spaceButton, doneButton], animated: false)
+        
         toolBar.isUserInteractionEnabled = true
-  
      
         if let placemark = user?.placemark  {
             cityLabel.text = placemark.addressDictionary?["City"] as! String?
@@ -116,18 +114,19 @@ class InsertTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if listingExists {
-            gaUserTracking("Insert(EditExistingAd)")
+            gaUserTracking("Insert(editExisting)")
             navigationItem.setHidesBackButton(false, animated: false)
         } else {
             gaUserTracking("Insert")
             navigationItem.setHidesBackButton(true, animated: false)
         }
         navigationController?.setNavigationBarHidden(false, animated: false)
-        NetworkController.getUserProfile(userToken: userToken!, completion: {(fetchedUser, statusCode) in
+        networkController.getUserProfile(userToken: userToken!, completion: {(fetchedUser, statusCode) in
             user = fetchedUser
         })
        
-        populateCustomFields()
+        
+       
         
         
         
@@ -151,7 +150,11 @@ class InsertTableViewController: UITableViewController {
         categoryLabel.textColor = UIColor.lightGray
         independentFieldLabel.text = ""
         dependentFieldLabel.text = ""
+        customFields.removeAll()
         listing = Listing()
+        tableView.reloadData()
+        
+        
     }
     
     func prePopulate() {
@@ -159,17 +162,48 @@ class InsertTableViewController: UITableViewController {
         titleTextField.text = listing.title
         categoryLabel.text  = categoryBuilder.allCategories.filter({$0.id == listing.catID})[0].name
         descriptionTextView.text = listing.description
-        priceTextField.text = listing.price
+        if listing.price == "k.A." {
+            priceTextField.text = ""
+
+        } else {
+            priceTextField.text = listing.price
+        }
         priceTypeTextField.text = listing.priceType
         adTypeTextField.text = listing.adType?.rawValue
         categoryLabel.textColor = UIColor.black
-        independentFieldLabel.text = listing.specialFields?.first(where: {$0.dependingField != nil})?.name
-        dependentFieldLabel.text = listing.specialFields?.first(where: {$0.dependsOn != nil})?.name
+        
+        independentFieldLabel.text = listing.specialFields?.first(where: {$0.dependingField != nil})?.valueString
+        dependentFieldLabel.text = listing.specialFields?.first(where: {$0.dependsOn != nil})?.valueString
         if let specialFields = listing.specialFields?.filter({$0.dependingField == nil && $0.dependsOn == nil}) {
             if specialFields.count > 0 {
             customFields = specialFields
             for i in 0...customFields.count - 1 {
-            customFieldCellCollection[i].textField.text = customFields[i].value
+                customFieldCellCollection[i].textField.text = customFields[i].valueString
+                customFieldCellCollection[i].textLabel?.text = customFields[i].descriptiveString
+                if let path = Bundle.main.path(forResource: "specialFields", ofType: "json") {
+                    do {
+                        let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .alwaysMapped)
+                        let json = JSON(data: data)
+                        if json != JSON.null {
+                            if let entityType = listing.entityType {
+                                if let fields = json[entityType].dictionary {
+                                    if let field = fields[customFields[i].name!] {
+                                        if let possibleValues = field["possibleValues"].arrayObject as [Any]! {
+                                        customFields[i].possibleValues = possibleValues
+                                        }
+                                    }
+                                }
+                            }
+                        } else {
+                            print("Could not get json from file, make sure that file contains valid json.")
+                        }
+                    } catch let error {
+                        print(error.localizedDescription)
+                    }
+                }
+                
+                
+                
             }
             }
         }
@@ -242,8 +276,14 @@ class InsertTableViewController: UITableViewController {
         indicator.autoresizingMask = [.flexibleWidth, . flexibleHeight]
         indicator.color = UIColor.darkGray
         pendingAlertController.view.addSubview(indicator)
+        indicator.isUserInteractionEnabled = false
+        let cancleAction = UIAlertAction(title: "Abbrechen", style: .cancel, handler: { _ in networkController.cancelCurrentRequest()})
+        
+        pendingAlertController.addAction(cancleAction)
         indicator.startAnimating()
         present(pendingAlertController, animated: true, completion: nil)
+        
+        
         
         
         var values = [
@@ -280,65 +320,56 @@ class InsertTableViewController: UITableViewController {
             values["HouseNumber"] = houseNumber
         }
         
-        if customFields.count > 0 {
-        for i in 0...customFields.count - 1 {
-            if let value = customFieldCellCollection[i].textField.text {
-                customFields[i].value = value
-            }
-        }
-        }
         listing.specialFields = [SpecialField]()
         listing.specialFields?.append(contentsOf: customFields)
         
         switch listing.entityType! {
         case "AdCar":
-            let independetField = SpecialField(name: "Make", descriptiveString: "Marke", value: independentFieldLabel.text, possibleValues: nil)
-            let dependentField = SpecialField(name: "Model", descriptiveString: "Model", value: dependentFieldLabel.text, possibleValues: nil)
+            let independetField = SpecialField(name: "Make", descriptiveString: "Marke", value: independentFieldLabel.text, possibleValues: nil, type :nil)
+            let dependentField = SpecialField(name: "Model", descriptiveString: "Model", value: dependentFieldLabel.text, possibleValues: nil, type :nil)
             listing.specialFields?.append(independetField)
             listing.specialFields?.append(dependentField)
-        case "AdApartment":
-            let independetField = SpecialField(name: "SellOrRent", descriptiveString: "Verkauf oder Vermietung", value: independentFieldLabel.text, possibleValues: nil)
-            let dependentField = SpecialField(name: "PriceTypeProperty", descriptiveString: "Preisart", value: dependentFieldLabel.text, possibleValues: nil)
+        case "AdApartment", "AdHouse":
+            let independetField = SpecialField(name: "SellOrRent", descriptiveString: "Verkauf oder Vermietung", value: independentFieldLabel.text, possibleValues: nil, type :nil)
+            let dependentField = SpecialField(name: "PriceTypeProperty", descriptiveString: "Preisart", value: dependentFieldLabel.text, possibleValues: nil, type :nil)
             listing.specialFields?.append(independetField)
             listing.specialFields?.append(dependentField)
         default:
             break
         }
         
-        if listing.specialFields != nil {
+        if listing.specialFields!.count > 0 {
         for specialField in listing.specialFields! {
             if let name = specialField.name {
                 if let value = specialField.value {
                     values[name] = value
-                }
+                } 
             }
         }
         }
         // End of Optional Values
         
-        NetworkController.insertAdWith(values: values, images: imageArray, existing: listingExists, userToken: userToken!, completion: { errorString in
+         networkController.insertAdWith(values: values, images: imageArray, existing: listingExists, userToken: userToken!, completion: { errorString in
             pendingAlertController.dismiss(animated: true, completion: {
             if errorString == nil {
-                self.clearAll()
-                if let navVC = self.tabBarController?.viewControllers?[3] as? UINavigationController {
-                    if let accountVC = navVC.viewControllers[1] as? AccountCollectionViewController {
-                        accountVC.getAds()
-                    }
-                }
+
                 let successMenu = UIAlertController(title: "Anzeige aufgegeben", message: "Herzlichen Glückwunsch Ihre Anzeige wurde erfolgreich aufgegeben.", preferredStyle: .alert)
-                let confirmAction = UIAlertAction(title: "Ok", style: .default, handler: {alert in
+                let confirmAction = UIAlertAction(title: "Ok", style: .cancel, handler: {alert in
+                self.clearAll()
                 _ = self.navigationController?.popToViewController((self.navigationController?.viewControllers[1])!, animated: true)
                 })
                 successMenu.addAction(confirmAction)
                 self.present(successMenu, animated: true, completion: nil)
             } else {
                 let errorMenu = UIAlertController(title: "Fehler", message: errorString, preferredStyle: .alert)
-                let confirmAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
+                let confirmAction = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
                 errorMenu.addAction(confirmAction)
                 self.present(errorMenu, animated: true, completion: nil)
             }
             })
         })
+        
+        
     }
     
 

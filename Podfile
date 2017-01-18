@@ -21,6 +21,8 @@ target 'Local24' do
   pod 'Fuzi', '~> 1.0.0'
   pod 'NVActivityIndicatorView'
   pod 'SwiftyJSON'
+  pod 'Firebase/Core'
+  pod 'Firebase/Messaging'
 
   target 'Local24Tests' do
     inherit! :search_paths

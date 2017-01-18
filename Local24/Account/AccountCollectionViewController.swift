@@ -58,7 +58,7 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
     }
     
     func changeAdStateOf(listing :Listing, to adState: String) {
-        NetworkController.changeAdWith(adID: listing.adID!, to: adState, userToken: userToken!, completion: {error in
+        networkController.changeAdWith(adID: listing.adID!, to: adState, userToken: userToken!, completion: {error in
             if error == nil {
                 if let index = self.userListings.index(where: {$0.adID == listing.adID}) {
                     self.userListings[index].adState = AdState(rawValue: adState)
@@ -79,7 +79,7 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
     func delete(listing :Listing) {
         let confirmMenu = UIAlertController(title: "Anzeige Löschen", message: "Bist du sicher, dass du diese Anzeige löschen möchtest?", preferredStyle: .alert)
         let confirmAction = UIAlertAction(title: "Löschen", style: .destructive, handler: {alert in
-            NetworkController.deleteAdWith(adID: listing.adID!, userToken: userToken!, completion: { error in
+            networkController.deleteAdWith(adID: listing.adID!, userToken: userToken!, completion: { error in
                 if error == nil {
                     if let index = self.userListings.index(where: {$0.createdDate == listing.createdDate}) {
                         self.userListings.remove(at: index)
@@ -113,7 +113,7 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
         gaUserTracking("Profil")
         navigationItem.setHidesBackButton(true, animated: false)
         navigationController?.setNavigationBarHidden(false, animated: false)
-        NetworkController.getUserProfile(userToken: userToken!, completion: {(fetchedUser, statusCode) in
+        networkController.getUserProfile(userToken: userToken!, completion: {(fetchedUser, statusCode) in
         user = fetchedUser
         })
     }
@@ -152,9 +152,11 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
             if ads.count > 0 {
                 for ad in ads {
                     let listing = Listing(value: ad)
+                    
                     self.userListings.append(listing)
                 }
             }
+            
             self.collectionView?.reloadData()
             
             case 400, 401:
@@ -204,17 +206,20 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
         if listing.mainImage == nil {
             if let imagePathMedium = listing.imagePathMedium {
                 if let imageUrl = URL(string: imagePathMedium) {
-                    cell.listingImage.setImage(withUrl: imageUrl, placeholder: nil, crossFadePlaceholder: true, cacheScaled: true, completion: { instance, error in
+                    cell.listingImage.setImage(withUrl: imageUrl, placeholder: UIImage(named: "home_Background"), crossFadePlaceholder: true, cacheScaled: true, completion: { instance, error in
                         cell.listingImage.layer.add(CATransition(), forKey: nil)
                         self.userListings[indexPath.row].mainImage = instance?.image
                     })
                     
                 }
+            } else {
+                let image = UIImage(named: "home_Background")
+                cell.listingImage.image = image
             }
         } else {
             cell.listingImage.image = listing.mainImage
         }
-        NetworkController.getImagesFor(adID: String(describing: listing.adID!), completion: { images in
+        networkController.getImagesFor(adID: String(describing: listing.adID!), completion: { images in
         self.userListings[indexPath.row].images = images
         cell.listing.images = images
         })

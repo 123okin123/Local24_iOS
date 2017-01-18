@@ -14,22 +14,19 @@ class SelectSubCategoryTableViewController: UITableViewController {
     
     var subCategories = [CategoryModel]()
     var parentCategoryID :Int!
-    
+    var parentCategoryName :String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.title = parentCategoryName
         subCategories = categoryBuilder.subCategories.filter({
                 $0.idParentCategory == parentCategoryID &&
                         $0.adclass != "AdTruck" &&
                         $0.adclass != "AdCat" &&
-                        $0.adclass != "AdCar" &&
-                        $0.adclass != "AdApartment" &&
                         $0.adclass != "AdCommune" &&
                         $0.adclass != "AdDating" &&
                         $0.adclass != "AdDog" &&
                         $0.adclass != "AdHorse" &&
-                        $0.adclass != "AdHouse" &&
                         $0.adclass != "AdJob" &&
                         $0.adclass != "AdMotorcycle" &&
                         $0.adclass != "AdOtherProperty"
@@ -73,7 +70,8 @@ class SelectSubCategoryTableViewController: UITableViewController {
                 insertVC.listing.entityType = subCategories[indexPath.row].adclass!
                 insertVC.categoryLabel.text = subCategories[indexPath.row].name
                 insertVC.categoryLabel.textColor = UIColor.black
-                /* Work in Progress
+                insertVC.populateCustomFields()
+                
                 if subCategories[indexPath.row].adclass != "AdPlain" {
                     let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
                     let customFieldVCID = storyboard.instantiateViewController(withIdentifier: "customFieldVCID") as! CustomFieldTableViewController
@@ -82,9 +80,9 @@ class SelectSubCategoryTableViewController: UITableViewController {
                     
                     navigationController?.pushViewController(customFieldVCID, animated: true)
                 } else {
- */
+
                 _ = navigationController?.popToViewController(insertVC, animated: true)
-               /* }*/
+                }
  
             }
         }
