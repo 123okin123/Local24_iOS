@@ -9,7 +9,6 @@
 import UIKit
 import FBSDKCoreKit
 import Alamofire
-import Branch
 import Firebase
 
 public var myContext = 0
@@ -66,17 +65,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         applyCustomStyles()
 
-        // Configure Branch.io
-        let branch: Branch = Branch.getInstance()
-        branch.initSession(launchOptions: launchOptions, andRegisterDeepLinkHandler: {params, error in
-            if error == nil {
-                // params are the deep linked params associated with the link that the user clicked -> was re-directed to this app
-                // params will be empty if no data found
-                // ... insert custom logic here ...
-                print("params: %@", params?.description as Any)
-            }
-        })
-        
         
         
         
@@ -99,9 +87,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FIRApp.configure()
         
          // FACEBOOK
-        
-        _ = FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
-        return true
+        return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
