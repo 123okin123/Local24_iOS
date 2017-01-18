@@ -12,6 +12,6 @@
 #import <Google/Analytics.h>
 #import <GoogleConversionTracking/ACTReporter.h>
 #import "NMRangeSlider.h"
-#import <Branch/Branch.h>
+
 
 #endif /* Local24_Bridging_Header_h */

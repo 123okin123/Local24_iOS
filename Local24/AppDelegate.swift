@@ -158,7 +158,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
          */
         
         
-        return Branch.getInstance().continue(userActivity)
+        return true
  
     }
 

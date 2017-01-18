@@ -16,32 +16,6 @@ class SelectCategoryTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if categoryBuilder.mainCategories.isEmpty {
-            let indicator = UIActivityIndicatorView(frame: view.bounds)
-            indicator.autoresizingMask = [.flexibleWidth, . flexibleHeight]
-            indicator.color = UIColor.darkGray
-            view.addSubview(indicator)
-            indicator.startAnimating()
-            categoryBuilder.getCategories(completion: { (mainCat, subCat, error) in
-                self.mainCategories = categoryBuilder.mainCategories.filter {
-                        $0.name != "Kontaktanzeigen" &&
-                        $0.name != "Flirt & Abenteuer" &&
-                        $0.name != "Job" &&
-                        $0.adclass != "AdTruck" &&
-                        $0.adclass != "AdCat" &&
-                        $0.adclass != "AdCommune" &&
-                        $0.adclass != "AdDating" &&
-                        $0.adclass != "AdDog" &&
-                        $0.adclass != "AdHorse" &&
-                        $0.adclass != "AdJob" &&
-                        $0.adclass != "AdMotorcycle" &&
-                        $0.adclass != "AdOtherProperty"
-                }
-
-                indicator.removeFromSuperview()
-                self.tableView.reloadData()
-            })
-        } else {
             mainCategories = categoryBuilder.mainCategories.filter {
                     $0.name != "Kontaktanzeigen" &&
                     $0.name != "Flirt & Abenteuer" &&
@@ -56,9 +30,7 @@ class SelectCategoryTableViewController: UITableViewController {
                     $0.adclass != "AdMotorcycle" &&
                     $0.adclass != "AdOtherProperty"
                 }
-        }
-        
-
+            mainCategories.sort(by: {$0.name! < $1.name!})
     }
     
     override func viewWillAppear(_ animated: Bool) {
