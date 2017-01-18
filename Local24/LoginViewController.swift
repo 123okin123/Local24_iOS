@@ -29,9 +29,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     @IBAction func submitButtonPressed(_ sender: UIButton) {
             view.endEditing(true)
-            submitCredentials()
-            let tracker = GAI.sharedInstance().defaultTracker
-            tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Login", action: "login", label: "", value: 0).build() as NSDictionary as! [AnyHashable: Any])
+        submitCredentials()
+        let tracker = GAI.sharedInstance().defaultTracker
+        tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Login", action: "loginTry", label: "", value: 0).build() as NSDictionary as! [AnyHashable: Any])
     }
     @IBAction func backgroundTapped(_ sender: UITapGestureRecognizer) {
         view.endEditing(true)
@@ -59,6 +59,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 self.activityIndicator.stopAnimating()
                 switch response.result {
                 case .success:
+                    let tracker = GAI.sharedInstance().defaultTracker
+                    tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Login", action: "login", label: "", value: 0).build() as NSDictionary as! [AnyHashable: Any])
                     userToken = String(describing: response.result.value!)
                     tokenValid = true
                     if self.tabBarController?.selectedIndex == 3 {

@@ -25,7 +25,7 @@ class ContactTableViewController: UITableViewController, UITextViewDelegate {
     var adID = ""
     var detailLink = ""
     
-    var locationStrings = [String : String]()
+    var listing :Listing!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,12 +35,11 @@ class ContactTableViewController: UITableViewController, UITextViewDelegate {
         messageTextView.textColor = UIColor(red: 206/255, green: 206/255, blue: 211/255, alpha: 1.0)
         
         
-        street.text = locationStrings["Straße"]
-        
-        city.text = locationStrings["Stadt"]
-        zipCode.text = locationStrings["PLZ"]
-        houseNumber.text = locationStrings["Hausnummer"]
-        telefonNumber.setTitle(locationStrings["Telefonnummer"], for: UIControlState())
+        street.text = listing.street
+        city.text = listing.city
+        zipCode.text = listing.zipcode
+        houseNumber.text = listing.houseNumber
+        telefonNumber.setTitle(listing.phoneNumber, for: UIControlState())
 
     }
     
@@ -79,11 +78,10 @@ class ContactTableViewController: UITableViewController, UITextViewDelegate {
 
     @IBAction func telephonNumberClicked(_ sender: UIButton) {
         if telefonNumber.currentTitle != nil {
-        let telefonNumberString = "tel:\(telefonNumber.currentTitle!)"
-        print(telefonNumberString)
-        if let url = URL(string: telefonNumberString) {
-       UIApplication.shared.openURL(url)
-        }
+            let telefonNumberString = "tel:\(telefonNumber.currentTitle!.replacingOccurrences(of: " ", with: "").replacingOccurrences(of: "/", with: ""))"
+            if let url = URL(string: telefonNumberString) {
+                UIApplication.shared.openURL(url)
+            }
         }
     }
 

@@ -47,7 +47,6 @@
 		CD84C5921C88844400A6E8A4 /* LocalDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD84C5911C88844400A6E8A4 /* LocalDetailTableViewController.swift */; };
 		CD993E091DF9AFAF00F686C7 /* MyAdsDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD993E081DF9AFAF00F686C7 /* MyAdsDetailViewController.swift */; };
 		CD993E0D1DF9BD4300F686C7 /* NetworkController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD993E0C1DF9BD4300F686C7 /* NetworkController.swift */; };
-		CD9CD42B1CE214CE0080CF67 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD9CD42A1CE214CE0080CF67 /* StoreKit.framework */; };
 		CD9CD42D1CE214D70080CF67 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD9CD42C1CE214D70080CF67 /* CoreMotion.framework */; };
 		CD9CD42F1CE21A930080CF67 /* SearchCollectionViewAdCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9CD42E1CE21A930080CF67 /* SearchCollectionViewAdCell.swift */; };
 		CD9CD4311CE229EC0080CF67 /* FacebookAd.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9CD4301CE229EC0080CF67 /* FacebookAd.swift */; };
@@ -174,7 +173,6 @@
 		CD84C5911C88844400A6E8A4 /* LocalDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocalDetailTableViewController.swift; path = Detail/LocalDetailTableViewController.swift; sourceTree = "<group>"; };
 		CD993E081DF9AFAF00F686C7 /* MyAdsDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MyAdsDetailViewController.swift; path = Account/MyAdsDetailViewController.swift; sourceTree = "<group>"; };
 		CD993E0C1DF9BD4300F686C7 /* NetworkController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkController.swift; sourceTree = "<group>"; };
-		CD9CD42A1CE214CE0080CF67 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		CD9CD42C1CE214D70080CF67 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		CD9CD42E1CE21A930080CF67 /* SearchCollectionViewAdCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchCollectionViewAdCell.swift; path = Search/SearchCollectionViewAdCell.swift; sourceTree = "<group>"; };
 		CD9CD4301CE229EC0080CF67 /* FacebookAd.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FacebookAd.swift; path = Search/FacebookAd.swift; sourceTree = "<group>"; };
@@ -244,7 +242,6 @@
 			files = (
 				CDB3AFE21D2BEF2200C2F254 /* CoreGraphics.framework in Frameworks */,
 				CD9CD42D1CE214D70080CF67 /* CoreMotion.framework in Frameworks */,
-				CD9CD42B1CE214CE0080CF67 /* StoreKit.framework in Frameworks */,
 				CDF6184D1CD8F3CA00041885 /* AdSupport.framework in Frameworks */,
 				946AE2445CFC457A49DFDAEF /* Pods_Local24.framework in Frameworks */,
 			);
@@ -351,7 +348,6 @@
 			children = (
 				CDB3AFE11D2BEF2200C2F254 /* CoreGraphics.framework */,
 				CD9CD42C1CE214D70080CF67 /* CoreMotion.framework */,
-				CD9CD42A1CE214CE0080CF67 /* StoreKit.framework */,
 				CDF6184C1CD8F3CA00041885 /* AdSupport.framework */,
 				DAE5DB9518CCC4A7488A2757 /* Pods_Local24.framework */,
 				43DD49A8287E5B1D5DEA9BC8 /* Pods_Local24Tests.framework */,
@@ -657,6 +653,9 @@
 						LastSwiftMigration = 0800;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
+							com.apple.InAppPurchase = {
+								enabled = 0;
+							};
 							com.apple.SafariKeychain = {
 								enabled = 1;
 							};
@@ -1104,7 +1103,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Local24/Local24.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Local24/SupportingFiles/Local24.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = BVW8NCAK5E;
@@ -1112,12 +1111,12 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				INFOPLIST_FILE = Local24/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Local24/SupportingFiles/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.scout24.local24;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "Local24/Local24-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Local24/SupportingFiles/Local24-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1129,7 +1128,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Local24/Local24.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Local24/SupportingFiles/Local24.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = BVW8NCAK5E;
@@ -1137,12 +1136,12 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				INFOPLIST_FILE = Local24/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Local24/SupportingFiles/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.scout24.local24;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "Local24/Local24-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Local24/SupportingFiles/Local24-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

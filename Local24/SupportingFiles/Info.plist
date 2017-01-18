@@ -2,13 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>branch_app_domain</key>
-	<string>local24.app.link</string>
-	<key>branch_key</key>
-	<dict>
-		<key>live</key>
-		<string>key_live_dovbXqEdKJz8EuORjtZ3TnjfxvikcdtI</string>
-	</dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
@@ -36,7 +29,6 @@
 				<string>fb1737515613173620</string>
 			</array>
 		</dict>
-		<dict/>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>6</string>
@@ -105,5 +97,12 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>branch_app_domain</key>
+	<string>local24.app.link</string>
+	<key>branch_key</key>
+	<dict>
+		<key>live</key>
+		<string>key_live_dovbXqEdKJz8EuORjtZ3TnjfxvikcdtI</string>
+	</dict>
 </dict>
 </plist>

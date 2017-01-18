@@ -98,7 +98,6 @@ class Listing {
         }
         if let priceType = value["PriceType"] as? String {
             self.priceType = priceType
-          //  self.infos.append(("Preisart", priceType))
         }
 
         if let listingPrice = value["Price"] as? Float {

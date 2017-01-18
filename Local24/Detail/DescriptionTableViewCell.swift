@@ -11,6 +11,7 @@ import UIKit
 class DescriptionTableViewCell: UITableViewCell {
 
     @IBOutlet weak var adDescriptionLabel: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
