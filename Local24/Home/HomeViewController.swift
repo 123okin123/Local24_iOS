@@ -10,6 +10,7 @@ import UIKit
 import QuartzCore
 import FBSDKCoreKit
 import FBSDKLoginKit
+import Firebase
 
 class HomeViewController: UIViewController, UISearchBarDelegate, UIScrollViewDelegate {
     
@@ -98,7 +99,10 @@ class HomeViewController: UIViewController, UISearchBarDelegate, UIScrollViewDel
 
     }
     
-    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

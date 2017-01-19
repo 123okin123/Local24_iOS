@@ -10,11 +10,12 @@ import UIKit
 import FBSDKCoreKit
 import Alamofire
 import Firebase
+import UserNotifications
 
 public var myContext = 0
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, FIRMessagingDelegate  {
 
     var window: UIWindow?
 
@@ -26,7 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         loadDataFromDefaults()
      
         let launchScreen = UIStoryboard(name: "LaunchScreen", bundle: nil).instantiateInitialViewController()!
-        let tabBarVC = window!.rootViewController!
+        let tabBarVC = window!.rootViewController! as! TabBarController
         tabBarVC.view.addSubview(launchScreen.view)
         let indicator = UIActivityIndicatorView()
         indicator.frame.size = CGSize(width: 50, height: 50)
@@ -57,6 +58,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     }, completion: { done in
                         launchScreen.view.removeFromSuperview()
                     })
+                    
                 }
 
             }
@@ -66,7 +68,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         applyCustomStyles()
 
         
+        //notifications
         
+        application.applicationIconBadgeNumber = 0
+
+        
+        if #available(iOS 10.0, *) {
+            let center  = UNUserNotificationCenter.current()
+            // For iOS 10 display notification (sent via APNS)
+            center.delegate = self
+            // For iOS 10 data message (sent via FCM)
+            FIRMessaging.messaging().remoteMessageDelegate = self
+            center.requestAuthorization(options: [.sound, .alert, .badge]) { (granted, error) in
+                if error == nil{
+                    UIApplication.shared.registerForRemoteNotifications()
+                }
+            }
+        } else {
+            // For iOS 9 display notification (sent via APNS)
+            let notificationSettings = UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+            application.registerUserNotificationSettings(notificationSettings)
+        }
+        
+        // Check if launched from notification
+        if let notification = launchOptions?[UIApplicationLaunchOptionsKey.remoteNotification] as? [String: AnyObject] {
+            if let index = notification["tabBarSelectedIndex"] as? NSNumber {
+                tabBarVC.selectedIndex = Int(index)
+            }
+            
+            
+        }
         
         // Configure tracker from GoogleService-Info.plist.
         var configureError:NSError?
@@ -99,6 +130,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+ 
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -107,6 +139,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        application.applicationIconBadgeNumber = 0
         //FACEBOOK
         FBSDKAppEvents.activateApp()
     }
@@ -119,8 +152,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
  
     
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
-      
-        
 
         return FBSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
     }
@@ -229,10 +260,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationBar.appearance().tintColor = UIColor.white
         UINavigationBar.appearance().barTintColor = greencolor
         let segControllFont = UIFont(name: "OpenSans", size: 13.0)!
-        UISegmentedControl.appearance().setTitleTextAttributes([NSFontAttributeName: segControllFont],
-                                                               for: UIControlState.selected)
-        UISegmentedControl.appearance().setTitleTextAttributes([NSFontAttributeName: segControllFont],
-                                                               for: UIControlState())
+        UISegmentedControl.appearance().setTitleTextAttributes([NSFontAttributeName: segControllFont], for: UIControlState.selected)
+        UISegmentedControl.appearance().setTitleTextAttributes([NSFontAttributeName: segControllFont], for: UIControlState())
         UIApplication.shared.statusBarStyle = .lightContent
     }
     
@@ -249,6 +278,48 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UIApplication.shared.open(url, options: [:], completionHandler: completion)
     }
     
+    // Background
+    @available(iOS 10.0, *)
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        print("ping1")
+        debugPrint(response)
+    }
+    // inApp
+    @available(iOS 10.0, *)
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        print("ping2")
+        debugPrint(notification.request.content.userInfo["tabBarSelectedIndex"])
+        
+    }
     
+    // For iOS 9 Notification Registration
+    func application(_ application: UIApplication, didRegister notificationSettings: UIUserNotificationSettings) {
+        if notificationSettings.types != .none {
+            application.registerForRemoteNotifications()
+        }
+    }
+    
+    // For iOS 9 InApp display notification (sent via APNS)
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
+        print("ping3")
+    }
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        print("ping4")
+        // Print message ID.
+        if let messageID = userInfo["gcmMessageIDKey"] {
+            print("Message ID: \(messageID)")
+        }
+        
+        // Print full message.
+        print(userInfo)
+        
+        completionHandler(UIBackgroundFetchResult.newData)
+    }
+    // For iOS 10 data message (sent via FCM)
+    func applicationReceivedRemoteMessage(_ remoteMessage: FIRMessagingRemoteMessage) {
+        print("ping5")
+    }
 }
+
 
