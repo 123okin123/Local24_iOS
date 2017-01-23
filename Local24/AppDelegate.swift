@@ -10,6 +10,7 @@ import UIKit
 import FBSDKCoreKit
 import Alamofire
 import Firebase
+import FirebaseRemoteConfig
 import UserNotifications
 
 public var myContext = 0
@@ -18,14 +19,20 @@ public var myContext = 0
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, FIRMessagingDelegate  {
 
     var window: UIWindow?
-
+    var remoteConfig: FIRRemoteConfig!
+    
+    
     var filter = Filter()
-
+    
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
+
+        
         loadDataFromDefaults()
-     
+        
+        
+        
         let launchScreen = UIStoryboard(name: "LaunchScreen", bundle: nil).instantiateInitialViewController()!
         let tabBarVC = window!.rootViewController! as! TabBarController
         tabBarVC.view.addSubview(launchScreen.view)
@@ -39,28 +46,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         categoryBuilder.getCategories(completion: { (mainCat, subCat, error) in
             if error == nil {
-                if userToken != nil {
-                    networkController.getUserProfile(userToken: userToken!, completion: { (fetchedUser, statusCode) in
-                        if statusCode == 200 {
-                            user = fetchedUser
-                        }
+                self.setRemoteConfiguration(completion: {
+                    if userToken != nil {
+                        networkController.getUserProfile(userToken: userToken!, completion: { (fetchedUser, statusCode) in
+                            if statusCode == 200 {
+                                user = fetchedUser
+                            }
+                            self.applicationReadyWith(launchOptions: launchOptions)
                             UIView.transition(with: tabBarVC.view, duration: 0.2, options: .curveEaseIn, animations: {
                                 launchScreen.view.alpha = 0
                             }, completion: { done in
                                 indicator.stopAnimating()
                                 launchScreen.view.removeFromSuperview()
                             })
-                        
-                    })
-                } else {
-                    UIView.transition(with: tabBarVC.view, duration: 0.2, options: .curveEaseIn, animations: {
-                        launchScreen.view.alpha = 0
-                    }, completion: { done in
-                        launchScreen.view.removeFromSuperview()
-                    })
-                    
-                }
-
+                            
+                        })
+                    } else {
+                        self.applicationReadyWith(launchOptions: launchOptions)
+                        UIView.transition(with: tabBarVC.view, duration: 0.2, options: .curveEaseIn, animations: {
+                            launchScreen.view.alpha = 0
+                        }, completion: { done in
+                            indicator.stopAnimating()
+                            launchScreen.view.removeFromSuperview()
+                        })
+                    }
+                })
             }
         })
         
@@ -71,33 +81,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         //notifications
         
         application.applicationIconBadgeNumber = 0
-
-        
         if #available(iOS 10.0, *) {
             let center  = UNUserNotificationCenter.current()
-            // For iOS 10 display notification (sent via APNS)
             center.delegate = self
-            // For iOS 10 data message (sent via FCM)
             FIRMessaging.messaging().remoteMessageDelegate = self
             center.requestAuthorization(options: [.sound, .alert, .badge]) { (granted, error) in
                 if error == nil{
                     UIApplication.shared.registerForRemoteNotifications()
                 }
             }
-        } else {
-            // For iOS 9 display notification (sent via APNS)
-            let notificationSettings = UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
-            application.registerUserNotificationSettings(notificationSettings)
         }
         
-        // Check if launched from notification
-        if let notification = launchOptions?[UIApplicationLaunchOptionsKey.remoteNotification] as? [String: AnyObject] {
-            if let index = notification["tabBarSelectedIndex"] as? NSNumber {
-                tabBarVC.selectedIndex = Int(index)
-            }
-            
-            
-        }
+
         
         // Configure tracker from GoogleService-Info.plist.
         var configureError:NSError?
@@ -120,6 +115,48 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
          // FACEBOOK
         return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
 
+    }
+    func setRemoteConfiguration(completion: @escaping () -> Void) {
+        remoteConfig = FIRRemoteConfig.remoteConfig()
+        let remoteConfigSettings = FIRRemoteConfigSettings(developerModeEnabled: remoteConfigDevMode)
+        remoteConfig.configSettings = remoteConfigSettings!
+        remoteConfig.setDefaultsFromPlistFileName("RemoteConfigDefaults")
+        var expirationDuration = 3600
+        if remoteConfig.configSettings.isDeveloperModeEnabled {
+            expirationDuration = 0
+        }
+        remoteConfig.fetch(withExpirationDuration: TimeInterval(expirationDuration)) { (status, error) -> Void in
+            if status == .success {
+                print("Config fetched!")
+                self.remoteConfig.activateFetched()
+            } else {
+                print("Config not fetched")
+                print("Error \(error!.localizedDescription)")
+            }
+            completion()
+        }
+    }
+    
+    
+    func applicationReadyWith(launchOptions: [UIApplicationLaunchOptionsKey: Any]?) {
+        // Check if launched from notification
+        if let notification = launchOptions?[UIApplicationLaunchOptionsKey.remoteNotification] as? [String: AnyObject] {
+            if let stringIndex = notification["tabBarSelectedIndex"] as? String {
+                if let index = Int(stringIndex) {
+                    let tabBarVC = window!.rootViewController! as! TabBarController
+                    if tabBarVC.tabBarController(tabBarVC, shouldSelect: tabBarVC.viewControllers![index]) {
+                        tabBarVC.selectedIndex = index
+                    }
+                }
+            }
+            if let showAppRating = notification["showAppRating"]?.boolValue {
+                if showAppRating {
+                    if remoteConfig["showAppRating"].boolValue {
+                    presentAppRating()
+                    }
+                }
+            }
+        }
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
@@ -266,56 +303,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     
-    func rateApp(appId: String, completion: @escaping ((_ success: Bool)->())) {
-        guard let url = URL(string : "itms-apps://itunes.apple.com/app/" + appId) else {
-            completion(false)
-            return
-        }
-        guard #available(iOS 10, *) else {
-            completion(UIApplication.shared.openURL(url))
-            return
-        }
-        UIApplication.shared.open(url, options: [:], completionHandler: completion)
+    func presentAppRating() {
+        guard let url = URL(string : "itms-apps://itunes.apple.com/de/app/id1089153890") else { return}
+        let alert = UIAlertController(title: "Dir gefällt Local24?", message: "Dann würden wir uns freuen, du nimmst dir die Zeit und zeigst es uns.\n\n\u{1F31F} \u{1F31F} \u{1F31F} \u{1F31F} \u{1F31F} \n\n Vielen Dank!", preferredStyle: .alert)
+        let confirmAction = UIAlertAction(title: "Ok", style: .cancel, handler: {_ in UIApplication.shared.openURL(url)})
+        let cancelAction = UIAlertAction(title: "Vieleicht später", style: .default, handler: nil)
+        alert.addAction(confirmAction)
+        alert.addAction(cancelAction)
+        self.window?.rootViewController?.present(alert, animated: true, completion: nil)
     }
     
     // Background
     @available(iOS 10.0, *)
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        print("ping1")
-        debugPrint(response)
+        if let showAppRating = response.notification.request.content.userInfo["showAppRating"] as? String {
+            if showAppRating == "true" {
+                if remoteConfig["showAppRating"].boolValue {
+                    presentAppRating()
+                }
+            }
+        }
+        completionHandler()
     }
     // inApp
     @available(iOS 10.0, *)
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         print("ping2")
-        debugPrint(notification.request.content.userInfo["tabBarSelectedIndex"])
+        
+        debugPrint(notification.request.content.userInfo["tabBarSelectedIndex"] as! String)
         
     }
-    
-    // For iOS 9 Notification Registration
-    func application(_ application: UIApplication, didRegister notificationSettings: UIUserNotificationSettings) {
-        if notificationSettings.types != .none {
-            application.registerForRemoteNotifications()
-        }
-    }
-    
-    // For iOS 9 InApp display notification (sent via APNS)
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
-        print("ping3")
-    }
-    
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        print("ping4")
-        // Print message ID.
-        if let messageID = userInfo["gcmMessageIDKey"] {
-            print("Message ID: \(messageID)")
-        }
-        
-        // Print full message.
-        print(userInfo)
-        
-        completionHandler(UIBackgroundFetchResult.newData)
-    }
+
     // For iOS 10 data message (sent via FCM)
     func applicationReceivedRemoteMessage(_ remoteMessage: FIRMessagingRemoteMessage) {
         print("ping5")

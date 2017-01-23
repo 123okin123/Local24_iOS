@@ -211,7 +211,7 @@ class ChooseLocationViewController: UIViewController, UITableViewDelegate, UITab
                 }
                 if !(self.addresses.isEmpty) {
                     if let location = self.addresses[0].location {
-                        self.centerMapViewOnCoordinate(coordinate: location.coordinate)
+                        self.mapView.setCenter(location.coordinate, animated: true)
                     }
                 }
                 if let userPlacemark = user?.placemark {

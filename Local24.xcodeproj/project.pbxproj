@@ -26,6 +26,7 @@
 		CD286E481CCE455C004675A9 /* FilterMoreSelectTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD286E471CCE455C004675A9 /* FilterMoreSelectTableViewController.swift */; };
 		CD358E801E0C105C00C63020 /* CustomFieldTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD358E7F1E0C105C00C63020 /* CustomFieldTableViewController.swift */; };
 		CD3E16051DF07C7700D0C300 /* InsertImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD3E16041DF07C7700D0C300 /* InsertImageCollectionViewCell.swift */; };
+		CD4F7C691E362C4D001E0730 /* RemoteConfigDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = CD4F7C681E362C4D001E0730 /* RemoteConfigDefaults.plist */; };
 		CD5109821C58A3B200BA2CB8 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5109811C58A3B200BA2CB8 /* HomeViewController.swift */; };
 		CD5109841C58BD4700BA2CB8 /* NewCatTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5109831C58BD4700BA2CB8 /* NewCatTableViewController.swift */; };
 		CD5109861C58C0CF00BA2CB8 /* Categories.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5109851C58C0CF00BA2CB8 /* Categories.swift */; };
@@ -145,16 +146,17 @@
 		CD0A28A11C6CF76300B27AFD /* RadiusView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RadiusView.swift; path = Location/RadiusView.swift; sourceTree = "<group>"; };
 		CD0E3F7D1CE09C6C005AA575 /* SearchCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchCollectionViewController.swift; path = Search/SearchCollectionViewController.swift; sourceTree = "<group>"; };
 		CD0E3F7F1CE0A06C005AA575 /* CollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CollectionViewCell.swift; path = Search/CollectionViewCell.swift; sourceTree = "<group>"; };
-		CD0E3F811CE0BFA9005AA575 /* Listing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Listing.swift; path = Objects/Listing.swift; sourceTree = "<group>"; };
+		CD0E3F811CE0BFA9005AA575 /* Listing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Listing.swift; path = Model/Listing.swift; sourceTree = "<group>"; };
 		CD1D88811DF072A100DF2688 /* AddImageCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddImageCollectionViewCell.swift; path = Insert/AddImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		CD286E451CCE383B004675A9 /* FilterSelectTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterSelectTableViewController.swift; path = Search/FilterSelectTableViewController.swift; sourceTree = "<group>"; };
 		CD286E471CCE455C004675A9 /* FilterMoreSelectTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterMoreSelectTableViewController.swift; path = Search/FilterMoreSelectTableViewController.swift; sourceTree = "<group>"; };
 		CD358E7F1E0C105C00C63020 /* CustomFieldTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomFieldTableViewController.swift; path = Insert/CustomFieldTableViewController.swift; sourceTree = "<group>"; };
 		CD3E16041DF07C7700D0C300 /* InsertImageCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InsertImageCollectionViewCell.swift; path = Insert/InsertImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		CD4432C71CD0D19500295EC0 /* Local24-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Local24-Bridging-Header.h"; path = "SupportingFiles/Local24-Bridging-Header.h"; sourceTree = "<group>"; };
+		CD4F7C681E362C4D001E0730 /* RemoteConfigDefaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = RemoteConfigDefaults.plist; path = SupportingFiles/RemoteConfigDefaults.plist; sourceTree = "<group>"; };
 		CD5109811C58A3B200BA2CB8 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HomeViewController.swift; path = Home/HomeViewController.swift; sourceTree = "<group>"; };
 		CD5109831C58BD4700BA2CB8 /* NewCatTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewCatTableViewController.swift; path = Home/NewCatTableViewController.swift; sourceTree = "<group>"; };
-		CD5109851C58C0CF00BA2CB8 /* Categories.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Categories.swift; path = Objects/Categories.swift; sourceTree = "<group>"; };
+		CD5109851C58C0CF00BA2CB8 /* Categories.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Categories.swift; path = Model/Categories.swift; sourceTree = "<group>"; };
 		CD56FD501E09664C001164F0 /* ThanksViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ThanksViewController.swift; path = More/ThanksViewController.swift; sourceTree = "<group>"; };
 		CD56FD521E0966CB001164F0 /* ThanksTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ThanksTableViewController.swift; path = More/ThanksTableViewController.swift; sourceTree = "<group>"; };
 		CD5D16E41C8F11B200ACE365 /* ContactTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactTableViewController.swift; path = Detail/ContactTableViewController.swift; sourceTree = "<group>"; };
@@ -167,7 +169,7 @@
 		CD62AF621DE3412700AD06EF /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		CD65D24E1C60DC3000AD89DF /* LocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocationViewController.swift; path = Location/LocationViewController.swift; sourceTree = "<group>"; };
 		CD65D2501C60E5EF00AD89DF /* LocationResultsTableController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocationResultsTableController.swift; path = Location/LocationResultsTableController.swift; sourceTree = "<group>"; };
-		CD65D2541C60FD6400AD89DF /* ZipGeo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ZipGeo.swift; path = Objects/ZipGeo.swift; sourceTree = "<group>"; };
+		CD65D2541C60FD6400AD89DF /* ZipGeo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ZipGeo.swift; path = Model/ZipGeo.swift; sourceTree = "<group>"; };
 		CD6A262A1E08047A00CD22EB /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		CD7754201C71C0E200253B7B /* CenterLocationButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CenterLocationButton.swift; path = Location/CenterLocationButton.swift; sourceTree = "<group>"; };
 		CD84C5911C88844400A6E8A4 /* LocalDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocalDetailTableViewController.swift; path = Detail/LocalDetailTableViewController.swift; sourceTree = "<group>"; };
@@ -203,7 +205,7 @@
 		CDB594E21DE5A3080056B405 /* SelectSubCategoryTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SelectSubCategoryTableViewController.swift; path = Insert/SelectSubCategoryTableViewController.swift; sourceTree = "<group>"; };
 		CDB594E41DE5E6230056B405 /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		CDCA848C1DE30CA800F71A42 /* AccountHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountHeaderView.swift; path = Account/AccountHeaderView.swift; sourceTree = "<group>"; };
-		CDCA848E1DE324AA00F71A42 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = User.swift; path = Objects/User.swift; sourceTree = "<group>"; };
+		CDCA848E1DE324AA00F71A42 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = User.swift; path = Model/User.swift; sourceTree = "<group>"; };
 		CDCF317E1E09710D00379468 /* Alamofire.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Alamofire.txt; path = SupportingFiles/Licences/Alamofire.txt; sourceTree = "<group>"; };
 		CDCF31831E0972AC00379468 /* MapleBacon.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = MapleBacon.txt; path = SupportingFiles/Licences/MapleBacon.txt; sourceTree = "<group>"; };
 		CDCF31851E0972C500379468 /* MZFormSheetPresentationController.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = MZFormSheetPresentationController.txt; path = SupportingFiles/Licences/MZFormSheetPresentationController.txt; sourceTree = "<group>"; };
@@ -229,7 +231,7 @@
 		CDF6184C1CD8F3CA00041885 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		CDFC10791E2CF7010006DA8F /* specialFields.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = specialFields.json; path = SupportingFiles/specialFields.json; sourceTree = "<group>"; };
 		CDFC107B1E2D29100006DA8F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "SupportingFiles/GoogleService-Info.plist"; sourceTree = "<group>"; };
-		CDFD0BAA1CF5AE0E00B56BF6 /* Filter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Filter.swift; path = Search/Filter.swift; sourceTree = "<group>"; };
+		CDFD0BAA1CF5AE0E00B56BF6 /* Filter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Filter.swift; path = Model/Filter.swift; sourceTree = "<group>"; };
 		CDFD59EE1DFEF4920098010B /* ChooseLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChooseLocationViewController.swift; path = Insert/ChooseLocationViewController.swift; sourceTree = "<group>"; };
 		DAE5DB9518CCC4A7488A2757 /* Pods_Local24.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Local24.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFF4E34FAF766CF6AAB81F90 /* Pods_Local24UITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Local24UITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -306,7 +308,7 @@
 				CDB594DF1DE5951A0056B405 /* Insert */,
 				CD860CF91CAA9DFC003361D4 /* More */,
 				CDE4DA031C0DEA3E00FE7611 /* Font */,
-				CD37C0DA1E2E8A6B00609788 /* Objects */,
+				CD37C0DA1E2E8A6B00609788 /* Model */,
 				CD860CF71CAA9D8F003361D4 /* SupportingFiles */,
 			);
 			path = Local24;
@@ -356,15 +358,16 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		CD37C0DA1E2E8A6B00609788 /* Objects */ = {
+		CD37C0DA1E2E8A6B00609788 /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				CDCA848E1DE324AA00F71A42 /* User.swift */,
 				CD0E3F811CE0BFA9005AA575 /* Listing.swift */,
+				CDFD0BAA1CF5AE0E00B56BF6 /* Filter.swift */,
 				CD5109851C58C0CF00BA2CB8 /* Categories.swift */,
 				CD65D2541C60FD6400AD89DF /* ZipGeo.swift */,
 			);
-			name = Objects;
+			name = Model;
 			sourceTree = "<group>";
 		};
 		CD5D16EA1C9037EE00ACE365 /* Detail */ = {
@@ -412,6 +415,7 @@
 				1081F30F1BB04E6200688F3B /* iosApp.css */,
 				CDFC10791E2CF7010006DA8F /* specialFields.json */,
 				CD4432C71CD0D19500295EC0 /* Local24-Bridging-Header.h */,
+				CD4F7C681E362C4D001E0730 /* RemoteConfigDefaults.plist */,
 				1081F2E91BB02A7600688F3B /* Info.plist */,
 				CDFC107B1E2D29100006DA8F /* GoogleService-Info.plist */,
 				10D00FCD1E1FE3E6006199E8 /* Local24.entitlements */,
@@ -461,7 +465,6 @@
 				CD5D16F31C917A6300ACE365 /* FilterViewController.swift */,
 				CD286E451CCE383B004675A9 /* FilterSelectTableViewController.swift */,
 				CD286E471CCE455C004675A9 /* FilterMoreSelectTableViewController.swift */,
-				CDFD0BAA1CF5AE0E00B56BF6 /* Filter.swift */,
 			);
 			name = Filter;
 			sourceTree = "<group>";
@@ -733,6 +736,7 @@
 				CDE4DA021C0DEA3400FE7611 /* OpenSans-SemiboldItalic.ttf in Resources */,
 				CDE4D9FE1C0DEA3400FE7611 /* OpenSans-Light.ttf in Resources */,
 				CDE4DA001C0DEA3400FE7611 /* OpenSans-Regular.ttf in Resources */,
+				CD4F7C691E362C4D001E0730 /* RemoteConfigDefaults.plist in Resources */,
 				CDB3AFFA1D2BF0B800C2F254 /* slider-default7-track@2x.png in Resources */,
 				CDB3AFF71D2BF0B800C2F254 /* slider-default7-trackCrossedOver.png in Resources */,
 				CDE4D9FC1C0DEA3400FE7611 /* OpenSans-ExtraBoldItalic.ttf in Resources */,

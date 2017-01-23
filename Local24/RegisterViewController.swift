@@ -33,8 +33,7 @@ class RegisterViewController: UITableViewController, UIPickerViewDelegate, UIPic
     @IBAction func doneButtonPressed(_ sender: UIBarButtonItem) {
         
         if validate() {
-        let tracker = GAI.sharedInstance().defaultTracker
-        tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Register", action: "register", label: "", value: 0).build() as NSDictionary as! [AnyHashable: Any])
+        
         let pendingAlertController = UIAlertController(title: "Registrieren\n\n\n", message: nil, preferredStyle: .alert)
         let indicator = UIActivityIndicatorView(frame: pendingAlertController.view.bounds)
         indicator.autoresizingMask = [.flexibleWidth, . flexibleHeight]
@@ -72,6 +71,8 @@ class RegisterViewController: UITableViewController, UIPickerViewDelegate, UIPic
         networkController.registerUserWith(values: values, completion: { error in
             pendingAlertController.dismiss(animated: true, completion: {
             if error == nil {
+                let tracker = GAI.sharedInstance().defaultTracker
+                tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Registration", action: "registration", label: "", value: 0).build() as NSDictionary as! [AnyHashable: Any])
                 let errorAlert = UIAlertController(title: "Registrierung erfolgreich", message: "Um Ihre Registrierung abzuschließen, klicken Sie bitte auf den Link in der an die angegebene Adresse versendete E-Mail", preferredStyle: .alert)
                 let okAction = UIAlertAction(title: "Ok", style: .default, handler: { action in
                     self.dismiss(animated: true, completion: nil)})

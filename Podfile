@@ -23,6 +23,7 @@ target 'Local24' do
   pod 'SwiftyJSON'
   pod 'Firebase/Core'
   pod 'Firebase/Messaging'
+  pod 'Firebase/RemoteConfig'
 
   target 'Local24Tests' do
     inherit! :search_paths

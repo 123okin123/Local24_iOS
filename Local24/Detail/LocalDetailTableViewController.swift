@@ -72,27 +72,7 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
         }}
     
     var imgURLArray = [String]()
-    /*
-    var adDescription = String()
-    var adPrice = String()
-    var adTitle = String()
-    var infos = [[String]]()
-    var locationStrings = [String : String]()
-    var adLat = Double()
-    var adLong = Double()
-    var adPhoneNumber = String() {
-        didSet {
-            let priceCell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as!PriceTableViewCell
-            if adPhoneNumber == "" {
-                priceCell.phoneButton.isHidden = true
-                fixedPriceCellPhoneButton.isHidden = true
-            } else {
-                priceCell.phoneButton.isHidden = false
-                fixedPriceCellPhoneButton.isHidden = false
-            }
-        }
-    }
-    */
+
     let activityIndi = UIActivityIndicatorView(activityIndicatorStyle: .gray)
     
     @IBOutlet weak var image2BottomConstraint: NSLayoutConstraint!
@@ -238,7 +218,7 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        gaUserTracking("Search/DetailInMainCategory_\(adMainCat)")
+        gaUserTracking("Search/\(adMainCat)/Detail")
         navigationController?.hidesBarsOnSwipe = false
     }
 
@@ -306,7 +286,7 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
             case .failure(let error):
                 print(error)
                 let alert = UIAlertController(title: "Fehler", message: "Local24 hat keine Verbindung zum Internet.", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+                alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
                 self.present(alert, animated: true, completion: nil)
             case .success:
                 if let value = response.result.value as? [AnyHashable:Any] {
@@ -321,6 +301,12 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
                         self.fixedPriceCellPhoneButton.isHidden = true
                     }
                     self.tableView.reloadData()
+                } else {
+                    let alert = UIAlertController(title: "Fehler", message: "Die Anzeige ist leider nicht mehr verfügbar.", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: { alert in
+                    _ = self.navigationController?.popViewController(animated: true)
+                    }))
+                    self.present(alert, animated: true, completion: nil)
                 }
             }
         })
@@ -477,7 +463,7 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
                 let cell = tableView.dequeueReusableCell(withIdentifier: "locationMapCellID") as! LocationMapTableViewCell!
                 if let latitude = listing?.adLat {
                     if let longitude = listing?.adLong {
-                        let region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: latitude, longitude: longitude), span: MKCoordinateSpan(latitudeDelta: 0.2, longitudeDelta: 0.2))
+                        let region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: latitude, longitude: longitude), span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
                         cell?.mapView.setRegion(region, animated: false)
                     }
                 }
