@@ -15,64 +15,21 @@ import UserNotifications
 
 public var myContext = 0
 
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, FIRMessagingDelegate  {
 
     var window: UIWindow?
-    var remoteConfig: FIRRemoteConfig!
     
     
-    var filter = Filter()
+    
     
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
 
         
-        loadDataFromDefaults()
-        
-        
-        
-        let launchScreen = UIStoryboard(name: "LaunchScreen", bundle: nil).instantiateInitialViewController()!
-        let tabBarVC = window!.rootViewController! as! TabBarController
-        tabBarVC.view.addSubview(launchScreen.view)
-        let indicator = UIActivityIndicatorView()
-        indicator.frame.size = CGSize(width: 50, height: 50)
-        indicator.frame.origin = CGPoint(x: (launchScreen.view.frame.size.width/2) - 25, y: launchScreen.view.bounds.height - 120)
-        indicator.autoresizingMask = [.flexibleWidth, . flexibleHeight]
-        indicator.color = UIColor.lightGray
-        launchScreen.view.addSubview(indicator)
-        indicator.startAnimating()
-        
-        categoryBuilder.getCategories(completion: { (mainCat, subCat, error) in
-            if error == nil {
-                self.setRemoteConfiguration(completion: {
-                    if userToken != nil {
-                        networkController.getUserProfile(userToken: userToken!, completion: { (fetchedUser, statusCode) in
-                            if statusCode == 200 {
-                                user = fetchedUser
-                            }
-                            self.applicationReadyWith(launchOptions: launchOptions)
-                            UIView.transition(with: tabBarVC.view, duration: 0.2, options: .curveEaseIn, animations: {
-                                launchScreen.view.alpha = 0
-                            }, completion: { done in
-                                indicator.stopAnimating()
-                                launchScreen.view.removeFromSuperview()
-                            })
-                            
-                        })
-                    } else {
-                        self.applicationReadyWith(launchOptions: launchOptions)
-                        UIView.transition(with: tabBarVC.view, duration: 0.2, options: .curveEaseIn, animations: {
-                            launchScreen.view.alpha = 0
-                        }, completion: { done in
-                            indicator.stopAnimating()
-                            launchScreen.view.removeFromSuperview()
-                        })
-                    }
-                })
-            }
-        })
+       //loadDataFromDefaults()
         
         
         applyCustomStyles()
@@ -111,53 +68,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
       
         // FIREBASE CONFIG
         FIRApp.configure()
-        
-         // FACEBOOK
-        return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
 
-    }
-    func setRemoteConfiguration(completion: @escaping () -> Void) {
-        remoteConfig = FIRRemoteConfig.remoteConfig()
-        let remoteConfigSettings = FIRRemoteConfigSettings(developerModeEnabled: remoteConfigDevMode)
-        remoteConfig.configSettings = remoteConfigSettings!
-        remoteConfig.setDefaultsFromPlistFileName("RemoteConfigDefaults")
-        var expirationDuration = 3600
-        if remoteConfig.configSettings.isDeveloperModeEnabled {
-            expirationDuration = 0
-        }
-        remoteConfig.fetch(withExpirationDuration: TimeInterval(expirationDuration)) { (status, error) -> Void in
-            if status == .success {
-                print("Config fetched!")
-                self.remoteConfig.activateFetched()
-            } else {
-                print("Config not fetched")
-                print("Error \(error!.localizedDescription)")
-            }
-            completion()
-        }
-    }
-    
-    
-    func applicationReadyWith(launchOptions: [UIApplicationLaunchOptionsKey: Any]?) {
-        // Check if launched from notification
+        
         if let notification = launchOptions?[UIApplicationLaunchOptionsKey.remoteNotification] as? [String: AnyObject] {
             if let stringIndex = notification["tabBarSelectedIndex"] as? String {
-                if let index = Int(stringIndex) {
-                    let tabBarVC = window!.rootViewController! as! TabBarController
-                    if tabBarVC.tabBarController(tabBarVC, shouldSelect: tabBarVC.viewControllers![index]) {
-                        tabBarVC.selectedIndex = index
-                    }
-                }
+                tabBarSelectedIndex = Int(stringIndex)
             }
             if let showAppRating = notification["showAppRating"]?.boolValue {
                 if showAppRating {
                     if remoteConfig["showAppRating"].boolValue {
-                    presentAppRating()
+                        presentAppRating()
                     }
                 }
             }
         }
+
+        
+         // FACEBOOK
+        return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+        
     }
+
+    
+    
+
 
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -184,7 +118,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         
-        saveDataToDefaults()
+       // saveDataToDefaults()
     }
  
     
@@ -233,9 +167,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
 
     
+    // ------------------- Important: Consider Old App Versions --------------- //
     
-    
-    
+    /*
     
     func loadDataFromDefaults() {
         let defaults = UserDefaults.standard
@@ -281,7 +215,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
 
     }
-
+*/
     
     
     func applyCustomStyles() {
@@ -302,6 +236,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         UIApplication.shared.statusBarStyle = .lightContent
     }
     
+
     
     func presentAppRating() {
         guard let url = URL(string : "itms-apps://itunes.apple.com/de/app/id1089153890") else { return}

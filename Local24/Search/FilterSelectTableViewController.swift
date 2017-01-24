@@ -12,17 +12,21 @@ class FilterSelectTableViewController: UITableViewController {
 
     
     var filterTag :Int = 0
-    let categories = Categories()
-    var subCategoryID :Int?
-    var mainCategoryID :Int?
-    var sorting = Filter.Sorting.TimeAsc
+//    let categories = Categories()
+//    var subCategoryID :Int?
+//    var mainCategoryID :Int?
+//    var sorting = Filter.Sorting.TimeAsc
 
+    var options = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         switch filterTag {
         case 0:
             self.title = "Kategorien"
+            for category in categoryBuilder.mainCategories {
+                options.append(category.name)
+            }
         case 1:
             self.title = "Sortierung"
         default: break

@@ -9,7 +9,7 @@
 import UIKit
 import WebKit
 import NVActivityIndicatorView
-
+/*
 class SearchViewController: UIViewController, UISearchBarDelegate, UIScrollViewDelegate, WKNavigationDelegate, WKUIDelegate {
     
     // MARK: Outlets & Variables
@@ -611,7 +611,7 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UIScrollViewD
 
 }
 
-
+*/
 
 
 

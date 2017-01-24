@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 
+public var tabBarSelectedIndex :Int?
 class TabBarController: UITabBarController, UITabBarControllerDelegate {
 
     var willSelectedIndex = 0
@@ -20,6 +21,10 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         self.setupInsertButton()
         self.tabBar.shadowImage = UIImage(named: "tabBarShadow")
         self.tabBar.backgroundImage = UIImage()
+        if tabBarSelectedIndex != nil {
+        self.selectedIndex = tabBarSelectedIndex!
+        _  = self.tabBarController(self, shouldSelect: self.viewControllers![tabBarSelectedIndex!])
+        }
     }
 
     override func didReceiveMemoryWarning() {

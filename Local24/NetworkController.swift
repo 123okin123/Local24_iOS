@@ -22,6 +22,33 @@ public class NetworkController  {
     
     // MARK: Inserate
     
+    
+    
+    func getAdsSatisfying(filterArray :[Filter]?, completion: @escaping (_ listings :[Listing]?,_ error :Error?) -> Void) {
+        var parameters = [String:Any]()
+        if filterArray != nil {
+        for filter in filterArray! {
+            switch filter.filterType! {
+            case .term: parameters[filter.name] = (filter as! TermFilter).value
+            default: return
+            }
+            
+        }
+        Alamofire.request(searchIndexURL, method: .get, parameters: parameters, encoding: JSONEncoding.default).responseJSON (completionHandler: { responseData in
+            switch responseData.result {
+            case .failure(let error):
+                completion(nil, error)
+            case .success:
+                if let value = responseData.result.value as? [AnyHashable: Any] {
+                    debugPrint(value)
+                    completion(nil, nil)
+                }
+            }
+        })
+        }
+    }
+    
+    
      func loadAdWith(id: Int, completion: @escaping (_ listing: Listing?, _ error: Error?) -> Void) {
         Alamofire.request("https://cfw-api-11.azurewebsites.net/public/ads/\(id)/").responseJSON(completionHandler: { response in
             switch response.result {
@@ -323,10 +350,6 @@ public class NetworkController  {
             }
         })
     }
-    
-
-
-
 }
 
 

@@ -11,21 +11,23 @@ import UIKit
 class NewCatTableViewController: UITableViewController {
     
     // MARK: Outlets & Variables
-    var mainCatTag = 0
+    var mainCatID :Int!
+    var mainCatName :String!
     var categories = Categories()
+    var subCategories = [CategoryModel]()
     
-    let filter = (UIApplication.shared.delegate as! AppDelegate).filter
     
     // MARK: ViewController Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        subCategories = categoryBuilder.subCategories.filter({$0.idParentCategory == mainCatID})
+        mainCatName = categoryBuilder.mainCategories.first(where: {$0.id == mainCatID})?.name
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        gaUserTracking("Home/\(categories.mainCatsStrings[mainCatTag])/ChooseSubCategory")
-        navigationItem.title = categories.mainCatsStrings[mainCatTag]
-        
+            navigationItem.title = mainCatName
+            gaUserTracking("Home/\(mainCatName)/ChooseSubCategory")
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -46,7 +48,7 @@ class NewCatTableViewController: UITableViewController {
         var n = 0
         switch section {
         case 0: n = 1
-        case 1: n = categories.cats[mainCatTag].count - 1
+        case 1: n = subCategories.count
         default: break
         }
         return n
@@ -55,10 +57,9 @@ class NewCatTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "subCatCellID", for: indexPath)
-        let subcat = categories.cats[mainCatTag]
         switch (indexPath as NSIndexPath).section {
-        case 0: cell.textLabel?.text = subcat[0]
-        case 1: cell.textLabel?.text = subcat[(indexPath as NSIndexPath).row + 1]
+        case 0: cell.textLabel?.text = "Alles in" + mainCatName
+        case 1: cell.textLabel?.text = subCategories[indexPath.row].name
         default: break
         }
         return cell
@@ -67,9 +68,9 @@ class NewCatTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         filter.resetAllFilters()
-        filter.mainCategoryID = mainCatTag
+        filter.mainCategoryID = mainCatID
         if (indexPath as NSIndexPath).section == 1 {
-        filter.subCategoryID = (indexPath as NSIndexPath).row + 1
+        filter.subCategoryID = subCategories[indexPath.row].id!
         }        
         if let navVC = tabBarController?.childViewControllers[1] as? UINavigationController {
            

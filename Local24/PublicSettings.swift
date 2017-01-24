@@ -8,8 +8,8 @@
 
 import UIKit
 import WebKit
-
-
+import FirebaseRemoteConfig
+import Firebase
 
 //------Important------//
 /*
@@ -35,9 +35,9 @@ public let mode = "www"
 public var adultContent = true
 public var remoteConfigDevMode = true
 
+public var searchIndexURL = "https://local24:t8K_gVwSrOeviNSCziikq8-TD_PbRezS@local24-732756935.eu-west-1.elb.amazonaws.com/local24/_search"
 
-
-
+public var remoteConfig = FIRRemoteConfig.remoteConfig()
 
 
 public var user :User?
@@ -45,7 +45,7 @@ public var userToken :String?
 public var tokenValid = true
 public var categoryBuilder = Categories()
 public var networkController = NetworkController()
-
+public var filterManager = FilterManager()
 
 public let screenwidth = UIScreen.main.bounds.size.width
 public let screenheight = UIScreen.main.bounds.size.height

@@ -22,7 +22,6 @@ class LocationViewController: UIViewController, UISearchBarDelegate, UISearchRes
     var resultsTableController: LocationResultsTableController!
     var searchController: UISearchController!
     
-    var filter = (UIApplication.shared.delegate as! AppDelegate).filter
 
 
     

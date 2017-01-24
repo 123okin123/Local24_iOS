@@ -1,120 +1,108 @@
 //
-//  HomeViewController.swift
+//  Home2ViewController.swift
 //  Local24
 //
-//  Created by Locla24 on 27/01/16.
-//  Copyright © 2016 Nikolai Kratz. All rights reserved.
+//  Created by Local24 on 23/01/2017.
+//  Copyright © 2017 Nikolai Kratz. All rights reserved.
 //
 
 import UIKit
-import QuartzCore
-import FBSDKCoreKit
-import FBSDKLoginKit
-import Firebase
 
-class HomeViewController: UIViewController, UISearchBarDelegate, UIScrollViewDelegate {
-    
-    
-    // MARK: Outlets & Variables
-    @IBOutlet weak var stackView: UIStackView!
-    @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var searchBar: UISearchBar!
-    @IBOutlet weak var searchLocationButton: UIButton!
-    @IBOutlet weak var showAllCatsView: UIView! {
-        didSet {
-            showAllCatsView.layer.cornerRadius = 5
-        }}
+private let reuseIdentifier = "HomeCatCell"
 
-    var filter = (UIApplication.shared.delegate as! AppDelegate).filter
+class HomeViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UISearchBarDelegate {
+
+    var homeCategories = [CategoryModel]()
     
 
-    @IBAction func showAllCatsButtonPressed(_ sender: UIButton) {
-        filter.resetAllFilters()
-        if let navVC = tabBarController?.childViewControllers[1] as? UINavigationController {
-            tabBarController?.selectedViewController = navVC
-            navVC.popToRootViewController(animated: true)
-        }
-    }
-    
-    
-    
-    // MARK: ViewController Lifecycle
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        scrollView.delegate = self
-        configureSearchBar()
         let logo = UIImage(named: "logo.png")
         let imageView = UIImageView(image:logo)
         imageView.frame.size = CGSize(width: 0, height:37)
         imageView.contentMode = .scaleAspectFit
-        
         self.navigationItem.titleView = imageView
         
-        
-        let contentheight :CGFloat = 600
-        scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 50, right: 0)
-        stackView.frame.size = CGSize(width: screenwidth - 32, height: contentheight)
-        scrollView.contentSize = stackView.frame.size
-        scrollView.clipsToBounds = false
- 
-        for i in 0...1 {
-        for n in 0...7 {
-            let subView = stackView.subviews[i].subviews[n]
-            subView.layer.cornerRadius = 5
+        if let idString = remoteConfig["homeCategories"].stringValue {
+            let idStrings = idString.characters.split(separator: ",").map(String.init)
+            let ids = idStrings.map({Int($0)})
+            for id in ids {
+                if let category = categoryBuilder.mainCategories.first(where: {$0.id == id}) {
+                    homeCategories.append(category)
+                }
+            }
         }
-        }
-       
     }
-    
-    
-    func configureSearchBar() {
-        searchBar.delegate = self
-        searchBar.setImage(UIImage(named: "lupe_grau"), for: UISearchBarIcon.search, state: UIControlState())
-        let searchTextField: UITextField? = searchBar.value(forKey: "searchField") as? UITextField
-        if searchTextField!.responds(to: #selector(getter: UITextField.attributedPlaceholder)) {
-            let font = UIFont(name: "OpenSans", size: 13.0)
-            let attributeDict = [
-                NSFontAttributeName: font!,
-                NSForegroundColorAttributeName: UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
-            ]
-            searchTextField!.attributedPlaceholder = NSAttributedString(string: "Was suchen Sie?", attributes: attributeDict)
-        }
-        searchTextField?.textColor = UIColor.gray
-        
-    }
-
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         gaUserTracking("Home")
-        if filter.searchLocationString == "Deutschland" {
-            searchLocationButton.setTitle("Suchen in: \(filter.searchLocationString)", for: UIControlState())
-        } else {
-            let radiusString = String(filter.searchRadius)
-            searchLocationButton.setTitle("Suchen in: (\(radiusString)km) \(filter.searchZip) \(filter.searchLocationString)", for: UIControlState())
-        }
-
+//        if let geoFilter = filterManager.filters.first(where: {$0!.type == .geo_distance}) {
+//        //reverse geocoding
+//        }
+        
+//        if filter.searchLocationString == "Deutschland" {
+//            searchLocationButton.setTitle("Suchen in: \(filter.searchLocationString)", for: UIControlState())
+//        } else {
+//            let radiusString = String(filter.searchRadius)
+//            searchLocationButton.setTitle("Suchen in: (\(radiusString)km) \(filter.searchZip) \(filter.searchLocationString)", for: UIControlState())
+//        }
+        
     }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
 
-    }
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        scrollView.resignFirstResponder()
+
+
+
+    // MARK: UICollectionViewDataSource
+
+    override func numberOfSections(in collectionView: UICollectionView) -> Int {
+        // #warning Incomplete implementation, return the number of sections
+        return 1
     }
 
+
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return homeCategories.count + 1
+    }
+
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! HomeCatCell
+        if indexPath.item == homeCategories.count {
+            cell.title.text = "Alle Anzeigen"
+            cell.imageView.image = UIImage(named: "alleAnzeigen")
+        } else {
+            if let id = homeCategories[indexPath.item].id {
+                cell.imageView.image = UIImage(named: String(id))
+            }
+            cell.title.text = homeCategories[indexPath.item].name
+            cell.catID = homeCategories[indexPath.item].id
+        }
+        return cell
+            
+    }
+
+    // MARK: UICollectionViewDelegate
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: (screenwidth - 30)/2, height: 70)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 5
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 20, left: 10, bottom: 20, right: 10)
+    }
+ 
+    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "HomeHeader", for: indexPath) as! HomeHeaderCollectionReusableView
+        headerView.searchBar.delegate = self
+        return headerView
+    }
+    
     
     
     
@@ -123,55 +111,58 @@ class HomeViewController: UIViewController, UISearchBarDelegate, UIScrollViewDel
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
         if searchBar.text != "" {
-        if searchBar.text != nil {
-            let tracker = GAI.sharedInstance().defaultTracker
-            tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Search", action: "searchInHome", label: searchBar.text!, value: 0).build() as NSDictionary as! [AnyHashable: Any])
-        }
+            if searchBar.text != nil {
+                let tracker = GAI.sharedInstance().defaultTracker
+                tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Search", action: "searchInHome", label: searchBar.text!, value: 0).build() as NSDictionary as! [AnyHashable: Any])
+            }
             if let navVC = tabBarController?.childViewControllers[1] as? UINavigationController {
-                filter.searchString = searchBar.text!
+                filterManager.setFilter(newFilter: StringFilter(value: searchBar.text!))
                 tabBarController?.selectedViewController = navVC
                 searchBar.text = ""
-                
             }
-
         }
     }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        searchBar.resignFirstResponder()
+ 
+    
+    
+    override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        if let headerView = collectionView?.supplementaryView(forElementKind: UICollectionElementKindSectionHeader, at: IndexPath(item: 0, section: 0)) as? HomeHeaderCollectionReusableView {
+            headerView.searchBar.resignFirstResponder()
+        }
     }
     
-
-    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        searchBar.resignFirstResponder()
-    }
-    
-    
-    
-    
-    // MARK: - Navigation
-
     
     @IBAction func backfromLocationSegue(_ segue:UIStoryboardSegue) {
         if let sVC = segue.source as? LocationViewController {
-        sVC.searchController.searchBar.resignFirstResponder()
-        sVC.searchController.isActive = false
+            sVC.searchController.searchBar.resignFirstResponder()
+            sVC.searchController.isActive = false
         }
-        
     }
     
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-        if let sender = sender as? UIButton {
-            if let dVC = segue.destination as? NewCatTableViewController {
-            dVC.mainCatTag = sender.tag
+        if let sender = sender as? HomeCatCell {
+            if let catId = sender.catID  {
+                if let dVC = segue.destination as? NewCatTableViewController {
+                    dVC.mainCatID = catId
+                }
             }
         }
     }
-    
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        if let sender = sender as? HomeCatCell {
+            if sender.catID != nil {
+                return true
+            } else {
+                filterManager.removeAllFilters()
+                if let navVC = tabBarController?.childViewControllers[1] as? UINavigationController {
+                    tabBarController?.selectedViewController = navVC
+                    navVC.popToRootViewController(animated: true)
+                }
+                return false
+            }
+        }
+        return false
+    }
 
-    
-    
 }

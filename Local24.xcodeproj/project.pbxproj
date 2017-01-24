@@ -27,7 +27,10 @@
 		CD358E801E0C105C00C63020 /* CustomFieldTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD358E7F1E0C105C00C63020 /* CustomFieldTableViewController.swift */; };
 		CD3E16051DF07C7700D0C300 /* InsertImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD3E16041DF07C7700D0C300 /* InsertImageCollectionViewCell.swift */; };
 		CD4F7C691E362C4D001E0730 /* RemoteConfigDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = CD4F7C681E362C4D001E0730 /* RemoteConfigDefaults.plist */; };
-		CD5109821C58A3B200BA2CB8 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5109811C58A3B200BA2CB8 /* HomeViewController.swift */; };
+		CD4F7C6B1E364B24001E0730 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD4F7C6A1E364B24001E0730 /* HomeViewController.swift */; };
+		CD4F7C6D1E364B81001E0730 /* HomeCatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD4F7C6C1E364B81001E0730 /* HomeCatCell.swift */; };
+		CD4F7C6F1E3669DE001E0730 /* InitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD4F7C6E1E3669DE001E0730 /* InitialViewController.swift */; };
+		CD5109821C58A3B200BA2CB8 /* Home2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5109811C58A3B200BA2CB8 /* Home2ViewController.swift */; };
 		CD5109841C58BD4700BA2CB8 /* NewCatTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5109831C58BD4700BA2CB8 /* NewCatTableViewController.swift */; };
 		CD5109861C58C0CF00BA2CB8 /* Categories.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5109851C58C0CF00BA2CB8 /* Categories.swift */; };
 		CD56FD511E09664C001164F0 /* ThanksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD56FD501E09664C001164F0 /* ThanksViewController.swift */; };
@@ -48,6 +51,7 @@
 		CD84C5921C88844400A6E8A4 /* LocalDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD84C5911C88844400A6E8A4 /* LocalDetailTableViewController.swift */; };
 		CD993E091DF9AFAF00F686C7 /* MyAdsDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD993E081DF9AFAF00F686C7 /* MyAdsDetailViewController.swift */; };
 		CD993E0D1DF9BD4300F686C7 /* NetworkController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD993E0C1DF9BD4300F686C7 /* NetworkController.swift */; };
+		CD9A1F251E376F67003574BC /* HomeHeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9A1F241E376F67003574BC /* HomeHeaderCollectionReusableView.swift */; };
 		CD9CD42D1CE214D70080CF67 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD9CD42C1CE214D70080CF67 /* CoreMotion.framework */; };
 		CD9CD42F1CE21A930080CF67 /* SearchCollectionViewAdCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9CD42E1CE21A930080CF67 /* SearchCollectionViewAdCell.swift */; };
 		CD9CD4311CE229EC0080CF67 /* FacebookAd.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9CD4301CE229EC0080CF67 /* FacebookAd.swift */; };
@@ -101,7 +105,7 @@
 		CDF6184D1CD8F3CA00041885 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDF6184C1CD8F3CA00041885 /* AdSupport.framework */; };
 		CDFC107A1E2CF7010006DA8F /* specialFields.json in Resources */ = {isa = PBXBuildFile; fileRef = CDFC10791E2CF7010006DA8F /* specialFields.json */; };
 		CDFC107C1E2D29100006DA8F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CDFC107B1E2D29100006DA8F /* GoogleService-Info.plist */; };
-		CDFD0BAB1CF5AE0E00B56BF6 /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDFD0BAA1CF5AE0E00B56BF6 /* Filter.swift */; };
+		CDFD0BAB1CF5AE0E00B56BF6 /* FilterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDFD0BAA1CF5AE0E00B56BF6 /* FilterManager.swift */; };
 		CDFD59EF1DFEF4920098010B /* ChooseLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDFD59EE1DFEF4920098010B /* ChooseLocationViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -154,7 +158,10 @@
 		CD3E16041DF07C7700D0C300 /* InsertImageCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InsertImageCollectionViewCell.swift; path = Insert/InsertImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		CD4432C71CD0D19500295EC0 /* Local24-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Local24-Bridging-Header.h"; path = "SupportingFiles/Local24-Bridging-Header.h"; sourceTree = "<group>"; };
 		CD4F7C681E362C4D001E0730 /* RemoteConfigDefaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = RemoteConfigDefaults.plist; path = SupportingFiles/RemoteConfigDefaults.plist; sourceTree = "<group>"; };
-		CD5109811C58A3B200BA2CB8 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HomeViewController.swift; path = Home/HomeViewController.swift; sourceTree = "<group>"; };
+		CD4F7C6A1E364B24001E0730 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HomeViewController.swift; path = Home/HomeViewController.swift; sourceTree = "<group>"; };
+		CD4F7C6C1E364B81001E0730 /* HomeCatCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HomeCatCell.swift; path = Home/HomeCatCell.swift; sourceTree = "<group>"; };
+		CD4F7C6E1E3669DE001E0730 /* InitialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitialViewController.swift; sourceTree = "<group>"; };
+		CD5109811C58A3B200BA2CB8 /* Home2ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Home2ViewController.swift; path = Home/Home2ViewController.swift; sourceTree = "<group>"; };
 		CD5109831C58BD4700BA2CB8 /* NewCatTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewCatTableViewController.swift; path = Home/NewCatTableViewController.swift; sourceTree = "<group>"; };
 		CD5109851C58C0CF00BA2CB8 /* Categories.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Categories.swift; path = Model/Categories.swift; sourceTree = "<group>"; };
 		CD56FD501E09664C001164F0 /* ThanksViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ThanksViewController.swift; path = More/ThanksViewController.swift; sourceTree = "<group>"; };
@@ -175,6 +182,7 @@
 		CD84C5911C88844400A6E8A4 /* LocalDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocalDetailTableViewController.swift; path = Detail/LocalDetailTableViewController.swift; sourceTree = "<group>"; };
 		CD993E081DF9AFAF00F686C7 /* MyAdsDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MyAdsDetailViewController.swift; path = Account/MyAdsDetailViewController.swift; sourceTree = "<group>"; };
 		CD993E0C1DF9BD4300F686C7 /* NetworkController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkController.swift; sourceTree = "<group>"; };
+		CD9A1F241E376F67003574BC /* HomeHeaderCollectionReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HomeHeaderCollectionReusableView.swift; path = Home/HomeHeaderCollectionReusableView.swift; sourceTree = "<group>"; };
 		CD9CD42C1CE214D70080CF67 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		CD9CD42E1CE21A930080CF67 /* SearchCollectionViewAdCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchCollectionViewAdCell.swift; path = Search/SearchCollectionViewAdCell.swift; sourceTree = "<group>"; };
 		CD9CD4301CE229EC0080CF67 /* FacebookAd.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FacebookAd.swift; path = Search/FacebookAd.swift; sourceTree = "<group>"; };
@@ -231,7 +239,7 @@
 		CDF6184C1CD8F3CA00041885 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		CDFC10791E2CF7010006DA8F /* specialFields.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = specialFields.json; path = SupportingFiles/specialFields.json; sourceTree = "<group>"; };
 		CDFC107B1E2D29100006DA8F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "SupportingFiles/GoogleService-Info.plist"; sourceTree = "<group>"; };
-		CDFD0BAA1CF5AE0E00B56BF6 /* Filter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Filter.swift; path = Model/Filter.swift; sourceTree = "<group>"; };
+		CDFD0BAA1CF5AE0E00B56BF6 /* FilterManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterManager.swift; path = Model/FilterManager.swift; sourceTree = "<group>"; };
 		CDFD59EE1DFEF4920098010B /* ChooseLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChooseLocationViewController.swift; path = Insert/ChooseLocationViewController.swift; sourceTree = "<group>"; };
 		DAE5DB9518CCC4A7488A2757 /* Pods_Local24.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Local24.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFF4E34FAF766CF6AAB81F90 /* Pods_Local24UITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Local24UITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -294,12 +302,14 @@
 			isa = PBXGroup;
 			children = (
 				1081F2E11BB02A7600688F3B /* Main.storyboard */,
+				CD4F7C6E1E3669DE001E0730 /* InitialViewController.swift */,
 				1081F2DD1BB02A7600688F3B /* AppDelegate.swift */,
 				CDB594E41DE5E6230056B405 /* TabBarController.swift */,
-				CD993E0C1DF9BD4300F686C7 /* NetworkController.swift */,
-				CDA9CCCB1C070793005ED562 /* PublicSettings.swift */,
 				CD62AF621DE3412700AD06EF /* LoginViewController.swift */,
 				CD6A262A1E08047A00CD22EB /* RegisterViewController.swift */,
+				CDFD0BAA1CF5AE0E00B56BF6 /* FilterManager.swift */,
+				CD993E0C1DF9BD4300F686C7 /* NetworkController.swift */,
+				CDA9CCCB1C070793005ED562 /* PublicSettings.swift */,
 				CD860CFA1CAA9E0C003361D4 /* Home */,
 				CD860CF81CAA9DD5003361D4 /* Search */,
 				CD65D2581C6101CE00AD89DF /* Location */,
@@ -363,7 +373,6 @@
 			children = (
 				CDCA848E1DE324AA00F71A42 /* User.swift */,
 				CD0E3F811CE0BFA9005AA575 /* Listing.swift */,
-				CDFD0BAA1CF5AE0E00B56BF6 /* Filter.swift */,
 				CD5109851C58C0CF00BA2CB8 /* Categories.swift */,
 				CD65D2541C60FD6400AD89DF /* ZipGeo.swift */,
 			);
@@ -453,8 +462,11 @@
 		CD860CFA1CAA9E0C003361D4 /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				CD5109811C58A3B200BA2CB8 /* HomeViewController.swift */,
+				CD4F7C6A1E364B24001E0730 /* HomeViewController.swift */,
+				CD9A1F241E376F67003574BC /* HomeHeaderCollectionReusableView.swift */,
+				CD4F7C6C1E364B81001E0730 /* HomeCatCell.swift */,
 				CD5109831C58BD4700BA2CB8 /* NewCatTableViewController.swift */,
+				CD5109811C58A3B200BA2CB8 /* Home2ViewController.swift */,
 			);
 			name = Home;
 			sourceTree = "<group>";
@@ -905,6 +917,8 @@
 				CD0E3F7E1CE09C6C005AA575 /* SearchCollectionViewController.swift in Sources */,
 				CD65D2551C60FD6400AD89DF /* ZipGeo.swift in Sources */,
 				CDD729011E12BA5A009F0B99 /* InsertImageCollection.swift in Sources */,
+				CD4F7C6D1E364B81001E0730 /* HomeCatCell.swift in Sources */,
+				CD9A1F251E376F67003574BC /* HomeHeaderCollectionReusableView.swift in Sources */,
 				CD0E3F801CE0A06C005AA575 /* CollectionViewCell.swift in Sources */,
 				CDCA848D1DE30CA800F71A42 /* AccountHeaderView.swift in Sources */,
 				CD1D88821DF072A100DF2688 /* AddImageCollectionViewCell.swift in Sources */,
@@ -916,8 +930,9 @@
 				CD5D16E51C8F11B200ACE365 /* ContactTableViewController.swift in Sources */,
 				CD7754211C71C0E200253B7B /* CenterLocationButton.swift in Sources */,
 				CD84C5921C88844400A6E8A4 /* LocalDetailTableViewController.swift in Sources */,
+				CD4F7C6F1E3669DE001E0730 /* InitialViewController.swift in Sources */,
 				CDD729031E12FE68009F0B99 /* InsertTableViewDataSource.swift in Sources */,
-				CDFD0BAB1CF5AE0E00B56BF6 /* Filter.swift in Sources */,
+				CDFD0BAB1CF5AE0E00B56BF6 /* FilterManager.swift in Sources */,
 				CDD729071E13037C009F0B99 /* InsertCustomFieldCell.swift in Sources */,
 				CD9CD4331CE4A1900080CF67 /* SelectedFilterButton.swift in Sources */,
 				CDFD59EF1DFEF4920098010B /* ChooseLocationViewController.swift in Sources */,
@@ -926,10 +941,11 @@
 				CDB04AD01DD3259100034C1F /* AccountCollectionViewController.swift in Sources */,
 				CD358E801E0C105C00C63020 /* CustomFieldTableViewController.swift in Sources */,
 				CDCA848F1DE324AA00F71A42 /* User.swift in Sources */,
+				CD4F7C6B1E364B24001E0730 /* HomeViewController.swift in Sources */,
 				CD286E461CCE383B004675A9 /* FilterSelectTableViewController.swift in Sources */,
 				CDB594E31DE5A3080056B405 /* SelectSubCategoryTableViewController.swift in Sources */,
 				CD56FD531E0966CB001164F0 /* ThanksTableViewController.swift in Sources */,
-				CD5109821C58A3B200BA2CB8 /* HomeViewController.swift in Sources */,
+				CD5109821C58A3B200BA2CB8 /* Home2ViewController.swift in Sources */,
 				CDB594DE1DE595130056B405 /* InsertTableViewController.swift in Sources */,
 				CD993E0D1DF9BD4300F686C7 /* NetworkController.swift in Sources */,
 				CD65D24F1C60DC3000AD89DF /* LocationViewController.swift in Sources */,

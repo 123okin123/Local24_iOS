@@ -29,7 +29,6 @@ class FilterViewController: UITableViewController {
 
     var sliderSectionHeaderString = ""
     
-    var filter = (UIApplication.shared.delegate as! AppDelegate).filter
     var categories = Categories()
     
     var showCarFilters = false
@@ -270,3 +269,4 @@ class FilterViewController: UITableViewController {
   
 
 }
+ 
