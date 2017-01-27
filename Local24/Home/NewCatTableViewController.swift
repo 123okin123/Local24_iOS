@@ -67,13 +67,15 @@ class NewCatTableViewController: UITableViewController {
     
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        filter.resetAllFilters()
-        filter.mainCategoryID = mainCatID
-        if (indexPath as NSIndexPath).section == 1 {
-        filter.subCategoryID = subCategories[indexPath.row].id!
+        FilterManager.shared.removeAllfilters()
+        let category = categoryBuilder.mainCategories.first(where: {$0.id == mainCatID})
+        FilterManager.shared.setfilter(newfilter: Termfilter(name: .category, descriptiveString: "Kategorie", value: category!.name))
+        
+        if indexPath.section == 1 {
+            let subcategory = categoryBuilder.subCategories.first(where: {$0.id == subCategories[indexPath.row].id!})
+            FilterManager.shared.setfilter(newfilter: Termfilter(name: .subcategory, descriptiveString: "Unterkategorie", value: subcategory!.name))
         }        
         if let navVC = tabBarController?.childViewControllers[1] as? UINavigationController {
-           
                 tabBarController?.selectedViewController = navVC
                 navVC.popToRootViewController(animated: true)
                 _ = navigationController?.popToRootViewController(animated: true)

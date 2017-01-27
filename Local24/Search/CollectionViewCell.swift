@@ -18,10 +18,12 @@ class CollectionViewCell: UICollectionViewCell {
     
     var shadowLayer: CAShapeLayer!
     
+    var listing :Listing?
+    
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        cellContentView.layer.cornerRadius = 3
+        cellContentView.layer.cornerRadius = 5
         listingPrice.layer.shadowColor = UIColor.black.cgColor
         listingPrice.layer.shadowOffset = CGSize(width: 1, height: 1)
         listingPrice.layer.shadowOpacity = 0.5
@@ -31,7 +33,7 @@ class CollectionViewCell: UICollectionViewCell {
         if shadowLayer == nil {
             self.backgroundColor = UIColor.clear
             shadowLayer = CAShapeLayer()
-            shadowLayer.path = UIBezierPath(roundedRect: bounds, cornerRadius: 3).cgPath
+            shadowLayer.path = UIBezierPath(roundedRect: bounds, cornerRadius: 5).cgPath
             shadowLayer.fillColor = UIColor.white.cgColor
             shadowLayer.shadowColor = UIColor(red: 220/255, green: 220/255, blue: 220/255, alpha: 1).cgColor
             shadowLayer.shadowPath = shadowLayer.path
@@ -42,6 +44,9 @@ class CollectionViewCell: UICollectionViewCell {
         }        
     }
 
-    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        listingImage.image = nil
+    }
     
 }

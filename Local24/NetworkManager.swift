@@ -1,5 +1,5 @@
 //
-//  NetworkController.swift
+//  NetworkManager.swift
 //  Local24
 //
 //  Created by Local24 on 08/12/2016.
@@ -12,9 +12,9 @@ import UIKit
 import MapleBacon
 import MapKit
 import Fuzi
+import SwiftyJSON
 
-
-public class NetworkController  {
+public class NetworkManager  {
 
     private var request :Request?
     
@@ -24,28 +24,39 @@ public class NetworkController  {
     
     
     
-    func getAdsSatisfying(filterArray :[Filter]?, completion: @escaping (_ listings :[Listing]?,_ error :Error?) -> Void) {
+    func getAdsSatisfying(filterArray :[filter]?, page: Int, completion: @escaping (_ listings :[Listing]?,_ error :Error?) -> Void) {
         var parameters = [String:Any]()
+        parameters["size"] = 20
+        parameters["from"] = page * 20
         if filterArray != nil {
-        for filter in filterArray! {
-            switch filter.filterType! {
-            case .term: parameters[filter.name] = (filter as! TermFilter).value
-            default: return
-            }
-            
+            parameters["source"] = FilterManager.shared.getJSONFromfilterArray(filterArray: filterArray!)
         }
-        Alamofire.request(searchIndexURL, method: .get, parameters: parameters, encoding: JSONEncoding.default).responseJSON (completionHandler: { responseData in
+        debugPrint(filterArray)
+        
+        NetworkManager.Manager.request(searchIndexURL, method: .get, parameters: parameters).responseJSON (completionHandler: { responseData in
+            //debugPrint(responseData)
+            
             switch responseData.result {
             case .failure(let error):
                 completion(nil, error)
             case .success:
                 if let value = responseData.result.value as? [AnyHashable: Any] {
-                    debugPrint(value)
-                    completion(nil, nil)
+                    if let firstHits = value["hits"] as? [AnyHashable: Any] {
+                        if let hits = firstHits["hits"] as? NSArray {
+                            var listings = [Listing]()
+                            for hit in hits {
+                                if let hitvalues = hit as? [AnyHashable: Any] {
+                                    let listing = Listing(searchIndexValue: hitvalues)
+                                    listings.append(listing)
+                                }
+                            }
+                            completion(listings, nil)
+                        }
+                    }
                 }
             }
         })
-        }
+        
     }
     
     
@@ -350,9 +361,31 @@ public class NetworkController  {
             }
         })
     }
+    
+    
+    private static var Manager : Alamofire.SessionManager = {
+        // Create the server trust policies
+        let serverTrustPolicies: [String: ServerTrustPolicy] = [
+            "local24-732756935.eu-west-1.elb.amazonaws.com": .disableEvaluation
+        ]
+        let configuration = URLSessionConfiguration.default
+        configuration.httpAdditionalHeaders = Alamofire.SessionManager.defaultHTTPHeaders
+        let man = Alamofire.SessionManager(
+            configuration: URLSessionConfiguration.default,
+            serverTrustPolicyManager: ServerTrustPolicyManager(policies: serverTrustPolicies)
+        )
+        return man
+    }()
+    
 }
 
 
 enum NCError : Error {
     case RuntimeError(String)
 }
+
+
+
+
+
+

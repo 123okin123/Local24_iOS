@@ -37,7 +37,7 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         gaUserTracking("Home")
-//        if let geoFilter = filterManager.filters.first(where: {$0!.type == .geo_distance}) {
+//        if let geofilter = filterManager.filters.first(where: {$0!.type == .geo_distance}) {
 //        //reverse geocoding
 //        }
         
@@ -116,7 +116,7 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
                 tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Search", action: "searchInHome", label: searchBar.text!, value: 0).build() as NSDictionary as! [AnyHashable: Any])
             }
             if let navVC = tabBarController?.childViewControllers[1] as? UINavigationController {
-                filterManager.setFilter(newFilter: StringFilter(value: searchBar.text!))
+                FilterManager.shared.setfilter(newfilter: Stringfilter(value: searchBar.text!))
                 tabBarController?.selectedViewController = navVC
                 searchBar.text = ""
             }
@@ -154,7 +154,7 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
             if sender.catID != nil {
                 return true
             } else {
-                filterManager.removeAllFilters()
+                FilterManager.shared.removeAllfilters()
                 if let navVC = tabBarController?.childViewControllers[1] as? UINavigationController {
                     tabBarController?.selectedViewController = navVC
                     navVC.popToRootViewController(animated: true)
@@ -162,7 +162,7 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
                 return false
             }
         }
-        return false
+        return true
     }
 
 }

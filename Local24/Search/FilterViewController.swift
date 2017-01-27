@@ -1,5 +1,5 @@
 //
-//  FilterViewController.swift
+//  filterViewController.swift
 //  Local24
 //
 //  Created by Local24 on 10/03/16.
@@ -9,7 +9,7 @@
 import UIKit
 
 
-class FilterViewController: UITableViewController {
+class filterViewController: UITableViewController {
 
     
     @IBOutlet weak var searchQueryTextField: UITextField!
@@ -31,13 +31,13 @@ class FilterViewController: UITableViewController {
     
     var categories = Categories()
     
-    var showCarFilters = false
+    var showCarfilters = false
 
     @IBAction func onlyLocalListingsSwitchChanged(_ sender: UISwitch) {
         if sender.isOn {
-        filter.onlyLocalListings = false
+        //filter.onlyLocalListings = false
         } else {
-        filter.onlyLocalListings = true
+        //filter.onlyLocalListings = true
         }
     }
 
@@ -70,58 +70,72 @@ class FilterViewController: UITableViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.view.endEditing(true)
-        if filter.searchString != searchQueryTextField.text! {
-        filter.searchString = searchQueryTextField.text!
-        let tracker = GAI.sharedInstance().defaultTracker
-        tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Search", action: "searchInFilter", label: searchQueryTextField.text!, value: 0).build() as NSDictionary as! [AnyHashable: Any])
-        }
-        if filter.maxPrice != maxPriceTextField.text! {
-        filter.maxPrice = maxPriceTextField.text!
-        }
-        if filter.minPrice != minPriceTextField.text! {
-        filter.minPrice = minPriceTextField.text!
-        }
-        if filter.minMileAge != Int(rangeSlider.lowerValue) {
-        filter.minMileAge = Int(rangeSlider.lowerValue)
-        }
-        if filter.maxMileAge != Int(rangeSlider.upperValue) {
-            filter.maxMileAge = Int(rangeSlider.upperValue)
-        }
+        savefilters()
+//        let tracker = GAI.sharedInstance().defaultTracker
+//        tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Search", action: "searchInfilter", label: searchQueryTextField.text!, value: 0).build() as NSDictionary as! [AnyHashable: Any])
+//        
+
 
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        gaUserTracking("Filter")
-        searchQueryTextField.text = filter.searchString
-        locationLabel.text = filter.searchLocationString
-        maxPriceTextField.text = filter.maxPrice
-        minPriceTextField.text = filter.minPrice
-        if filter.mainCategoryID == 99 && filter.subCategoryID == 99 {
-            categoryLabel.text  = "Alle Anzeigen"
-        } else {
-            if filter.subCategoryID != 99 {
-                categoryLabel.text = categories.cats[filter.mainCategoryID][filter.subCategoryID]
-            } else {
-                categoryLabel.text = categories.cats[filter.mainCategoryID][0]
-            }
-        }
-        sortingLabel.text = filter.sorting.rawValue
-        if filter.onlyLocalListings {
-        onlyLocalListingsSwitch.isOn = false
-        } else {
-        onlyLocalListingsSwitch.isOn = true
-        }
-      
-        checkForAdditionalFilters()
+        gaUserTracking("filter")
+        loadfilters()
+        
+//        searchQueryTextField.text = filter.searchString
+//        locationLabel.text = filter.searchLocationString
+//        maxPriceTextField.text = filter.maxPrice
+//        minPriceTextField.text = filter.minPrice
+//        if filter.mainCategoryID == 99 && filter.subCategoryID == 99 {
+//            categoryLabel.text  = "Alle Anzeigen"
+//        } else {
+//            if filter.subCategoryID != 99 {
+//                categoryLabel.text = categories.cats[filter.mainCategoryID][filter.subCategoryID]
+//            } else {
+//                categoryLabel.text = categories.cats[filter.mainCategoryID][0]
+//            }
+//        }
+//        sortingLabel.text = filter.sorting.rawValue
+//        if filter.onlyLocalListings {
+//        onlyLocalListingsSwitch.isOn = false
+//        } else {
+//        onlyLocalListingsSwitch.isOn = true
+//        }
+//      
+//        checkForAdditionalfilters()
         
         
 
     }
     
+    func savefilters() {
+        if searchQueryTextField.text != "" {
+            FilterManager.shared.setfilter(newfilter: Stringfilter(value: searchQueryTextField.text!))
+        }
+        if maxPriceTextField.text != "" || minPriceTextField.text != "" {
+            let priceRange = Rangefilter(name: .price, descriptiveString: "Preis", gte: nil, lte: nil)
+            if maxPriceTextField.text != "" {
+               priceRange.lte = Double(maxPriceTextField.text!)
+            }
+            if minPriceTextField.text != "" {
+                priceRange.gte = Double(minPriceTextField.text!)
+            }
+            FilterManager.shared.setfilter(newfilter: priceRange)
+        }
+    }
     
-    func checkForAdditionalFilters() {
-        
+    func loadfilters() {
+        searchQueryTextField.text = FilterManager.shared.getValueOffilter(withName: .search_string, filterType: .search_string)
+        if let priceRange = FilterManager.shared.getValuesOfRangefilter(withName: .price) {
+            maxPriceTextField.text = String(describing: priceRange.lte)
+            minPriceTextField.text = String(describing: priceRange.gte)
+        }
+        categoryLabel.text = FilterManager.shared.getValueOffilter(withName: .category, filterType: .term)
+    }
+    
+    func checkForAdditionalfilters() {
+/*
         if filter.mainCategoryID == 0 && filter.subCategoryID == 1 {
             lowerValue = filter.minMileAge
             upperValue = filter.maxMileAge
@@ -132,18 +146,19 @@ class FilterViewController: UITableViewController {
             rangeSlider.maximumValue = 500000
             rangeSlider.stepValue = 5000
 
-            showCarFilters = true
+            showCarfilters = true
             
         } else {
-            showCarFilters = false
+            showCarfilters = false
         }
         tableView.reloadSections(IndexSet(integer: 4), with: .none)
+ */
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
        rangeSlider.setUpperValue(Float(upperValue), animated: true)
-    rangeSlider.setLowerValue(Float(lowerValue), animated: true)
+        rangeSlider.setLowerValue(Float(lowerValue), animated: true)
         rangeSlider.minimumValue = 0
         rangeSlider.maximumValue = 500000
         rangeSlider.stepValue = 5000
@@ -234,7 +249,7 @@ class FilterViewController: UITableViewController {
     func shouldHideSection(_ section: Int) -> Bool {
         switch section {
         case 4:
-            if showCarFilters { return false }
+            if showCarfilters { return false }
             else { return true }
         default: return false
         }
@@ -249,22 +264,17 @@ class FilterViewController: UITableViewController {
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showFilterSelectVCSegueID" {
-            if let filterSelectVC = segue.destination as? FilterSelectTableViewController {
+        if segue.identifier == "showfilterSelectVCSegueID" {
+            if let filterSelectVC = segue.destination as? filterSelectTableViewController {
                 if let cell = sender as? UITableViewCell {
-                        filterSelectVC.filterTag = cell.tag
-                        filterSelectVC.mainCategoryID = self.filter.mainCategoryID
-                        filterSelectVC.subCategoryID = self.filter.subCategoryID
-                        filterSelectVC.sorting = self.filter.sorting
-                    
-
+                    switch cell.tag {
+                    case 0: filterSelectVC.selectType = .categories
+                    case 1: filterSelectVC.selectType = .sorting
+                    default: break
+                    }
                 }
-                
             }
-            
-            
         }
-        
     }
   
 

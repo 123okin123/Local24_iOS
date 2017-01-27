@@ -49,14 +49,14 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
         return infos
     }
     
-    var urlToShow : URL!
-    var adID: String {
-        var IDstring = urlToShow.pathComponents.last
-        IDstring = IDstring?.substring(to: IDstring!.characters.index(IDstring!.endIndex, offsetBy: -3))
-        return IDstring!
-    }
-    var adMainCat :String {return (urlToShow.pathComponents[2])}
-    var adSubCat :String {return (urlToShow.pathComponents[3])}
+//    var urlToShow : URL!
+//    var adID: String {
+//        var IDstring = urlToShow.pathComponents.last
+//        IDstring = IDstring?.substring(to: IDstring!.characters.index(IDstring!.endIndex, offsetBy: -3))
+//        return IDstring!
+//    }
+//    var adMainCat :String {return (urlToShow.pathComponents[2])}
+//    var adSubCat :String {return (urlToShow.pathComponents[3])}
     
     
     var categories = Categories()
@@ -94,7 +94,7 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
         let emailAction = UIAlertAction(title: "per E-Mail teilen", style: .default, handler: { (UIAlertAction) in
             guard let title = self.listing?.title else {return}
             let emailTitle = "Anzeige auf Local24"
-            let messageBody = "Hallo,\n\nDiese Kleinanzeige bei Local24.de könnte dich interressieren.\n\n\(title)\n\n\(self.urlToShow.absoluteString)\n\nViele Grüße\n"
+            let messageBody = "Hallo,\n\nDiese Kleinanzeige bei Local24.de könnte dich interressieren.\n\n\(title)\n\n\(self.listing!.url)\n\nViele Grüße\n"
             let mc: MFMailComposeViewController = MFMailComposeViewController()
             mc.mailComposeDelegate = self
             mc.setSubject(emailTitle)
@@ -111,7 +111,7 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
         let fbshareAction = UIAlertAction(title: "über Facebook teilen", style: .default, handler: { (UIAlertAction) in
             guard let title = self.listing?.title else {return}
             let fbshareContent = FBSDKShareLinkContent()
-            fbshareContent.contentURL = self.urlToShow
+            fbshareContent.contentURL = self.listing?.url
             fbshareContent.contentTitle = "Anzeige auf Local24"
             fbshareContent.contentDescription = "Diese Kleinanzeige bei Local24.de könnte euch interressieren.\n\n\(title)"
             FBSDKShareDialog.show(from: self, with: fbshareContent, delegate: nil)
@@ -210,7 +210,7 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
         tableView.dataSource = self
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 60
-        loadData()
+       // loadData()
         getImagesURL()
     }
     
@@ -218,7 +218,7 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        gaUserTracking("Search/\(adMainCat)/Detail")
+        gaUserTracking("Search/Detail")
         navigationController?.hidesBarsOnSwipe = false
     }
 
@@ -280,42 +280,42 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
     }
     
     
-    func loadData() {
-        Alamofire.request("https://cfw-api-11.azurewebsites.net/public/ads/\(adID)/").responseJSON(completionHandler: { response in
-            switch response.result {
-            case .failure(let error):
-                print(error)
-                let alert = UIAlertController(title: "Fehler", message: "Local24 hat keine Verbindung zum Internet.", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
-                self.present(alert, animated: true, completion: nil)
-            case .success:
-                if let value = response.result.value as? [AnyHashable:Any] {
-                    self.listing = Listing(value: value)
-                    self.title = self.listing?.title
-                    let priceCell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! PriceTableViewCell
-                    if self.listing?.phoneNumber != nil {
-                        priceCell.phoneButton.isHidden = false
-                        self.fixedPriceCellPhoneButton.isHidden = false
-                    } else {
-                        priceCell.phoneButton.isHidden = true
-                        self.fixedPriceCellPhoneButton.isHidden = true
-                    }
-                    self.tableView.reloadData()
-                } else {
-                    let alert = UIAlertController(title: "Fehler", message: "Die Anzeige ist leider nicht mehr verfügbar.", preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: { alert in
-                    _ = self.navigationController?.popViewController(animated: true)
-                    }))
-                    self.present(alert, animated: true, completion: nil)
-                }
-            }
-        })
-        
-    }
-    
+//    func loadData() {
+//        Alamofire.request("https://cfw-api-11.azurewebsites.net/public/ads/\(listing?.adID)/").responseJSON(completionHandler: { response in
+//            switch response.result {
+//            case .failure(let error):
+//                print(error)
+//                let alert = UIAlertController(title: "Fehler", message: "Local24 hat keine Verbindung zum Internet.", preferredStyle: .alert)
+//                alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+//                self.present(alert, animated: true, completion: nil)
+//            case .success:
+//                if let value = response.result.value as? [AnyHashable:Any] {
+//                    self.listing = Listing(value: value)
+//                    self.title = self.listing?.title
+//                    let priceCell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! PriceTableViewCell
+//                    if self.listing?.phoneNumber != nil {
+//                        priceCell.phoneButton.isHidden = false
+//                        self.fixedPriceCellPhoneButton.isHidden = false
+//                    } else {
+//                        priceCell.phoneButton.isHidden = true
+//                        self.fixedPriceCellPhoneButton.isHidden = true
+//                    }
+//                    self.tableView.reloadData()
+//                } else {
+//                    let alert = UIAlertController(title: "Fehler", message: "Die Anzeige ist leider nicht mehr verfügbar.", preferredStyle: .alert)
+//                    alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: { alert in
+//                    _ = self.navigationController?.popViewController(animated: true)
+//                    }))
+//                    self.present(alert, animated: true, completion: nil)
+//                }
+//            }
+//        })
+//        
+//    }
+//    
     
     func getImagesURL() {
-        Alamofire.request("https://cfw-api-11.azurewebsites.net/public/ads/\(adID)/images/").responseJSON(completionHandler: { response in
+        Alamofire.request("https://cfw-api-11.azurewebsites.net/public/ads/\(listing!.adID)/images/").responseJSON(completionHandler: { response in
             switch response.result {
             case .failure(let error):
                 print(error)
@@ -504,8 +504,8 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
             if let navVC = segue.destination as? UINavigationController {
                 if let contactVC = navVC.viewControllers[0] as? ContactTableViewController {
                     contactVC.listing = self.listing
-                    contactVC.adID = self.adID
-                    contactVC.detailLink = self.urlToShow.absoluteString
+                    contactVC.adID = String(describing: listing!.adID)
+                    contactVC.detailLink = listing!.url!.absoluteString
                 }
                 
             }
@@ -528,7 +528,7 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
         if segue.identifier == "showAbuseReportSegueID" {
             if let navVC = segue.destination as? UINavigationController {
                 if let abuseVC = navVC.viewControllers[0] as? AbuseReportViewController {
-                    abuseVC.abuseID = adID
+                    abuseVC.abuseID = String(listing!.adID!)
                     
                 }
                 

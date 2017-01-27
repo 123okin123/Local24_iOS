@@ -13,7 +13,7 @@ import Firebase
 import FirebaseRemoteConfig
 import UserNotifications
 
-public var myContext = 0
+
 
 
 @UIApplicationMain
@@ -29,12 +29,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
 
         
-       //loadDataFromDefaults()
+       loadDataFromDefaults()
         
         
         applyCustomStyles()
 
-        
+        let filterManger = FilterManager.shared
         //notifications
         
         application.applicationIconBadgeNumber = 0
@@ -118,7 +118,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         
-       // saveDataToDefaults()
+        saveDataToDefaults()
     }
  
     
@@ -169,11 +169,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     // ------------------- Important: Consider Old App Versions --------------- //
     
-    /*
+    
     
     func loadDataFromDefaults() {
+        
         let defaults = UserDefaults.standard
         if defaults.string(forKey: "existingUser") != nil {
+            /*
             if let sZ = defaults.string(forKey: "searchZip") {filter.searchZip = sZ}
             if let minP = defaults.string(forKey: "minPrice") {filter.minPrice = minP}
             if let maxP = defaults.string(forKey: "maxPrice") {filter.maxPrice = maxP}
@@ -183,17 +185,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             filter.searchRadius = defaults.integer(forKey: "radius")
             filter.mainCategoryID = defaults.integer(forKey: "mainCategoryID")
             filter.subCategoryID = defaults.integer(forKey: "subCategoryID")
-            filter.viewedRegion.center.latitude = defaults.double(forKey: "viewedRegion.center.latitude")
-            filter.viewedRegion.center.longitude = defaults.double(forKey: "viewedRegion.center.longitude")
-            filter.viewedRegion.span.latitudeDelta = defaults.double(forKey: "viewedRegion.span.latitudeDelta")
-            filter.viewedRegion.span.longitudeDelta = defaults.double(forKey: "viewedRegion.span.longitudeDelta")
-            filter.onlyLocalListings = defaults.bool(forKey: "onlyLocalListings")
+             filter.onlyLocalListings = defaults.bool(forKey: "onlyLocalListings")
+            */
+            viewedRegion?.center.latitude = defaults.double(forKey: "viewedRegion.center.latitude")
+            viewedRegion?.center.longitude = defaults.double(forKey: "viewedRegion.center.longitude")
+            viewedRegion?.span.latitudeDelta = defaults.double(forKey: "viewedRegion.span.latitudeDelta")
+            viewedRegion?.span.longitudeDelta = defaults.double(forKey: "viewedRegion.span.longitudeDelta")
+            
             userToken = defaults.string(forKey: "userToken")
         }
+        
     }
     func saveDataToDefaults() {
+        
         let defaults = UserDefaults.standard
         defaults.set("existingUser", forKey: "existingUser")
+        defaults.set(viewedRegion?.center.latitude, forKey: "viewedRegion.center.latitude")
+        defaults.set(viewedRegion?.center.longitude, forKey: "viewedRegion.center.longitude")
+        defaults.set(viewedRegion?.span.latitudeDelta, forKey: "viewedRegion.span.latitudeDelta")
+        defaults.set(viewedRegion?.span.longitudeDelta, forKey: "viewedRegion.span.longitudeDelta")
+        /*
         defaults.set(filter.searchZip, forKey: "searchZip")
         defaults.set(filter.minPrice, forKey: "minPrice")
         defaults.set(filter.maxPrice, forKey: "maxPrice")
@@ -203,11 +214,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         defaults.set(filter.searchRadius, forKey: "radius")
         defaults.set(filter.mainCategoryID, forKey: "mainCategoryID")
         defaults.set(filter.subCategoryID, forKey: "subCategoryID")
-        defaults.set(filter.viewedRegion.center.latitude, forKey: "viewedRegion.center.latitude")
-        defaults.set(filter.viewedRegion.center.longitude, forKey: "viewedRegion.center.longitude")
-        defaults.set(filter.viewedRegion.span.latitudeDelta, forKey: "viewedRegion.span.latitudeDelta")
-        defaults.set(filter.viewedRegion.span.longitudeDelta, forKey: "viewedRegion.span.longitudeDelta")
         defaults.set(filter.onlyLocalListings, forKey: "onlyLocalListings")
+ */
         if userToken != nil {
             defaults.set(userToken!, forKey: "userToken")
         } else {
@@ -215,7 +223,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
 
     }
-*/
+
     
     
     func applyCustomStyles() {

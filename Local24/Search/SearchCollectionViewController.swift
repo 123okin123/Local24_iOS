@@ -13,38 +13,30 @@ import FBAudienceNetwork
 
 class SearchCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, FBNativeAdDelegate {
     
-    
-
-    
 
     var listings = [Listing]()
     var facebookAds = [FacebookAd]()
     
-    var refreshControl = UIRefreshControl()
+    var refresher = UIRefreshControl()
     var currentPage = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         addPulltoRefresh()
-        
-
-
+        loadListings(page: 0, completion: {})
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
 
-    /*
-    // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
-    }
-    */
 
     // MARK: UICollectionViewDataSource
 
@@ -58,49 +50,59 @@ class SearchCollectionViewController: UICollectionViewController, UICollectionVi
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if (indexPath as NSIndexPath).row % 10 == 0 {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ListingsAdCell", for: indexPath) as! SearchCollectionViewAdCell
-            if facebookAds.count - 1 >= (indexPath as NSIndexPath).row/10 {
-            cell.adTitleLabel.text = facebookAds[(indexPath as NSIndexPath).row/10].adBody
-            cell.adImageView.image = facebookAds[(indexPath as NSIndexPath).row/10].adIconImage
-            cell.adCallToActionButton.setTitle(facebookAds[(indexPath as NSIndexPath).row/10].adCallToActionString, for: UIControlState())
-            let adView = facebookAds[(indexPath as NSIndexPath).row/10].adView!
-            adView.frame = cell.cellContentView.frame
-            cell.cellContentView.addSubview(adView)
-          
-            
-        }
-        return cell
-        } else {
+        let listing = listings[indexPath.item]
+//        if (indexPath as NSIndexPath).row % 10 == 0 {
+//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ListingsAdCell", for: indexPath) as! SearchCollectionViewAdCell
+//            if facebookAds.count - 1 >= (indexPath as NSIndexPath).row/10 {
+//            cell.adTitleLabel.text = facebookAds[(indexPath as NSIndexPath).row/10].adBody
+//            cell.adImageView.image = facebookAds[(indexPath as NSIndexPath).row/10].adIconImage
+//            cell.adCallToActionButton.setTitle(facebookAds[(indexPath as NSIndexPath).row/10].adCallToActionString, for: UIControlState())
+//            let adView = facebookAds[(indexPath as NSIndexPath).row/10].adView!
+//            adView.frame = cell.cellContentView.frame
+//            cell.cellContentView.addSubview(adView)
+//          
+//            
+//        }
+//        return cell
+//        } else {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ListingsCell", for: indexPath) as! CollectionViewCell
-            cell.listingTitle.text = listings[(indexPath as NSIndexPath).row].title
-            cell.listingPrice.text = listings[(indexPath as NSIndexPath).row].price
-            cell.listingDate.text = listings[(indexPath as NSIndexPath).row].createdDate
-            cell.listingImage.image = listings[(indexPath as NSIndexPath).row].mainImage
-            return cell
+            cell.listingTitle.text = listing.title
+            cell.listingPrice.text = listing.priceWithCurrency
+            cell.listingDate.text = listing.createdDate
+            cell.listing = listing
+
+        if listing.mainImage == nil {
+            if let imagePathMedium = listing.imagePathMedium {
+                if let imageUrl = URL(string: imagePathMedium) {
+                    cell.listingImage.setImage(withUrl: imageUrl, placeholder: UIImage(named: "home_Background"), crossFadePlaceholder: true, cacheScaled: true, completion: { instance, error in
+                        cell.listingImage.layer.add(CATransition(), forKey: nil)
+                        self.listings[indexPath.item].mainImage = instance?.image
+                    })
+                }
+            } else {
+                let image = UIImage(named: "home_Background")
+                cell.listingImage.image = image
+            }
+        } else {
+            cell.listingImage.image = listing.mainImage
         }
-
     
-        
+        return cell
+//        }
     }
 
     
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                               sizeForItemAt indexPath: IndexPath) -> CGSize {
-
-
-        return CGSize(width: screenwidth/2 - 20, height: 200)
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: (screenwidth - 30)/2, height: screenheight * 0.4)
     }
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                               insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 54, left: 10, bottom: 50, right: 10)
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 20, left: 10, bottom: 50, right: 10)
     }
     
     override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if indexPath.item == listings.count - 1 {
-            loadListings()
+            loadListings(page: listings.count/20, completion: {})
         }
         
        
@@ -110,65 +112,48 @@ class SearchCollectionViewController: UICollectionViewController, UICollectionVi
     
     
     
-    
-    
-    
-//    
-//    func loadImageOf(_ listing :Listing, index: Int) {
-//        var request = URLRequest(url: URL(string: listing.imagePathMedium!)!)
-//        let session = URLSession.shared
-//        request.httpMethod = "GET"
-//        let task = session.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
-//            if error != nil {
-//                print("thers an error in the log")
-//                let alert = UIAlertController(title: "Fehler", message: "Local24 hat keine Verbindung zum Internet.", preferredStyle: .alert)
-//                alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-//                self.present(alert, animated: true, completion: nil)
-//            } else {
-//                DispatchQueue.main.async {
-//                       let image = UIImage(data: data!)
-//                        let imageIndex = index + (20*(self.currentPage))
-//                        self.listingsArray[imageIndex].mainImage = image
-//                        self.collectionView?.reloadItems(at: [IndexPath(item: imageIndex, section: 0)])
-//                }
-//            }
-//            
-//        }) 
-//        task.resume()
-//    }
-    
-    
-    
     func addPulltoRefresh() {
-        refreshControl.addTarget(self, action: #selector(SearchCollectionViewController.refresh), for: UIControlEvents.valueChanged)
-        collectionView!.addSubview(refreshControl)
+        refresher.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        collectionView!.addSubview(refresher)
     }
     
     func refresh() {
-        listings.removeAll()
-        collectionView?.reloadData()
-        
-        
-        
-        refreshControl.endRefreshing()
-        
+        loadListings(page: 0, completion: {
+            self.listings.removeAll()
+            self.refresher.endRefreshing()
+        })
     }
     
     
   
-    func loadListings() {
-        networkController.getAdsSatisfying(filterArray: nil, completion: { (listings, error) in
-            if error != nil {
-                
+    func loadListings(page :Int, completion: @escaping (() -> Void)) {
+        
+        
+        networkManager.getAdsSatisfying(filterArray: FilterManager.shared.filters, page: page, completion: { (listings, error) in
+            completion()
+            if error == nil && listings != nil {
+               self.listings.append(contentsOf: listings!)
             } else {
-                print(error?.localizedDescription)
+                print(error!.localizedDescription)
             }
+            self.collectionView?.reloadData()
         })
     }
 
+    @IBAction func backfromfilterSegue(_ segue:UIStoryboardSegue) {
+        
+    }
     
-    
-    
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showDetailSeagueID" {
+            if let cell = sender as? CollectionViewCell {
+                if let dvc = segue.destination as? LocalDetailTableViewController {
+                    dvc.listing = cell.listing
+                }
+            }
+        }
+    }
     // MARK: UICollectionViewDelegate
 
     /*

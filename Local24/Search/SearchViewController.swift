@@ -14,11 +14,11 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UIScrollViewD
     
     // MARK: Outlets & Variables
     
-    @IBOutlet weak var selectedFiltersBGView: UIView! {didSet {
-        selectedFiltersBGView.layer.borderColor = UIColor.groupTableViewBackground.cgColor
-        selectedFiltersBGView.layer.borderWidth = 1
+    @IBOutlet weak var selectedfiltersBGView: UIView! {didSet {
+        selectedfiltersBGView.layer.borderColor = UIColor.groupTableViewBackground.cgColor
+        selectedfiltersBGView.layer.borderWidth = 1
         }}
-    @IBOutlet weak var selectedFiltersScrollView: UIScrollView!
+    @IBOutlet weak var selectedfiltersScrollView: UIScrollView!
     var searchBar = UISearchBar()
     func configureSearchBar() {
         searchBar.delegate = self
@@ -62,14 +62,14 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UIScrollViewD
 
     var filter = (UIApplication.shared.delegate as! AppDelegate).filter
     var categories = Categories()
-    let selectedFilterStackView = UIStackView()
+    let selectedfilterStackView = UIStackView()
 
     
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &myContext {
-            print("Filter \(keyPath!) changed from \(change![NSKeyValueChangeKey.oldKey]) to \(change![NSKeyValueChangeKey.newKey])")
-            if let url = URL(string: filter.urlFromFilters()) {
+            print("filter \(keyPath!) changed from \(change![NSKeyValueChangeKey.oldKey]) to \(change![NSKeyValueChangeKey.newKey])")
+            if let url = URL(string: filter.urlFromfilters()) {
                 let request = URLRequest(url: url)
                 webView.load(request)
             }
@@ -78,125 +78,125 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UIScrollViewD
     }
     
     
-    func updateFilterButtons() {
-        if selectedFilterStackView.arrangedSubviews.count > 0 {
-        for buttonToRemove in selectedFilterStackView.arrangedSubviews {
+    func updatefilterButtons() {
+        if selectedfilterStackView.arrangedSubviews.count > 0 {
+        for buttonToRemove in selectedfilterStackView.arrangedSubviews {
         buttonToRemove.removeFromSuperview()
         }
         }
-        selectedFilterStackView.frame.size = CGSize(width: 0, height: 44)
-        selectedFiltersScrollView.contentSize = CGSize(width: 0, height: 44)
+        selectedfilterStackView.frame.size = CGSize(width: 0, height: 44)
+        selectedfiltersScrollView.contentSize = CGSize(width: 0, height: 44)
         if filter.searchLocationString != "" {
-            let selectedFilterButton = SelectedFilterButton()
+            let selectedfilterButton = SelectedfilterButton()
             var titleOfButton = "\(filter.searchLocationString) (\(filter.searchRadius) km)"
             if filter.searchLocationString == "Deutschland" {
             titleOfButton = "Deutschland"
             }
-            selectedFilterButton.filterName = "searchLocationString"
-            selectedFilterButton.removeable = false
-            selectedFilterButton.setTitle(titleOfButton, for: UIControlState())
-            selectedFilterStackView.addArrangedSubview(selectedFilterButton)
-            selectedFilterButton.sizeToFit()
-            selectedFilterButton.addTarget(self, action: #selector(SearchViewController.filterButtonPressed), for: .touchUpInside)
-            selectedFilterButton.backgroundColor = UIColor.white
-            selectedFilterButton.clipsToBounds = true
-            selectedFilterStackView.frame.size.width += selectedFilterButton.frame.width
+            selectedfilterButton.filterName = "searchLocationString"
+            selectedfilterButton.removeable = false
+            selectedfilterButton.setTitle(titleOfButton, for: UIControlState())
+            selectedfilterStackView.addArrangedSubview(selectedfilterButton)
+            selectedfilterButton.sizeToFit()
+            selectedfilterButton.addTarget(self, action: #selector(SearchViewController.filterButtonPressed), for: .touchUpInside)
+            selectedfilterButton.backgroundColor = UIColor.white
+            selectedfilterButton.clipsToBounds = true
+            selectedfilterStackView.frame.size.width += selectedfilterButton.frame.width
         }
         if filter.minPrice != "" {
-            let selectedFilterButton = SelectedFilterButton()
+            let selectedfilterButton = SelectedfilterButton()
             let titleOfButton = "Preis von: \(filter.minPrice) €"
-            selectedFilterButton.setTitle(titleOfButton, for: UIControlState())
-            selectedFilterButton.filterName = "minPrice"
-            selectedFilterStackView.addArrangedSubview(selectedFilterButton)
-            selectedFilterButton.sizeToFit()
-            selectedFilterButton.addTarget(self, action: #selector(SearchViewController.filterButtonPressed), for: .touchUpInside)
-            selectedFilterButton.backgroundColor = UIColor.white
-            selectedFilterButton.clipsToBounds = true
-            selectedFilterStackView.frame.size.width += selectedFilterButton.frame.width
-            selectedFilterStackView.frame.size.width += 10
+            selectedfilterButton.setTitle(titleOfButton, for: UIControlState())
+            selectedfilterButton.filterName = "minPrice"
+            selectedfilterStackView.addArrangedSubview(selectedfilterButton)
+            selectedfilterButton.sizeToFit()
+            selectedfilterButton.addTarget(self, action: #selector(SearchViewController.filterButtonPressed), for: .touchUpInside)
+            selectedfilterButton.backgroundColor = UIColor.white
+            selectedfilterButton.clipsToBounds = true
+            selectedfilterStackView.frame.size.width += selectedfilterButton.frame.width
+            selectedfilterStackView.frame.size.width += 10
         }
         if filter.maxPrice != "" {
-            let selectedFilterButton = SelectedFilterButton()
+            let selectedfilterButton = SelectedfilterButton()
             let titleOfButton = "Preis bis: \(filter.maxPrice) €"
-            selectedFilterButton.setTitle(titleOfButton, for: UIControlState())
-            selectedFilterButton.filterName = "maxPrice"
-            selectedFilterStackView.addArrangedSubview(selectedFilterButton)
-            selectedFilterButton.sizeToFit()
-            selectedFilterButton.addTarget(self, action: #selector(SearchViewController.filterButtonPressed), for: .touchUpInside)
-            selectedFilterButton.backgroundColor = UIColor.white
-            selectedFilterButton.clipsToBounds = true
-            selectedFilterStackView.frame.size.width += selectedFilterButton.frame.width
-            selectedFilterStackView.frame.size.width += 10
+            selectedfilterButton.setTitle(titleOfButton, for: UIControlState())
+            selectedfilterButton.filterName = "maxPrice"
+            selectedfilterStackView.addArrangedSubview(selectedfilterButton)
+            selectedfilterButton.sizeToFit()
+            selectedfilterButton.addTarget(self, action: #selector(SearchViewController.filterButtonPressed), for: .touchUpInside)
+            selectedfilterButton.backgroundColor = UIColor.white
+            selectedfilterButton.clipsToBounds = true
+            selectedfilterStackView.frame.size.width += selectedfilterButton.frame.width
+            selectedfilterStackView.frame.size.width += 10
         }
         if filter.searchString != "" {
-            let selectedFilterButton = SelectedFilterButton()
+            let selectedfilterButton = SelectedfilterButton()
             let titleOfButton = "\u{0022}\(filter.searchString)\u{0022}"
-            selectedFilterButton.filterName = "searchString"
-            selectedFilterButton.setTitle(titleOfButton, for: UIControlState())
-            selectedFilterStackView.addArrangedSubview(selectedFilterButton)
-            selectedFilterButton.sizeToFit()
-            selectedFilterButton.addTarget(self, action: #selector(SearchViewController.filterButtonPressed), for: .touchUpInside)
-            selectedFilterButton.backgroundColor = UIColor.white
-            selectedFilterButton.clipsToBounds = true
-            selectedFilterStackView.frame.size.width += selectedFilterButton.frame.width
-            selectedFilterStackView.frame.size.width += 10
+            selectedfilterButton.filterName = "searchString"
+            selectedfilterButton.setTitle(titleOfButton, for: UIControlState())
+            selectedfilterStackView.addArrangedSubview(selectedfilterButton)
+            selectedfilterButton.sizeToFit()
+            selectedfilterButton.addTarget(self, action: #selector(SearchViewController.filterButtonPressed), for: .touchUpInside)
+            selectedfilterButton.backgroundColor = UIColor.white
+            selectedfilterButton.clipsToBounds = true
+            selectedfilterStackView.frame.size.width += selectedfilterButton.frame.width
+            selectedfilterStackView.frame.size.width += 10
         }
         if filter.mainCategoryID != 99 {
-            let selectedFilterButton = SelectedFilterButton()
+            let selectedfilterButton = SelectedfilterButton()
             let titleOfButton = "Hauptkategorie: \(categories.mainCatsStrings[filter.mainCategoryID])"
-            selectedFilterButton.setTitle(titleOfButton, for: UIControlState())
-            selectedFilterButton.filterName = "mainCategoryID"
-            selectedFilterStackView.addArrangedSubview(selectedFilterButton)
-            selectedFilterButton.sizeToFit()
-            selectedFilterButton.addTarget(self, action: #selector(SearchViewController.filterButtonPressed), for: .touchUpInside)
-            selectedFilterButton.backgroundColor = UIColor.white
-            selectedFilterButton.clipsToBounds = true
-            selectedFilterStackView.frame.size.width += selectedFilterButton.frame.width
-            selectedFilterStackView.frame.size.width += 10
+            selectedfilterButton.setTitle(titleOfButton, for: UIControlState())
+            selectedfilterButton.filterName = "mainCategoryID"
+            selectedfilterStackView.addArrangedSubview(selectedfilterButton)
+            selectedfilterButton.sizeToFit()
+            selectedfilterButton.addTarget(self, action: #selector(SearchViewController.filterButtonPressed), for: .touchUpInside)
+            selectedfilterButton.backgroundColor = UIColor.white
+            selectedfilterButton.clipsToBounds = true
+            selectedfilterStackView.frame.size.width += selectedfilterButton.frame.width
+            selectedfilterStackView.frame.size.width += 10
         }
         if filter.subCategoryID != 99 {
-            let selectedFilterButton = SelectedFilterButton()
+            let selectedfilterButton = SelectedfilterButton()
             let titleOfButton = "Unterkategorie: \(categories.cats[filter.mainCategoryID][filter.subCategoryID])"
-            selectedFilterButton.setTitle(titleOfButton, for: UIControlState())
-            selectedFilterButton.filterName = "subCategoryID"
-            selectedFilterStackView.addArrangedSubview(selectedFilterButton)
-            selectedFilterButton.sizeToFit()
-            selectedFilterButton.addTarget(self, action: #selector(SearchViewController.filterButtonPressed), for: .touchUpInside)
-            selectedFilterButton.backgroundColor = UIColor.white
-            selectedFilterButton.clipsToBounds = true
-            selectedFilterStackView.frame.size.width += selectedFilterButton.frame.width
-            selectedFilterStackView.frame.size.width += 10
+            selectedfilterButton.setTitle(titleOfButton, for: UIControlState())
+            selectedfilterButton.filterName = "subCategoryID"
+            selectedfilterStackView.addArrangedSubview(selectedfilterButton)
+            selectedfilterButton.sizeToFit()
+            selectedfilterButton.addTarget(self, action: #selector(SearchViewController.filterButtonPressed), for: .touchUpInside)
+            selectedfilterButton.backgroundColor = UIColor.white
+            selectedfilterButton.clipsToBounds = true
+            selectedfilterStackView.frame.size.width += selectedfilterButton.frame.width
+            selectedfilterStackView.frame.size.width += 10
         }
         if filter.mainCategoryID == 0 && filter.subCategoryID == 1 {
         if filter.minMileAge != 0 {
-            let selectedFilterButton = SelectedFilterButton()
+            let selectedfilterButton = SelectedfilterButton()
             let titleOfButton = "Laufleistung von: \(filter.minMileAge) km"
-            selectedFilterButton.setTitle(titleOfButton, for: UIControlState())
-            selectedFilterButton.filterName = "minMileAge"
-            selectedFilterStackView.addArrangedSubview(selectedFilterButton)
-            selectedFilterButton.sizeToFit()
-            selectedFilterButton.addTarget(self, action: #selector(SearchViewController.filterButtonPressed), for: .touchUpInside)
-            selectedFilterButton.backgroundColor = UIColor.white
-            selectedFilterButton.clipsToBounds = true
-            selectedFilterStackView.frame.size.width += selectedFilterButton.frame.width
-            selectedFilterStackView.frame.size.width += 10
+            selectedfilterButton.setTitle(titleOfButton, for: UIControlState())
+            selectedfilterButton.filterName = "minMileAge"
+            selectedfilterStackView.addArrangedSubview(selectedfilterButton)
+            selectedfilterButton.sizeToFit()
+            selectedfilterButton.addTarget(self, action: #selector(SearchViewController.filterButtonPressed), for: .touchUpInside)
+            selectedfilterButton.backgroundColor = UIColor.white
+            selectedfilterButton.clipsToBounds = true
+            selectedfilterStackView.frame.size.width += selectedfilterButton.frame.width
+            selectedfilterStackView.frame.size.width += 10
         }
         if filter.maxMileAge != 500000 {
-            let selectedFilterButton = SelectedFilterButton()
+            let selectedfilterButton = SelectedfilterButton()
             let titleOfButton = "Laufleistung bis: \(filter.maxMileAge) km"
-            selectedFilterButton.setTitle(titleOfButton, for: UIControlState())
-            selectedFilterButton.filterName = "maxMileAge"
-            selectedFilterStackView.addArrangedSubview(selectedFilterButton)
-            selectedFilterButton.sizeToFit()
-            selectedFilterButton.addTarget(self, action: #selector(SearchViewController.filterButtonPressed), for: .touchUpInside)
-            selectedFilterButton.backgroundColor = UIColor.white
-            selectedFilterButton.clipsToBounds = true
-            selectedFilterStackView.frame.size.width += selectedFilterButton.frame.width
-            selectedFilterStackView.frame.size.width += 10
+            selectedfilterButton.setTitle(titleOfButton, for: UIControlState())
+            selectedfilterButton.filterName = "maxMileAge"
+            selectedfilterStackView.addArrangedSubview(selectedfilterButton)
+            selectedfilterButton.sizeToFit()
+            selectedfilterButton.addTarget(self, action: #selector(SearchViewController.filterButtonPressed), for: .touchUpInside)
+            selectedfilterButton.backgroundColor = UIColor.white
+            selectedfilterButton.clipsToBounds = true
+            selectedfilterStackView.frame.size.width += selectedfilterButton.frame.width
+            selectedfilterStackView.frame.size.width += 10
         }
         }
         
-        selectedFiltersScrollView.contentSize = selectedFilterStackView.frame.size
+        selectedfiltersScrollView.contentSize = selectedfilterStackView.frame.size
 
         
 
@@ -204,7 +204,7 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UIScrollViewD
         
     }
     
-    func filterButtonPressed(_ sender: SelectedFilterButton) {
+    func filterButtonPressed(_ sender: SelectedfilterButton) {
         switch sender.filterName {
             case "minPrice": filter.minPrice = ""
             case "maxPrice": filter.maxPrice = ""
@@ -222,11 +222,11 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UIScrollViewD
             filter.maxMileAge = 500000
         default: break
         }
-        updateFilterButtons()
+        updatefilterButtons()
     }
     
 
-    func startObservingFilter() {
+    func startObservingfilter() {
         filter.addObserver(self, forKeyPath: "subCategoryID", options: .new, context: &myContext)
         filter.addObserver(self, forKeyPath: "mainCategoryID", options: .new, context: &myContext)
         filter.addObserver(self, forKeyPath: "searchString", options: .new, context: &myContext)
@@ -250,16 +250,16 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UIScrollViewD
         navigationItem.titleView = self.searchBar
         configureSearchBar()
         
-        startObservingFilter()
+        startObservingfilter()
         
-        selectedFilterStackView.frame.origin = CGPoint(x: 0, y: 0)
-        selectedFilterStackView.frame.size = CGSize(width: 0, height: 44)
-        selectedFilterStackView.alignment = .center
-        selectedFilterStackView.spacing = 8
-        selectedFilterStackView.distribution = .fillProportionally
-        selectedFiltersScrollView.addSubview(selectedFilterStackView)
-        selectedFiltersScrollView.contentInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
-        selectedFiltersScrollView.scrollsToTop = false
+        selectedfilterStackView.frame.origin = CGPoint(x: 0, y: 0)
+        selectedfilterStackView.frame.size = CGSize(width: 0, height: 44)
+        selectedfilterStackView.alignment = .center
+        selectedfilterStackView.spacing = 8
+        selectedfilterStackView.distribution = .fillProportionally
+        selectedfiltersScrollView.addSubview(selectedfilterStackView)
+        selectedfiltersScrollView.contentInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+        selectedfiltersScrollView.scrollsToTop = false
         
         indicator.color = greencolor
         indicator.type = .ballPulse
@@ -289,7 +289,7 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UIScrollViewD
         loaderView.isHidden = true
         addPullToRefreshToWebView()
         
-        if let url = URL(string: filter.urlFromFilters()) {
+        if let url = URL(string: filter.urlFromfilters()) {
             let request = URLRequest(url: url)
             webView.load(request)
         }
@@ -309,7 +309,7 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UIScrollViewD
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        updateFilterButtons()
+        updatefilterButtons()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -339,11 +339,11 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UIScrollViewD
         searchBar.resignFirstResponder()
         filter.searchString = searchBar.text!
         searchBar.text = ""
-        if let url = URL(string: filter.urlFromFilters()) {
+        if let url = URL(string: filter.urlFromfilters()) {
             let request = URLRequest(url: url)
             webView.load(request)
         }
-        updateFilterButtons()
+        updatefilterButtons()
 
             let tracker = GAI.sharedInstance().defaultTracker
             tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Search", action: "searchInListings", label: filter.searchString, value: 0).build() as NSDictionary as! [AnyHashable: Any])
@@ -581,7 +581,7 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UIScrollViewD
         }
     }
     
-    @IBAction func backfromFilterSegue(_ segue:UIStoryboardSegue) {
+    @IBAction func backfromfilterSegue(_ segue:UIStoryboardSegue) {
 
     }
     

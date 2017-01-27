@@ -29,7 +29,7 @@ class Home2ViewController: UIViewController, UISearchBarDelegate, UIScrollViewDe
     
 
     @IBAction func showAllCatsButtonPressed(_ sender: UIButton) {
-        filter.resetAllFilters()
+        filter.resetAllfilters()
         if let navVC = tabBarController?.childViewControllers[1] as? UINavigationController {
             tabBarController?.selectedViewController = navVC
             navVC.popToRootViewController(animated: true)

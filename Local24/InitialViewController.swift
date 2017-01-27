@@ -19,7 +19,7 @@ class InitialViewController: UIViewController {
             if error == nil {
                 self.setRemoteConfiguration(completion: {
                     if userToken != nil {
-                        networkController.getUserProfile(userToken: userToken!, completion: { (fetchedUser, statusCode) in
+                        networkManager.getUserProfile(userToken: userToken!, completion: { (fetchedUser, statusCode) in
                             if statusCode == 200 {
                                 user = fetchedUser
                             }

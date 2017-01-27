@@ -11,6 +11,7 @@ import SwiftyJSON
 
 class Listing {
 
+    var source :String?
     var adID :Int?
     var adState :AdState?
     var advertiserID :Int?
@@ -69,6 +70,7 @@ class Listing {
         
         specialFields = [SpecialField]()
         
+        self.source = "MPS"
         if let adID = value["Id"] as? Int {
             self.adID = adID
         }
@@ -214,6 +216,48 @@ class Listing {
 
         
     }
+    
+    
+    
+    
+    init(searchIndexValue :[AnyHashable: Any]) {
+        guard let values = searchIndexValue["_source"] as? [AnyHashable : Any] else {return}
+        let json = JSON(values)
+        guard json != JSON.null else {return}
+        self.title = json["title"].string
+        self.description = json["description"].string
+        self.adID = json["_id"].int
+        self.catID = json["subcategoryId"].int
+        self.price = json["price"].string
+        self.adLat = json["lat"].double
+        self.adLong = json["lon"].double
+        if var listingDate = json["createDate"].string {
+            let listingDateYear = listingDate[Range(listingDate.startIndex ..< listingDate.characters.index(listingDate.startIndex, offsetBy: 4))]
+            let listingDateMonth = listingDate[Range(listingDate.characters.index(listingDate.startIndex, offsetBy: 5) ..< listingDate.characters.index(listingDate.startIndex, offsetBy: 7))]
+            let listingDateDay = listingDate[Range(listingDate.characters.index(listingDate.startIndex, offsetBy: 8) ..< listingDate.characters.index(listingDate.startIndex, offsetBy: 10))]
+            listingDate = "\(listingDateDay).\(listingDateMonth).\(listingDateYear)"
+            self.createdDate = listingDate
+        }
+        if var updatedAt = json["updateDate"].string {
+            let updatedAtYear = updatedAt[Range(updatedAt.startIndex ..< updatedAt.characters.index(updatedAt.startIndex, offsetBy: 4))]
+            let updatedAtMonth = updatedAt[Range(updatedAt.characters.index(updatedAt.startIndex, offsetBy: 5) ..< updatedAt.characters.index(updatedAt.startIndex, offsetBy: 7))]
+            let updatedAtDay = updatedAt[Range(updatedAt.characters.index(updatedAt.startIndex, offsetBy: 8) ..< updatedAt.characters.index(updatedAt.startIndex, offsetBy: 10))]
+            updatedAt = "\(updatedAtDay).\(updatedAtMonth).\(updatedAtYear)"
+            self.updatedDate = updatedAt
+        }
+        self.source = json["sourceId"].string
+        self.imagePathMedium = json["thumbUrl"].string
+        if source != nil {
+        switch self.source! {
+        case "AS":
+            self.imagePathMedium = self.imagePathMedium?.replacingOccurrences(of: "small", with: "420x315")
+        default: break
+        }
+        }
+    }
+    
+    
+    
     
 }
 

@@ -1,5 +1,5 @@
 //
-//  SelectedFilterButton.swift
+//  SelectedfilterButton.swift
 //  Local24
 //
 //  Created by Local24 on 12/05/16.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SelectedFilterButton: UIButton {
+class SelectedfilterButton: UIButton {
 
     var filterName = ""
     
@@ -29,11 +29,11 @@ class SelectedFilterButton: UIButton {
     self.contentEdgeInsets = UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
         if removeable {
         contentEdgeInsets = UIEdgeInsets(top: 5, left: 30, bottom: 5, right: 10)
-            let selectedFilterButtonImageView = UIImageView(image: UIImage(named: "cross"))
-        selectedFilterButtonImageView.contentMode = .scaleAspectFit
-        selectedFilterButtonImageView.frame.size = CGSize(width: 12.5, height: 12.5)
-        selectedFilterButtonImageView.frame.origin = CGPoint(x: 10, y: 10)
-        self.addSubview(selectedFilterButtonImageView)
+            let selectedfilterButtonImageView = UIImageView(image: UIImage(named: "cross"))
+        selectedfilterButtonImageView.contentMode = .scaleAspectFit
+        selectedfilterButtonImageView.frame.size = CGSize(width: 12.5, height: 12.5)
+        selectedfilterButtonImageView.frame.origin = CGPoint(x: 10, y: 10)
+        self.addSubview(selectedfilterButtonImageView)
         }
 
 

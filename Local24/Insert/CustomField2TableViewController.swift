@@ -36,7 +36,7 @@ class CustomField2TableViewController: UITableViewController {
         indicator.color = UIColor.darkGray
         view.addSubview(indicator)
         indicator.startAnimating()
-        NetworkController.getValuesForDepending(field: dependentField.0, independendField: independetField.0, value: independetFieldValue, entityType: entityType, completion: {(values, error)in
+        NetworkManager.getValuesForDepending(field: dependentField.0, independendField: independetField.0, value: independetFieldValue, entityType: entityType, completion: {(values, error)in
             if error == nil && values != nil {
                 self.dependentFieldOptions = values!
                 self.dependentFieldOptions.remove(at: 0)

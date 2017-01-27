@@ -68,7 +68,7 @@ class RegisterViewController: UITableViewController, UIPickerViewDelegate, UIPic
             values["ZipCode"] = zipCodeField.text!
             }
         
-        networkController.registerUserWith(values: values, completion: { error in
+        networkManager.registerUserWith(values: values, completion: { error in
             pendingAlertController.dismiss(animated: true, completion: {
             if error == nil {
                 let tracker = GAI.sharedInstance().defaultTracker

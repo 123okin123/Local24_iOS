@@ -1,5 +1,5 @@
 //
-//  FilterManager.swift
+//  filterManager.swift
 //  Local24
 //
 //  Created by Local24 on 25/05/16.
@@ -8,44 +8,142 @@
 
 import Foundation
 import MapKit
+import SwiftyJSON
 
 
+class FilterManager {
 
-public class FilterManager: NSObject {
+    static let shared = FilterManager()
+    
+    var filters = [filter]()
 
-    var filters = [Filter]()
     
     
-    func setFilter(newFilter :Filter) {
-        if filters.contains(where: {$0.name == newFilter.name}) {
-            if let index = filters.index(where: {$0.name == newFilter.name}) {
+     func setfilter(newfilter :filter) {
+        
+        if filters.contains(where: {$0.name == newfilter.name}) {
+            
+            if let index = filters.index(where: {$0.name == newfilter.name}) {
+                
                 switch filters[index].filterType! {
                 case .geo_distance:
-                    (filters[index] as! GeoFilter).lat = (newFilter as! GeoFilter).lat
-                    (filters[index] as! GeoFilter).lon = (newFilter as! GeoFilter).lon
-                    (filters[index] as! GeoFilter).distance = (newFilter as! GeoFilter).distance
+                    (filters[index] as! Geofilter).lat = (newfilter as! Geofilter).lat
+                    (filters[index] as! Geofilter).lon = (newfilter as! Geofilter).lon
+                    (filters[index] as! Geofilter).distance = (newfilter as! Geofilter).distance
                 case .range:
-                    (filters[index] as! RangeFilter).gte = (newFilter as! RangeFilter).gte
-                    (filters[index] as! RangeFilter).lte = (newFilter as! RangeFilter).lte
-                case .term: (filters[index] as! TermFilter).value = (newFilter as! TermFilter).value
+                    (filters[index] as! Rangefilter).gte = (newfilter as! Rangefilter).gte
+                    (filters[index] as! Rangefilter).lte = (newfilter as! Rangefilter).lte
+                case .term: (filters[index] as! Termfilter).value = (newfilter as! Termfilter).value
                 case .search_string:
-                    (filters[index] as! StringFilter).queryString = (newFilter as! StringFilter).queryString
+                    (filters[index] as! Stringfilter).queryString = (newfilter as! Stringfilter).queryString
+                case .sort:
+                    (filters[index] as! Sortfilter).order = (newfilter as! Sortfilter).order
+                    (filters[index] as! Sortfilter).criterium = (newfilter as! Sortfilter).criterium
                 }
+
             }
         } else {
-            filters.append(newFilter)
+
+            filters.append(newfilter)
+            
         }
     }
     
-    func removeFilter(filterToRemove :Filter) {
+    func removefilter(filterToRemove :filter) {
         if let index = filters.index(where: {$0.name == filterToRemove.name}) {
             filters.remove(at: index)
         }
-        
+    }
+    func removefilterWithName(name: filterName) {
+        if let index = filters.index(where: {$0.name == name}) {
+            filters.remove(at: index)
+        }
     }
     
-    func removeAllFilters() {
+    func removeAllfilters() {
         filters.removeAll()
+    }
+    
+    func getValueOffilter(withName name :filterName, filterType :filterType) -> String? {
+        if let filter = filters.first(where: {$0.name == name}) {
+            switch filter.filterType! {
+            case .geo_distance:
+                return (filter as! Geofilter).value
+            case .term:
+                return (filter as! Termfilter).value
+            case .search_string:
+                return (filter as! Stringfilter).queryString
+            default:
+                return nil
+            }
+        } else {
+            return nil
+        }
+    }
+    func getValuesOfRangefilter(withName name :filterName) -> (gte: Double?,lte: Double?)? {
+        if let filter = filters.first(where: {$0.name == name}) {
+            return ((filter as! Rangefilter).gte, (filter as! Rangefilter).lte)
+        } else {
+            return nil
+        }
+    }
+    
+    
+    
+    func getJSONFromfilterArray(filterArray: [filter]) -> JSON {
+        var sort = [[AnyHashable:Any]]()
+        var filterJson = [[AnyHashable: Any]]()
+        
+        for filter in filterArray {
+            switch filter.filterType! {
+            case .term:
+                filterJson.append(["term" :[(filter as! Termfilter).name.rawValue: (filter as! Termfilter).value]])
+            case .range:
+                let rangefilter = filter as! Rangefilter
+                let rangeJson = [
+                    "range": [
+                        "price": [
+                            "gte": rangefilter.gte,
+                            "lte": rangefilter.lte
+                        ]
+                    ]
+                ]
+                filterJson.append(rangeJson)
+            case .sort:
+                sort = [[(filter as! Sortfilter).criterium! : (filter as! Sortfilter).order!]]
+            case .geo_distance:
+                let geofilter = filter as! Geofilter
+                let geoJson = [
+                    "geo_distance": [
+                        "distance":(String(geofilter.distance)+"km"),
+                        "latlon": [
+                            "lat": geofilter.lat,
+                            "lon": geofilter.lon
+                        ]
+                    ]
+                ]
+                filterJson.append(geoJson)
+            default: break
+            }
+        }
+        if filterJson.count > 0 {
+            let query =
+                [
+                    "filtered":[
+                        "filter":[
+                            "and": filterJson
+                        ]
+                    ]
+            ]
+            let request = ["query": query, "sort": sort] as [String : Any]
+            print(JSON(request))
+            return JSON(request)
+        } else {
+            let request = ["sort": sort] as [String : Any]
+            print(JSON(request))
+            return JSON(request)
+        }
+        
     }
     
     /*
@@ -78,7 +176,7 @@ public class FilterManager: NSObject {
     
     
 
-    func resetAllFilters() {
+    func resetAllfilters() {
         subCategoryID = 99
         mainCategoryID = 99
         searchString = ""
@@ -91,7 +189,7 @@ public class FilterManager: NSObject {
 
     
     
-    func urlFromFilters() -> String {
+    func urlFromfilters() -> String {
         
         var url = ""
         var urlQueryStringsArray = [String]()
@@ -168,7 +266,7 @@ public class FilterManager: NSObject {
             url = url + urlQueryStringsArray.last!
         }
         url = "https://\(mode).local24.de/" + url
-        print("FilterURL: \(url)")
+        print("filterURL: \(url)")
         return url
     }
     
@@ -193,68 +291,119 @@ public class FilterManager: NSObject {
 }
 
 
-public class Filter {
-    var name: String!
+public class filter {
+    var name: filterName!
     var descriptiveString: String!
-    var filterType :FilterType!
+    var filterType: filterType!
     
-    init(name: String, descriptiveString :String, filterType :FilterType) {
+
+    
+    init(name: filterName, descriptiveString :String, filterType :filterType) {
         self.name = name
         self.descriptiveString = descriptiveString
-        self.descriptiveString = descriptiveString
+        self.filterType = filterType
     }
 }
 
-public class TermFilter :Filter {
+public class Termfilter :filter {
     var value: String!
-    init(name: String, descriptiveString :String, value: String) {
+    init(name: filterName, descriptiveString :String, value: String) {
         super.init(name: name, descriptiveString: descriptiveString, filterType: .term)
         self.value = value
     }
 }
-
-public class GeoFilter: Filter {
-    var lat :Double!
-    var lon :Double!
-    var distance :Double!
-    init(name: String, descriptiveString :String, lat: Double, lon: Double, distance :Double) {
-        super.init(name: name, descriptiveString: descriptiveString, filterType: .geo_distance)
-        self.lat = lat
-        self.lon = lon
-        self.distance = distance
+public class Sortfilter :filter {
+    var criterium: String!
+    var order: String!
+    init(criterium: String, order :String) {
+        super.init(name: .sorting, descriptiveString: "Sortierung", filterType: .sort)
+        self.criterium = criterium
+        self.order = order
     }
 }
 
-public class RangeFilter :Filter {
-    var gte :Double! //Lower value
-    var lte :Double! //Upper Value
-    init(name: String, descriptiveString :String, gte: Double, lte: Double) {
+public class Geofilter: filter {
+    var lat :Double!
+    var lon :Double!
+    var distance :Double!
+    var value :String!
+    init(lat: Double, lon: Double, distance :Double, value :String) {
+        super.init(name: .geo_distance, descriptiveString: "Umkreis", filterType: .geo_distance)
+        self.lat = lat
+        self.lon = lon
+        self.distance = distance
+        self.value = value
+    }
+}
+
+public class Rangefilter :filter {
+    var gte :Double? //Lower value
+    var lte :Double? //Upper Value
+    init(name: filterName, descriptiveString :String, gte: Double?, lte: Double?) {
         super.init(name: name, descriptiveString: descriptiveString, filterType: .range)
         self.gte = gte
         self.lte = lte
     }
 }
 
-public class StringFilter :Filter {
+public class Stringfilter :filter {
     var queryString :String!
     init(value: String) {
-        super.init(name: "search_string", descriptiveString: "Suchbegriff", filterType: .search_string)
+        super.init(name: .search_string, descriptiveString: "Suchbegriff", filterType: .search_string)
         self.queryString = value
     }
 }
 
-public enum FilterType :String {
+public var sortingOptions = [
+    Sorting(criterium: .createDate, order: .desc, descriptiveString: "Neuste zuerst"),
+    Sorting(criterium: .price, order: .asc, descriptiveString: "Preis aufsteigend"),
+    Sorting(criterium: .price, order: .desc, descriptiveString: "Preis absteigend"),
+    Sorting(criterium: .city, order: .desc, descriptiveString: "Entfernung"),
+]
+public class Sorting {
+    
+    
+    var criterium:Criterium!
+    var order:Order!
+    var descriptiveString:String!
+    
+    init(criterium :Criterium, order :Order,descriptiveString :String ) {
+        self.criterium = criterium
+        self.order = order
+        self.descriptiveString = descriptiveString
+    }
+    
+
+
+    
+//    case TimeAsc = "Datum aufsteigen", TimeDesc = "Datum absteigend", PriceAsc = "Preis aufsteigend", PriceDesc = "Preis absteigend", RangeAsc = "Entfernung aufsteigend", RangeDesc = "Entfernung absteigend"
+//    static let allValues = [TimeAsc, TimeDesc , PriceAsc, PriceDesc, RangeAsc, RangeDesc]
+}
+public enum Criterium :String{
+    case createDate
+    case price
+    case city
+}
+public enum Order :String{
+    case desc
+    case asc
+}
+
+
+public enum filterName :String {
+    case search_string
+    case geo_distance
+    case sorting
+    case price
+    case category
+    case subcategory
+}
+public enum filterType :String {
     case geo_distance
     case range
     case term
+    case sort
     case search_string
 }
 
-
-
-
-
-public enum FilterName :String{
-    case category
-}
 

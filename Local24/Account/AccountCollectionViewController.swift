@@ -58,7 +58,7 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
     }
     
     func changeAdStateOf(listing :Listing, to adState: String) {
-        networkController.changeAdWith(adID: listing.adID!, to: adState, userToken: userToken!, completion: {error in
+        networkManager.changeAdWith(adID: listing.adID!, to: adState, userToken: userToken!, completion: {error in
             if error == nil {
                 if let index = self.userListings.index(where: {$0.adID == listing.adID}) {
                     self.userListings[index].adState = AdState(rawValue: adState)
@@ -79,7 +79,7 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
     func delete(listing :Listing) {
         let confirmMenu = UIAlertController(title: "Anzeige Löschen", message: "Bist du sicher, dass du diese Anzeige löschen möchtest?", preferredStyle: .alert)
         let confirmAction = UIAlertAction(title: "Löschen", style: .destructive, handler: {alert in
-            networkController.deleteAdWith(adID: listing.adID!, userToken: userToken!, completion: { error in
+            networkManager.deleteAdWith(adID: listing.adID!, userToken: userToken!, completion: { error in
                 if error == nil {
                     if let index = self.userListings.index(where: {$0.createdDate == listing.createdDate}) {
                         self.userListings.remove(at: index)
@@ -113,7 +113,7 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
         gaUserTracking("Profil")
         navigationItem.setHidesBackButton(true, animated: false)
         navigationController?.setNavigationBarHidden(false, animated: false)
-        networkController.getUserProfile(userToken: userToken!, completion: {(fetchedUser, statusCode) in
+        networkManager.getUserProfile(userToken: userToken!, completion: {(fetchedUser, statusCode) in
         user = fetchedUser
         })
     }
@@ -219,7 +219,7 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
         } else {
             cell.listingImage.image = listing.mainImage
         }
-        networkController.getImagesFor(adID: String(describing: listing.adID!), completion: { images in
+        networkManager.getImagesFor(adID: String(describing: listing.adID!), completion: { images in
         self.userListings[indexPath.row].images = images
         cell.listing.images = images
         })
