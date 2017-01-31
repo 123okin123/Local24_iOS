@@ -33,7 +33,7 @@ public class NetworkManager  {
         }
         
         NetworkManager.Manager.request(searchIndexURL, method: .get, parameters: parameters).responseJSON (completionHandler: { responseData in
-            debugPrint(responseData)
+            //debugPrint(responseData)
             
             switch responseData.result {
             case .failure(let error):
@@ -254,7 +254,9 @@ public class NetworkManager  {
                     if let imageUrl = URL(string: imagePath) {
                         let manager = ImageManager.sharedManager
                         _ = manager.downloadImage(atUrl: imageUrl, cacheScaled: false, imageView: nil, completion: { imageDownloaderCompletion in
-                            images.append((imageDownloaderCompletion.0?.image)!)
+                            if let image = imageDownloaderCompletion.0?.image {
+                                images.append(image)
+                            }
                             if imagePaths!.count == images.count {
                                 completion(images)
                             }

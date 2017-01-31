@@ -28,7 +28,7 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
     @IBOutlet weak var fixedPriceCellPriceContactButton: UIButton!
         {didSet {
             fixedPriceCellPriceContactButton.tintColor = UIColor.white
-            fixedPriceCellPriceContactButton.layer.cornerRadius = 5
+            fixedPriceCellPriceContactButton.layer.cornerRadius = 10
             if let source = listing?.source {
                 switch source {
                 case "AS","ASBikes":
@@ -55,7 +55,7 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
     @IBOutlet weak var fixedPriceCellPriceLabel: UILabel!
     @IBOutlet weak var fixedPriceCellPhoneButton: UIButton!
         {didSet {
-            fixedPriceCellPhoneButton.layer.cornerRadius = 5
+            fixedPriceCellPhoneButton.layer.cornerRadius = 10
             if listing.phoneNumber == nil {
             fixedPriceCellPhoneButton.isHidden = true
             } else {
@@ -210,7 +210,7 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
         let priceCell = tableView.cellForRow(at: IndexPath(row: 0, section: 0))
-        if images.count > 0 {
+        if listing.imageURLs.count > 0 {
             if tableView.contentOffset.y > 250 {
                 priceCell?.contentView.isHidden = true
                 fixedPriceCell.isHidden = false

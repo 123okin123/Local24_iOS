@@ -1,5 +1,5 @@
 //
-//  filterViewController.swift
+//  FilterViewController.swift
 //  Local24
 //
 //  Created by Local24 on 10/03/16.
@@ -9,7 +9,7 @@
 import UIKit
 
 
-class filterViewController: UITableViewController {
+class FilterViewController: UITableViewController, UITextFieldDelegate {
 
     
     @IBOutlet weak var searchQueryTextField: UITextField!
@@ -64,13 +64,15 @@ class filterViewController: UITableViewController {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
-
+        searchQueryTextField.delegate = self
+        maxPriceTextField.delegate = self
+        minPriceTextField.delegate = self
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.view.endEditing(true)
-        savefilters()
+        
 //        let tracker = GAI.sharedInstance().defaultTracker
 //        tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Search", action: "searchInfilter", label: searchQueryTextField.text!, value: 0).build() as NSDictionary as! [AnyHashable: Any])
 //        
@@ -85,28 +87,11 @@ class filterViewController: UITableViewController {
 
     }
     
-    func savefilters() {
-        if searchQueryTextField.text != "" {
-            FilterManager.shared.setfilter(newfilter: Stringfilter(value: searchQueryTextField.text!))
-        } else {
-            FilterManager.shared.removefilterWithName(name: .search_string)
-        }
-        if maxPriceTextField.text != "" || minPriceTextField.text != "" {
-            let priceRange = Rangefilter(name: .price, descriptiveString: "Preis", gte: nil, lte: nil)
-            if maxPriceTextField.text != "" {
-               priceRange.lte = Double(maxPriceTextField.text!)
-            }
-            if minPriceTextField.text != "" {
-                priceRange.gte = Double(minPriceTextField.text!)
-            }
-            FilterManager.shared.setfilter(newfilter: priceRange)
-        }
-    }
+ 
     
     func loadfilters() {
         searchQueryTextField.text = FilterManager.shared.getValueOffilter(withName: .search_string, filterType: .search_string)
         locationLabel.text = FilterManager.shared.getValueOffilter(withName: .geo_distance, filterType: .geo_distance)
-        print(FilterManager.shared.getValueOffilter(withName: .geo_distance, filterType: .geo_distance))
         if let priceRange = FilterManager.shared.getValuesOfRangefilter(withName: .price) {
             if let lte =  priceRange.lte {
                 maxPriceTextField.text = String(describing: Int(lte))
@@ -128,6 +113,36 @@ class filterViewController: UITableViewController {
                 onlyLocalListingsSwitch.setOn(true, animated: false)
             }
         }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        switch textField {
+            case searchQueryTextField:
+                if searchQueryTextField.text != "" {
+                    FilterManager.shared.setfilter(newfilter: Stringfilter(value: searchQueryTextField.text!))
+                } else {
+                    FilterManager.shared.removefilterWithName(name: .search_string)
+            }
+            case maxPriceTextField, minPriceTextField:
+                if maxPriceTextField.text != "" || minPriceTextField.text != "" {
+                    let priceRange = Rangefilter(name: .price, descriptiveString: "Preis", gte: nil, lte: nil)
+                    if maxPriceTextField.text != "" {
+                        priceRange.lte = Double(maxPriceTextField.text!)
+                    }
+                    if minPriceTextField.text != "" {
+                        priceRange.gte = Double(minPriceTextField.text!)
+                    }
+                    FilterManager.shared.setfilter(newfilter: priceRange)
+            }
+        default: break
+        }
+
     }
     
     func checkForAdditionalfilters() {

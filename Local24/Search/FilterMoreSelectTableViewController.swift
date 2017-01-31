@@ -59,28 +59,24 @@ class filterMoreSelectTableViewController: UITableViewController {
         var defaultCell = UITableViewCell()
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "maincatfilterOptionsCellID", for: indexPath)
-            cell.textLabel?.text = "Alles in " + categoryBuilder.mainCategories.first(where: {$0.id == mainCatID})!.name
-            
-           // if filter.mainCategoryID != 99 && filter.subCategoryID == 99 {
-//            if cell.textLabel?.text == categories.cats[filter.mainCategoryID][0] {
-//                cell.accessoryType = .checkmark
-//                }
-//            }
-//            else {
-//                cell.accessoryType = .none
-//            }
-            
+            let categoryName = categoryBuilder.mainCategories.first(where: {$0.id == mainCatID})!.name
+            cell.textLabel?.text = "Alles in " + categoryName!
+            if FilterManager.shared.getValueOffilter(withName: .category, filterType: .term) == categoryName &&
+                FilterManager.shared.getValueOffilter(withName: .subcategory, filterType: .term) == nil {
+                cell.accessoryType = .checkmark
+            }
+            else {
+                cell.accessoryType = .none
+            }
             defaultCell = cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "subcatfilterOptionsCellID", for: indexPath)
             cell.textLabel?.text = options[indexPath.row]
-//            if filter.subCategoryID != 99 {
-//            if cell.textLabel?.text == categories.cats[filter.mainCategoryID][filter.subCategoryID] {
-//            cell.accessoryType = .checkmark
-//            } else {
-//            cell.accessoryType = .none
-//            }
-//            }
+            if options[indexPath.row] == FilterManager.shared.getValueOffilter(withName: .subcategory, filterType: .term) {
+                cell.accessoryType = .checkmark
+            } else {
+                cell.accessoryType = .none
+            }
             defaultCell = cell
         }
 
@@ -106,7 +102,7 @@ class filterMoreSelectTableViewController: UITableViewController {
             FilterManager.shared.removefilterWithName(name: .subcategory)
         default: break;
         }
-        let filterVC = self.navigationController?.viewControllers[0] as! filterViewController
+        let filterVC = self.navigationController?.viewControllers[0] as! FilterViewController
         filterVC.tableView.reloadData()
         _ = self.navigationController?.popToRootViewController(animated: true)
     }

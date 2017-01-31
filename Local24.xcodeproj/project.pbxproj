@@ -55,7 +55,6 @@
 		CD9CD42D1CE214D70080CF67 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD9CD42C1CE214D70080CF67 /* CoreMotion.framework */; };
 		CD9CD42F1CE21A930080CF67 /* SearchCollectionViewAdCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9CD42E1CE21A930080CF67 /* SearchCollectionViewAdCell.swift */; };
 		CD9CD4311CE229EC0080CF67 /* FacebookAd.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9CD4301CE229EC0080CF67 /* FacebookAd.swift */; };
-		CD9CD4331CE4A1900080CF67 /* SelectedFilterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9CD4321CE4A1900080CF67 /* SelectedFilterButton.swift */; };
 		CDA32CB31E096F3A004969E7 /* Bolts.txt in Resources */ = {isa = PBXBuildFile; fileRef = CDA32CB21E096F3A004969E7 /* Bolts.txt */; };
 		CDA418CE1E0D1B3B00CFDD20 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CDA418CD1E0D1B3B00CFDD20 /* Assets.xcassets */; };
 		CDA9CCCC1C070793005ED562 /* PublicSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA9CCCB1C070793005ED562 /* PublicSettings.swift */; };
@@ -184,7 +183,6 @@
 		CD9CD42C1CE214D70080CF67 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		CD9CD42E1CE21A930080CF67 /* SearchCollectionViewAdCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchCollectionViewAdCell.swift; path = Search/SearchCollectionViewAdCell.swift; sourceTree = "<group>"; };
 		CD9CD4301CE229EC0080CF67 /* FacebookAd.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FacebookAd.swift; path = Search/FacebookAd.swift; sourceTree = "<group>"; };
-		CD9CD4321CE4A1900080CF67 /* SelectedFilterButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SelectedFilterButton.swift; path = Search/SelectedFilterButton.swift; sourceTree = "<group>"; };
 		CDA32CB21E096F3A004969E7 /* Bolts.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Bolts.txt; path = SupportingFiles/Licences/Bolts.txt; sourceTree = "<group>"; };
 		CDA418CD1E0D1B3B00CFDD20 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CDA9CCCB1C070793005ED562 /* PublicSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = PublicSettings.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -434,7 +432,6 @@
 			isa = PBXGroup;
 			children = (
 				CD0E3F7D1CE09C6C005AA575 /* SearchViewController.swift */,
-				CD9CD4321CE4A1900080CF67 /* SelectedFilterButton.swift */,
 				CD0E3F7F1CE0A06C005AA575 /* CollectionViewCell.swift */,
 				CD44E3071E40942200476C88 /* FilterCollectionViewCell.swift */,
 				CD964C061CFC47D00002A675 /* Ads */,
@@ -929,7 +926,6 @@
 				CDD729031E12FE68009F0B99 /* InsertTableViewDataSource.swift in Sources */,
 				CDFD0BAB1CF5AE0E00B56BF6 /* FilterManager.swift in Sources */,
 				CDD729071E13037C009F0B99 /* InsertCustomFieldCell.swift in Sources */,
-				CD9CD4331CE4A1900080CF67 /* SelectedFilterButton.swift in Sources */,
 				CDFD59EF1DFEF4920098010B /* ChooseLocationViewController.swift in Sources */,
 				CDB594E51DE5E6230056B405 /* TabBarController.swift in Sources */,
 				CDA9CCCC1C070793005ED562 /* PublicSettings.swift in Sources */,

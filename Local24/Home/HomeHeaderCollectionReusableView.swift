@@ -23,7 +23,7 @@ class HomeHeaderCollectionReusableView: UICollectionReusableView {
                     NSFontAttributeName: font!,
                     NSForegroundColorAttributeName: UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
                 ]
-                searchTextField!.attributedPlaceholder = NSAttributedString(string: "Was suchen Sie?", attributes: attributeDict)
+                searchTextField!.attributedPlaceholder = NSAttributedString(string: "Was suchst du?", attributes: attributeDict)
             }
             searchTextField?.textColor = UIColor.gray
             

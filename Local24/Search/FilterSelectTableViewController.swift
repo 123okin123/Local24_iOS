@@ -87,24 +87,22 @@ class filterSelectTableViewController: UITableViewController {
             } else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "nomorefilterOptionsCellID", for: indexPath)
                 cell.textLabel?.text = "Alle Anzeigen"
-//                if filterManager.getValueOffilter(withName: .category, filterType: .term) != nil {}
-//                if mainCategoryID == nil {
-//                cell.accessoryType = .checkmark
-//                } else {
-//                cell.accessoryType = .none
-//                }
+                if options[indexPath.row] == FilterManager.shared.getValueOffilter(withName: .category, filterType: .term) {
+                    cell.accessoryType = .checkmark
+                } else {
+                    cell.accessoryType = .none
+                }
                 defaultCell = cell
             }
         case .sorting:
             let cell = tableView.dequeueReusableCell(withIdentifier: "nomorefilterOptionsCellID", for: indexPath)
             cell.textLabel?.text = options[indexPath.row]
             
-//            if cell.textLabel?.text == sorting.rawValue {
-//            cell.accessoryType = .checkmark
-//            } else {
-//                cell.accessoryType = .none
-//            }
-
+            if options[indexPath.row] == FilterManager.shared.getValueOffilter(withName: .sorting, filterType: .sort) {
+                cell.accessoryType = .checkmark
+            } else {
+                cell.accessoryType = .none
+            }
             defaultCell = cell
         }
         defaultCell.tag = indexPath.row
@@ -114,7 +112,7 @@ class filterSelectTableViewController: UITableViewController {
     
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let filterVC = self.navigationController?.viewControllers[0] as! filterViewController
+        let filterVC = self.navigationController?.viewControllers[0] as! FilterViewController
         switch selectType! {
         case .categories:
             if indexPath.section == 0 {

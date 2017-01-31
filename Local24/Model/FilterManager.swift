@@ -53,6 +53,12 @@ class FilterManager {
             delegate?.filtersDidChange()
         }
     }
+    func removefilterWithIndex(index :Int) {
+            filters.remove(at: index)
+            delegate?.filtersDidChange()
+        
+    }
+    
     func removefilterWithName(name: filterName) {
         if let index = filters.index(where: {$0.name == name}) {
             filters.remove(at: index)
@@ -348,7 +354,7 @@ public enum Order :String{
 
 
 public enum filterName :String {
-    case search_string
+    case search_string 
     case geo_distance
     case sorting
     case price

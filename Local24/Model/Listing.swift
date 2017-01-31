@@ -63,7 +63,7 @@ class Listing {
     
     var url :URL?
     
-
+    var containsAdultContent = false
     
     init() {}
     
@@ -262,6 +262,11 @@ class Listing {
         if let hasThumbUrl = json["hasThumbUrl"].string {
             if hasThumbUrl == "true" {
             self.hasImages = true
+            }
+        }
+        if let containsAdultContent = json["containsAdultContent"].string {
+            if containsAdultContent == "true" {
+                self.containsAdultContent = true
             }
         }
         self.source = json["sourceId"].string

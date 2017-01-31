@@ -177,6 +177,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         let defaults = UserDefaults.standard
         if defaults.string(forKey: "existingUser") != nil {
+            
+            
             /*
             if let sZ = defaults.string(forKey: "searchZip") {filter.searchZip = sZ}
             if let minP = defaults.string(forKey: "minPrice") {filter.minPrice = minP}
