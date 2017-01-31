@@ -10,7 +10,6 @@ import UIKit
 class PriceTableViewCell: UITableViewCell {
 
     @IBOutlet weak var adPriceLabel: UILabel!
-    
     @IBOutlet weak var contactButton: UIButton! {didSet {
         contactButton.layer.cornerRadius = 5
         }}
@@ -20,10 +19,10 @@ class PriceTableViewCell: UITableViewCell {
         }}
     
     
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
-    }
+            }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)

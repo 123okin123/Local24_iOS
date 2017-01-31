@@ -203,12 +203,12 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
         cell.listingPrice.text = listing.priceWithCurrency
         cell.listingDate.text = listing.createdDate
         
-        if listing.mainImage == nil {
-            if let imagePathMedium = listing.imagePathMedium {
-                if let imageUrl = URL(string: imagePathMedium) {
+        if listing.thumbImage == nil {
+            if let thumbImageURL = listing.thumbImageURL {
+                if let imageUrl = URL(string: thumbImageURL) {
                     cell.listingImage.setImage(withUrl: imageUrl, placeholder: UIImage(named: "home_Background"), crossFadePlaceholder: true, cacheScaled: true, completion: { instance, error in
                         cell.listingImage.layer.add(CATransition(), forKey: nil)
-                        self.userListings[indexPath.row].mainImage = instance?.image
+                        self.userListings[indexPath.row].thumbImage = instance?.image
                     })
                     
                 }
@@ -217,9 +217,9 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
                 cell.listingImage.image = image
             }
         } else {
-            cell.listingImage.image = listing.mainImage
+            cell.listingImage.image = listing.thumbImage
         }
-        networkManager.getImagesFor(adID: String(describing: listing.adID!), completion: { images in
+        networkManager.getImagesFor(adID: listing.adID, completion: { images in
         self.userListings[indexPath.row].images = images
         cell.listing.images = images
         })

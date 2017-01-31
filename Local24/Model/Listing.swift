@@ -10,9 +10,9 @@ import Foundation
 import SwiftyJSON
 
 class Listing {
-
+    var adID :Int!
+    
     var source :String?
-    var adID :Int?
     var adState :AdState?
     var advertiserID :Int?
     var user :User?
@@ -54,10 +54,12 @@ class Listing {
     var createdDate :String?
     var updatedDate :String?
     
-    var mainImage :UIImage?
+    var hasImages = false
+    var thumbImage :UIImage?
     var images :[UIImage]?
-    var hasImages: Bool?
-    var imagePathMedium :String?
+    var thumbImageURL :String?
+    var imageURLs = [String]()
+    
     
     var url :URL?
     
@@ -126,8 +128,8 @@ class Listing {
         if hasImages  {
             self.hasImages = true
             if let images = value["GalleryImage"] as? NSDictionary {
-                if let imagePathMedium = images["ImagePathMedium"] as? String  {
-                    self.imagePathMedium = imagePathMedium
+                if let thumbImageURL = images["ImagePathMedium"] as? String  {
+                    self.thumbImageURL = thumbImageURL
                 }
             }
         } else {
@@ -226,11 +228,23 @@ class Listing {
         guard json != JSON.null else {return}
         self.title = json["title"].string
         self.description = json["description"].string
-        self.adID = json["_id"].int
+        if let adIDString = json["id"].string {
+            self.adID = Int(adIDString)
+        }
+        if let urlString = json["url"].string {
+            self.url = URL(string: urlString)
+        }
         self.catID = json["subcategoryId"].int
         self.price = json["price"].string
-        self.adLat = json["lat"].double
-        self.adLong = json["lon"].double
+        if let latString = json["lat"].string {
+            self.adLat = Double(latString)
+        }
+        if let lonString = json["lon"].string {
+            self.adLong = Double(lonString)
+        }
+        self.city = json["city"].string
+        self.zipcode = json["postalcode"].string
+        
         if var listingDate = json["createDate"].string {
             let listingDateYear = listingDate[Range(listingDate.startIndex ..< listingDate.characters.index(listingDate.startIndex, offsetBy: 4))]
             let listingDateMonth = listingDate[Range(listingDate.characters.index(listingDate.startIndex, offsetBy: 5) ..< listingDate.characters.index(listingDate.startIndex, offsetBy: 7))]
@@ -245,12 +259,35 @@ class Listing {
             updatedAt = "\(updatedAtDay).\(updatedAtMonth).\(updatedAtYear)"
             self.updatedDate = updatedAt
         }
+        if let hasThumbUrl = json["hasThumbUrl"].string {
+            if hasThumbUrl == "true" {
+            self.hasImages = true
+            }
+        }
         self.source = json["sourceId"].string
-        self.imagePathMedium = json["thumbUrl"].string
+        self.thumbImageURL = json["thumbUrl"].string
+        if let thumbUrlJSONArray = json["thumbUrlArray"].array {
+            for jsonUrl in thumbUrlJSONArray {
+                if let url = jsonUrl.string {
+                self.imageURLs.append(url)
+                }
+            }
+        } else {
+            if thumbImageURL != nil {
+            self.imageURLs.append(thumbImageURL!)
+            }
+        }
         if source != nil {
         switch self.source! {
         case "AS":
-            self.imagePathMedium = self.imagePathMedium?.replacingOccurrences(of: "small", with: "420x315")
+            self.thumbImageURL = self.thumbImageURL?.replacingOccurrences(of: "small", with: "420x315")
+            self.imageURLs = imageURLs.map({$0.replacingOccurrences(of: "small", with: "big")})
+        case "IS":
+            self.thumbImageURL = self.thumbImageURL?.replacingOccurrences(of: "/ORIG/resize/118x118%3E/extent/118x118/", with: "/ORIG/resize/370x297%3E/extent/370x297/")
+            self.imageURLs = imageURLs.map({$0.replacingOccurrences(of: "/ORIG/resize/118x118%3E/extent/118x118/", with: "/ORIG/resize/370x297%3E/extent/370x297/")})
+        case "Quo":
+            self.thumbImageURL = self.thumbImageURL?.replacingOccurrences(of: "foto-bild-t", with: "foto-bild-m")
+            self.imageURLs = imageURLs.map({$0.replacingOccurrences(of: "foto-bild-t", with: "foto-bild-m")})
         default: break
         }
         }

@@ -59,7 +59,7 @@ class filterMoreSelectTableViewController: UITableViewController {
         var defaultCell = UITableViewCell()
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "maincatfilterOptionsCellID", for: indexPath)
-            cell.textLabel?.text = categoryBuilder.mainCategories.first(where: {$0.id == mainCatID})?.name
+            cell.textLabel?.text = "Alles in " + categoryBuilder.mainCategories.first(where: {$0.id == mainCatID})!.name
             
            // if filter.mainCategoryID != 99 && filter.subCategoryID == 99 {
 //            if cell.textLabel?.text == categories.cats[filter.mainCategoryID][0] {

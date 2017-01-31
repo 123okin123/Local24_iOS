@@ -59,9 +59,9 @@ public class Categories {
             case .failure:
                 error = response.result.error
             }
-            self.allCategories = allCategories
-            self.subCategories = subCategories
-            self.mainCategories = mainCategories
+            self.allCategories = allCategories.sorted(by: {$0.name < $1.name})
+            self.subCategories = subCategories.sorted(by: {$0.name < $1.name})
+            self.mainCategories = mainCategories.sorted(by: {$0.name < $1.name})
             completion(mainCategories, subCategories, error)
         })
 

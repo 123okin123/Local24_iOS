@@ -17,12 +17,10 @@ class FilterManager {
     
     var filters = [filter]()
 
-    
+    weak var delegate:FilterManagerDelegate?
     
      func setfilter(newfilter :filter) {
-        
         if filters.contains(where: {$0.name == newfilter.name}) {
-            
             if let index = filters.index(where: {$0.name == newfilter.name}) {
                 
                 switch filters[index].filterType! {
@@ -30,6 +28,7 @@ class FilterManager {
                     (filters[index] as! Geofilter).lat = (newfilter as! Geofilter).lat
                     (filters[index] as! Geofilter).lon = (newfilter as! Geofilter).lon
                     (filters[index] as! Geofilter).distance = (newfilter as! Geofilter).distance
+                    (filters[index] as! Geofilter).value = (newfilter as! Geofilter).value
                 case .range:
                     (filters[index] as! Rangefilter).gte = (newfilter as! Rangefilter).gte
                     (filters[index] as! Rangefilter).lte = (newfilter as! Rangefilter).lte
@@ -43,25 +42,28 @@ class FilterManager {
 
             }
         } else {
-
             filters.append(newfilter)
-            
         }
+        delegate?.filtersDidChange()
     }
     
     func removefilter(filterToRemove :filter) {
         if let index = filters.index(where: {$0.name == filterToRemove.name}) {
             filters.remove(at: index)
+            delegate?.filtersDidChange()
         }
     }
     func removefilterWithName(name: filterName) {
         if let index = filters.index(where: {$0.name == name}) {
             filters.remove(at: index)
+            delegate?.filtersDidChange()
         }
     }
     
     func removeAllfilters() {
         filters.removeAll()
+        setfilter(newfilter: Sortfilter(criterium: .createDate, order: .desc))
+        delegate?.filtersDidChange()
     }
     
     func getValueOffilter(withName name :filterName, filterType :filterType) -> String? {
@@ -73,6 +75,16 @@ class FilterManager {
                 return (filter as! Termfilter).value
             case .search_string:
                 return (filter as! Stringfilter).queryString
+            case .sort:
+                let filter = filter as! Sortfilter
+                let sorting = sortingOptions.first(where: { sorting in
+                    if sorting.criterium == filter.criterium && sorting.order == filter.order {
+                        return true
+                    } else {
+                        return false
+                    }
+                })
+                return sorting?.descriptiveString
             default:
                 return nil
             }
@@ -93,24 +105,27 @@ class FilterManager {
     func getJSONFromfilterArray(filterArray: [filter]) -> JSON {
         var sort = [[AnyHashable:Any]]()
         var filterJson = [[AnyHashable: Any]]()
-        
+        var searchString :String?
         for filter in filterArray {
             switch filter.filterType! {
             case .term:
                 filterJson.append(["term" :[(filter as! Termfilter).name.rawValue: (filter as! Termfilter).value]])
             case .range:
                 let rangefilter = filter as! Rangefilter
+                var range = [String:Any]()
+                if let gte = rangefilter.gte {
+                range["gte"] = gte
+                }
+                if let lte = rangefilter.lte {
+                    range["lte"] = lte
+                }
                 let rangeJson = [
                     "range": [
-                        "price": [
-                            "gte": rangefilter.gte,
-                            "lte": rangefilter.lte
-                        ]
-                    ]
+                        "price": range                    ]
                 ]
                 filterJson.append(rangeJson)
             case .sort:
-                sort = [[(filter as! Sortfilter).criterium! : (filter as! Sortfilter).order!]]
+                sort = [[(filter as! Sortfilter).criterium.rawValue : (filter as! Sortfilter).order.rawValue]]
             case .geo_distance:
                 let geofilter = filter as! Geofilter
                 let geoJson = [
@@ -123,11 +138,70 @@ class FilterManager {
                     ]
                 ]
                 filterJson.append(geoJson)
-            default: break
+            case .search_string:
+                searchString = (filter as! Stringfilter).queryString
             }
         }
-        if filterJson.count > 0 {
-            let query =
+        
+        
+        
+        
+        if !filterArray.contains(where: {$0.name == .category}) {
+        let notKontaktanzeigen = [
+            "not": [
+                "filter": [
+                    "term": [
+                        "category": "Kontaktanzeigen"
+                    ]
+                ]
+            ]
+        ]
+        filterJson.append(notKontaktanzeigen)
+        let notFlirt = [
+            "not": [
+                "filter": [
+                    "term": [
+                        "category": "Flirt & Abenteuer"
+                    ]
+                ]
+            ]
+        ]
+        filterJson.append(notFlirt)
+        }
+        
+        
+        
+        
+        
+        if filterJson.count > 0 || searchString != nil {
+            var query :Any!
+            if filterJson.count > 0 && searchString != nil {
+            query =
+                [
+                    "filtered":[
+                        "query":[
+                            "dis_max":[
+                                "queries": [
+                                    "query_string": [
+                                        "query": searchString!,
+                                        "default_operator": "AND",
+                                        "fields": [
+                                        "title",
+                                        "description",
+                                        "locationSearch"
+                                        ]
+                                    ]
+                                ]
+                            ]
+                        ],
+                        "filter":[
+                            "and": filterJson
+                        ]
+                    ]
+            ]
+            }
+            if filterJson.count > 0 && searchString == nil {
+            query =
                 [
                     "filtered":[
                         "filter":[
@@ -135,6 +209,17 @@ class FilterManager {
                         ]
                     ]
             ]
+            }
+            if filterJson.count == 0 && searchString != nil {
+                query =
+                    [
+                        "filtered":[
+                            "filter":[
+                                "and": filterJson
+                            ]
+                        ]
+                ]
+            }
             let request = ["query": query, "sort": sort] as [String : Any]
             print(JSON(request))
             return JSON(request)
@@ -146,149 +231,24 @@ class FilterManager {
         
     }
     
-    /*
-    let categories = Categories()
-
-    dynamic var subCategoryID = 99
-    dynamic var mainCategoryID = 99
-    dynamic var searchString = ""
-    dynamic var minPrice = ""
-    dynamic var maxPrice = ""
-    dynamic var searchZip = ""
-    dynamic var searchRadius :Int = 500
-    dynamic var searchLong :Double = 10.361315553329199
-    dynamic var searchLat :Double = 50.911368167654636
-    dynamic var searchLocationString :String = "Deutschland"
-    dynamic var sortingChanged = 0
-    dynamic var onlyLocalListings = true
-    dynamic var maxMileAge :Int = 500000
-    dynamic var minMileAge :Int = 0
-    
-    var viewedRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 51.019013383496237, longitude: 10.349249403495108), span: MKCoordinateSpan(latitudeDelta: 9.5820552479217014, longitudeDelta: 9.4832213250153075))
-    var sorting = Sorting.TimeDesc {
-        didSet {
-        sortingChanged += sortingChanged
-        }
-    }
-    enum Sorting :String {
-        case Relevance = "Relevanz", TimeAsc = "Datum aufsteigen", TimeDesc = "Datum absteigend", PriceAsc = "Preis aufsteigend", PriceDesc = "Preis absteigend", RangeAsc = "Entfernung aufsteigend", RangeDesc = "Entfernung absteigend"
-    }
-    
-    
-
-    func resetAllfilters() {
-        subCategoryID = 99
-        mainCategoryID = 99
-        searchString = ""
-        minPrice = ""
-        maxPrice = ""
-        sorting = Sorting.TimeDesc
-        maxMileAge = 500000
-        minMileAge = 0
-    }
-
-    
-    
-    func urlFromfilters() -> String {
-        
-        var url = ""
-        var urlQueryStringsArray = [String]()
-        
-        
-        if minPrice != "" {
-            let minPriceURLString = "preisvon=\(minPrice)"
-            urlQueryStringsArray.append(minPriceURLString)
-        }
-        if maxPrice != "" {
-            let maxPriceURLString = "preisbis=\(maxPrice)"
-            urlQueryStringsArray.append(maxPriceURLString)
-        }
-        if searchString != "" {
-            let searchStringURLString = "what=\(noUmlaut(searchString))"
-            urlQueryStringsArray.append(searchStringURLString)
-        }
-        var sortingString = ""
-        switch sorting {
-        case .Relevance: sortingString = ""
-        case .TimeAsc: sortingString = "sortierung=datum-aufsteigend"
-        case .TimeDesc: sortingString = "sortierung=datum-absteigend"
-        case .PriceAsc: sortingString = "sortierung=preis-aufsteigend"
-        case .PriceDesc: sortingString = "sortierung=preis-absteigend"
-        case .RangeAsc: sortingString = "sortierung=ort-aufsteigend"
-        case .RangeDesc: sortingString = "sortierung=ort-absteigend"
-        }
-        urlQueryStringsArray.append(sortingString)
-        
-        if mainCategoryID == 0 && subCategoryID == 1 {
-            let minMileAgeString = "kilometerstandvon=\(minMileAge)"
-            urlQueryStringsArray.append(minMileAgeString)
-
-        let maxMileAgeString = "kilometerstandbis=\(maxMileAge)"
-            urlQueryStringsArray.append(maxMileAgeString)
-        }
-        
-        
-        urlQueryStringsArray.append("center=\(searchZip)")
-        urlQueryStringsArray.append("geocenter=\(searchLat)%2C\(searchLong)")
-        urlQueryStringsArray.append("umkreis=\(searchRadius)")
-        
-        
-        var nonAdultQuery = "clean=1"
-        if adultContent  {
-            nonAdultQuery = ""
-        }
-        urlQueryStringsArray.append("anzeigen=100")
-        urlQueryStringsArray.append(nonAdultQuery)
-        
-        if onlyLocalListings {
-        urlQueryStringsArray.append("collection=MPS")
-        let tracker = GAI.sharedInstance().defaultTracker
-        tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Partnerportale", action: "loadOnlyLocal24Listings", label: "", value: 0).build() as NSDictionary as! [AnyHashable: Any])
-        } else {
-        let tracker = GAI.sharedInstance().defaultTracker
-        tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Partnerportale", action: "loadAllListings", label: "", value: 0).build() as NSDictionary as! [AnyHashable: Any])
-        }
-        
-        let mainCatURLString = categories.getURLFromMainCatID(mainCategoryID)
-        var subCatURLString = ""
-      //  if subCategoryID != nil {
-            subCatURLString = categories.getSubCatURLFromID(mainCategoryID, subId: subCategoryID - 1)
-     //   }
-        url = url + mainCatURLString + subCatURLString
-        if url == "" {
-            url = "alle-anzeigen/"
-        }
-        if !(urlQueryStringsArray.isEmpty) {
-            url = url + "?"
-            for i in 0...urlQueryStringsArray.count - 2 {
-                url = url + urlQueryStringsArray[i] + "&"
-            }
-            url = url + urlQueryStringsArray.last!
-        }
-        url = "https://\(mode).local24.de/" + url
-        print("filterURL: \(url)")
-        return url
-    }
-    
-    
-    
-    func noUmlaut(_ string: String) -> String   {
-               var newString = string
-                newString = newString.replacingOccurrences(of: "ü", with: "ue")
-                newString = newString.replacingOccurrences(of: "ä", with: "ae")
-                newString = newString.replacingOccurrences(of: "ö", with: "oe")
-                newString = newString.replacingOccurrences(of: "Ü", with: "ue")
-                newString = newString.replacingOccurrences(of: "Ä", with: "ae")
-                newString = newString.replacingOccurrences(of: "Ö", with: "oe")
-                newString = newString.replacingOccurrences(of: "ß", with: "ss")
-                newString = newString.replacingOccurrences(of: " ", with: "+")
-
-        return newString
-    }
-
-    
-*/
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 public class filter {
@@ -313,9 +273,9 @@ public class Termfilter :filter {
     }
 }
 public class Sortfilter :filter {
-    var criterium: String!
-    var order: String!
-    init(criterium: String, order :String) {
+    var criterium: Criterium!
+    var order: Order!
+    init(criterium: Criterium, order :Order) {
         super.init(name: .sorting, descriptiveString: "Sortierung", filterType: .sort)
         self.criterium = criterium
         self.order = order
@@ -374,10 +334,7 @@ public class Sorting {
     }
     
 
-
     
-//    case TimeAsc = "Datum aufsteigen", TimeDesc = "Datum absteigend", PriceAsc = "Preis aufsteigend", PriceDesc = "Preis absteigend", RangeAsc = "Entfernung aufsteigend", RangeDesc = "Entfernung absteigend"
-//    static let allValues = [TimeAsc, TimeDesc , PriceAsc, PriceDesc, RangeAsc, RangeDesc]
 }
 public enum Criterium :String{
     case createDate
@@ -397,13 +354,27 @@ public enum filterName :String {
     case price
     case category
     case subcategory
+    case sourceId
 }
+
+
+
 public enum filterType :String {
     case geo_distance
     case range
     case term
     case sort
     case search_string
+}
+
+
+
+
+
+
+
+protocol FilterManagerDelegate: class {
+    func filtersDidChange()
 }
 
 

@@ -125,7 +125,7 @@ class filterSelectTableViewController: UITableViewController {
             }
         case .sorting:
             let sorting = sortingOptions[indexPath.row]
-                FilterManager.shared.setfilter(newfilter: Sortfilter(criterium: sorting.criterium.rawValue, order: sorting.order.rawValue))
+                FilterManager.shared.setfilter(newfilter: Sortfilter(criterium: sorting.criterium, order: sorting.order))
                 _ = self.navigationController?.popToRootViewController(animated: true)
         }
     }

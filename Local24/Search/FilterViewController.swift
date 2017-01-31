@@ -35,9 +35,9 @@ class filterViewController: UITableViewController {
 
     @IBAction func onlyLocalListingsSwitchChanged(_ sender: UISwitch) {
         if sender.isOn {
-        //filter.onlyLocalListings = false
+            FilterManager.shared.removefilterWithName(name: .sourceId)
         } else {
-        //filter.onlyLocalListings = true
+            FilterManager.shared.setfilter(newfilter: Termfilter(name: .sourceId, descriptiveString: "Nur Local24 Anzeigen", value: "MPS"))
         }
     }
 
@@ -82,36 +82,14 @@ class filterViewController: UITableViewController {
         super.viewWillAppear(animated)
         gaUserTracking("filter")
         loadfilters()
-        
-//        searchQueryTextField.text = filter.searchString
-//        locationLabel.text = filter.searchLocationString
-//        maxPriceTextField.text = filter.maxPrice
-//        minPriceTextField.text = filter.minPrice
-//        if filter.mainCategoryID == 99 && filter.subCategoryID == 99 {
-//            categoryLabel.text  = "Alle Anzeigen"
-//        } else {
-//            if filter.subCategoryID != 99 {
-//                categoryLabel.text = categories.cats[filter.mainCategoryID][filter.subCategoryID]
-//            } else {
-//                categoryLabel.text = categories.cats[filter.mainCategoryID][0]
-//            }
-//        }
-//        sortingLabel.text = filter.sorting.rawValue
-//        if filter.onlyLocalListings {
-//        onlyLocalListingsSwitch.isOn = false
-//        } else {
-//        onlyLocalListingsSwitch.isOn = true
-//        }
-//      
-//        checkForAdditionalfilters()
-        
-        
 
     }
     
     func savefilters() {
         if searchQueryTextField.text != "" {
             FilterManager.shared.setfilter(newfilter: Stringfilter(value: searchQueryTextField.text!))
+        } else {
+            FilterManager.shared.removefilterWithName(name: .search_string)
         }
         if maxPriceTextField.text != "" || minPriceTextField.text != "" {
             let priceRange = Rangefilter(name: .price, descriptiveString: "Preis", gte: nil, lte: nil)
@@ -127,11 +105,29 @@ class filterViewController: UITableViewController {
     
     func loadfilters() {
         searchQueryTextField.text = FilterManager.shared.getValueOffilter(withName: .search_string, filterType: .search_string)
+        locationLabel.text = FilterManager.shared.getValueOffilter(withName: .geo_distance, filterType: .geo_distance)
+        print(FilterManager.shared.getValueOffilter(withName: .geo_distance, filterType: .geo_distance))
         if let priceRange = FilterManager.shared.getValuesOfRangefilter(withName: .price) {
-            maxPriceTextField.text = String(describing: priceRange.lte)
-            minPriceTextField.text = String(describing: priceRange.gte)
+            if let lte =  priceRange.lte {
+                maxPriceTextField.text = String(describing: Int(lte))
+            }
+            if let gte =  priceRange.gte {
+                minPriceTextField.text = String(describing: Int(gte))
+            }
         }
-        categoryLabel.text = FilterManager.shared.getValueOffilter(withName: .category, filterType: .term)
+        if let category = FilterManager.shared.getValueOffilter(withName: .category, filterType: .term) {
+            categoryLabel.text = category
+        } else {
+            categoryLabel.text = "Alle Anzeigen"
+        }
+        sortingLabel.text = FilterManager.shared.getValueOffilter(withName: .sorting, filterType: .sort)
+        if let source = FilterManager.shared.getValueOffilter(withName: .sourceId, filterType: .term) {
+            if source == "MPS" {
+                onlyLocalListingsSwitch.setOn(false, animated: false)
+            } else {
+                onlyLocalListingsSwitch.setOn(true, animated: false)
+            }
+        }
     }
     
     func checkForAdditionalfilters() {

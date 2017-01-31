@@ -58,7 +58,7 @@ class NewCatTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "subCatCellID", for: indexPath)
         switch (indexPath as NSIndexPath).section {
-        case 0: cell.textLabel?.text = "Alles in" + mainCatName
+        case 0: cell.textLabel?.text = "Alles in " + mainCatName
         case 1: cell.textLabel?.text = subCategories[indexPath.row].name
         default: break
         }

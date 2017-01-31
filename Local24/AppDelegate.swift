@@ -29,14 +29,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
 
         
-       loadDataFromDefaults()
+        loadDataFromDefaults()
         
         
         applyCustomStyles()
 
-        let filterManger = FilterManager.shared
-        //notifications
         
+        FilterManager.shared.setfilter(newfilter: Sortfilter(criterium: .createDate, order: .desc))
+        
+        
+        //notifications
         application.applicationIconBadgeNumber = 0
         if #available(iOS 10.0, *) {
             let center  = UNUserNotificationCenter.current()

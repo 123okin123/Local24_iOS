@@ -158,7 +158,7 @@ class LocationViewController: UIViewController, UISearchBarDelegate, UISearchRes
                     let lon = round(center2d.longitude*1000000)/1000000
                     let radius = round(radius/1000)
                     
-                    let geofilter = Geofilter(lat: lat, lon: lon, distance: radius, value: (zip + " " + subAdminArea))
+                    let geofilter = Geofilter(lat: lat, lon: lon, distance: radius, value: (zip + " " + subAdminArea + " (\(radius)km)"))
                     FilterManager.shared.setfilter(newfilter: geofilter)
                     viewedRegion = self.mapView.region
                 }

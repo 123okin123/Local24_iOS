@@ -11,7 +11,8 @@ import MapKit
 import MessageUI
 import FBSDKShareKit
 import Alamofire
-
+import MapleBacon
+import SafariServices
 
 class LocalDetailTableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, MFMailComposeViewControllerDelegate {
     
@@ -26,21 +27,49 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
     
     @IBOutlet weak var fixedPriceCellPriceContactButton: UIButton!
         {didSet {
+            fixedPriceCellPriceContactButton.tintColor = UIColor.white
             fixedPriceCellPriceContactButton.layer.cornerRadius = 5
+            if let source = listing?.source {
+                switch source {
+                case "AS","ASBikes":
+                    fixedPriceCellPriceContactButton.setTitle(" Ansehen", for: .normal)
+                    fixedPriceCellPriceContactButton.setImage(UIImage(named: "AS24"), for: .normal)
+                case "IS":
+                    fixedPriceCellPriceContactButton.setTitle(" Ansehen", for: .normal)
+                    fixedPriceCellPriceContactButton.setImage(UIImage(named: "IS24"), for: .normal)
+                case "Quo":
+                    fixedPriceCellPriceContactButton.setTitle("Auf Quoka ansehen", for: .normal)
+                case "Germanpersonnel":
+                    fixedPriceCellPriceContactButton.setTitle("Auf Germanpersonnel ansehen", for: .normal)
+                case "Adzuna":
+                    fixedPriceCellPriceContactButton.setTitle("Auf Adzuna ansehen", for: .normal)
+                case "KAL":
+                    fixedPriceCellPriceContactButton.setTitle("Auf Kalaydo ansehen", for: .normal)
+                case "MPS":
+                    fixedPriceCellPriceContactButton.setTitle("Nachricht", for: .normal)
+                default:
+                    fixedPriceCellPriceContactButton.setTitle("Auf Partnerportal ansehen", for: .normal)
+                }
+            }
         }}
     @IBOutlet weak var fixedPriceCellPriceLabel: UILabel!
     @IBOutlet weak var fixedPriceCellPhoneButton: UIButton!
         {didSet {
             fixedPriceCellPhoneButton.layer.cornerRadius = 5
+            if listing.phoneNumber == nil {
+            fixedPriceCellPhoneButton.isHidden = true
+            } else {
+            fixedPriceCellPhoneButton.isHidden = false
+            }
         }}
     
-    var listing :Listing?
+    var listing :Listing!
     
     var infos : [(name: String?, value: String?)] {
         var infos = [(name: String?, value: String?)]()
-        infos.append(("Erstellt am",listing?.createdDate))
-        infos.append(("Aktuallisiert am",listing?.updatedDate))
-        if let specialFields = listing?.specialFields {
+        infos.append(("Erstellt am",listing.createdDate))
+        infos.append(("Aktuallisiert am",listing.updatedDate))
+        if let specialFields = listing.specialFields {
             for specialField in specialFields {
                 infos.append((specialField.descriptiveString, specialField.valueString))
                 
@@ -49,29 +78,13 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
         return infos
     }
     
-//    var urlToShow : URL!
-//    var adID: String {
-//        var IDstring = urlToShow.pathComponents.last
-//        IDstring = IDstring?.substring(to: IDstring!.characters.index(IDstring!.endIndex, offsetBy: -3))
-//        return IDstring!
-//    }
-//    var adMainCat :String {return (urlToShow.pathComponents[2])}
-//    var adSubCat :String {return (urlToShow.pathComponents[3])}
-    
-    
-    var categories = Categories()
     
     var images = [UIImage]() {didSet {
-        if images.count == imgURLArray.count {
-            activityIndi.stopAnimating()
-            showImages()
             image1.isUserInteractionEnabled = true
             image2.isUserInteractionEnabled = true
             image3.isUserInteractionEnabled = true
-        }
         }}
     
-    var imgURLArray = [String]()
 
     let activityIndi = UIActivityIndicatorView(activityIndicatorStyle: .gray)
     
@@ -79,6 +92,8 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
     @IBOutlet weak var image1: UIImageView!
     @IBOutlet weak var image2: UIImageView!
     @IBOutlet weak var image3: UIImageView!
+    @IBOutlet weak var image1widthConstraint: NSLayoutConstraint!
+
     
     
     
@@ -86,60 +101,31 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
         
         let actionActionController = UIAlertController(title: "Was möchten Sie tun?", message: nil, preferredStyle: .actionSheet)
         
-        let abuseAction = UIAlertAction(title: "Anzeige melden", style: .default, handler: { (UIAlertAction) in
+        let abuseAction = UIAlertAction(title: "Anzeige melden", style: .destructive, handler: { (UIAlertAction) in
             self.performSegue(withIdentifier: "showAbuseReportSegueID", sender: self)
         })
         
-        
-        let emailAction = UIAlertAction(title: "per E-Mail teilen", style: .default, handler: { (UIAlertAction) in
-            guard let title = self.listing?.title else {return}
-            let emailTitle = "Anzeige auf Local24"
-            let messageBody = "Hallo,\n\nDiese Kleinanzeige bei Local24.de könnte dich interressieren.\n\n\(title)\n\n\(self.listing!.url)\n\nViele Grüße\n"
-            let mc: MFMailComposeViewController = MFMailComposeViewController()
-            mc.mailComposeDelegate = self
-            mc.setSubject(emailTitle)
-            mc.setMessageBody(messageBody, isHTML: false)
-            mc.navigationBar.tintColor = UIColor.white
-            
-            self.present(mc, animated: true, completion: {
-                UIApplication.shared.setStatusBarStyle(UIStatusBarStyle.lightContent, animated: false)
-            })
-            
-        })
-        
-        
-        let fbshareAction = UIAlertAction(title: "über Facebook teilen", style: .default, handler: { (UIAlertAction) in
-            guard let title = self.listing?.title else {return}
-            let fbshareContent = FBSDKShareLinkContent()
-            fbshareContent.contentURL = self.listing?.url
-            fbshareContent.contentTitle = "Anzeige auf Local24"
-            fbshareContent.contentDescription = "Diese Kleinanzeige bei Local24.de könnte euch interressieren.\n\n\(title)"
-            FBSDKShareDialog.show(from: self, with: fbshareContent, delegate: nil)
-            
+        let shareAction = UIAlertAction(title: "Anzeige teilen", style: .default, handler: {_  in
+            if let url = self.listing.url {
+                let activityVC = UIActivityViewController(activityItems: [url], applicationActivities: nil)
+                self.present(activityVC, animated: true, completion: nil)
+            }
         })
         
         let cancelAction = UIAlertAction(title: "Abbrechen", style: .cancel, handler: nil)
-        actionActionController.addAction(abuseAction)
+    
+        
+        actionActionController.addAction(shareAction)
+        if let source = listing.source {
+            if source == "MPS" {
+                actionActionController.addAction(abuseAction)
+            }
+        }
         actionActionController.addAction(cancelAction)
-        actionActionController.addAction(emailAction)
-        actionActionController.addAction(fbshareAction)
         self.present(actionActionController, animated: true, completion: nil)
         
     }
-    func mailComposeController(_ controller:MFMailComposeViewController, didFinishWith result:MFMailComposeResult, error:Error?) {
-        switch result {
-        case MFMailComposeResult.cancelled:
-            print("Mail cancelled")
-        case MFMailComposeResult.saved:
-            print("Mail saved")
-        case MFMailComposeResult.sent:
-            print("Mail sent")
-        case MFMailComposeResult.failed:
-            print("Mail sent failure: \(error?.localizedDescription)")
-            
-        }
-        self.dismiss(animated: true, completion: nil)
-    }
+
     
     @IBAction func phoneButtonPressed(_ sender: UIButton) {
         guard let phoneNumber = listing?.phoneNumber else {return}
@@ -159,47 +145,7 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
     
     
     @IBAction func mapViewPressed(_ sender: UITapGestureRecognizer) {
-        let mapActionController = UIAlertController(title: "Anzeigen in", message: nil, preferredStyle: .actionSheet)
-        guard let latitute:CLLocationDegrees =  self.listing?.adLat else {return}
-        guard let longitute:CLLocationDegrees =  self.listing?.adLong else {return}
-        
-        let appleMapsAction = UIAlertAction(title: "Apple Karten", style: .default, handler: { UIAlertAction in
-
-            let regionDistance:CLLocationDistance = 10000
-            let coordinates = CLLocationCoordinate2DMake(latitute, longitute)
-            let regionSpan = MKCoordinateRegionMakeWithDistance(coordinates, regionDistance, regionDistance)
-            let options = [
-                MKLaunchOptionsMapCenterKey: NSValue(mkCoordinate: regionSpan.center),
-                MKLaunchOptionsMapSpanKey: NSValue(mkCoordinateSpan: regionSpan.span)
-            ]
-            let placemark = MKPlacemark(coordinate: coordinates, addressDictionary: nil)
-            let mapItem = MKMapItem(placemark: placemark)
-            
-            
-            if let plz = self.listing?.zipcode {
-                if let stadt = self.listing?.city {
-                    mapItem.name = plz + " " + stadt
-                }
-            } else {
-                mapItem.name = self.listing?.title
-            }
-            mapItem.openInMaps(launchOptions: options)
-        })
-        let googleMapsAction = UIAlertAction(title: "Google Maps", style: .default, handler: { UIAlertAction in
-            
-            
-            if (UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!)) {
-                UIApplication.shared.openURL(URL(string:
-                    "comgooglemaps://?saddr=&daddr=\(latitute),\(longitute)&directionsmode=driving")!)
-            }
-        })
-        
-        let cancelAction = UIAlertAction(title: "Abbrechen", style: .cancel, handler: nil)
-        
-        mapActionController.addAction(appleMapsAction)
-        mapActionController.addAction(googleMapsAction)
-        mapActionController.addAction(cancelAction)
-        self.present(mapActionController, animated: true) {}
+        sendUserToMapApp()
     }
     
     
@@ -210,18 +156,56 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
         tableView.dataSource = self
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 60
-       // loadData()
-        getImagesURL()
+        title = listing.title
+
+        if !listing.hasImages {
+        tableView.tableHeaderView?.frame.size.height = 0
+        } else {
+        activityIndi.startAnimating()
+        if listing.source == "MPS" {
+            networkManager.getImagesFor(adID: listing.adID, completion: {images in
+                if images != nil {
+                self.images = images!
+                    self.displayImages()
+                }
+                self.activityIndi.stopAnimating()
+
+            })
+        } else {
+            
+                networkManager.getImageFor(paths: listing.imageURLs, completion: {(images, error) in
+                    if error == nil && images != nil {
+                        self.images = images!
+                        self.displayImages()
+                    }
+                    self.activityIndi.stopAnimating()
+
+                })
+            
+            
+        }
+        }
     }
     
     
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        gaUserTracking("Search/Detail")
+        
+        if let categoryName = categoryBuilder.allCategories.first(where: {$0.id == listing.catID})?.name {
+            gaUserTracking("Search/\(categoryName)/Detail")
+        } else {
+            gaUserTracking("Search/Detail")
+        }
         navigationController?.hidesBarsOnSwipe = false
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        activityIndi.hidesWhenStopped = true
+        activityIndi.center = tableView.tableHeaderView!.center
+        tableView.tableHeaderView!.addSubview(activityIndi)
+    }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
@@ -261,8 +245,6 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
                 image3.frame.origin.y = image3.frame.size.height + tableView.contentOffset.y - 0.5
                 
             }
-            
-            
         } else {
             image1.frame.size.height = 250
             switch images.count {
@@ -280,97 +262,14 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
     }
     
     
-//    func loadData() {
-//        Alamofire.request("https://cfw-api-11.azurewebsites.net/public/ads/\(listing?.adID)/").responseJSON(completionHandler: { response in
-//            switch response.result {
-//            case .failure(let error):
-//                print(error)
-//                let alert = UIAlertController(title: "Fehler", message: "Local24 hat keine Verbindung zum Internet.", preferredStyle: .alert)
-//                alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
-//                self.present(alert, animated: true, completion: nil)
-//            case .success:
-//                if let value = response.result.value as? [AnyHashable:Any] {
-//                    self.listing = Listing(value: value)
-//                    self.title = self.listing?.title
-//                    let priceCell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! PriceTableViewCell
-//                    if self.listing?.phoneNumber != nil {
-//                        priceCell.phoneButton.isHidden = false
-//                        self.fixedPriceCellPhoneButton.isHidden = false
-//                    } else {
-//                        priceCell.phoneButton.isHidden = true
-//                        self.fixedPriceCellPhoneButton.isHidden = true
-//                    }
-//                    self.tableView.reloadData()
-//                } else {
-//                    let alert = UIAlertController(title: "Fehler", message: "Die Anzeige ist leider nicht mehr verfügbar.", preferredStyle: .alert)
-//                    alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: { alert in
-//                    _ = self.navigationController?.popViewController(animated: true)
-//                    }))
-//                    self.present(alert, animated: true, completion: nil)
-//                }
-//            }
-//        })
-//        
-//    }
-//    
+   
     
-    func getImagesURL() {
-        Alamofire.request("https://cfw-api-11.azurewebsites.net/public/ads/\(listing!.adID)/images/").responseJSON(completionHandler: { response in
-            switch response.result {
-            case .failure(let error):
-                print(error)
-                let alert = UIAlertController(title: "Fehler", message: "Local24 hat keine Verbindung zum Internet.", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-                self.present(alert, animated: true, completion: nil)
-            case .success:
-                if let json = response.result.value as? [[AnyHashable: Any]] {
-                    if json.count > 0 {
-                        for i in 0...json.count - 1 {
-                            let url = json[i]["ImagePathLarge"] as! String
-                            self.imgURLArray.append(url)
-                        }
-                        self.loadImages()
-                    } else {
-                        self.tableView.tableHeaderView?.frame.size.height = 0
-                        self.tableView.reloadData()
-                        
-                    }
-                }
-            }
-        })
-        }
-    
-    
-    func loadImages() {
-        activityIndi.center = tableView.tableHeaderView!.center
-        activityIndi.startAnimating()
-        tableView.tableHeaderView!.addSubview(activityIndi)
-        for i in 0...imgURLArray.count - 1 {
-            var request = URLRequest(url: URL(string: imgURLArray[i])!)
-            let session = URLSession.shared
-            request.httpMethod = "GET"
-            let task = session.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
-                if error != nil {
-                    print(error as Any)
-                } else {
-                    DispatchQueue.main.async {
-                        if let image = UIImage(data: data!) {
-                            self.images.append(image)
-                            
-                        }
-                    }
-                }
-            })
-            task.resume()
-        }
-    }
-    
-    
-    func showImages() {
+    func displayImages() {
+        
         switch images.count {
-            
+        case 0: break
         case 1:
-            image1.frame.size.width  = screenwidth
+            image1widthConstraint.constant = -(screenwidth/2)
             image1.image = images[0]
         case 2:
             image2BottomConstraint.constant = 0
@@ -412,7 +311,6 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         var numberOfRows = Int()
         switch section {
         case 0:
@@ -439,12 +337,40 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
             switch (indexPath as NSIndexPath).row {
             case 0:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "priceCellID") as! PriceTableViewCell!
-                cell?.adPriceLabel.text = listing?.priceWithCurrency
-                fixedPriceCellPriceLabel.text = listing?.priceWithCurrency
+                cell?.adPriceLabel.text = listing.priceWithCurrency
+                fixedPriceCellPriceLabel.text = listing.priceWithCurrency
+                cell?.contactButton.tintColor = UIColor.white
+                if let source = listing?.source {
+                    switch source {
+                    case "AS","ASBikes":
+                        cell?.contactButton.setTitle(" Ansehen", for: .normal)
+                        cell?.contactButton.setImage(UIImage(named: "AS24"), for: .normal)
+                    case "IS":
+                        cell?.contactButton.setTitle(" Ansehen", for: .normal)
+                        cell?.contactButton.setImage(UIImage(named: "IS24"), for: .normal)
+                    case "Quo":
+                        cell?.contactButton.setTitle("Auf Quoka ansehen", for: .normal)
+                    case "Germanpersonnel":
+                        cell?.contactButton.setTitle("Auf Germanpersonnel ansehen", for: .normal)
+                    case "Adzuna":
+                        cell?.contactButton.setTitle("Auf Adzuna ansehen", for: .normal)
+                    case "KAL":
+                        cell?.contactButton.setTitle("Auf Kalaydo ansehen", for: .normal)
+                    default:
+                        break
+                    }
+                }
+                if self.listing?.phoneNumber != nil {
+                    cell?.phoneButton.isHidden = false
+                    
+                } else {
+                    cell?.phoneButton.isHidden = true
+                    cell?.phoneButton.frame.size.width = 0
+                }
                 defaultcell = cell!
             case 1:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "titleCellID") as! TitleTableViewCell!
-                cell?.adTitleLabel.text = listing?.title
+                cell?.adTitleLabel.text = listing.title
                 defaultcell = cell!
             default: break
             }
@@ -455,14 +381,14 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
             defaultcell = cell!
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "desriptionCellID") as! DescriptionTableViewCell!
-            cell?.adDescriptionLabel.text = listing?.description
+            cell?.adDescriptionLabel.text = listing.description
             defaultcell = cell!
         case 3:
             switch (indexPath as NSIndexPath).row {
             case 0:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "locationMapCellID") as! LocationMapTableViewCell!
-                if let latitude = listing?.adLat {
-                    if let longitude = listing?.adLong {
+                if let latitude = listing.adLat {
+                    if let longitude = listing.adLong {
                         let region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: latitude, longitude: longitude), span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
                         cell?.mapView.setRegion(region, animated: false)
                     }
@@ -485,6 +411,7 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
   
     
     // MARK: - Navigation
+    
     @IBAction func backfromContact(_ segue:UIStoryboardSegue) {
         
     }
@@ -498,7 +425,6 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
     }
     
     
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "contactSegueID" {
             if let navVC = segue.destination as? UINavigationController {
@@ -509,19 +435,14 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
                 }
                 
             }
-            
-            
         }
         if segue.identifier == "detailImageSegueID" {
             if let imgVC = segue.destination as? DetailImageViewController {
                 let imageViewTapGestureRecognizer = sender as! UITapGestureRecognizer
                 imgVC.touchedImageTag = imageViewTapGestureRecognizer.view!.tag
                 imgVC.images = self.images
-                
-                
+
             }
-            
-            
         }
         
         
@@ -533,11 +454,75 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
                 }
                 
             }
-            
-            
         }
         
     }
+    
+    
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        if identifier == "contactSegueID" {
+            if let source = listing.source {
+                if source != "MPS" {
+                    if let url = listing.url {
+                        let svc = SFSafariViewController(url: url)
+                        if #available(iOS 10.0, *) {
+                            svc.preferredControlTintColor = greencolor
+                        } else {
+                            svc.view.tintColor = greencolor
+                        }
+                        self.present(svc, animated: true, completion: nil)
+                        return false
+                    }
+                }
+            }
+        }
+        return true
+    }
   
+    
+    
+    func sendUserToMapApp() {
+        let mapActionController = UIAlertController(title: "Anzeigen in", message: nil, preferredStyle: .actionSheet)
+        guard let latitute:CLLocationDegrees =  self.listing.adLat else {return}
+        guard let longitute:CLLocationDegrees =  self.listing.adLong else {return}
+        
+        let appleMapsAction = UIAlertAction(title: "Apple Karten", style: .default, handler: { UIAlertAction in
+            
+            let regionDistance:CLLocationDistance = 10000
+            let coordinates = CLLocationCoordinate2DMake(latitute, longitute)
+            let regionSpan = MKCoordinateRegionMakeWithDistance(coordinates, regionDistance, regionDistance)
+            let options = [
+                MKLaunchOptionsMapCenterKey: NSValue(mkCoordinate: regionSpan.center),
+                MKLaunchOptionsMapSpanKey: NSValue(mkCoordinateSpan: regionSpan.span)
+            ]
+            let placemark = MKPlacemark(coordinate: coordinates, addressDictionary: nil)
+            let mapItem = MKMapItem(placemark: placemark)
+            
+            
+            if let plz = self.listing.zipcode {
+                if let stadt = self.listing.city {
+                    mapItem.name = plz + " " + stadt
+                }
+            } else {
+                mapItem.name = self.listing.title
+            }
+            mapItem.openInMaps(launchOptions: options)
+        })
+        let googleMapsAction = UIAlertAction(title: "Google Maps", style: .default, handler: { UIAlertAction in
+            
+            
+            if (UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!)) {
+                UIApplication.shared.openURL(URL(string:
+                    "comgooglemaps://?saddr=&daddr=\(latitute),\(longitute)&directionsmode=driving")!)
+            }
+        })
+        
+        let cancelAction = UIAlertAction(title: "Abbrechen", style: .cancel, handler: nil)
+        
+        mapActionController.addAction(appleMapsAction)
+        mapActionController.addAction(googleMapsAction)
+        mapActionController.addAction(cancelAction)
+        self.present(mapActionController, animated: true) {}
+    }
     
 }

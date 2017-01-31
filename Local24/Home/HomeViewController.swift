@@ -37,9 +37,8 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         gaUserTracking("Home")
-//        if let geofilter = filterManager.filters.first(where: {$0!.type == .geo_distance}) {
-//        //reverse geocoding
-//        }
+        collectionView?.reloadData()
+        
         
 //        if filter.searchLocationString == "Deutschland" {
 //            searchLocationButton.setTitle("Suchen in: \(filter.searchLocationString)", for: UIControlState())
@@ -100,6 +99,11 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "HomeHeader", for: indexPath) as! HomeHeaderCollectionReusableView
         headerView.searchBar.delegate = self
+        if let geofilterValue = FilterManager.shared.getValueOffilter(withName: .geo_distance, filterType: .geo_distance) {
+            headerView.currentLocationButton.setTitle(geofilterValue, for: .normal)
+        } else {
+            headerView.currentLocationButton.setTitle("Deutschland", for: .normal)
+        }
         return headerView
     }
     

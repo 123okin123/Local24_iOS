@@ -31,10 +31,9 @@ public class NetworkManager  {
         if filterArray != nil {
             parameters["source"] = FilterManager.shared.getJSONFromfilterArray(filterArray: filterArray!)
         }
-        debugPrint(filterArray)
         
         NetworkManager.Manager.request(searchIndexURL, method: .get, parameters: parameters).responseJSON (completionHandler: { responseData in
-            //debugPrint(responseData)
+            debugPrint(responseData)
             
             switch responseData.result {
             case .failure(let error):
@@ -226,7 +225,7 @@ public class NetworkManager  {
         })
     }
     
-     func getImagePathsFor(adID :String, completion: @escaping (_ imagePaths: [String]?, _ error: Error?) -> Void) {
+     func getImagePathsFor(adID :Int, completion: @escaping (_ imagePaths: [String]?, _ error: Error?) -> Void) {
         Alamofire.request("https://cfw-api-11.azurewebsites.net/public/ads/\(adID)/images/").responseJSON(completionHandler: { response in
            
             switch response.result {
@@ -247,7 +246,7 @@ public class NetworkManager  {
         })
     }
     
-     func getImagesFor(adID :String, completion: @escaping (_ images: [UIImage]?) -> Void) {
+     func getImagesFor(adID :Int, completion: @escaping (_ images: [UIImage]?) -> Void) {
         self.getImagePathsFor(adID: adID, completion: { (imagePaths, error) in
             if error == nil {
                 var images = [UIImage]()
@@ -275,6 +274,28 @@ public class NetworkManager  {
         UIGraphicsEndImageContext()
         
         return newImage
+    }
+    
+    func getImageFor(paths: [String], completion: @escaping (_ images:[UIImage]?,_ error :Error?) -> Void) {
+        var images = [UIImage]()
+        for path in paths  {
+            if let imageUrl = URL(string: path) {
+                let manager = ImageManager.sharedManager
+                _ = manager.downloadImage(atUrl: imageUrl, cacheScaled: false, imageView: nil, completion: { imageDownloaderCompletion in
+                    if imageDownloaderCompletion.1 == nil {
+                    if let image = imageDownloaderCompletion.0?.image {
+                        images.append(image)
+                    }
+                    if paths.count == images.count {
+                        completion(images, nil)
+                    }
+                    } else {
+                    completion(nil, imageDownloaderCompletion.1)
+                    }
+                })
+            }
+        }
+
     }
 
     
