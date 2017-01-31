@@ -7,17 +7,17 @@
 //
 
 import UIKit
-import FBAudienceNetwork
+//import FBAudienceNetwork
 
 
 
-class SearchViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, FBNativeAdDelegate, FilterManagerDelegate {
+class SearchViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout /*, FBNativeAdDelegate*/, FilterManagerDelegate  {
     
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var filterCollectionView: UICollectionView!
 
     var listings = [Listing]()
-    var facebookAds = [FacebookAd]()
+    //var facebookAds = [FacebookAd]()
     
     var refresher = UIRefreshControl()
     var currentPage = 0
@@ -176,7 +176,7 @@ class SearchViewController: UIViewController, UICollectionViewDelegate, UICollec
     
     
     // MARK: Ads
-    
+    /*
     func showNativeAd() {
     let nativeAd = FBNativeAd(placementID: "1737515613173620_1740640836194431")
     nativeAd.delegate = self
@@ -219,5 +219,5 @@ class SearchViewController: UIViewController, UICollectionViewDelegate, UICollec
     func nativeAd(_ nativeAd: FBNativeAd, didFailWithError error: Error) {
         print(error)
     }
-
+*/
 }

@@ -13,7 +13,7 @@ target 'Local24' do
   pod 'FBSDKCoreKit'
   pod 'FBSDKLoginKit'
   pod 'FBSDKShareKit'
-  pod 'FBAudienceNetwork'
+  #pod 'FBAudienceNetwork' git: larger than 100mb
   pod 'Alamofire', '~> 4.0'
   pod 'MapleBacon'
   pod 'ImagePicker'

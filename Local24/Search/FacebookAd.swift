@@ -5,7 +5,7 @@
 //  Created by Local24 on 10/05/16.
 //  Copyright © 2016 Nikolai Kratz. All rights reserved.
 //
-
+/*
 import Foundation
 import FBAudienceNetwork
 
@@ -23,3 +23,4 @@ class FacebookAd {
 
 
 }
+*/
