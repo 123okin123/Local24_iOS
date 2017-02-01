@@ -171,14 +171,43 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     // ------------------- Important: Consider Old App Versions --------------- //
     
+    func geoFilterFromDefaults(defaults :UserDefaults)  {
+        guard let value = defaults.string(forKey: "geoFilterValue") else {return}
+        let long = defaults.double(forKey: "lon")
+        let lat = defaults.double(forKey: "lat")
+        let distance = defaults.double(forKey: "distance")
+        guard long != 0 else {return }
+        guard lat != 0 else {return }
+        guard distance != 0 else {return }
+        let geofilter = Geofilter(lat: lat, lon: long, distance: distance, value: value)
+        FilterManager.shared.setfilter(newfilter: geofilter)
+    }
     
+    func geoFiltersToDefaults(defaults :UserDefaults) {
+        if let geoFilter = FilterManager.shared.getFilter(withName: .geo_distance) as? Geofilter {
+            defaults.set(geoFilter.value, forKey: "geoFilterValue")
+            defaults.set(geoFilter.lon, forKey: "lon")
+            defaults.set(geoFilter.lat, forKey: "lat")
+            defaults.set(geoFilter.distance, forKey: "distance")
+        }
+    }
     
     func loadDataFromDefaults() {
         
         let defaults = UserDefaults.standard
-        if defaults.string(forKey: "existingUser") != nil {
-            
-            
+        geoFilterFromDefaults(defaults: defaults)
+        
+        viewedRegion.center.latitude = defaults.double(forKey: "viewedRegion.center.latitude")
+        viewedRegion.center.longitude = defaults.double(forKey: "viewedRegion.center.longitude")
+        viewedRegion.span.latitudeDelta = defaults.double(forKey: "viewedRegion.span.latitudeDelta")
+        viewedRegion.span.longitudeDelta = defaults.double(forKey: "viewedRegion.span.longitudeDelta")
+        userToken = defaults.string(forKey: "userToken")
+        
+        
+        
+        
+       // if defaults.string(forKey: "existingUser") != nil {
+         //   }
             /*
             if let sZ = defaults.string(forKey: "searchZip") {filter.searchZip = sZ}
             if let minP = defaults.string(forKey: "minPrice") {filter.minPrice = minP}
@@ -191,23 +220,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             filter.subCategoryID = defaults.integer(forKey: "subCategoryID")
              filter.onlyLocalListings = defaults.bool(forKey: "onlyLocalListings")
             */
-            viewedRegion?.center.latitude = defaults.double(forKey: "viewedRegion.center.latitude")
-            viewedRegion?.center.longitude = defaults.double(forKey: "viewedRegion.center.longitude")
-            viewedRegion?.span.latitudeDelta = defaults.double(forKey: "viewedRegion.span.latitudeDelta")
-            viewedRegion?.span.longitudeDelta = defaults.double(forKey: "viewedRegion.span.longitudeDelta")
-            
-            userToken = defaults.string(forKey: "userToken")
-        }
+
+     
         
     }
     func saveDataToDefaults() {
         
         let defaults = UserDefaults.standard
+        geoFiltersToDefaults(defaults: defaults)
         defaults.set("existingUser", forKey: "existingUser")
-        defaults.set(viewedRegion?.center.latitude, forKey: "viewedRegion.center.latitude")
-        defaults.set(viewedRegion?.center.longitude, forKey: "viewedRegion.center.longitude")
-        defaults.set(viewedRegion?.span.latitudeDelta, forKey: "viewedRegion.span.latitudeDelta")
-        defaults.set(viewedRegion?.span.longitudeDelta, forKey: "viewedRegion.span.longitudeDelta")
+        defaults.set(viewedRegion.center.latitude, forKey: "viewedRegion.center.latitude")
+        defaults.set(viewedRegion.center.longitude, forKey: "viewedRegion.center.longitude")
+        defaults.set(viewedRegion.span.latitudeDelta, forKey: "viewedRegion.span.latitudeDelta")
+        defaults.set(viewedRegion.span.longitudeDelta, forKey: "viewedRegion.span.longitudeDelta")
+        
+        
         /*
         defaults.set(filter.searchZip, forKey: "searchZip")
         defaults.set(filter.minPrice, forKey: "minPrice")

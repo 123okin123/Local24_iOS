@@ -24,16 +24,16 @@ public class NetworkManager  {
     
     
     
-    func getAdsSatisfying(filterArray :[filter]?, page: Int, completion: @escaping (_ listings :[Listing]?,_ error :Error?) -> Void) {
+    func getAdsSatisfying(filterArray :[Filter]?, page: Int, completion: @escaping (_ listings :[Listing]?,_ error :Error?) -> Void) {
         var parameters = [String:Any]()
-        parameters["size"] = 20
-        parameters["from"] = page * 20
+        //parameters["size"] = 20
+        //parameters["from"] = page * 20
         if filterArray != nil {
-            parameters["source"] = FilterManager.shared.getJSONFromfilterArray(filterArray: filterArray!)
+            parameters["source"] = FilterManager.shared.getJSONFromfilterArray(filterArray: filterArray!, size: 20, from: (page * 20))
         }
         
         NetworkManager.Manager.request(searchIndexURL, method: .get, parameters: parameters).responseJSON (completionHandler: { responseData in
-            //debugPrint(responseData)
+            debugPrint(responseData)
             
             switch responseData.result {
             case .failure(let error):

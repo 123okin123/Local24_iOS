@@ -10,7 +10,7 @@ import UIKit
 import MapKit
 
 
-public var viewedRegion :MKCoordinateRegion?
+public var viewedRegion = MKCoordinateRegion()
 
 class LocationViewController: UIViewController, UISearchBarDelegate, UISearchResultsUpdating, UISearchControllerDelegate, MKMapViewDelegate , UIGestureRecognizerDelegate, CLLocationManagerDelegate {
     @IBOutlet weak var mapView: MKMapView!
@@ -89,9 +89,9 @@ class LocationViewController: UIViewController, UISearchBarDelegate, UISearchRes
         
         
         checkLocationAuthorizationStatus()
-        if viewedRegion != nil {
-        mapView.setRegion(viewedRegion!, animated: true)
-        }
+        
+        mapView.setRegion(viewedRegion, animated: true)
+        
         
 
     }

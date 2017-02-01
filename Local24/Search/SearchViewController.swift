@@ -51,7 +51,7 @@ class SearchViewController: UIViewController, UICollectionViewDelegate, UICollec
             let attributeDict = [
                 NSFontAttributeName: font!,
             ]
-            searchTextField!.attributedPlaceholder = NSAttributedString(string: "Was suchst du?", attributes: attributeDict)
+            searchTextField!.attributedPlaceholder = NSAttributedString(string: "Wonach suchst du?", attributes: attributeDict)
         }
         searchTextField?.textColor = UIColor.gray
         
@@ -80,6 +80,8 @@ class SearchViewController: UIViewController, UICollectionViewDelegate, UICollec
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if searchBar.text != "" && searchBar.text != nil {
+            let tracker = GAI.sharedInstance().defaultTracker
+            tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Search", action: "searchInSearch", label: searchBar.text!, value: 0).build() as NSDictionary as! [AnyHashable: Any])
             if FilterManager.shared.filters.contains(where: {$0.name == .sorting}) {
                 FilterManager.shared.setfilter(newfilter: Stringfilter(value: searchBar.text!))
                 filterCollectionView.reloadData()
@@ -93,6 +95,7 @@ class SearchViewController: UIViewController, UICollectionViewDelegate, UICollec
 
         }
         searchBar.resignFirstResponder()
+        searchBar.text = ""
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
@@ -219,6 +222,7 @@ class SearchViewController: UIViewController, UICollectionViewDelegate, UICollec
     }
   
     func loadListings(page :Int, completion: @escaping (() -> Void)) {
+        
         networkManager.getAdsSatisfying(filterArray: FilterManager.shared.filters, page: page, completion: { (listings, error) in
             completion()
             if error == nil && listings != nil {
@@ -234,6 +238,7 @@ class SearchViewController: UIViewController, UICollectionViewDelegate, UICollec
             } else {
                 print(error!.localizedDescription)
             }
+            
             self.collectionView?.reloadData()
         })
     }

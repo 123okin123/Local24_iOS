@@ -15,11 +15,11 @@ class FilterManager {
 
     static let shared = FilterManager()
     
-    var filters = [filter]()
+    var filters = [Filter]()
 
     weak var delegate:FilterManagerDelegate?
     
-     func setfilter(newfilter :filter) {
+     func setfilter(newfilter :Filter) {
         if filters.contains(where: {$0.name == newfilter.name}) {
             if let index = filters.index(where: {$0.name == newfilter.name}) {
                 
@@ -47,7 +47,7 @@ class FilterManager {
         delegate?.filtersDidChange()
     }
     
-    func removefilter(filterToRemove :filter) {
+    func removefilter(filterToRemove :Filter) {
         if let index = filters.index(where: {$0.name == filterToRemove.name}) {
             filters.remove(at: index)
             delegate?.filtersDidChange()
@@ -106,9 +106,11 @@ class FilterManager {
         }
     }
     
+    func getFilter(withName name: filterName) -> Filter? {
+        return filters.first(where: {$0.name == name})
+    }
     
-    
-    func getJSONFromfilterArray(filterArray: [filter]) -> JSON {
+    func getJSONFromfilterArray(filterArray: [Filter], size: Int, from: Int) -> JSON {
         var sort = [[AnyHashable:Any]]()
         var filterJson = [[AnyHashable: Any]]()
         var searchString :String?
@@ -226,11 +228,13 @@ class FilterManager {
                         ]
                 ]
             }
-            let request = ["query": query, "sort": sort] as [String : Any]
-            print(JSON(request))
-            return JSON(request)
+            let request = ["query": query,"from": from, "size": size, "sort": sort] as [String : Any]
+            let json = JSON(request)
+            print(json)
+            return json
+         
         } else {
-            let request = ["sort": sort] as [String : Any]
+            let request = ["from": from, "size": size, "sort": sort] as [String : Any]
             print(JSON(request))
             return JSON(request)
         }
@@ -257,7 +261,7 @@ class FilterManager {
 
 
 
-public class filter {
+public class Filter {
     var name: filterName!
     var descriptiveString: String!
     var filterType: filterType!
@@ -271,14 +275,14 @@ public class filter {
     }
 }
 
-public class Termfilter :filter {
+public class Termfilter :Filter {
     var value: String!
     init(name: filterName, descriptiveString :String, value: String) {
         super.init(name: name, descriptiveString: descriptiveString, filterType: .term)
         self.value = value
     }
 }
-public class Sortfilter :filter {
+public class Sortfilter :Filter {
     var criterium: Criterium!
     var order: Order!
     init(criterium: Criterium, order :Order) {
@@ -288,7 +292,7 @@ public class Sortfilter :filter {
     }
 }
 
-public class Geofilter: filter {
+public class Geofilter: Filter {
     var lat :Double!
     var lon :Double!
     var distance :Double!
@@ -302,7 +306,7 @@ public class Geofilter: filter {
     }
 }
 
-public class Rangefilter :filter {
+public class Rangefilter :Filter {
     var gte :Double? //Lower value
     var lte :Double? //Upper Value
     init(name: filterName, descriptiveString :String, gte: Double?, lte: Double?) {
@@ -312,7 +316,7 @@ public class Rangefilter :filter {
     }
 }
 
-public class Stringfilter :filter {
+public class Stringfilter :Filter {
     var queryString :String!
     init(value: String) {
         super.init(name: .search_string, descriptiveString: "Suchbegriff", filterType: .search_string)
