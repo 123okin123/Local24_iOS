@@ -10,7 +10,7 @@ import UIKit
 import MapKit
 
 
-
+public var viewedRegion :MKCoordinateRegion?
 
 class LocationViewController: UIViewController, UISearchBarDelegate, UISearchResultsUpdating, UISearchControllerDelegate, MKMapViewDelegate , UIGestureRecognizerDelegate, CLLocationManagerDelegate {
     @IBOutlet weak var mapView: MKMapView!
@@ -22,7 +22,6 @@ class LocationViewController: UIViewController, UISearchBarDelegate, UISearchRes
     var resultsTableController: LocationResultsTableController!
     var searchController: UISearchController!
     
-    var filter = (UIApplication.shared.delegate as! AppDelegate).filter
 
 
     
@@ -90,8 +89,9 @@ class LocationViewController: UIViewController, UISearchBarDelegate, UISearchRes
         
         
         checkLocationAuthorizationStatus()
-        mapView.setRegion(filter.viewedRegion, animated: true)
-        
+        if viewedRegion != nil {
+        mapView.setRegion(viewedRegion!, animated: true)
+        }
         
 
     }
@@ -151,17 +151,16 @@ class LocationViewController: UIViewController, UISearchBarDelegate, UISearchRes
             else {
                 let pm = placemarks! as [CLPlacemark]
                 if pm.count > 0 {
-                    if let subAdminArea = pm[0].subAdministrativeArea {
-                        self.filter.searchLocationString = subAdminArea
-                        self.searchController.searchBar.text = subAdminArea
-                    }
-                    if let zip = pm[0].postalCode {self.filter.searchZip = zip}
-                    self.filter.searchLat = round(center2d.latitude*1000000)/1000000
-                    self.filter.searchLong = round(center2d.longitude*1000000)/1000000
-                    self.filter.searchRadius = Int(round(radius/1000))
-                    self.filter.viewedRegion = self.mapView.region
-
-
+                    guard let subAdminArea = pm[0].subAdministrativeArea else {return}
+                    guard let zip = pm[0].postalCode else {return}
+                    self.searchController.searchBar.text = subAdminArea
+                    let lat = round(center2d.latitude*1000000)/1000000
+                    let lon = round(center2d.longitude*1000000)/1000000
+                    let radius = round(radius/1000)
+                    
+                    let geofilter = Geofilter(lat: lat, lon: lon, distance: radius, value: (zip + " " + subAdminArea + " (\(radius)km)"))
+                    FilterManager.shared.setfilter(newfilter: geofilter)
+                    viewedRegion = self.mapView.region
                 }
             }
         })

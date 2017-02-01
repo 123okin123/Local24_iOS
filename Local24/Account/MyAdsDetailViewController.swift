@@ -63,7 +63,7 @@ class MyAdsDetailViewController: UIViewController, UITableViewDataSource, UITabl
     
  
     @IBAction func mapViewPressed(_ sender: UITapGestureRecognizer) {
-        let mapActionController = UIAlertController(title: "Anzeigen in", message: "", preferredStyle: .actionSheet)
+        let mapActionController = UIAlertController(title: "Anzeigen in", message: nil, preferredStyle: .actionSheet)
         let appleMapsAction = UIAlertAction(title: "Apple Karten", style: .default, handler: { UIAlertAction in
             
             guard let latitute:CLLocationDegrees =  self.listing.adLat else {return}
@@ -357,7 +357,7 @@ class MyAdsDetailViewController: UIViewController, UITableViewDataSource, UITabl
             case 0:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "locationMapCellID") as! LocationMapTableViewCell!
                 if listing.adLat != nil && listing.adLong != nil {
-                let region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: listing.adLat!, longitude: listing.adLong!), span: MKCoordinateSpan(latitudeDelta: 0.2, longitudeDelta: 0.2))
+                let region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: listing.adLat!, longitude: listing.adLong!), span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
                 cell?.mapView.setRegion(region, animated: false)
                 }
                 defaultcell = cell!

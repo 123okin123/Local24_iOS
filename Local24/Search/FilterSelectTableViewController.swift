@@ -1,5 +1,5 @@
 //
-//  FilterSelectTableViewController.swift
+//  filterSelectTableViewController.swift
 //  Local24
 //
 //  Created by Local24 on 25/04/16.
@@ -8,24 +8,32 @@
 
 import UIKit
 
-class FilterSelectTableViewController: UITableViewController {
+class filterSelectTableViewController: UITableViewController {
 
+    var selectType :SelectType!
+    enum SelectType {
+        case sorting
+        case categories
+    }
+
+
+    var options = [String]()
     
-    var filterTag :Int = 0
-    let categories = Categories()
-    var subCategoryID :Int?
-    var mainCategoryID :Int?
-    var sorting = Filter.Sorting.TimeAsc
-
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        switch filterTag {
-        case 0:
+        switch selectType! {
+        case .categories:
             self.title = "Kategorien"
-        case 1:
+            for category in categoryBuilder.mainCategories {
+                options.append(category.name)
+            }
+        case .sorting:
             self.title = "Sortierung"
-        default: break
+            for value in sortingOptions {
+                options.append(value.descriptiveString)
+            }
         }
     }
     override func viewDidAppear(_ animated: Bool) {
@@ -34,7 +42,7 @@ class FilterSelectTableViewController: UITableViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        gaUserTracking("Filter/\(self.title)")
+        gaUserTracking("filter/\(self.title)")
     }
 
     override func didReceiveMemoryWarning() {
@@ -45,76 +53,59 @@ class FilterSelectTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        switch filterTag {
-        case 0:
+        switch selectType! {
+        case .categories:
             return 2
-        case 1:
+        case .sorting:
             return 1
-        default:
-            return 0
         }
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        switch filterTag {
-        case 0:
+        switch selectType! {
+        case .categories:
             if section == 1 {
-            return categories.mainCatsStrings.count
+            return options.count
             } else {
             return 1
             }
-        case 1:
-            return 7
-        default:
-            return 0
+        case .sorting:
+            return options.count
         }
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var defaultCell = UITableViewCell()
-        switch filterTag {
-        case 0:
-            if (indexPath as NSIndexPath).section == 1 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "moreFilterOptionsCellID", for: indexPath)
-                cell.textLabel?.text = categories.mainCatsStrings[(indexPath as NSIndexPath).row]
+        switch selectType! {
+        case .categories:
+            if indexPath.section == 1 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "morefilterOptionsCellID", for: indexPath)
+                cell.textLabel?.text = options[indexPath.row]
                 defaultCell = cell
             } else {
-                let cell = tableView.dequeueReusableCell(withIdentifier: "nomoreFilterOptionsCellID", for: indexPath)
+                let cell = tableView.dequeueReusableCell(withIdentifier: "nomorefilterOptionsCellID", for: indexPath)
                 cell.textLabel?.text = "Alle Anzeigen"
-                if mainCategoryID == nil {
-                cell.accessoryType = .checkmark
+                if options[indexPath.row] == FilterManager.shared.getValueOffilter(withName: .category, filterType: .term) {
+                    cell.accessoryType = .checkmark
                 } else {
-                cell.accessoryType = .none
+                    cell.accessoryType = .none
                 }
                 defaultCell = cell
             }
-        case 1:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "nomoreFilterOptionsCellID", for: indexPath)
-        
-            switch (indexPath as NSIndexPath).row {
-            case 0: cell.textLabel?.text = "Relevanz"
-            case 1: cell.textLabel?.text = "Datum aufsteigen"
-            case 2: cell.textLabel?.text = "Datum absteigend"
-            case 3: cell.textLabel?.text = "Preis aufsteigend"
-            case 4: cell.textLabel?.text = "Preis absteigend"
-            case 5: cell.textLabel?.text = "Entfernung aufsteigend"
-            case 6: cell.textLabel?.text = "Entfernung absteigend"
-            default: break
-            }
-            if cell.textLabel?.text == sorting.rawValue {
-            cell.accessoryType = .checkmark
+        case .sorting:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "nomorefilterOptionsCellID", for: indexPath)
+            cell.textLabel?.text = options[indexPath.row]
+            
+            if options[indexPath.row] == FilterManager.shared.getValueOffilter(withName: .sorting, filterType: .sort) {
+                cell.accessoryType = .checkmark
             } else {
                 cell.accessoryType = .none
             }
-
             defaultCell = cell
-
-        default: break
         }
-        defaultCell.tag = (indexPath as NSIndexPath).row
+        defaultCell.tag = indexPath.row
 
         return defaultCell
     }
@@ -122,29 +113,18 @@ class FilterSelectTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let filterVC = self.navigationController?.viewControllers[0] as! FilterViewController
-        switch filterTag {
-        case 0:
-            if (indexPath as NSIndexPath).section == 0 {
-            filterVC.filter.mainCategoryID = 99
-            filterVC.filter.subCategoryID = 99
-            filterVC.tableView.reloadData()
-            _ = self.navigationController?.popToRootViewController(animated: true)
+        switch selectType! {
+        case .categories:
+            if indexPath.section == 0 {
+                FilterManager.shared.removefilterWithName(name: .category)
+                FilterManager.shared.removefilterWithName(name: .subcategory)
+                filterVC.tableView.reloadData()
+                _ = self.navigationController?.popToRootViewController(animated: true)
             }
-        case 1:
-            switch (indexPath as NSIndexPath).row {
-            case 0: sorting = Filter.Sorting.Relevance
-            case 1: sorting = Filter.Sorting.TimeAsc
-            case 2: sorting = Filter.Sorting.TimeDesc
-            case 3: sorting = Filter.Sorting.PriceAsc
-            case 4: sorting = Filter.Sorting.PriceDesc
-            case 5: sorting = Filter.Sorting.RangeAsc
-            case 6: sorting = Filter.Sorting.RangeDesc
-            default: break
-            }
-            filterVC.filter.sorting = sorting
-            _ = self.navigationController?.popToRootViewController(animated: true)
-        default: break
-        
+        case .sorting:
+            let sorting = sortingOptions[indexPath.row]
+                FilterManager.shared.setfilter(newfilter: Sortfilter(criterium: sorting.criterium, order: sorting.order))
+                _ = self.navigationController?.popToRootViewController(animated: true)
         }
     }
 
@@ -188,10 +168,10 @@ class FilterSelectTableViewController: UITableViewController {
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showFilterSubCatSegueID" {
-            if let filterMoreSelect = segue.destination as? FilterMoreSelectTableViewController {
+        if segue.identifier == "showfilterSubCatSegueID" {
+            if let filterMoreSelect = segue.destination as? filterMoreSelectTableViewController {
                 if let cell = sender as? UITableViewCell {
-                filterMoreSelect.categoryTag = cell.tag
+                    filterMoreSelect.mainCatID = categoryBuilder.mainCategories.first(where: {$0.name == cell.textLabel!.text!})!.id
 
                 }
             

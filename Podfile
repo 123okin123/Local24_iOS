@@ -13,7 +13,7 @@ target 'Local24' do
   pod 'FBSDKCoreKit'
   pod 'FBSDKLoginKit'
   pod 'FBSDKShareKit'
-  pod 'FBAudienceNetwork'
+  #pod 'FBAudienceNetwork'
   pod 'Alamofire', '~> 4.0'
   pod 'MapleBacon'
   pod 'ImagePicker'
@@ -23,6 +23,7 @@ target 'Local24' do
   pod 'SwiftyJSON'
   pod 'Firebase/Core'
   pod 'Firebase/Messaging'
+  pod 'Firebase/RemoteConfig'
 
   target 'Local24Tests' do
     inherit! :search_paths

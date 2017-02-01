@@ -57,27 +57,6 @@ ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-## FBAudienceNetwork
-
-Copyright (c) 2014-present, Facebook, Inc. All rights reserved.
-
-You are hereby granted a non-exclusive, worldwide, royalty-free license to use,
-copy, modify, and distribute this software in source code or binary form for use
-in connection with the web services and APIs provided by Facebook.
-
-As with any software that integrates with the Facebook platform, your use of
-this software is subject to the Facebook Developer Principles and Policies
-[http://developers.facebook.com/policy/]. This copyright notice shall be
-included in all copies or substantial portions of the software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
-FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
-COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
-IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-
 ## FBSDKCoreKit
 
 Copyright (c) 2014-present, Facebook, Inc. All rights reserved.
@@ -143,7 +122,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ## Firebase
 
-Copyright 2016 Google
+Copyright 2017 Google
 
 ## FirebaseAnalytics
 
@@ -158,6 +137,10 @@ Copyright 2016 Google
 Copyright 2016 Google
 
 ## FirebaseMessaging
+
+Copyright 2016 Google
+
+## FirebaseRemoteConfig
 
 Copyright 2016 Google
 

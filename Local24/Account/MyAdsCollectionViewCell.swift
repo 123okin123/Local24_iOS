@@ -50,7 +50,7 @@ class MyAdsCollectionViewCell: UICollectionViewCell {
         if shadowLayer == nil {
             self.backgroundColor = UIColor.clear
             shadowLayer = CAShapeLayer()
-            shadowLayer.path = UIBezierPath(roundedRect: bounds, cornerRadius: 3).cgPath
+            shadowLayer.path = UIBezierPath(roundedRect: bounds, cornerRadius: 5).cgPath
             shadowLayer.fillColor = UIColor.white.cgColor
             shadowLayer.shadowColor = UIColor(red: 220/255, green: 220/255, blue: 220/255, alpha: 1).cgColor
             shadowLayer.shadowPath = shadowLayer.path
@@ -59,6 +59,7 @@ class MyAdsCollectionViewCell: UICollectionViewCell {
             shadowLayer.shadowRadius = 0.0
             layer.insertSublayer(shadowLayer, at: 0)
         }
+
     }
     override func prepareForReuse() {
         super.prepareForReuse()

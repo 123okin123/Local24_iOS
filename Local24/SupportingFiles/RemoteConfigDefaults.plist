@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>homeCategories</key>
+	<string>58,18,32,16,33,27,6,5,1,29,41</string>
+	<key>showAppRating</key>
+	<false/>
+</dict>
+</plist>

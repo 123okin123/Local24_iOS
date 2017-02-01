@@ -9,7 +9,7 @@
 import UIKit
 
 
-class FilterViewController: UITableViewController {
+class FilterViewController: UITableViewController, UITextFieldDelegate {
 
     
     @IBOutlet weak var searchQueryTextField: UITextField!
@@ -29,16 +29,15 @@ class FilterViewController: UITableViewController {
 
     var sliderSectionHeaderString = ""
     
-    var filter = (UIApplication.shared.delegate as! AppDelegate).filter
     var categories = Categories()
     
-    var showCarFilters = false
+    var showCarfilters = false
 
     @IBAction func onlyLocalListingsSwitchChanged(_ sender: UISwitch) {
         if sender.isOn {
-        filter.onlyLocalListings = false
+            FilterManager.shared.removefilterWithName(name: .sourceId)
         } else {
-        filter.onlyLocalListings = true
+            FilterManager.shared.setfilter(newfilter: Termfilter(name: .sourceId, descriptiveString: "Nur Local24 Anzeigen", value: "MPS"))
         }
     }
 
@@ -65,64 +64,89 @@ class FilterViewController: UITableViewController {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
-
+        searchQueryTextField.delegate = self
+        maxPriceTextField.delegate = self
+        minPriceTextField.delegate = self
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.view.endEditing(true)
-        if filter.searchString != searchQueryTextField.text! {
-        filter.searchString = searchQueryTextField.text!
-        let tracker = GAI.sharedInstance().defaultTracker
-        tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Search", action: "searchInFilter", label: searchQueryTextField.text!, value: 0).build() as NSDictionary as! [AnyHashable: Any])
-        }
-        if filter.maxPrice != maxPriceTextField.text! {
-        filter.maxPrice = maxPriceTextField.text!
-        }
-        if filter.minPrice != minPriceTextField.text! {
-        filter.minPrice = minPriceTextField.text!
-        }
-        if filter.minMileAge != Int(rangeSlider.lowerValue) {
-        filter.minMileAge = Int(rangeSlider.lowerValue)
-        }
-        if filter.maxMileAge != Int(rangeSlider.upperValue) {
-            filter.maxMileAge = Int(rangeSlider.upperValue)
-        }
+        
+//        let tracker = GAI.sharedInstance().defaultTracker
+//        tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Search", action: "searchInfilter", label: searchQueryTextField.text!, value: 0).build() as NSDictionary as! [AnyHashable: Any])
+//        
+
 
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        gaUserTracking("Filter")
-        searchQueryTextField.text = filter.searchString
-        locationLabel.text = filter.searchLocationString
-        maxPriceTextField.text = filter.maxPrice
-        minPriceTextField.text = filter.minPrice
-        if filter.mainCategoryID == 99 && filter.subCategoryID == 99 {
-            categoryLabel.text  = "Alle Anzeigen"
-        } else {
-            if filter.subCategoryID != 99 {
-                categoryLabel.text = categories.cats[filter.mainCategoryID][filter.subCategoryID]
-            } else {
-                categoryLabel.text = categories.cats[filter.mainCategoryID][0]
-            }
-        }
-        sortingLabel.text = filter.sorting.rawValue
-        if filter.onlyLocalListings {
-        onlyLocalListingsSwitch.isOn = false
-        } else {
-        onlyLocalListingsSwitch.isOn = true
-        }
-      
-        checkForAdditionalFilters()
-        
-        
+        gaUserTracking("filter")
+        loadfilters()
 
     }
     
+ 
     
-    func checkForAdditionalFilters() {
-        
+    func loadfilters() {
+        searchQueryTextField.text = FilterManager.shared.getValueOffilter(withName: .search_string, filterType: .search_string)
+        locationLabel.text = FilterManager.shared.getValueOffilter(withName: .geo_distance, filterType: .geo_distance)
+        if let priceRange = FilterManager.shared.getValuesOfRangefilter(withName: .price) {
+            if let lte =  priceRange.lte {
+                maxPriceTextField.text = String(describing: Int(lte))
+            }
+            if let gte =  priceRange.gte {
+                minPriceTextField.text = String(describing: Int(gte))
+            }
+        }
+        if let category = FilterManager.shared.getValueOffilter(withName: .category, filterType: .term) {
+            categoryLabel.text = category
+        } else {
+            categoryLabel.text = "Alle Anzeigen"
+        }
+        sortingLabel.text = FilterManager.shared.getValueOffilter(withName: .sorting, filterType: .sort)
+        if let source = FilterManager.shared.getValueOffilter(withName: .sourceId, filterType: .term) {
+            if source == "MPS" {
+                onlyLocalListingsSwitch.setOn(false, animated: false)
+            } else {
+                onlyLocalListingsSwitch.setOn(true, animated: false)
+            }
+        }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        switch textField {
+            case searchQueryTextField:
+                if searchQueryTextField.text != "" {
+                    FilterManager.shared.setfilter(newfilter: Stringfilter(value: searchQueryTextField.text!))
+                } else {
+                    FilterManager.shared.removefilterWithName(name: .search_string)
+            }
+            case maxPriceTextField, minPriceTextField:
+                if maxPriceTextField.text != "" || minPriceTextField.text != "" {
+                    let priceRange = Rangefilter(name: .price, descriptiveString: "Preis", gte: nil, lte: nil)
+                    if maxPriceTextField.text != "" {
+                        priceRange.lte = Double(maxPriceTextField.text!)
+                    }
+                    if minPriceTextField.text != "" {
+                        priceRange.gte = Double(minPriceTextField.text!)
+                    }
+                    FilterManager.shared.setfilter(newfilter: priceRange)
+            }
+        default: break
+        }
+
+    }
+    
+    func checkForAdditionalfilters() {
+/*
         if filter.mainCategoryID == 0 && filter.subCategoryID == 1 {
             lowerValue = filter.minMileAge
             upperValue = filter.maxMileAge
@@ -133,18 +157,19 @@ class FilterViewController: UITableViewController {
             rangeSlider.maximumValue = 500000
             rangeSlider.stepValue = 5000
 
-            showCarFilters = true
+            showCarfilters = true
             
         } else {
-            showCarFilters = false
+            showCarfilters = false
         }
         tableView.reloadSections(IndexSet(integer: 4), with: .none)
+ */
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
        rangeSlider.setUpperValue(Float(upperValue), animated: true)
-    rangeSlider.setLowerValue(Float(lowerValue), animated: true)
+        rangeSlider.setLowerValue(Float(lowerValue), animated: true)
         rangeSlider.minimumValue = 0
         rangeSlider.maximumValue = 500000
         rangeSlider.stepValue = 5000
@@ -235,7 +260,7 @@ class FilterViewController: UITableViewController {
     func shouldHideSection(_ section: Int) -> Bool {
         switch section {
         case 4:
-            if showCarFilters { return false }
+            if showCarfilters { return false }
             else { return true }
         default: return false
         }
@@ -250,23 +275,19 @@ class FilterViewController: UITableViewController {
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showFilterSelectVCSegueID" {
-            if let filterSelectVC = segue.destination as? FilterSelectTableViewController {
+        if segue.identifier == "showfilterSelectVCSegueID" {
+            if let filterSelectVC = segue.destination as? filterSelectTableViewController {
                 if let cell = sender as? UITableViewCell {
-                        filterSelectVC.filterTag = cell.tag
-                        filterSelectVC.mainCategoryID = self.filter.mainCategoryID
-                        filterSelectVC.subCategoryID = self.filter.subCategoryID
-                        filterSelectVC.sorting = self.filter.sorting
-                    
-
+                    switch cell.tag {
+                    case 0: filterSelectVC.selectType = .categories
+                    case 1: filterSelectVC.selectType = .sorting
+                    default: break
+                    }
                 }
-                
             }
-            
-            
         }
-        
     }
   
 
 }
+ 

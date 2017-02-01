@@ -1,5 +1,5 @@
 //
-//  FilterMoreSelectTableViewController.swift
+//  filterMoreSelectTableViewController.swift
 //  Local24
 //
 //  Created by Local24 on 25/04/16.
@@ -8,15 +8,18 @@
 
 import UIKit
 
-class FilterMoreSelectTableViewController: UITableViewController {
+class filterMoreSelectTableViewController: UITableViewController {
 
-    var categories = Categories()
-    var filter = (UIApplication.shared.delegate as! AppDelegate).filter
-    var categoryTag = 0
+    var mainCatID : Int!
+    var options = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = categories.mainCatsStrings[categoryTag]
+        self.title = categoryBuilder.mainCategories.first(where: {$0.id == mainCatID})?.name
+        let subcategories = categoryBuilder.subCategories.filter({$0.idParentCategory == mainCatID})
+        for subcategory in subcategories {
+            options.append(subcategory.name)
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -32,23 +35,21 @@ class FilterMoreSelectTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        gaUserTracking("Filter/Kategorien/\(self.title)/")
+        gaUserTracking("filter/Kategorien/\(self.title)/")
     }
     
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 2
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         if section == 0 {
         return 1
         }
         else {
-        return categories.cats[categoryTag].count - 1
+        return options.count
         }
         
     }
@@ -56,28 +57,25 @@ class FilterMoreSelectTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var defaultCell = UITableViewCell()
-        if (indexPath as NSIndexPath).section == 0 {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "maincatFilterOptionsCellID", for: indexPath)
-            cell.textLabel?.text = categories.cats[categoryTag][0]
-            if filter.mainCategoryID != 99 && filter.subCategoryID == 99 {
-            if cell.textLabel?.text == categories.cats[filter.mainCategoryID][0] {
+        if indexPath.section == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "maincatfilterOptionsCellID", for: indexPath)
+            let categoryName = categoryBuilder.mainCategories.first(where: {$0.id == mainCatID})!.name
+            cell.textLabel?.text = "Alles in " + categoryName!
+            if FilterManager.shared.getValueOffilter(withName: .category, filterType: .term) == categoryName &&
+                FilterManager.shared.getValueOffilter(withName: .subcategory, filterType: .term) == nil {
                 cell.accessoryType = .checkmark
-                }
             }
             else {
                 cell.accessoryType = .none
             }
-            
             defaultCell = cell
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "subcatFilterOptionsCellID", for: indexPath)
-            cell.textLabel?.text = categories.cats[categoryTag][(indexPath as NSIndexPath).row + 1]
-            if filter.subCategoryID != 99 {
-            if cell.textLabel?.text == categories.cats[filter.mainCategoryID][filter.subCategoryID] {
-            cell.accessoryType = .checkmark
+            let cell = tableView.dequeueReusableCell(withIdentifier: "subcatfilterOptionsCellID", for: indexPath)
+            cell.textLabel?.text = options[indexPath.row]
+            if options[indexPath.row] == FilterManager.shared.getValueOffilter(withName: .subcategory, filterType: .term) {
+                cell.accessoryType = .checkmark
             } else {
-            cell.accessoryType = .none
-            }
+                cell.accessoryType = .none
             }
             defaultCell = cell
         }
@@ -95,13 +93,13 @@ class FilterMoreSelectTableViewController: UITableViewController {
     
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        filter.mainCategoryID = categoryTag
-        switch (indexPath as NSIndexPath).section {
+        let category = categoryBuilder.mainCategories.first(where: {$0.id == mainCatID})
+        FilterManager.shared.setfilter(newfilter: Termfilter(name: .category, descriptiveString: "Kategorie", value: category!.name))
+        switch indexPath.section {
         case 1:
-            filter.subCategoryID = (indexPath as NSIndexPath).row + 1
+            FilterManager.shared.setfilter(newfilter: Termfilter(name: .subcategory, descriptiveString: "Unterkategorie", value: options[indexPath.row]))
         case 0:
-            filter.subCategoryID = 99
+            FilterManager.shared.removefilterWithName(name: .subcategory)
         default: break;
         }
         let filterVC = self.navigationController?.viewControllers[0] as! FilterViewController
