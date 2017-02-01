@@ -29,11 +29,11 @@ befor publishing!!!!
 
 
 public var localCSS = true
-public var dryRunGA = false
+public var dryRunGA = true
 public var gaLogging = false
 public let mode = "www"
 public var adultContent = true
-public var remoteConfigDevMode = true
+public var remoteConfigDevMode = false
 
 public var searchIndexURL = "https://local24:t8K_gVwSrOeviNSCziikq8-TD_PbRezS@local24-732756935.eu-west-1.elb.amazonaws.com/local24/_search"
 
