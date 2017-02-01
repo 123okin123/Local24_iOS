@@ -324,7 +324,7 @@ public var sortingOptions = [
     Sorting(criterium: .createDate, order: .desc, descriptiveString: "Neuste zuerst"),
     Sorting(criterium: .price, order: .asc, descriptiveString: "Preis aufsteigend"),
     Sorting(criterium: .price, order: .desc, descriptiveString: "Preis absteigend"),
-    Sorting(criterium: .city, order: .desc, descriptiveString: "Entfernung"),
+    Sorting(criterium: .city, order: .asc, descriptiveString: "Entfernung"),
 ]
 public class Sorting {
     
