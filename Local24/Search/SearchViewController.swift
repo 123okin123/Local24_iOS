@@ -8,6 +8,7 @@
 
 import UIKit
 import FBAudienceNetwork
+import NVActivityIndicatorView
 
 
 
@@ -35,7 +36,7 @@ class SearchViewController: UIViewController, UICollectionViewDelegate, UICollec
         super.viewDidLoad()
         collectionView.delegate = self
         collectionView.dataSource = self
-        filterCollectionViewDelegate = FilterCollectionViewDelegate(collectionView: filterCollectionView)
+        filterCollectionViewDelegate = FilterCollectionViewDelegate(collectionView: filterCollectionView, viewController: self)
         filterCollectionView.delegate = filterCollectionViewDelegate
         filterCollectionView.dataSource = self
         if #available(iOS 10.0, *) {
@@ -54,9 +55,9 @@ class SearchViewController: UIViewController, UICollectionViewDelegate, UICollec
             searchTextField!.attributedPlaceholder = NSAttributedString(string: "Wonach suchst du?", attributes: attributeDict)
         }
         searchTextField?.textColor = UIColor.gray
-        
         FilterManager.shared.delegate = self
         loadListings(page: 0, completion: {})
+        
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -141,15 +142,19 @@ class SearchViewController: UIViewController, UICollectionViewDelegate, UICollec
             case .sort:
             let sortFilter = filter as! Sortfilter
             cell.filtervalue.text = sortingOptions.first(where: {$0.order == sortFilter.order && $0.criterium == sortFilter.criterium})?.descriptiveString
+            cell.imageViewWidthConstraint.constant = 0
         case .term:
             let termFilter = filter as! Termfilter
             cell.filtervalue.text = termFilter.value
+            cell.imageViewWidthConstraint.constant = 10
         case .geo_distance:
             let geoFilter = filter as! Geofilter
             cell.filtervalue.text = geoFilter.value
+            cell.imageViewWidthConstraint.constant = 0
         case .search_string:
             let searchFilter = filter as! Stringfilter
             cell.filtervalue.text = searchFilter.queryString
+            cell.imageViewWidthConstraint.constant = 10
         case .range:
             let rangeFilter = filter as! Rangefilter
             var value = ""
@@ -160,6 +165,7 @@ class SearchViewController: UIViewController, UICollectionViewDelegate, UICollec
                 value += "bis \(Int(lte))€"
             }
             cell.filtervalue.text = value
+            cell.imageViewWidthConstraint.constant = 10
         }
         
         return cell
@@ -215,6 +221,7 @@ class SearchViewController: UIViewController, UICollectionViewDelegate, UICollec
     }
     
     func refresh() {
+        currentPage = 0
         loadListings(page: 0, completion: {
             self.listings.removeAll()
             self.refresher.endRefreshing()
@@ -255,15 +262,19 @@ class SearchViewController: UIViewController, UICollectionViewDelegate, UICollec
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if indexPath.item == listings.count - 1 {
-            loadListings(page: listings.count/20, completion: {})
+            if listings.count >= 20 * (currentPage + 1) {
+            loadListings(page: listings.count/20, completion: {
+            self.currentPage += 1
+            })
+            }
         }
     }
     
     //MARK: Navigation
     
-    @IBAction func backfromfilterSegue(_ segue:UIStoryboardSegue) {
-        
-    }
+    @IBAction func backfromLocationToSearchSegue(_ segue:UIStoryboardSegue) {}
+    
+    @IBAction func backfromfilterSegue(_ segue:UIStoryboardSegue) {}
     
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -331,9 +342,12 @@ class SearchViewController: UIViewController, UICollectionViewDelegate, UICollec
 
 class FilterCollectionViewDelegate :NSObject, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
-    init(collectionView: UICollectionView) {
+    var collectionViewController :UIViewController?
+    
+    init(collectionView: UICollectionView, viewController: UIViewController) {
         super.init()
         collectionView.delegate = self
+        collectionViewController = viewController
     }
     
 
@@ -344,6 +358,12 @@ class FilterCollectionViewDelegate :NSObject, UICollectionViewDelegate, UICollec
             FilterManager.shared.removefilterWithIndex(index: indexPath.row)
             collectionView.deleteItems(at: [indexPath])
             collectionView.collectionViewLayout.invalidateLayout()
+        }
+        if filter.filterType == .geo_distance {
+            collectionViewController?.performSegue(withIdentifier: "fromSearchToLocationSegueID", sender: nil)
+        }
+        if filter.filterType == .sort {
+            collectionViewController?.performSegue(withIdentifier: "fromSearchToFilterSegueID", sender: nil)
         }
 
     }

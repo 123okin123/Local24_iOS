@@ -39,20 +39,20 @@ public class NetworkManager  {
             case .failure(let error):
                 completion(nil, error)
             case .success:
+                var listings = [Listing]()
                 if let value = responseData.result.value as? [AnyHashable: Any] {
                     if let firstHits = value["hits"] as? [AnyHashable: Any] {
                         if let hits = firstHits["hits"] as? NSArray {
-                            var listings = [Listing]()
                             for hit in hits {
                                 if let hitvalues = hit as? [AnyHashable: Any] {
                                     let listing = Listing(searchIndexValue: hitvalues)
                                     listings.append(listing)
                                 }
                             }
-                            completion(listings, nil)
                         }
                     }
                 }
+                completion(listings, nil)
             }
         })
         

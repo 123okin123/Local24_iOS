@@ -67,9 +67,16 @@ class FilterManager {
     }
     
     func removeAllfilters() {
-        filters.removeAll()
-        setfilter(newfilter: Sortfilter(criterium: .createDate, order: .desc))
+        if let geoFilter = filters.first(where: {$0.name == .geo_distance}) {
+            filters.removeAll()
+            setfilter(newfilter: geoFilter)
+            setfilter(newfilter: Sortfilter(criterium: .createDate, order: .desc))
+        } else {
+            filters.removeAll()
+            setfilter(newfilter: Sortfilter(criterium: .createDate, order: .desc))
+        }
         delegate?.filtersDidChange()
+        
     }
     
     func getValueOffilter(withName name :filterName, filterType :filterType) -> String? {

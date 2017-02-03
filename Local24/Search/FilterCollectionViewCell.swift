@@ -11,11 +11,12 @@ import UIKit
 class FilterCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var filtername: UILabel!
     @IBOutlet weak var filtervalue: UILabel!
+    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var imageViewWidthConstraint: NSLayoutConstraint!
     
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        
         self.layer.cornerRadius  = 5
         self.layer.borderColor = UIColor.groupTableViewBackground.cgColor
         self.layer.borderWidth = 1.5

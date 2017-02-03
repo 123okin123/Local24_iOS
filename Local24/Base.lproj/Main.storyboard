@@ -205,7 +205,7 @@
                                     <rect key="frame" x="153" y="18" width="70" height="70"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="VN" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BS9-IY-bc5">
-                                            <rect key="frame" x="17" y="19.5" width="36" height="31.5"/>
+                                            <rect key="frame" x="17" y="16.5" width="36" height="37"/>
                                             <fontDescription key="fontDescription" name="OpenSans-Light" family="Open Sans" pointSize="27"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
@@ -220,13 +220,13 @@
                                     </constraints>
                                 </view>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Vorname Nachname" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Cp-iY-ZHz">
-                                    <rect key="frame" x="115.5" y="93" width="145.5" height="19"/>
+                                    <rect key="frame" x="109" y="93" width="158.5" height="22"/>
                                     <fontDescription key="fontDescription" name="OpenSans-Semibold" family="Open Sans" pointSize="16"/>
                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Anzahl Anzeigen:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3my-ph-EHI">
-                                    <rect key="frame" x="142" y="111" width="92" height="14"/>
+                                    <rect key="frame" x="140.5" y="114" width="95" height="16.5"/>
                                     <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="12"/>
                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                     <nil key="highlightedColor"/>
@@ -4557,25 +4557,35 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="186" height="30"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="FilterName" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="in7-Jp-Nui">
-                                                            <rect key="frame" x="4" y="6" width="106" height="18"/>
+                                                            <rect key="frame" x="4" y="6" width="90" height="18"/>
                                                             <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="13"/>
                                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FilterValue" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xjw-ax-Xiw">
-                                                            <rect key="frame" x="114" y="6" width="68" height="18"/>
+                                                            <rect key="frame" x="98" y="6" width="68" height="18"/>
                                                             <fontDescription key="fontDescription" name="OpenSans-Semibold" family="Open Sans" pointSize="13"/>
                                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cross" translatesAutoresizingMaskIntoConstraints="NO" id="JaH-pP-nUu">
+                                                            <rect key="frame" x="170" y="10" width="10" height="10"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="10" id="7DH-f6-KfZ"/>
+                                                                <constraint firstAttribute="width" constant="10" id="aSu-QW-4dG"/>
+                                                            </constraints>
+                                                        </imageView>
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstItem="in7-Jp-Nui" firstAttribute="centerY" secondItem="VKv-UE-vSr" secondAttribute="centerY" id="7oi-z8-zz2"/>
-                                                        <constraint firstAttribute="trailing" secondItem="Xjw-ax-Xiw" secondAttribute="trailing" constant="4" id="Cs3-ro-GuT"/>
+                                                        <constraint firstAttribute="trailing" secondItem="JaH-pP-nUu" secondAttribute="trailing" constant="6" id="8NX-rP-XWb"/>
+                                                        <constraint firstItem="JaH-pP-nUu" firstAttribute="centerY" secondItem="VKv-UE-vSr" secondAttribute="centerY" id="HUj-PY-lfA"/>
                                                         <constraint firstItem="Xjw-ax-Xiw" firstAttribute="leading" secondItem="in7-Jp-Nui" secondAttribute="trailing" constant="4" id="Jqa-V9-0Xe"/>
                                                         <constraint firstItem="in7-Jp-Nui" firstAttribute="leading" secondItem="VKv-UE-vSr" secondAttribute="leading" constant="4" id="L9N-Qs-fO0"/>
+                                                        <constraint firstItem="JaH-pP-nUu" firstAttribute="leading" secondItem="Xjw-ax-Xiw" secondAttribute="trailing" constant="4" id="wAA-HB-e9r"/>
                                                         <constraint firstItem="Xjw-ax-Xiw" firstAttribute="centerY" secondItem="VKv-UE-vSr" secondAttribute="centerY" id="wVl-dT-AZS"/>
+                                                        <constraint firstAttribute="trailing" secondItem="Xjw-ax-Xiw" secondAttribute="trailing" priority="750" constant="4" id="wdm-S2-vj2"/>
                                                     </constraints>
                                                 </view>
                                             </subviews>
@@ -4589,6 +4599,8 @@
                                         <connections>
                                             <outlet property="filtername" destination="in7-Jp-Nui" id="pWH-MU-c0B"/>
                                             <outlet property="filtervalue" destination="Xjw-ax-Xiw" id="xtE-Hu-oHf"/>
+                                            <outlet property="imageView" destination="JaH-pP-nUu" id="6aX-OO-ycT"/>
+                                            <outlet property="imageViewWidthConstraint" destination="aSu-QW-4dG" id="RrI-C2-Uvb"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -4623,7 +4635,7 @@
                         <barButtonItem key="rightBarButtonItem" title="Filter" style="done" id="vJM-9R-KKM">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
-                                <segue destination="YTl-dN-qY5" kind="presentation" id="OjQ-aa-ZQw"/>
+                                <segue destination="YTl-dN-qY5" kind="presentation" identifier="fromSearchToFilterSegueID" id="OjQ-aa-ZQw"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -4631,11 +4643,12 @@
                         <outlet property="collectionView" destination="1UU-T8-Car" id="upm-kB-s0i"/>
                         <outlet property="filterCollectionView" destination="Pj0-6F-HoL" id="DQv-7W-iHI"/>
                         <outlet property="noListingsLabel" destination="ldZ-Jy-3yG" id="aOb-sl-sha"/>
+                        <segue destination="Leo-zA-435" kind="presentation" identifier="fromSearchToLocationSegueID" id="K1T-CQ-ams"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZhN-lB-x01" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-231.19999999999999" y="-1944.3778110944529"/>
+            <point key="canvasLocation" x="-87.200000000000003" y="-1960.569715142429"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="zPw-lZ-Ajt">
@@ -4737,6 +4750,7 @@
     </scenes>
     <resources>
         <image name="close" width="1024" height="1024"/>
+        <image name="cross" width="16" height="16"/>
         <image name="dottedLine" width="1024" height="1024"/>
         <image name="home" width="25" height="25"/>
         <image name="homeNS" width="25" height="25"/>
