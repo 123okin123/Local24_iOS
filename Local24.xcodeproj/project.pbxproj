@@ -193,16 +193,16 @@
 		CDB04ACF1DD3259100034C1F /* AccountCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; name = AccountCollectionViewController.swift; path = Account/AccountCollectionViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		CDB04AD31DD36A3500034C1F /* MyAdsCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MyAdsCollectionViewCell.swift; path = Account/MyAdsCollectionViewCell.swift; sourceTree = "<group>"; };
 		CDB3AFE11D2BEF2200C2F254 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		CDB3AFE81D2BF00A00C2F254 /* NMRangeSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NMRangeSlider.h; path = NMRangeSlider/NMRangeSlider.h; sourceTree = "<group>"; };
-		CDB3AFE91D2BF00A00C2F254 /* NMRangeSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NMRangeSlider.m; path = NMRangeSlider/NMRangeSlider.m; sourceTree = "<group>"; };
-		CDB3AFED1D2BF0B800C2F254 /* slider-default7-trackBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "slider-default7-trackBackground.png"; path = "NMRangeSlider/slider-default7-trackBackground.png"; sourceTree = "<group>"; };
-		CDB3AFEE1D2BF0B800C2F254 /* slider-default7-trackBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "slider-default7-trackBackground@2x.png"; path = "NMRangeSlider/slider-default7-trackBackground@2x.png"; sourceTree = "<group>"; };
-		CDB3AFEF1D2BF0B800C2F254 /* slider-default7-trackCrossedOver.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "slider-default7-trackCrossedOver.png"; path = "NMRangeSlider/slider-default7-trackCrossedOver.png"; sourceTree = "<group>"; };
-		CDB3AFF01D2BF0B800C2F254 /* slider-default7-trackCrossedOver@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "slider-default7-trackCrossedOver@2x.png"; path = "NMRangeSlider/slider-default7-trackCrossedOver@2x.png"; sourceTree = "<group>"; };
-		CDB3AFF11D2BF0B800C2F254 /* slider-default7-track.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "slider-default7-track.png"; path = "NMRangeSlider/slider-default7-track.png"; sourceTree = "<group>"; };
-		CDB3AFF21D2BF0B800C2F254 /* slider-default7-track@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "slider-default7-track@2x.png"; path = "NMRangeSlider/slider-default7-track@2x.png"; sourceTree = "<group>"; };
-		CDB3AFF31D2BF0B800C2F254 /* slider-default7-handle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "slider-default7-handle.png"; path = "NMRangeSlider/slider-default7-handle.png"; sourceTree = "<group>"; };
-		CDB3AFF41D2BF0B800C2F254 /* slider-default7-handle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "slider-default7-handle@2x.png"; path = "NMRangeSlider/slider-default7-handle@2x.png"; sourceTree = "<group>"; };
+		CDB3AFE81D2BF00A00C2F254 /* NMRangeSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NMRangeSlider.h; sourceTree = "<group>"; };
+		CDB3AFE91D2BF00A00C2F254 /* NMRangeSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NMRangeSlider.m; sourceTree = "<group>"; };
+		CDB3AFED1D2BF0B800C2F254 /* slider-default7-trackBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-default7-trackBackground.png"; sourceTree = "<group>"; };
+		CDB3AFEE1D2BF0B800C2F254 /* slider-default7-trackBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-default7-trackBackground@2x.png"; sourceTree = "<group>"; };
+		CDB3AFEF1D2BF0B800C2F254 /* slider-default7-trackCrossedOver.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-default7-trackCrossedOver.png"; sourceTree = "<group>"; };
+		CDB3AFF01D2BF0B800C2F254 /* slider-default7-trackCrossedOver@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-default7-trackCrossedOver@2x.png"; sourceTree = "<group>"; };
+		CDB3AFF11D2BF0B800C2F254 /* slider-default7-track.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-default7-track.png"; sourceTree = "<group>"; };
+		CDB3AFF21D2BF0B800C2F254 /* slider-default7-track@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-default7-track@2x.png"; sourceTree = "<group>"; };
+		CDB3AFF31D2BF0B800C2F254 /* slider-default7-handle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-default7-handle.png"; sourceTree = "<group>"; };
+		CDB3AFF41D2BF0B800C2F254 /* slider-default7-handle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-default7-handle@2x.png"; sourceTree = "<group>"; };
 		CDB594DD1DE595130056B405 /* InsertTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; name = InsertTableViewController.swift; path = Insert/InsertTableViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		CDB594E01DE596850056B405 /* SelectCategoryTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SelectCategoryTableViewController.swift; path = Insert/SelectCategoryTableViewController.swift; sourceTree = "<group>"; };
 		CDB594E21DE5A3080056B405 /* SelectSubCategoryTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SelectSubCategoryTableViewController.swift; path = Insert/SelectSubCategoryTableViewController.swift; sourceTree = "<group>"; };
@@ -489,6 +489,7 @@
 				CDB3AFE91D2BF00A00C2F254 /* NMRangeSlider.m */,
 			);
 			name = NMRangeSlider;
+			path = SupportingFiles/NMRangeSlider;
 			sourceTree = "<group>";
 		};
 		CDB3AFEC1D2BF0AA00C2F254 /* DefaultTheme7 */ = {

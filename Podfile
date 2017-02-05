@@ -24,6 +24,7 @@ target 'Local24' do
   pod 'Firebase/Core'
   pod 'Firebase/Messaging'
   pod 'Firebase/RemoteConfig'
+  pod 'Firebase/DynamicLinks'
 
   target 'Local24Tests' do
     inherit! :search_paths

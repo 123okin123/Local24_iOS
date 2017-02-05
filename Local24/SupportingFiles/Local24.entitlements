@@ -3,12 +3,13 @@
 <plist version="1.0">
 <dict>
 	<key>aps-environment</key>
-	<string>production</string>
+	<string>development</string>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
 		<string>applinks:*.local24.de</string>
 		<string>applinks:local24.de</string>
 		<string>applinks:local24.app.link</string>
+		<string>applinks:q474c.app.goo.gl</string>
 	</array>
 </dict>
 </plist>

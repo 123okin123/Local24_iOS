@@ -69,6 +69,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         ACTConversionReporter.report(withConversionID: "1059198657", label: "vk-bCOu16WgQwa2I-QM", value: "0.50", isRepeatable: false)
       
         // FIREBASE CONFIG
+        FIROptions.default().deepLinkURLScheme = "com.scout24.local24"
         FIRApp.configure()
 
         
@@ -123,50 +124,39 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         saveDataToDefaults()
     }
  
-    
-    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
 
-        return FBSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
-    }
 
     
     func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
         print("wooooooooorks")
-        /*
-        guard userActivity.activityType == NSUserActivityTypeBrowsingWeb,
-            let url = userActivity.webpageURL,
-            let components = URLComponents(url: url, resolvingAgainstBaseURL: true) else {
-                return false
+        guard let dynamicLinks = FIRDynamicLinks.dynamicLinks() else {
+            return false
+        }
+        let handled = dynamicLinks.handleUniversalLink(userActivity.webpageURL!) { (dynamiclink, error) in
+            // ...
         }
         
-        // if condition is met Do something and return true
-        if components.path.contains("/mein-local24/")  {
-            if let tvc = self.window?.rootViewController as? UITabBarController {
-                tvc.selectedIndex = 3
-                return true
-            }
-        }
-        if components.path.contains("/anzeige-aufgeben/")  {
-            if let tvc = self.window?.rootViewController as? UITabBarController {
-                tvc.selectedIndex = 2
-                return true
-            }
-        }
- */
-        /* Example:
-         
-         if let computer = ItemHandler.sharedInstance.items.filter({ $0.path == components.path}).first {
-         self.presentDetailViewController(computer)
-         return true
-         }
-         */
         
-        
-        return true
+        return handled
  
     }
 
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any]) -> Bool {
+        return application(app, open: url, sourceApplication: nil, annotation: [:])
+    }
     
+    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+        let dynamicLink = FIRDynamicLinks.dynamicLinks()?.dynamicLink(fromCustomSchemeURL: url)
+        FBSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
+        if let dynamicLink = dynamicLink {
+            // Handle the deep link. For example, show the deep-linked content or
+            // apply a promotional offer to the user's account.
+            // ...
+            return true
+        }
+        
+        return false
+    }
 
     
     // ------------------- Important: Consider Old App Versions --------------- //
