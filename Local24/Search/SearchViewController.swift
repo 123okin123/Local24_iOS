@@ -22,6 +22,7 @@ class SearchViewController: UIViewController, UICollectionViewDelegate, UICollec
     var listings = [Listing]()
    // var facebookAds = [FacebookAd]()
     
+    var isloading = false
     var refresher = UIRefreshControl()
     var currentPage = 0
     
@@ -36,6 +37,7 @@ class SearchViewController: UIViewController, UICollectionViewDelegate, UICollec
         super.viewDidLoad()
         collectionView.delegate = self
         collectionView.dataSource = self
+        collectionView.contentInset = UIEdgeInsets(top: 50, left: 0, bottom: 0, right: 0)
         filterCollectionViewDelegate = FilterCollectionViewDelegate(collectionView: filterCollectionView, viewController: self)
         filterCollectionView.delegate = filterCollectionViewDelegate
         filterCollectionView.dataSource = self
@@ -56,8 +58,7 @@ class SearchViewController: UIViewController, UICollectionViewDelegate, UICollec
         }
         searchTextField?.textColor = UIColor.gray
         FilterManager.shared.delegate = self
-        loadListings(page: 0, completion: {})
-        
+        refresh()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -126,7 +127,13 @@ class SearchViewController: UIViewController, UICollectionViewDelegate, UICollec
 //            if (indexPath as NSIndexPath).row % 10 == 0 {
 //                return configureAdCellAt(indexPath: indexPath)
 //            } else {
-                return configureListingCellAt(indexPath: indexPath)
+            if isloading {
+            let cell =  collectionView.dequeueReusableCell(withReuseIdentifier: "LoadingCell", for: indexPath) as! LoadingCell
+                return cell
+            } else {
+            return configureListingCellAt(indexPath: indexPath)
+            }
+            
 //            }
         }
     }
@@ -221,10 +228,20 @@ class SearchViewController: UIViewController, UICollectionViewDelegate, UICollec
     }
     
     func refresh() {
+        noListingsLabel.isHidden = true
+        if listings.isEmpty {
+            for _ in 0...10 {
+                let dummyListing = Listing()
+                listings.append(dummyListing)
+            }
+        }
         currentPage = 0
+        isloading = true
+        collectionView.reloadData()
         loadListings(page: 0, completion: {
             self.listings.removeAll()
             self.refresher.endRefreshing()
+            self.isloading = false
         })
     }
   
@@ -257,7 +274,7 @@ class SearchViewController: UIViewController, UICollectionViewDelegate, UICollec
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 60, left: 10, bottom: 50, right: 10)
+        return UIEdgeInsets(top: 0, left: 10, bottom: 50, right: 10)
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {

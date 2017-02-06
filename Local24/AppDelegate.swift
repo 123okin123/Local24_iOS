@@ -126,14 +126,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
  
 
 
+    // ---------- Dynamic Links iOS 10 App not opened for the first time ---------- //
     
     func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
-        print("wooooooooorks")
         guard let dynamicLinks = FIRDynamicLinks.dynamicLinks() else {
             return false
         }
         let handled = dynamicLinks.handleUniversalLink(userActivity.webpageURL!) { (dynamiclink, error) in
-            // ...
+
         }
         
         
@@ -141,6 +141,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
  
     }
 
+    // End ---------- Dynamic Links iOS 10 App not opened for the first time ---------- //
+    
+    
+    
+    // -------- Dynamic Links iOS 8 and App opened for the first time ----------  //
+    
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any]) -> Bool {
         return application(app, open: url, sourceApplication: nil, annotation: [:])
     }
@@ -149,15 +155,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let dynamicLink = FIRDynamicLinks.dynamicLinks()?.dynamicLink(fromCustomSchemeURL: url)
         FBSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
         if let dynamicLink = dynamicLink {
-            // Handle the deep link. For example, show the deep-linked content or
-            // apply a promotional offer to the user's account.
-            // ...
+
             return true
         }
         
         return false
     }
-
+    // End -------- Dynamic Links iOS 8 and App opened for the first time ---------- End //
+    
+    
     
     // ------------------- Important: Consider Old App Versions --------------- //
     
@@ -244,7 +250,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
 
     }
-
+    
+    // End  ------------------- Important: Consider Old App Versions --------------- //
     
     
     func applyCustomStyles() {
