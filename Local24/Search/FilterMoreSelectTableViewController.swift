@@ -35,7 +35,12 @@ class filterMoreSelectTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        gaUserTracking("filter/Kategorien/\(self.title)/")
+        if let title = self.title {
+        gaUserTracking("Filter/Kategorien/\(title)")
+        } else {
+        gaUserTracking("Filter/Kategorien/NotSet")
+        }
+        
     }
     
     // MARK: - Table view data source
