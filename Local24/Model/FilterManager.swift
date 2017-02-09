@@ -248,7 +248,21 @@ class FilterManager {
         
     }
     
+    
+    
+    func setFiltersFromURL(url: URL) {
+        guard !url.absoluteString.contains("www.local24.de") else {return}
+        removeAllfilters()
+        guard let categoryPathComponent = url.pathComponents.first else {return}
+
+    }
+    
+    
 }
+
+
+
+
 
 
 

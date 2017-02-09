@@ -46,7 +46,6 @@ public var tokenValid = true
 public var categoryBuilder = Categories()
 public var networkManager = NetworkManager()
 
-
 public let screenwidth = UIScreen.main.bounds.size.width
 public let screenheight = UIScreen.main.bounds.size.height
 public let greencolor = UIColor(red: 105/255, green: 155/255, blue: 0/255, alpha: 1)

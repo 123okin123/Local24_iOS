@@ -9,7 +9,8 @@
 import UIKit
 import Alamofire
 
-public var tabBarSelectedIndex :Int?
+public var tabBarPreferedIndex :Int?
+
 class TabBarController: UITabBarController, UITabBarControllerDelegate {
 
     var willSelectedIndex = 0
@@ -21,9 +22,18 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         self.setupInsertButton()
         self.tabBar.shadowImage = UIImage(named: "tabBarShadow")
         self.tabBar.backgroundImage = UIImage()
-        if tabBarSelectedIndex != nil {
-        self.selectedIndex = tabBarSelectedIndex!
-        _  = self.tabBarController(self, shouldSelect: self.viewControllers![tabBarSelectedIndex!])
+
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+            setPreferredIndex()
+    }
+    func setPreferredIndex() {
+        if tabBarPreferedIndex != nil {
+            self.selectedIndex = tabBarPreferedIndex!
+            _  = self.tabBarController(self, shouldSelect: self.viewControllers![tabBarPreferedIndex!])
+            tabBarPreferedIndex = nil
         }
     }
 

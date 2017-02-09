@@ -22,9 +22,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     var window: UIWindow?
     
     
-    
-    
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
 
@@ -75,7 +72,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         if let notification = launchOptions?[UIApplicationLaunchOptionsKey.remoteNotification] as? [String: AnyObject] {
             if let stringIndex = notification["tabBarSelectedIndex"] as? String {
-                tabBarSelectedIndex = Int(stringIndex)
+                tabBarPreferedIndex = Int(stringIndex)
             }
             if let showAppRating = notification["showAppRating"]?.boolValue {
                 if showAppRating {
@@ -133,7 +130,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             return false
         }
         let handled = dynamicLinks.handleUniversalLink(userActivity.webpageURL!) { (dynamiclink, error) in
-
+            
+            if let tabBarController = self.window?.rootViewController?.presentedViewController as? TabBarController {
+                tabBarPreferedIndex = 1
+                tabBarController.setPreferredIndex()
+                
+            }
+            
         }
         
         
@@ -155,7 +158,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let dynamicLink = FIRDynamicLinks.dynamicLinks()?.dynamicLink(fromCustomSchemeURL: url)
         FBSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
         if let dynamicLink = dynamicLink {
-
+            
+            
+            
+            
             return true
         }
         
