@@ -27,7 +27,7 @@ class NewCatTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
             navigationItem.title = mainCatName
-            gaUserTracking("Home/\(mainCatName)/ChooseSubCategory")
+            gaUserTracking("Home/\(mainCatName!)/ChooseSubCategory")
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
