@@ -63,6 +63,7 @@ class SearchViewController: UIViewController, UICollectionViewDelegate, UICollec
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        gaUserTracking("Search")
         filterCollectionView.reloadData()
         filterCollectionView.collectionViewLayout.invalidateLayout()
     }

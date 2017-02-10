@@ -251,10 +251,19 @@ class FilterManager {
     
     
     func setFiltersFromURL(url: URL) {
-        guard !url.absoluteString.contains("www.local24.de") else {return}
+        guard url.absoluteString.contains("www.local24.de") else {return}
+        
         removeAllfilters()
-        guard let categoryPathComponent = url.pathComponents.first else {return}
-
+        guard let queryItems = URLComponents(string: url.absoluteString)?.queryItems else {return}
+        
+        if let mainCat = queryItems.first(where: {$0.name == "maincategory"})?.value {
+            setfilter(newfilter: Termfilter(name: .category, descriptiveString: "Kategorie", value: mainCat))
+        }
+        if let subCat = queryItems.first(where: {$0.name == "subcategory"})?.value {
+            setfilter(newfilter: Termfilter(name: .category, descriptiveString: "Unterkategorie", value: subCat))
+        }
+        delegate?.filtersDidChange()
+        
     }
     
     

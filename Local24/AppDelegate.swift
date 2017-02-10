@@ -126,17 +126,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     // ---------- Dynamic Links iOS 10 App not opened for the first time ---------- //
     
     func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
+        
         guard let dynamicLinks = FIRDynamicLinks.dynamicLinks() else {
             return false
         }
+        
         let handled = dynamicLinks.handleUniversalLink(userActivity.webpageURL!) { (dynamiclink, error) in
             
-            if let tabBarController = self.window?.rootViewController?.presentedViewController as? TabBarController {
-                tabBarPreferedIndex = 1
-                tabBarController.setPreferredIndex()
+            print(dynamiclink!.url)
+            
+            if let url = dynamiclink?.url {
+                
+                    if let tabBarController = self.window?.rootViewController?.presentedViewController as? TabBarController {
+                        tabBarPreferedIndex = 1
+                        tabBarController.setPreferredIndex()
+                        FilterManager.shared.setFiltersFromURL(url: url)
+                    }
+                
                 
             }
-            
         }
         
         
