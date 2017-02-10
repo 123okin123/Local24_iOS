@@ -11,10 +11,9 @@ import UIKit
 class HomeHeaderCollectionReusableView: UICollectionReusableView {
         
     @IBOutlet weak var currentLocationButton: UIButton!
-    @IBOutlet weak var searchBar: UISearchBar!
     
     override func layoutSubviews() {
-            
+            /*
             searchBar.setImage(UIImage(named: "lupe_grau"), for: UISearchBarIcon.search, state: UIControlState())
             let searchTextField: UITextField? = searchBar.value(forKey: "searchField") as? UITextField
             if searchTextField!.responds(to: #selector(getter: UITextField.attributedPlaceholder)) {
@@ -26,7 +25,7 @@ class HomeHeaderCollectionReusableView: UICollectionReusableView {
                 searchTextField!.attributedPlaceholder = NSAttributedString(string: "Wonach suchst du?", attributes: attributeDict)
             }
             searchTextField?.textColor = UIColor.gray
-            
+            */
         }
   
     

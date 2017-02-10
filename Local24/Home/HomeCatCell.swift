@@ -17,6 +17,9 @@ class HomeCatCell: UICollectionViewCell {
 
     override func layoutSubviews() {
         super.layoutSubviews()
+
+        
+        
         self.layer.cornerRadius = 5
         
         if shadowLayer == nil {
@@ -31,6 +34,7 @@ class HomeCatCell: UICollectionViewCell {
             shadowLayer.shadowRadius = 0.0
             layer.insertSublayer(shadowLayer, at: 0)
         }
+ 
         
     }
 }

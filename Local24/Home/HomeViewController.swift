@@ -13,15 +13,19 @@ private let reuseIdentifier = "HomeCatCell"
 class HomeViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UISearchBarDelegate {
 
     var homeCategories = [CategoryModel]()
-    
+    var searchBar = UISearchBar()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        /*
         let logo = UIImage(named: "logo.png")
         let imageView = UIImageView(image:logo)
         imageView.frame.size = CGSize(width: 0, height:37)
         imageView.contentMode = .scaleAspectFit
         self.navigationItem.titleView = imageView
+        */
+        navigationItem.titleView = searchBar
+        configureSearchBar()
         
         if let idString = remoteConfig["homeCategories"].stringValue {
             let idStrings = idString.characters.split(separator: ",").map(String.init)
@@ -34,6 +38,27 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
         }
     }
     
+    
+    
+    func configureSearchBar() {
+        searchBar.delegate = self
+        searchBar.tintColor = UIColor.white
+        searchBar.searchBarStyle = .minimal
+        searchBar.setImage(UIImage(named: "lupe_gruen"), for: UISearchBarIcon.search, state: UIControlState())
+        let searchTextField: UITextField? = searchBar.value(forKey: "searchField") as? UITextField
+        if searchTextField!.responds(to: #selector(getter: UITextField.attributedPlaceholder)) {
+            let font = UIFont(name: "OpenSans", size: 13.0)
+            let attributeDict = [
+                NSFontAttributeName: font!,
+                NSForegroundColorAttributeName: UIColor(red: 132/255, green: 168/255, blue: 77/255, alpha: 1)
+            ]
+            searchTextField!.attributedPlaceholder = NSAttributedString(string: "Wonach suchst du?", attributes: attributeDict)
+        }
+        searchTextField?.textColor = UIColor.white
+        let textField :UITextField? = searchBar.value(forKey: "searchField") as? UITextField
+        textField!.clearButtonMode = .never
+        
+    }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         gaUserTracking("Home")
@@ -98,7 +123,7 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
  
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "HomeHeader", for: indexPath) as! HomeHeaderCollectionReusableView
-        headerView.searchBar.delegate = self
+        
         if let geofilterValue = FilterManager.shared.getValueOffilter(withName: .geo_distance, filterType: .geo_distance) {
             headerView.currentLocationButton.setTitle(geofilterValue, for: .normal)
         } else {
@@ -131,9 +156,9 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
     
     
     override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        if let headerView = collectionView?.supplementaryView(forElementKind: UICollectionElementKindSectionHeader, at: IndexPath(item: 0, section: 0)) as? HomeHeaderCollectionReusableView {
-            headerView.searchBar.resignFirstResponder()
-        }
+  
+            searchBar.resignFirstResponder()
+        
     }
     
     

@@ -132,18 +132,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
         
         let handled = dynamicLinks.handleUniversalLink(userActivity.webpageURL!) { (dynamiclink, error) in
-            
-            print(dynamiclink!.url)
-            
             if let url = dynamiclink?.url {
-                
                     if let tabBarController = self.window?.rootViewController?.presentedViewController as? TabBarController {
                         tabBarPreferedIndex = 1
                         tabBarController.setPreferredIndex()
                         FilterManager.shared.setFiltersFromURL(url: url)
                     }
-                
-                
             }
         }
         
@@ -165,14 +159,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
         let dynamicLink = FIRDynamicLinks.dynamicLinks()?.dynamicLink(fromCustomSchemeURL: url)
         FBSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
-        if let dynamicLink = dynamicLink {
-            
-            
-            
-            
-            return true
-        }
-        
+            if let url = dynamicLink?.url {
+                if let tabBarController = self.window?.rootViewController?.presentedViewController as? TabBarController {
+                    tabBarPreferedIndex = 1
+                    tabBarController.setPreferredIndex()
+                    FilterManager.shared.setFiltersFromURL(url: url)
+                    return true
+                }
+            }
         return false
     }
     // End -------- Dynamic Links iOS 8 and App opened for the first time ---------- End //
