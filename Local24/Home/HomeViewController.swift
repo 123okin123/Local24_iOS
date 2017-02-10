@@ -17,13 +17,7 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        /*
-        let logo = UIImage(named: "logo.png")
-        let imageView = UIImageView(image:logo)
-        imageView.frame.size = CGSize(width: 0, height:37)
-        imageView.contentMode = .scaleAspectFit
-        self.navigationItem.titleView = imageView
-        */
+
         navigationItem.titleView = searchBar
         configureSearchBar()
         
