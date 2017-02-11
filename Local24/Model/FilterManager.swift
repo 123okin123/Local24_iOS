@@ -251,7 +251,7 @@ class FilterManager {
     
     
     func setFiltersFromURL(url: URL) {
-        guard url.absoluteString.contains("www.local24.de") else {return}
+        guard url.absoluteString.contains("local24.de") else {return}
         
         removeAllfilters()
         guard let queryItems = URLComponents(string: url.absoluteString)?.queryItems else {return}
@@ -262,6 +262,22 @@ class FilterManager {
         if let subCat = queryItems.first(where: {$0.name == "subcategory"})?.value {
             setfilter(newfilter: Termfilter(name: .category, descriptiveString: "Unterkategorie", value: subCat))
         }
+        let priceLte = queryItems.first(where: {$0.name == "preisbis"})?.value
+        let priceGte = queryItems.first(where: {$0.name == "preisvon"})?.value
+        if priceGte != nil || priceLte != nil {
+            
+            let priceRange = Rangefilter(name: .price, descriptiveString: "Preis", gte: nil, lte: nil)
+            if priceGte != nil {
+                priceRange.gte = Double(priceGte!)
+            }
+            if priceLte != nil {
+                priceRange.lte = Double(priceLte!)
+            }
+        }
+        
+        
+
+        
         delegate?.filtersDidChange()
         
     }

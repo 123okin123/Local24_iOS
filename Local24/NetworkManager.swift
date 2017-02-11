@@ -24,15 +24,13 @@ public class NetworkManager  {
     
     
     
-    func getAdsSatisfying(filterArray :[Filter]?, page: Int, completion: @escaping (_ listings :[Listing]?,_ error :Error?) -> Void) {
+    func getAdsSatisfying(filterArray :[Filter]?, page: Int, completion: @escaping (_ listings :[Listing]?,_ error :Error?) -> Void) ->  DataRequest {
         var parameters = [String:Any]()
-        //parameters["size"] = 20
-        //parameters["from"] = page * 20
         if filterArray != nil {
             parameters["source"] = FilterManager.shared.getJSONFromfilterArray(filterArray: filterArray!, size: 20, from: (page * 20))
         }
         
-        NetworkManager.Manager.request(searchIndexURL, method: .get, parameters: parameters).responseJSON (completionHandler: { responseData in
+        let request = Alamofire.request(searchIndexURL, method: .get, parameters: parameters).responseJSON (completionHandler: { responseData in
             debugPrint(responseData)
             
             switch responseData.result {
@@ -55,6 +53,7 @@ public class NetworkManager  {
                 completion(listings, nil)
             }
         })
+        return request
         
     }
     
@@ -385,7 +384,7 @@ public class NetworkManager  {
         })
     }
     
-    
+    /*
     private static var Manager : Alamofire.SessionManager = {
         // Create the server trust policies
         let serverTrustPolicies: [String: ServerTrustPolicy] = [
@@ -399,7 +398,7 @@ public class NetworkManager  {
         )
         return man
     }()
-    
+    */
 }
 
 

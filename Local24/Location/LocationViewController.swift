@@ -46,6 +46,7 @@ class LocationViewController: UIViewController, UISearchBarDelegate, UISearchRes
         super.viewDidLoad()
 
         mapView.delegate = self
+        locationManager.delegate = self
         resultsTableController = LocationResultsTableController()
         searchController = UISearchController(searchResultsController: resultsTableController)
         searchController.searchResultsUpdater = self
@@ -81,6 +82,10 @@ class LocationViewController: UIViewController, UISearchBarDelegate, UISearchRes
             mapView.showsUserLocation = true
         }
     }
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        
+    }
+    
     
     
     override func viewWillAppear(_ animated: Bool) {

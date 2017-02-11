@@ -130,8 +130,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         guard let dynamicLinks = FIRDynamicLinks.dynamicLinks() else {
             return false
         }
-        
+        print(userActivity.webpageURL)
         let handled = dynamicLinks.handleUniversalLink(userActivity.webpageURL!) { (dynamiclink, error) in
+            
             if let url = dynamiclink?.url {
                     if let tabBarController = self.window?.rootViewController?.presentedViewController as? TabBarController {
                         tabBarPreferedIndex = 1

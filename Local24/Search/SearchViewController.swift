@@ -9,7 +9,7 @@
 import UIKit
 import FBAudienceNetwork
 import NVActivityIndicatorView
-
+import Alamofire
 
 
 class SearchViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout , FBNativeAdDelegate, FilterManagerDelegate, UISearchBarDelegate, UIScrollViewDelegate  {
@@ -25,6 +25,7 @@ class SearchViewController: UIViewController, UICollectionViewDelegate, UICollec
     var isloading = false
     var refresher = UIRefreshControl()
     var currentPage = 0
+    var currentRequest :DataRequest?
     
     var filterflowLayout: UICollectionViewFlowLayout {
         return self.filterCollectionView?.collectionViewLayout as! UICollectionViewFlowLayout
@@ -145,6 +146,7 @@ class SearchViewController: UIViewController, UICollectionViewDelegate, UICollec
     func configureFilterCellAt(indexPath: IndexPath) -> UICollectionViewCell {
         let cell = filterCollectionView.dequeueReusableCell(withReuseIdentifier: "FilterCell", for: indexPath) as! FilterCollectionViewCell
         cell.filtername.text = FilterManager.shared.filters[indexPath.row].descriptiveString
+        
         let filter = FilterManager.shared.filters[indexPath.row]
         switch filter.filterType! {
             case .sort:
@@ -153,7 +155,11 @@ class SearchViewController: UIViewController, UICollectionViewDelegate, UICollec
             cell.imageViewWidthConstraint.constant = 0
         case .term:
             let termFilter = filter as! Termfilter
-            cell.filtervalue.text = termFilter.value
+            if termFilter.name == .sourceId {
+                cell.filtervalue.text = ""
+            } else {
+                cell.filtervalue.text = termFilter.value
+            }
             cell.imageViewWidthConstraint.constant = 10
         case .geo_distance:
             let geoFilter = filter as! Geofilter
@@ -237,6 +243,7 @@ class SearchViewController: UIViewController, UICollectionViewDelegate, UICollec
             }
         }
         currentPage = 0
+        currentRequest?.cancel()
         isloading = true
         collectionView.reloadData()
         loadListings(page: 0, completion: {
@@ -248,7 +255,7 @@ class SearchViewController: UIViewController, UICollectionViewDelegate, UICollec
   
     func loadListings(page :Int, completion: @escaping (() -> Void)) {
         
-        networkManager.getAdsSatisfying(filterArray: FilterManager.shared.filters, page: page, completion: { (listings, error) in
+        currentRequest = networkManager.getAdsSatisfying(filterArray: FilterManager.shared.filters, page: page, completion: { (listings, error) in
             completion()
             if error == nil && listings != nil {
                self.listings.append(contentsOf: listings!)
@@ -266,6 +273,7 @@ class SearchViewController: UIViewController, UICollectionViewDelegate, UICollec
             
             self.collectionView?.reloadData()
         })
+        
     }
     
     // MARK: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout
