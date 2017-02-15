@@ -8,6 +8,7 @@
 
 import Foundation
 import SwiftyJSON
+import CoreLocation
 
 class Listing {
     var adID :Int!
@@ -42,6 +43,15 @@ class Listing {
     var adLat: Double?
     var adLong: Double?
     
+    var distance :Double? {
+        guard self.adLat != nil else {return nil}
+        guard self.adLong != nil else {return nil}
+        let location = CLLocation(latitude: self.adLat!, longitude: self.adLong!)
+        if let geofilter = FilterManager.shared.getFilter(withName: .geo_distance) as? Geofilter {
+            return round(location.distance(from:  CLLocation(latitude: geofilter.lat, longitude: geofilter.lon))/1000)
+        } else {return nil}
+    }
+ 
     var city :String?
     var zipcode: String?
     var street: String?
@@ -111,14 +121,14 @@ class Listing {
         }
 
         if var listingDate = value["CreatedAt"] as? String {
-            let listingDateYear = listingDate[Range(listingDate.startIndex ..< listingDate.characters.index(listingDate.startIndex, offsetBy: 4))]
+            let listingDateYear = listingDate[Range(listingDate.characters.index(listingDate.startIndex, offsetBy: 2) ..< listingDate.characters.index(listingDate.startIndex, offsetBy: 4))]
             let listingDateMonth = listingDate[Range(listingDate.characters.index(listingDate.startIndex, offsetBy: 5) ..< listingDate.characters.index(listingDate.startIndex, offsetBy: 7))]
             let listingDateDay = listingDate[Range(listingDate.characters.index(listingDate.startIndex, offsetBy: 8) ..< listingDate.characters.index(listingDate.startIndex, offsetBy: 10))]
             listingDate = "\(listingDateDay).\(listingDateMonth).\(listingDateYear)"
             self.createdDate = listingDate
         }
         if var updatedAt = value["UpdatedAt"] as? String {
-            let updatedAtYear = updatedAt[Range(updatedAt.startIndex ..< updatedAt.characters.index(updatedAt.startIndex, offsetBy: 4))]
+            let updatedAtYear = updatedAt[Range(updatedAt.characters.index(updatedAt.startIndex, offsetBy: 2) ..< updatedAt.characters.index(updatedAt.startIndex, offsetBy: 4))]
             let updatedAtMonth = updatedAt[Range(updatedAt.characters.index(updatedAt.startIndex, offsetBy: 5) ..< updatedAt.characters.index(updatedAt.startIndex, offsetBy: 7))]
             let updatedAtDay = updatedAt[Range(updatedAt.characters.index(updatedAt.startIndex, offsetBy: 8) ..< updatedAt.characters.index(updatedAt.startIndex, offsetBy: 10))]
             updatedAt = "\(updatedAtDay).\(updatedAtMonth).\(updatedAtYear)"
@@ -246,14 +256,14 @@ class Listing {
         self.zipcode = json["postalcode"].string
         
         if var listingDate = json["createDate"].string {
-            let listingDateYear = listingDate[Range(listingDate.startIndex ..< listingDate.characters.index(listingDate.startIndex, offsetBy: 4))]
+            let listingDateYear = listingDate[Range(listingDate.characters.index(listingDate.startIndex, offsetBy: 2) ..< listingDate.characters.index(listingDate.startIndex, offsetBy: 4))]
             let listingDateMonth = listingDate[Range(listingDate.characters.index(listingDate.startIndex, offsetBy: 5) ..< listingDate.characters.index(listingDate.startIndex, offsetBy: 7))]
             let listingDateDay = listingDate[Range(listingDate.characters.index(listingDate.startIndex, offsetBy: 8) ..< listingDate.characters.index(listingDate.startIndex, offsetBy: 10))]
             listingDate = "\(listingDateDay).\(listingDateMonth).\(listingDateYear)"
             self.createdDate = listingDate
         }
         if var updatedAt = json["updateDate"].string {
-            let updatedAtYear = updatedAt[Range(updatedAt.startIndex ..< updatedAt.characters.index(updatedAt.startIndex, offsetBy: 4))]
+            let updatedAtYear = updatedAt[Range(updatedAt.characters.index(updatedAt.startIndex, offsetBy: 2) ..< updatedAt.characters.index(updatedAt.startIndex, offsetBy: 4))]
             let updatedAtMonth = updatedAt[Range(updatedAt.characters.index(updatedAt.startIndex, offsetBy: 5) ..< updatedAt.characters.index(updatedAt.startIndex, offsetBy: 7))]
             let updatedAtDay = updatedAt[Range(updatedAt.characters.index(updatedAt.startIndex, offsetBy: 8) ..< updatedAt.characters.index(updatedAt.startIndex, offsetBy: 10))]
             updatedAt = "\(updatedAtDay).\(updatedAtMonth).\(updatedAtYear)"

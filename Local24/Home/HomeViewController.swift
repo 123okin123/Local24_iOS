@@ -92,6 +92,7 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
         if indexPath.item == homeCategories.count {
             cell.title.text = "Alle Anzeigen"
             cell.imageView.image = UIImage(named: "alleAnzeigen")
+            cell.catID = nil
         } else {
             if let id = homeCategories[indexPath.item].id {
                 cell.imageView.image = UIImage(named: String(id))

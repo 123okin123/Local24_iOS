@@ -11,7 +11,6 @@ import FBAudienceNetwork
 import NVActivityIndicatorView
 import Alamofire
 
-
 class SearchViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout , FBNativeAdDelegate, FilterManagerDelegate, UISearchBarDelegate, UIScrollViewDelegate  {
     
     @IBOutlet weak var collectionView: UICollectionView!
@@ -48,18 +47,29 @@ class SearchViewController: UIViewController, UICollectionViewDelegate, UICollec
         filterflowLayout.estimatedItemSize = CGSize(width: 100, height: 30)
         addPulltoRefresh()
         navigationItem.titleView = searchBar
+        configureSearchBar()
+        FilterManager.shared.delegate = self
+        refresh()
+    }
+    
+    func configureSearchBar() {
         searchBar.delegate = self
+        searchBar.tintColor = UIColor.white
+        searchBar.searchBarStyle = .minimal
+        searchBar.setImage(UIImage(named: "lupe_gruen"), for: UISearchBarIcon.search, state: UIControlState())
         let searchTextField: UITextField? = searchBar.value(forKey: "searchField") as? UITextField
         if searchTextField!.responds(to: #selector(getter: UITextField.attributedPlaceholder)) {
             let font = UIFont(name: "OpenSans", size: 13.0)
             let attributeDict = [
                 NSFontAttributeName: font!,
+                NSForegroundColorAttributeName: UIColor(red: 132/255, green: 168/255, blue: 77/255, alpha: 1)
             ]
             searchTextField!.attributedPlaceholder = NSAttributedString(string: "Wonach suchst du?", attributes: attributeDict)
         }
-        searchTextField?.textColor = UIColor.gray
-        FilterManager.shared.delegate = self
-        refresh()
+        searchTextField?.textColor = UIColor.white
+        let textField :UITextField? = searchBar.value(forKey: "searchField") as? UITextField
+        textField!.clearButtonMode = .never
+        
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -131,6 +141,15 @@ class SearchViewController: UIViewController, UICollectionViewDelegate, UICollec
 //            } else {
             if isloading {
             let cell =  collectionView.dequeueReusableCell(withReuseIdentifier: "LoadingCell", for: indexPath) as! LoadingCell
+                UIView.animate(withDuration: 0.6, delay: 0, options: [.autoreverse, .curveEaseInOut, .repeat], animations: {
+                cell.titleLoadingView.alpha = 0.5
+                cell.dateLoadingView.alpha = 0.5
+                cell.distanceLoadingView.alpha = 0.5
+                }, completion: { done in
+                    cell.titleLoadingView.alpha = 1
+                    cell.dateLoadingView.alpha = 1
+                    cell.distanceLoadingView.alpha = 1
+                })
                 return cell
             } else {
             return configureListingCellAt(indexPath: indexPath)
@@ -191,6 +210,13 @@ class SearchViewController: UIViewController, UICollectionViewDelegate, UICollec
         cell.listingPrice.text = listing.priceWithCurrency
         cell.listingDate.text = listing.createdDate
         cell.listing = listing
+        if let distance = listing.distance {
+            if let city = listing.city {
+                cell.listingDistance.text = city + " (" + String(Int(distance)) + "km)"
+            }
+        } else {
+            cell.listingDistance.text = listing.city
+        }
         if listing.thumbImage == nil {
             if let thumbImageURL = listing.thumbImageURL {
                 if let imageUrl = URL(string: thumbImageURL) {

@@ -13,6 +13,7 @@ class LoadingCell: UICollectionViewCell {
     @IBOutlet weak var cellContentView: UIView!
     @IBOutlet weak var titleLoadingView: UIView!
     @IBOutlet weak var dateLoadingView: UIView!
+    @IBOutlet weak var distanceLoadingView: UIView!
     
     var shadowLayer: CAShapeLayer!
     

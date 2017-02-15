@@ -14,6 +14,7 @@
 		1081F2FE1BB02A7700688F3B /* Local24UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1081F2FD1BB02A7700688F3B /* Local24UITests.swift */; };
 		1081F3101BB04E6200688F3B /* iosApp.css in Resources */ = {isa = PBXBuildFile; fileRef = 1081F30F1BB04E6200688F3B /* iosApp.css */; };
 		10AD2A041E486EB000CE9152 /* LoadingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10AD2A031E486EB000CE9152 /* LoadingCell.swift */; };
+		10F001D11E538B0100E91E70 /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10F001D01E538B0100E91E70 /* Filter.swift */; };
 		622AED0118902B345F72C845 /* Pods_Local24UITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFF4E34FAF766CF6AAB81F90 /* Pods_Local24UITests.framework */; };
 		946AE2445CFC457A49DFDAEF /* Pods_Local24.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAE5DB9518CCC4A7488A2757 /* Pods_Local24.framework */; };
 		A3AF0A635067C4E9A1AE8920 /* Pods_Local24Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43DD49A8287E5B1D5DEA9BC8 /* Pods_Local24Tests.framework */; };
@@ -140,6 +141,7 @@
 		1081F30F1BB04E6200688F3B /* iosApp.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = iosApp.css; path = SupportingFiles/iosApp.css; sourceTree = "<group>"; };
 		10AD2A031E486EB000CE9152 /* LoadingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoadingCell.swift; path = Search/LoadingCell.swift; sourceTree = "<group>"; };
 		10D00FCD1E1FE3E6006199E8 /* Local24.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Local24.entitlements; path = SupportingFiles/Local24.entitlements; sourceTree = "<group>"; };
+		10F001D01E538B0100E91E70 /* Filter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Filter.swift; path = Model/Filter.swift; sourceTree = "<group>"; };
 		3F30DDA7EF437ED36AD0AEDE /* Pods-Local24UITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Local24UITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Local24UITests/Pods-Local24UITests.release.xcconfig"; sourceTree = "<group>"; };
 		43DD49A8287E5B1D5DEA9BC8 /* Pods_Local24Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Local24Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CDEA113629D68866C9D275C /* Pods-Local24.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Local24.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Local24/Pods-Local24.debug.xcconfig"; sourceTree = "<group>"; };
@@ -370,6 +372,7 @@
 				CD0E3F811CE0BFA9005AA575 /* Listing.swift */,
 				CD5109851C58C0CF00BA2CB8 /* Categories.swift */,
 				CD65D2541C60FD6400AD89DF /* ZipGeo.swift */,
+				10F001D01E538B0100E91E70 /* Filter.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -433,9 +436,9 @@
 		CD860CF81CAA9DD5003361D4 /* Search */ = {
 			isa = PBXGroup;
 			children = (
-				10AD2A031E486EB000CE9152 /* LoadingCell.swift */,
 				CD0E3F7D1CE09C6C005AA575 /* SearchViewController.swift */,
 				CD0E3F7F1CE0A06C005AA575 /* CollectionViewCell.swift */,
+				10AD2A031E486EB000CE9152 /* LoadingCell.swift */,
 				CD44E3071E40942200476C88 /* FilterCollectionViewCell.swift */,
 				CD964C061CFC47D00002A675 /* Ads */,
 				CD964C051CFC478F0002A675 /* Filter */,
@@ -911,6 +914,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CD0E3F7E1CE09C6C005AA575 /* SearchViewController.swift in Sources */,
+				10F001D11E538B0100E91E70 /* Filter.swift in Sources */,
 				CD65D2551C60FD6400AD89DF /* ZipGeo.swift in Sources */,
 				CDD729011E12BA5A009F0B99 /* InsertImageCollection.swift in Sources */,
 				CD44E3081E40942200476C88 /* FilterCollectionViewCell.swift in Sources */,

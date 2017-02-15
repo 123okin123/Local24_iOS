@@ -14,6 +14,7 @@ class CollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var listingPrice: UILabel!
     @IBOutlet weak var listingDate: UILabel!
     @IBOutlet weak var cellContentView: UIView!
+    @IBOutlet weak var listingDistance: UILabel!
     
     
     var shadowLayer: CAShapeLayer!

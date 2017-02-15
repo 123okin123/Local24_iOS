@@ -141,6 +141,21 @@ class FilterManager {
                 filterJson.append(rangeJson)
             case .sort:
                 sort = [[(filter as! Sortfilter).criterium.rawValue : (filter as! Sortfilter).order.rawValue]]
+                if (filter as! Sortfilter).criterium == .distance {
+                    if let geofilter = FilterManager.shared.getFilter(withName: .geo_distance) as? Geofilter {
+                        sort =  [[
+                            "_geo_distance": [
+                                "latlon": [
+                                    "lat":  geofilter.lat,
+                                    "lon":  geofilter.lon
+                                ],
+                                "order":         "asc",
+                                "unit":          "km",
+                                "distance_type": "plane"
+                            ]
+                            ]]
+                    }
+                }
             case .geo_distance:
                 let geofilter = filter as! Geofilter
                 let geoJson = [
@@ -152,6 +167,20 @@ class FilterManager {
                         ]
                     ]
                 ]
+//                let geoJson = ["geo_bounding_box": [
+//                    "type":       "indexed",
+//                    "location": [
+//                        "top_left": [
+//                            "lat":  geofilter.lat,
+//                            "lon":  geofilter.lon
+//                        ],
+//                        "bottom_right": [
+//                            "lat":  geofilter.lat + 1,
+//                            "lon":  geofilter.lon + 1
+//                        ]
+//                    ]
+//                    ]
+//                ]
                 filterJson.append(geoJson)
             case .search_string:
                 searchString = (filter as! Stringfilter).queryString
@@ -256,10 +285,12 @@ class FilterManager {
         removeAllfilters()
         guard let queryItems = URLComponents(string: url.absoluteString)?.queryItems else {return}
         
-        if let mainCat = queryItems.first(where: {$0.name == "maincategory"})?.value {
+        if var mainCat = queryItems.first(where: {$0.name == "maincategory"})?.value {
+            mainCat = mainCat.replacingOccurrences(of: "+", with: " ")
             setfilter(newfilter: Termfilter(name: .category, descriptiveString: "Kategorie", value: mainCat))
         }
-        if let subCat = queryItems.first(where: {$0.name == "subcategory"})?.value {
+        if var subCat = queryItems.first(where: {$0.name == "subcategory"})?.value {
+            subCat = subCat.replacingOccurrences(of: "+", with: " ")
             setfilter(newfilter: Termfilter(name: .category, descriptiveString: "Unterkategorie", value: subCat))
         }
         let priceLte = queryItems.first(where: {$0.name == "preisbis"})?.value
@@ -307,121 +338,6 @@ class FilterManager {
 
 
 
-public class Filter {
-    var name: filterName!
-    var descriptiveString: String!
-    var filterType: filterType!
-    
-
-    
-    init(name: filterName, descriptiveString :String, filterType :filterType) {
-        self.name = name
-        self.descriptiveString = descriptiveString
-        self.filterType = filterType
-    }
-}
-
-public class Termfilter :Filter {
-    var value: String!
-    init(name: filterName, descriptiveString :String, value: String) {
-        super.init(name: name, descriptiveString: descriptiveString, filterType: .term)
-        self.value = value
-    }
-}
-public class Sortfilter :Filter {
-    var criterium: Criterium!
-    var order: Order!
-    init(criterium: Criterium, order :Order) {
-        super.init(name: .sorting, descriptiveString: "Sortierung", filterType: .sort)
-        self.criterium = criterium
-        self.order = order
-    }
-}
-
-public class Geofilter: Filter {
-    var lat :Double!
-    var lon :Double!
-    var distance :Double!
-    var value :String!
-    init(lat: Double, lon: Double, distance :Double, value :String) {
-        super.init(name: .geo_distance, descriptiveString: "Umkreis", filterType: .geo_distance)
-        self.lat = lat
-        self.lon = lon
-        self.distance = distance
-        self.value = value
-    }
-}
-
-public class Rangefilter :Filter {
-    var gte :Double? //Lower value
-    var lte :Double? //Upper Value
-    init(name: filterName, descriptiveString :String, gte: Double?, lte: Double?) {
-        super.init(name: name, descriptiveString: descriptiveString, filterType: .range)
-        self.gte = gte
-        self.lte = lte
-    }
-}
-
-public class Stringfilter :Filter {
-    var queryString :String!
-    init(value: String) {
-        super.init(name: .search_string, descriptiveString: "Suchbegriff", filterType: .search_string)
-        self.queryString = value
-    }
-}
-
-public var sortingOptions = [
-    Sorting(criterium: .createDate, order: .desc, descriptiveString: "Neuste zuerst"),
-    Sorting(criterium: .price, order: .asc, descriptiveString: "Preis aufsteigend"),
-    Sorting(criterium: .price, order: .desc, descriptiveString: "Preis absteigend"),
-    Sorting(criterium: .city, order: .asc, descriptiveString: "Entfernung"),
-]
-public class Sorting {
-    
-    
-    var criterium:Criterium!
-    var order:Order!
-    var descriptiveString:String!
-    
-    init(criterium :Criterium, order :Order,descriptiveString :String ) {
-        self.criterium = criterium
-        self.order = order
-        self.descriptiveString = descriptiveString
-    }
-    
-
-    
-}
-public enum Criterium :String{
-    case createDate
-    case price
-    case city
-}
-public enum Order :String{
-    case desc
-    case asc
-}
-
-
-public enum filterName :String {
-    case search_string 
-    case geo_distance
-    case sorting
-    case price
-    case category
-    case subcategory
-    case sourceId
-}
-
-
-
-public enum filterType :String {
-    case geo_distance
-    case range
-    case term
-    case sort
-    case search_string
-}
 
 
 
