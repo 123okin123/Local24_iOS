@@ -10,7 +10,7 @@ import Foundation
 import SwiftyJSON
 import CoreLocation
 
-class Listing {
+class Listing :NSObject {
     var adID :Int!
     
     var source :String?
@@ -18,7 +18,7 @@ class Listing {
     var advertiserID :Int?
     var user :User?
     var title :String?
-    var description :String?
+    var adDescription :String?
 
     var specialFields :[SpecialField]?
     
@@ -75,10 +75,13 @@ class Listing {
     
     var containsAdultContent = false
     
-    init() {}
+    override init() {
+    super.init()
+    }
     
     
     init(value: [AnyHashable:Any]) {
+        super.init()
         
         specialFields = [SpecialField]()
         
@@ -108,7 +111,7 @@ class Listing {
             self.title = listingTitle
         }
         if let description = value["Body"] as? String {
-            self.description = description
+            self.adDescription = description
         }
         if let priceType = value["PriceType"] as? String {
             self.priceType = priceType
@@ -233,11 +236,12 @@ class Listing {
     
     
     init(searchIndexValue :[AnyHashable: Any]) {
+        super.init()
         guard let values = searchIndexValue["_source"] as? [AnyHashable : Any] else {return}
         let json = JSON(values)
         guard json != JSON.null else {return}
         self.title = json["title"].string
-        self.description = json["description"].string
+        self.adDescription = json["description"].string
         if let adIDString = json["id"].string {
             self.adID = Int(adIDString)
         }

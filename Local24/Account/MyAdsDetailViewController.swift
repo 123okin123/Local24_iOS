@@ -349,7 +349,7 @@ class MyAdsDetailViewController: UIViewController, UITableViewDataSource, UITabl
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "desriptionCellID") as! DescriptionTableViewCell!
             
-            cell?.adDescriptionLabel.text = listing.description
+            cell?.adDescriptionLabel.text = listing.adDescription
             
             defaultcell = cell!
         case 3:

@@ -8,10 +8,9 @@
 
 import UIKit
 import FBAudienceNetwork
-import NVActivityIndicatorView
 import Alamofire
 
-class SearchViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout , FBNativeAdDelegate, FilterManagerDelegate, UISearchBarDelegate, UIScrollViewDelegate  {
+class SearchViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout ,/*FBNativeAdsManagerDelegate,*/ FilterManagerDelegate, UISearchBarDelegate, UIScrollViewDelegate  {
     
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var filterCollectionView: UICollectionView!
@@ -19,7 +18,13 @@ class SearchViewController: UIViewController, UICollectionViewDelegate, UICollec
     @IBOutlet weak var noListingsLabel: UILabel!
     
     var listings = [Listing]()
-   // var facebookAds = [FacebookAd]()
+//    var ads = [FacebookAd]()
+//    var numberOfAds :Int {
+//    return min(listings.count/adDensity, ads.count)
+//    }
+    
+//    var fbNativeAdsManager :FBNativeAdsManager!
+//    var adDensity = 5
     
     var isloading = false
     var refresher = UIRefreshControl()
@@ -30,26 +35,39 @@ class SearchViewController: UIViewController, UICollectionViewDelegate, UICollec
         return self.filterCollectionView?.collectionViewLayout as! UICollectionViewFlowLayout
     }
     var filterCollectionViewDelegate :FilterCollectionViewDelegate?
-    
+    var filterCollectionViewDataSource :FilterCollectionViewDataSource?
     var searchBar = UISearchBar()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // config collectionView
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.contentInset = UIEdgeInsets(top: 50, left: 0, bottom: 0, right: 0)
+        addPulltoRefresh()
+        
+        // config filterCollectionView
         filterCollectionViewDelegate = FilterCollectionViewDelegate(collectionView: filterCollectionView, viewController: self)
         filterCollectionView.delegate = filterCollectionViewDelegate
-        filterCollectionView.dataSource = self
+        filterCollectionViewDataSource = FilterCollectionViewDataSource(collectionView: filterCollectionView, viewController: self)
+        filterCollectionView.dataSource = filterCollectionViewDataSource
         if #available(iOS 10.0, *) {
             filterCollectionView.isPrefetchingEnabled = false
         }
         filterflowLayout.estimatedItemSize = CGSize(width: 100, height: 30)
-        addPulltoRefresh()
+        
+        
         navigationItem.titleView = searchBar
         configureSearchBar()
         FilterManager.shared.delegate = self
         refresh()
+//        FBAdSettings.addTestDevice("4531d3286eb720f69250ec7525e4d32a27020a58")
+//        FBAdSettings.clearTestDevices()
+//        fbNativeAdsManager = FBNativeAdsManager(placementID: "1737515613173620_1740640836194431", forNumAdsRequested: 10)
+//        fbNativeAdsManager.delegate = self
+//        fbNativeAdsManager.mediaCachePolicy = .all
+//        fbNativeAdsManager.loadAds()
     }
     
     func configureSearchBar() {
@@ -124,88 +142,52 @@ class SearchViewController: UIViewController, UICollectionViewDelegate, UICollec
 
 
      func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
-        if collectionView == filterCollectionView {
-        return FilterManager.shared.filters.count
-        } else {
-        return listings.count
-        }
+        return listings.count/* + numberOfAds*/
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if collectionView == filterCollectionView {
-            return configureFilterCellAt(indexPath: indexPath)
-        } else {
-//            if (indexPath as NSIndexPath).row % 10 == 0 {
-//                return configureAdCellAt(indexPath: indexPath)
-//            } else {
             if isloading {
-            let cell =  collectionView.dequeueReusableCell(withReuseIdentifier: "LoadingCell", for: indexPath) as! LoadingCell
-                UIView.animate(withDuration: 0.6, delay: 0, options: [.autoreverse, .curveEaseInOut, .repeat], animations: {
-                cell.titleLoadingView.alpha = 0.5
-                cell.dateLoadingView.alpha = 0.5
-                cell.distanceLoadingView.alpha = 0.5
-                }, completion: { done in
-                    cell.titleLoadingView.alpha = 1
-                    cell.dateLoadingView.alpha = 1
-                    cell.distanceLoadingView.alpha = 1
-                })
-                return cell
+                return configureLoadingCell(indexPath: indexPath)
             } else {
-            return configureListingCellAt(indexPath: indexPath)
+//                if
+//                    (indexPath.row + 1) % adDensity == 0
+//                    // is ad available at index
+//                    && (indexPath.item % (adDensity - 1)) < numberOfAds {
+//                    return configureAdCellAt(indexPath: indexPath)
+//                } else {
+                    return configureListingCellAt(indexPath: indexPath)
+//                }
             }
-            
-//            }
-        }
     }
 
-    
-
-    
-    func configureFilterCellAt(indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = filterCollectionView.dequeueReusableCell(withReuseIdentifier: "FilterCell", for: indexPath) as! FilterCollectionViewCell
-        cell.filtername.text = FilterManager.shared.filters[indexPath.row].descriptiveString
-        
-        let filter = FilterManager.shared.filters[indexPath.row]
-        switch filter.filterType! {
-            case .sort:
-            let sortFilter = filter as! Sortfilter
-            cell.filtervalue.text = sortingOptions.first(where: {$0.order == sortFilter.order && $0.criterium == sortFilter.criterium})?.descriptiveString
-            cell.imageViewWidthConstraint.constant = 0
-        case .term:
-            let termFilter = filter as! Termfilter
-            if termFilter.name == .sourceId {
-                cell.filtervalue.text = ""
-            } else {
-                cell.filtervalue.text = termFilter.value
-            }
-            cell.imageViewWidthConstraint.constant = 10
-        case .geo_distance:
-            let geoFilter = filter as! Geofilter
-            cell.filtervalue.text = geoFilter.value
-            cell.imageViewWidthConstraint.constant = 0
-        case .search_string:
-            let searchFilter = filter as! Stringfilter
-            cell.filtervalue.text = searchFilter.queryString
-            cell.imageViewWidthConstraint.constant = 10
-        case .range:
-            let rangeFilter = filter as! Rangefilter
-            var value = ""
-            if let gte = rangeFilter.gte {
-                value += "von \(Int(gte))€ "
-            }
-            if let lte = rangeFilter.lte {
-                value += "bis \(Int(lte))€"
-            }
-            cell.filtervalue.text = value
-            cell.imageViewWidthConstraint.constant = 10
-        }
-        
+    func configureLoadingCell(indexPath :IndexPath) -> UICollectionViewCell {
+        let cell =  collectionView.dequeueReusableCell(withReuseIdentifier: "LoadingCell", for: indexPath) as! LoadingCell
+        UIView.animate(withDuration: 0.6, delay: 0, options: [.autoreverse, .curveEaseInOut, .repeat], animations: {
+            cell.titleLoadingView.alpha = 0.5
+            cell.dateLoadingView.alpha = 0.5
+            cell.distanceLoadingView.alpha = 0.5
+        }, completion: { done in
+            cell.titleLoadingView.alpha = 1
+            cell.dateLoadingView.alpha = 1
+            cell.distanceLoadingView.alpha = 1
+        })
         return cell
     }
+    
+
+
+    
+    
     func configureListingCellAt(indexPath: IndexPath) -> UICollectionViewCell {
-        let listing = listings[indexPath.item]
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ListingsCell", for: indexPath) as! CollectionViewCell
+        var index:Int!
+//        if (indexPath.item % (adDensity - 1)) < numberOfAds {
+//            index = indexPath.item - (indexPath.item / adDensity)
+//        } else {
+            index = indexPath.item
+//        }
+        let listing = listings[index]
+
         cell.listingTitle.text = listing.title
         cell.listingPrice.text = listing.priceWithCurrency
         cell.listingDate.text = listing.createdDate
@@ -236,20 +218,25 @@ class SearchViewController: UIViewController, UICollectionViewDelegate, UICollec
         
         return cell
     }
-    /*
-    func configureAdCellAt(indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ListingsAdCell", for: indexPath) as! SearchCollectionViewAdCell
-        if facebookAds.count - 1 >= (indexPath as NSIndexPath).row/10 {
-            cell.adTitleLabel.text = facebookAds[(indexPath as NSIndexPath).row/10].adBody
-            cell.adImageView.image = facebookAds[(indexPath as NSIndexPath).row/10].adIconImage
-            cell.adCallToActionButton.setTitle(facebookAds[(indexPath as NSIndexPath).row/10].adCallToActionString, for: UIControlState())
-            let adView = facebookAds[(indexPath as NSIndexPath).row/10].adView!
-            adView.frame = cell.cellContentView.frame
-            cell.cellContentView.addSubview(adView)
-        }
-        return cell
-    }
-    */
+    
+//    func configureAdCellAt(indexPath: IndexPath) -> UICollectionViewCell {
+//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ListingsAdCell", for: indexPath) as! SearchCollectionViewAdCell
+//
+//            let ad = ads[indexPath.item % (adDensity - 1)]
+//            cell.adTitleLabel.text = ad.adBody
+//            cell.adImageView.image = ad.adIconImage
+//            cell.adCallToActionButton.setTitle(ad.adCallToActionString, for: UIControlState())
+//            let adView = ad.adView!
+//            adView.frame = cell.cellContentView.frame
+//            cell.cellContentView.addSubview(adView)
+//            ad.icon?.loadAsync(block: { (image :UIImage?) -> Void in
+//            ad.adIconImage = image
+//            cell.adImageView.image = image
+//            })
+//        
+//        return cell
+//    }
+    
     
     
     
@@ -261,6 +248,7 @@ class SearchViewController: UIViewController, UICollectionViewDelegate, UICollec
     }
     
     func refresh() {
+        
         noListingsLabel.isHidden = true
         if listings.isEmpty {
             for _ in 0...10 {
@@ -313,7 +301,7 @@ class SearchViewController: UIViewController, UICollectionViewDelegate, UICollec
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if indexPath.item == listings.count - 1 {
+        if indexPath.item == listings.count - 1 /*+ numberOfAds*/ {
             if listings.count >= 20 * (currentPage + 1) {
             loadListings(page: listings.count/20, completion: {
             self.currentPage += 1
@@ -341,8 +329,8 @@ class SearchViewController: UIViewController, UICollectionViewDelegate, UICollec
     }
     
 
-    
     /*
+    
     // MARK: Ads
     
     func showNativeAd() {
@@ -388,47 +376,40 @@ class SearchViewController: UIViewController, UICollectionViewDelegate, UICollec
         print(error)
     }
 */
+  
+//    func nativeAdsLoaded() {
+//        print("successfully loaded ads")
+//        for _ in 0...fbNativeAdsManager.uniqueNativeAdCount {
+//            if let nextFBAd = fbNativeAdsManager.nextNativeAd {
+//                let facebookAd = FacebookAd()
+//                facebookAd.delegate = nextFBAd.delegate
+//                facebookAd.delegate = self
+//                facebookAd.adBody = nextFBAd.body
+//                facebookAd.adCallToActionString = nextFBAd.callToAction
+//                facebookAd.icon = nextFBAd.icon
+//                facebookAd.adCoverMediaView?.nativeAd = nextFBAd
+//                
+//                // Add adChoicesView
+//                let adChoicesView = FBAdChoicesView(nativeAd: nextFBAd)
+//                let adView = UIView()
+//                adView.addSubview(adChoicesView)
+//                facebookAd.adView = adView
+//                facebookAd.adCoverMediaView?.nativeAd.registerView(forInteraction: adView, with: self)
+//                ads.append(facebookAd)
+//            }
+//        }
+//        collectionView.reloadData()
+//    }
+// 
+//    func nativeAdsFailedToLoadWithError(_ error: Error) {
+//        print(error.localizedDescription)
+//    }
+//    
+//    func nativeAdWillLogImpression(_ nativeAd: FBNativeAd) {
+//        print("\(nativeAd) will log impression")
+//    }
+
 }
-
-
-
-class FilterCollectionViewDelegate :NSObject, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    
-    var collectionViewController :UIViewController?
-    
-    init(collectionView: UICollectionView, viewController: UIViewController) {
-        super.init()
-        collectionView.delegate = self
-        collectionViewController = viewController
-    }
-    
-
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let filter = FilterManager.shared.filters[indexPath.row]
-        if filter.filterType! != .sort &&  filter.filterType! != .geo_distance {
-            FilterManager.shared.removefilterWithIndex(index: indexPath.row)
-            collectionView.deleteItems(at: [indexPath])
-            collectionView.collectionViewLayout.invalidateLayout()
-        }
-        if filter.filterType == .geo_distance {
-            collectionViewController?.performSegue(withIdentifier: "fromSearchToLocationSegueID", sender: nil)
-        }
-        if filter.filterType == .sort {
-            collectionViewController?.performSegue(withIdentifier: "fromSearchToFilterSegueID", sender: nil)
-        }
-
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
-    }
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 5
-    }
-}
-
-
 
 
 

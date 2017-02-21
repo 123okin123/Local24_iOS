@@ -5,12 +5,12 @@
 //  Created by Local24 on 10/05/16.
 //  Copyright © 2016 Nikolai Kratz. All rights reserved.
 //
-/*
+
 import Foundation
 import FBAudienceNetwork
 
 
-class FacebookAd {
+class FacebookAd :NSObject {
     
     var adIconImage :UIImage?
     var adTitle :String?
@@ -20,7 +20,8 @@ class FacebookAd {
     var sponsoredLabelString :String?
     var adCoverMediaView :FBMediaView?
     var adView :UIView?
+    var icon :FBAdImage?
 
-
+    var delegate :FBNativeAdDelegate?
 }
-*/
+

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		107AD5B81E54D10800095A0C /* FilterCollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107AD5B71E54D10800095A0C /* FilterCollectionViewDelegate.swift */; };
 		1081F2DE1BB02A7600688F3B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1081F2DD1BB02A7600688F3B /* AppDelegate.swift */; };
 		1081F2E31BB02A7600688F3B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1081F2E11BB02A7600688F3B /* Main.storyboard */; };
 		1081F2E81BB02A7600688F3B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1081F2E61BB02A7600688F3B /* LaunchScreen.storyboard */; };
@@ -14,6 +15,8 @@
 		1081F2FE1BB02A7700688F3B /* Local24UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1081F2FD1BB02A7700688F3B /* Local24UITests.swift */; };
 		1081F3101BB04E6200688F3B /* iosApp.css in Resources */ = {isa = PBXBuildFile; fileRef = 1081F30F1BB04E6200688F3B /* iosApp.css */; };
 		10AD2A041E486EB000CE9152 /* LoadingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10AD2A031E486EB000CE9152 /* LoadingCell.swift */; };
+		10B765D41E5627DC00EE3CF3 /* SearchVCAdExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B765D31E5627DC00EE3CF3 /* SearchVCAdExtension.swift */; };
+		10B765D61E5628D000EE3CF3 /* FilterCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B765D51E5628D000EE3CF3 /* FilterCollectionViewDataSource.swift */; };
 		10F001D11E538B0100E91E70 /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10F001D01E538B0100E91E70 /* Filter.swift */; };
 		622AED0118902B345F72C845 /* Pods_Local24UITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFF4E34FAF766CF6AAB81F90 /* Pods_Local24UITests.framework */; };
 		946AE2445CFC457A49DFDAEF /* Pods_Local24.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAE5DB9518CCC4A7488A2757 /* Pods_Local24.framework */; };
@@ -127,6 +130,7 @@
 
 /* Begin PBXFileReference section */
 		05704309B0C663E0ECE2D2B2 /* Pods-Local24.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Local24.release.xcconfig"; path = "Pods/Target Support Files/Pods-Local24/Pods-Local24.release.xcconfig"; sourceTree = "<group>"; };
+		107AD5B71E54D10800095A0C /* FilterCollectionViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterCollectionViewDelegate.swift; path = Search/FilterCollectionViewDelegate.swift; sourceTree = "<group>"; };
 		1081F2DA1BB02A7600688F3B /* Local24.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Local24.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1081F2DD1BB02A7600688F3B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1081F2E21BB02A7600688F3B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -140,6 +144,8 @@
 		1081F2FF1BB02A7700688F3B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1081F30F1BB04E6200688F3B /* iosApp.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = iosApp.css; path = SupportingFiles/iosApp.css; sourceTree = "<group>"; };
 		10AD2A031E486EB000CE9152 /* LoadingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoadingCell.swift; path = Search/LoadingCell.swift; sourceTree = "<group>"; };
+		10B765D31E5627DC00EE3CF3 /* SearchVCAdExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchVCAdExtension.swift; path = Search/Ads/SearchVCAdExtension.swift; sourceTree = "<group>"; };
+		10B765D51E5628D000EE3CF3 /* FilterCollectionViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterCollectionViewDataSource.swift; path = Search/FilterCollectionViewDataSource.swift; sourceTree = "<group>"; };
 		10D00FCD1E1FE3E6006199E8 /* Local24.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Local24.entitlements; path = SupportingFiles/Local24.entitlements; sourceTree = "<group>"; };
 		10F001D01E538B0100E91E70 /* Filter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Filter.swift; path = Model/Filter.swift; sourceTree = "<group>"; };
 		3F30DDA7EF437ED36AD0AEDE /* Pods-Local24UITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Local24UITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Local24UITests/Pods-Local24UITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -437,6 +443,8 @@
 			isa = PBXGroup;
 			children = (
 				CD0E3F7D1CE09C6C005AA575 /* SearchViewController.swift */,
+				10B765D51E5628D000EE3CF3 /* FilterCollectionViewDataSource.swift */,
+				107AD5B71E54D10800095A0C /* FilterCollectionViewDelegate.swift */,
 				CD0E3F7F1CE0A06C005AA575 /* CollectionViewCell.swift */,
 				10AD2A031E486EB000CE9152 /* LoadingCell.swift */,
 				CD44E3071E40942200476C88 /* FilterCollectionViewCell.swift */,
@@ -482,6 +490,7 @@
 			isa = PBXGroup;
 			children = (
 				CD9CD4301CE229EC0080CF67 /* FacebookAd.swift */,
+				10B765D31E5627DC00EE3CF3 /* SearchVCAdExtension.swift */,
 				CD9CD42E1CE21A930080CF67 /* SearchCollectionViewAdCell.swift */,
 			);
 			name = Ads;
@@ -938,6 +947,7 @@
 				CDFD59EF1DFEF4920098010B /* ChooseLocationViewController.swift in Sources */,
 				CDB594E51DE5E6230056B405 /* TabBarController.swift in Sources */,
 				CDA9CCCC1C070793005ED562 /* PublicSettings.swift in Sources */,
+				10B765D41E5627DC00EE3CF3 /* SearchVCAdExtension.swift in Sources */,
 				CDB04AD01DD3259100034C1F /* AccountCollectionViewController.swift in Sources */,
 				CD358E801E0C105C00C63020 /* CustomFieldTableViewController.swift in Sources */,
 				CDCA848F1DE324AA00F71A42 /* User.swift in Sources */,
@@ -956,9 +966,11 @@
 				CD5D16EE1C903F7F00ACE365 /* DescriptionTableViewCell.swift in Sources */,
 				CDEE24AB1CC78B8100F08D4E /* AbuseReportViewController.swift in Sources */,
 				CD5D16EC1C903AF900ACE365 /* TitleTableViewCell.swift in Sources */,
+				107AD5B81E54D10800095A0C /* FilterCollectionViewDelegate.swift in Sources */,
 				CD5109861C58C0CF00BA2CB8 /* Categories.swift in Sources */,
 				CD62AF631DE3412700AD06EF /* LoginViewController.swift in Sources */,
 				1081F2DE1BB02A7600688F3B /* AppDelegate.swift in Sources */,
+				10B765D61E5628D000EE3CF3 /* FilterCollectionViewDataSource.swift in Sources */,
 				CD5D16F41C917A6300ACE365 /* FilterViewController.swift in Sources */,
 				CD65D2511C60E5EF00AD89DF /* LocationResultsTableController.swift in Sources */,
 				CD56FD511E09664C001164F0 /* ThanksViewController.swift in Sources */,

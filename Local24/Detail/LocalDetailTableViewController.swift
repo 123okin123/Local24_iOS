@@ -381,7 +381,7 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
             defaultcell = cell!
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "desriptionCellID") as! DescriptionTableViewCell!
-            cell?.adDescriptionLabel.text = listing.description
+            cell?.adDescriptionLabel.text = listing.adDescription
             defaultcell = cell!
         case 3:
             switch (indexPath as NSIndexPath).row {
