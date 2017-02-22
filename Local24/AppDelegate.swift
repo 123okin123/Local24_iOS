@@ -130,7 +130,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         guard let dynamicLinks = FIRDynamicLinks.dynamicLinks() else {
             return false
         }
-        print(userActivity.webpageURL)
+        //print(userActivity.webpageURL)
         let handled = dynamicLinks.handleUniversalLink(userActivity.webpageURL!) { (dynamiclink, error) in
             
             if let url = dynamiclink?.url {
