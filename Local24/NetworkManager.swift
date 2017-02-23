@@ -384,21 +384,27 @@ public class NetworkManager  {
         })
     }
     
-    /*
-    private static var Manager : Alamofire.SessionManager = {
-        // Create the server trust policies
-        let serverTrustPolicies: [String: ServerTrustPolicy] = [
-            "local24-732756935.eu-west-1.elb.amazonaws.com": .disableEvaluation
-        ]
-        let configuration = URLSessionConfiguration.default
-        configuration.httpAdditionalHeaders = Alamofire.SessionManager.defaultHTTPHeaders
-        let man = Alamofire.SessionManager(
-            configuration: URLSessionConfiguration.default,
-            serverTrustPolicyManager: ServerTrustPolicyManager(policies: serverTrustPolicies)
-        )
-        return man
-    }()
-    */
+
+    
+    func editUserInfos(user: User, userToken: String, completion: @escaping (_ error: Error?) -> Void) {
+        
+        guard let values = user.userToJSON() as? [String: Any] else {
+            completion(NCError.RuntimeError("userToJSON failed"))
+            return
+        }
+        let url :URLConvertible = "https://cfw-api-11.azurewebsites.net/me/account?auth=\(userToken)"
+        Alamofire.request(url, method: .put, parameters: values, encoding: JSONEncoding.default, headers: nil).validate().responseJSON(completionHandler: { response in
+            if let statusCode = response.response?.statusCode {
+                if statusCode == 200 {
+                completion(nil)
+                } else {
+                completion(NCError.RuntimeError("no statusCode 200"))
+                }
+            } else {
+            completion(NCError.RuntimeError("no statusCode"))
+            }
+        })
+    }
 }
 
 

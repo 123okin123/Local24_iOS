@@ -8,10 +8,13 @@
 
 import Foundation
 import MapKit
+import SwiftyJSON
 
 public class User {
 
     var id :Int?
+    var salutationID :Int?
+    var email :String?
     var firstName :String?
     var lastName :String?
     var totalAdsCount :Int?
@@ -19,40 +22,68 @@ public class User {
     var city :String?
     var street :String?
     var houseNumber :String?
+    var telephone :String?
     
     var placemark :CLPlacemark?
+    var isCommercial :Bool?
     
     init() {}
     
     init(value: [AnyHashable:Any]) {
-   
-        if let id = value["ID"] as? Int {
-            self.id = id
-        }
-        if let firstName = value["FirstName"] as? String {
-            self.firstName = firstName
-        }
-        if let lastName = value["LastName"] as? String {
-            self.lastName = lastName
-        }
-        if let totalAdsCount = value["TotalAdsCount"] as? Int {
-            self.totalAdsCount = totalAdsCount
-        }
-        if let zipCode = value["ZipCode"] as? String {
-            self.zipCode = zipCode
-        }
-        if let city = value["City"] as? String {
-            self.city = city
-        }
-        if let street = value["Street"] as? String {
-            self.street = street
-        }
-        if let houseNumber = value["HouseNumber"] as? String {
-            self.houseNumber = houseNumber
-        }
-
+        let json = JSON(value)
+        print(json)
+        id = json["ID"].int
+        email = json["LoginEmail"].string
+        salutationID = json["ID_Salutation"].int
+        firstName = json["FirstName"].string
+        lastName = json["LastName"].string
+        totalAdsCount = json["TotalAdsCount"].int
+        zipCode = json["ZipCode"].string
+        city = json["City"].string
+        street = json["Street"].string
+        houseNumber = json["HouseNumber"].string
+        telephone = json["Phone"].string
+        isCommercial = json["IsCommercial"].bool
     }
+
+     func userToJSON() -> [AnyHashable: Any]? {
+
+        guard let email = self.email else {return nil}
+        guard let firstName = self.firstName else {return nil}
+        guard let lastName = self.lastName else {return nil}
+        guard let city = self.city else {return nil}
+        guard let isCommercial = self.isCommercial else {return nil}
+        
+
+        
+        var values :[AnyHashable: Any] = ["ID":"1",
+                      "LoginEmail": email,
+                      "FirstName": firstName,
+                      "LastName": lastName,
+                      "City": city,
+                      "isCommercial": isCommercial
+        ]
+        
+        if let telephone = self.telephone {
+            values["Phone"] = telephone
+        }
+        if let street = self.street {
+            values["Street"] = street
+        }
+        if let houseNumber = self.houseNumber {
+            values["HouseNumber"] = houseNumber
+        }
+        if let zipCode = self.zipCode  {
+            values["ZipCode"] = zipCode
+        }
+        if let salutationID = self.salutationID {
+            values["ID_Salutation"] = salutationID
+        }
+        return values
+    }
+
 
     
 
 }
+

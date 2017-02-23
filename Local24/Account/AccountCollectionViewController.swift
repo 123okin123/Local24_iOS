@@ -235,7 +235,11 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
             if user != nil {
                 if user!.firstName != nil && user!.lastName != nil {
                     headerView.userNameLabel.text = user!.firstName! + " " + user!.lastName!
-                    headerView.userInitialsLabel.text = String(describing: user!.firstName!.characters.first!) + String(describing: user!.lastName!.characters.first!)
+                    if let firstCharacter = user?.firstName?.characters.first {
+                        if let secondCharacter = user?.lastName?.characters.first {
+                            headerView.userInitialsLabel.text = String(describing: firstCharacter) + String(describing: secondCharacter)
+                        }
+                    }
                 }
       
                 headerView.totalAdsCountLabel.text = "Anzahl Anzeigen: " + String(describing: userListings.count)
@@ -285,6 +289,10 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
        
     }
     
+    @IBAction func backFromEditProfileToProfil(_ segue: UIStoryboardSegue) {
+    }
+    @IBAction func saveAndBackFromEditProfileToProfil(_ segue: UIStoryboardSegue) {
+    }
 
     //  MARK: CellSubclassDelegate
     

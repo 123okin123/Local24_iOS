@@ -161,7 +161,7 @@ class InsertTableViewController: UITableViewController {
         
         titleTextField.text = listing.title
         categoryLabel.text  = categoryBuilder.allCategories.filter({$0.id == listing.catID})[0].name
-        descriptionTextView.text = listing.description
+        descriptionTextView.text = listing.adDescription
         if listing.price == "-, €" {
             priceTextField.text = ""
         } else {

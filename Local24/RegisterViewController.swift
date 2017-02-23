@@ -24,7 +24,7 @@ class RegisterViewController: UITableViewController, UIPickerViewDelegate, UIPic
     @IBOutlet weak var cityField: UITextField!
     
     @IBOutlet weak var acceptAGBSwitch: UISwitch!
-    
+    var salutation :(String, Int)?
     
     let pickerView = UIPickerView()
     let toolBar = UIToolbar()
@@ -52,8 +52,7 @@ class RegisterViewController: UITableViewController, UIPickerViewDelegate, UIPic
                       "City": cityField.text!,
                       "IsCommercial": "false",
                       "acceptAgb": "on",
-                        "action": "register",
-                        "ID_Salutation": "1"
+                        "action": "register"
                       ]
             if telefonField.text != "" {
             values["PhoneNo"] = telefonField.text!
@@ -67,6 +66,10 @@ class RegisterViewController: UITableViewController, UIPickerViewDelegate, UIPic
             if zipCodeField.text != ""  {
             values["ZipCode"] = zipCodeField.text!
             }
+            if salutation != nil {
+            values["ID_Salutation"] = String(describing: salutation!.1)
+            }
+            
         
         networkManager.registerUserWith(values: values, completion: { error in
             pendingAlertController.dismiss(animated: true, completion: {
@@ -166,7 +169,7 @@ class RegisterViewController: UITableViewController, UIPickerViewDelegate, UIPic
     
     
     
-    let pickerOptions = ["keine Angabe", "Herr", "Frau"]
+    let pickerOptions = [("keine Angabe", 1), ("Herr", 2), ("Frau", 3)]
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return 3
     }
@@ -174,10 +177,11 @@ class RegisterViewController: UITableViewController, UIPickerViewDelegate, UIPic
         return 1
     }
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return pickerOptions[row]
+        return pickerOptions[row].0
     }
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        userTitleField.text = pickerOptions[row]
+        userTitleField.text = pickerOptions[row].0
+        salutation = pickerOptions[row]
     }
     func pickerDonePressed() {
         view.endEditing(true)

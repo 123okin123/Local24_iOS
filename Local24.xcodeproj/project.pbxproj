@@ -41,6 +41,7 @@
 		CD56FD511E09664C001164F0 /* ThanksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD56FD501E09664C001164F0 /* ThanksViewController.swift */; };
 		CD56FD531E0966CB001164F0 /* ThanksTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD56FD521E0966CB001164F0 /* ThanksTableViewController.swift */; };
 		CD5911A71E5DC17C00C6DA99 /* CollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5911A61E5DC17C00C6DA99 /* CollectionViewDataSource.swift */; };
+		CD5911A91E5DCB6200C6DA99 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5911A81E5DCB6200C6DA99 /* EditProfileViewController.swift */; };
 		CD5D16E51C8F11B200ACE365 /* ContactTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5D16E41C8F11B200ACE365 /* ContactTableViewController.swift */; };
 		CD5D16E91C90377D00ACE365 /* PriceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5D16E81C90377D00ACE365 /* PriceTableViewCell.swift */; };
 		CD5D16EC1C903AF900ACE365 /* TitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5D16EB1C903AF900ACE365 /* TitleTableViewCell.swift */; };
@@ -175,6 +176,7 @@
 		CD56FD501E09664C001164F0 /* ThanksViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ThanksViewController.swift; path = More/ThanksViewController.swift; sourceTree = "<group>"; };
 		CD56FD521E0966CB001164F0 /* ThanksTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ThanksTableViewController.swift; path = More/ThanksTableViewController.swift; sourceTree = "<group>"; };
 		CD5911A61E5DC17C00C6DA99 /* CollectionViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CollectionViewDataSource.swift; path = Search/CollectionViewDataSource.swift; sourceTree = "<group>"; };
+		CD5911A81E5DCB6200C6DA99 /* EditProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditProfileViewController.swift; path = Account/EditProfileViewController.swift; sourceTree = "<group>"; };
 		CD5D16E41C8F11B200ACE365 /* ContactTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactTableViewController.swift; path = Detail/ContactTableViewController.swift; sourceTree = "<group>"; };
 		CD5D16E81C90377D00ACE365 /* PriceTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PriceTableViewCell.swift; path = Detail/PriceTableViewCell.swift; sourceTree = "<group>"; };
 		CD5D16EB1C903AF900ACE365 /* TitleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TitleTableViewCell.swift; path = Detail/TitleTableViewCell.swift; sourceTree = "<group>"; };
@@ -404,6 +406,7 @@
 			isa = PBXGroup;
 			children = (
 				CDB04ACF1DD3259100034C1F /* AccountCollectionViewController.swift */,
+				CD5911A81E5DCB6200C6DA99 /* EditProfileViewController.swift */,
 				CD993E081DF9AFAF00F686C7 /* MyAdsDetailViewController.swift */,
 				CDB04AD31DD36A3500034C1F /* MyAdsCollectionViewCell.swift */,
 				CDCA848C1DE30CA800F71A42 /* AccountHeaderView.swift */,
@@ -938,6 +941,7 @@
 				CDA9CCDA1C073236005ED562 /* MoreViewController.swift in Sources */,
 				CD5911A71E5DC17C00C6DA99 /* CollectionViewDataSource.swift in Sources */,
 				CDD729051E130051009F0B99 /* InsertTextFieldPicker.swift in Sources */,
+				CD5911A91E5DCB6200C6DA99 /* EditProfileViewController.swift in Sources */,
 				CD9CD4311CE229EC0080CF67 /* FacebookAd.swift in Sources */,
 				CD0E3F821CE0BFA9005AA575 /* Listing.swift in Sources */,
 				CDA9CCD81C0715B3005ED562 /* MoreTableViewController.swift in Sources */,
