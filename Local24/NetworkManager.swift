@@ -22,8 +22,6 @@ public class NetworkManager  {
     
     // MARK: Inserate
     
-    
-    
     func getAdsSatisfying(filterArray :[Filter]?, page: Int, completion: @escaping (_ listings :[Listing]?,_ error :Error?) -> Void) ->  DataRequest {
         var parameters = [String:Any]()
         if filterArray != nil {
@@ -54,11 +52,37 @@ public class NetworkManager  {
             }
         })
         return request
-        
     }
     
     
-     func loadAdWith(id: Int, completion: @escaping (_ listing: Listing?, _ error: Error?) -> Void) {
+    func getOwnAds(userToken :String, completion: @escaping (_ error :Error?, _ listings: [Listing]?) -> Void) {
+        Alamofire.request("https://cfw-api-11.azurewebsites.net/ads/", method: .get, parameters: ["auth": userToken]).validate().responseJSON (completionHandler: {response in
+            
+            if let statusCode = response.response?.statusCode {
+                switch statusCode {
+                case 200, 404:
+                    var listings = [Listing]()
+                    if let ads = response.result.value as? [[AnyHashable:Any]] {
+                        if ads.count > 0 {
+                            for ad in ads {
+                                let listing = Listing(value: ad)
+                                listings.append(listing)
+                            }
+                        }
+                    }
+                    completion(nil, listings)
+                case 400:
+                    completion(NCError.RuntimeError("(Bad Request) - Ungültige(r) Filter-Parameter.") ,nil)
+                case 401:
+                    completion(NCError.RuntimeError("(Unauthorized) - Kein oder ungültiges Token oder die erforderliche Berechtigungsstufe fehlt.") ,nil)
+                default: break
+                }
+            }
+        })
+    }
+
+    
+    func loadAdWith(id: Int, completion: @escaping (_ listing: Listing?, _ error: Error?) -> Void) {
         Alamofire.request("https://cfw-api-11.azurewebsites.net/public/ads/\(id)/").responseJSON(completionHandler: { response in
             switch response.result {
             case .failure(let error):

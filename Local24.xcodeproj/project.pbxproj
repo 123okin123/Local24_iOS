@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		105A2DB01E61848B00BF0CC7 /* InsertListingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105A2DAF1E61848B00BF0CC7 /* InsertListingCell.swift */; };
 		107AD5B81E54D10800095A0C /* FilterCollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107AD5B71E54D10800095A0C /* FilterCollectionViewDelegate.swift */; };
 		1081F2DE1BB02A7600688F3B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1081F2DD1BB02A7600688F3B /* AppDelegate.swift */; };
 		1081F2E31BB02A7600688F3B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1081F2E11BB02A7600688F3B /* Main.storyboard */; };
@@ -132,6 +133,7 @@
 
 /* Begin PBXFileReference section */
 		05704309B0C663E0ECE2D2B2 /* Pods-Local24.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Local24.release.xcconfig"; path = "Pods/Target Support Files/Pods-Local24/Pods-Local24.release.xcconfig"; sourceTree = "<group>"; };
+		105A2DAF1E61848B00BF0CC7 /* InsertListingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InsertListingCell.swift; path = Account/InsertListingCell.swift; sourceTree = "<group>"; };
 		107AD5B71E54D10800095A0C /* FilterCollectionViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterCollectionViewDelegate.swift; path = Search/FilterCollectionViewDelegate.swift; sourceTree = "<group>"; };
 		1081F2DA1BB02A7600688F3B /* Local24.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Local24.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1081F2DD1BB02A7600688F3B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -406,6 +408,7 @@
 			isa = PBXGroup;
 			children = (
 				CDB04ACF1DD3259100034C1F /* AccountCollectionViewController.swift */,
+				105A2DAF1E61848B00BF0CC7 /* InsertListingCell.swift */,
 				CD5911A81E5DCB6200C6DA99 /* EditProfileViewController.swift */,
 				CD993E081DF9AFAF00F686C7 /* MyAdsDetailViewController.swift */,
 				CDB04AD31DD36A3500034C1F /* MyAdsCollectionViewCell.swift */,
@@ -993,6 +996,7 @@
 				CD286E481CCE455C004675A9 /* FilterMoreSelectTableViewController.swift in Sources */,
 				CDB3AFEA1D2BF00A00C2F254 /* NMRangeSlider.m in Sources */,
 				CD5D16F21C90673600ACE365 /* DetailImageViewController.swift in Sources */,
+				105A2DB01E61848B00BF0CC7 /* InsertListingCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

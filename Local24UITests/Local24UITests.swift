@@ -31,6 +31,21 @@ class Local24UITests: XCTestCase {
     func testExample() {
         // Use recording to get started writing UI tests.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
+ let app = XCUIApplication()
+        app.buttons["insert"].tap()
+        
+        let tablesQuery = app.tables
+        tablesQuery.staticTexts["Bitte wählen Sie ein Kategorie"].tap()
+
+        tablesQuery.staticTexts["Autos, Fahrzeuge"].tap()
+        tablesQuery.staticTexts["Auto"].tap()
+        tablesQuery.staticTexts["Audi"].swipeUp()
+        tablesQuery.cells.containing(.staticText, identifier:"Cadillac").children(matching: .staticText).matching(identifier: "Cadillac").element(boundBy: 0).tap()
+        tablesQuery.staticTexts["Eldorado"].tap()
+
+        
+        
+        
     }
     
 }

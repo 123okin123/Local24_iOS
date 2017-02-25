@@ -8,6 +8,7 @@
 
 import UIKit
 import Alamofire
+import Firebase
 
 public var tabBarPreferedIndex :Int?
 
@@ -29,6 +30,11 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         super.viewWillAppear(animated)
             setPreferredIndex()
     }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        checkAppRating()
+    }
+    
     func setPreferredIndex() {
         if tabBarPreferedIndex != nil {
             self.selectedIndex = tabBarPreferedIndex!
@@ -41,7 +47,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         super.didReceiveMemoryWarning()
      
     }
-    func setupInsertButton() {
+    private func setupInsertButton() {
         var insertButtonFrame = insertButton.frame
         insertButtonFrame.origin.y = self.view.bounds.height - insertButtonFrame.height - 15
         insertButtonFrame.origin.x = self.view.bounds.width/2 - insertButtonFrame.width/2
@@ -82,6 +88,45 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
             
         }
         return true
+    }
+    
+    
+    func checkAppRating() {
+    //APP RATING
+    if remoteConfig["showAppRating"].boolValue {
+    presentAppRating()
+    UserDefaults.standard.set(0, forKey: "startsSinceAppRating")
+    FIRAnalytics.setUserPropertyString(String(0), forName: "starts_since_apprating")
+        remoteConfig.fetch(completionHandler: {(status, error) -> Void in
+            if status == .success {
+                print("Config fetched!")
+                remoteConfig.activateFetched()
+            } else {
+                print("Config not fetched")
+                print("Error \(error!.localizedDescription)")
+            }
+        
+        })
+    }
+    let startsSinceAppRating = UserDefaults.standard.integer(forKey: "startsSinceAppRating") + 1
+    UserDefaults.standard.set(startsSinceAppRating, forKey: "startsSinceAppRating")
+    FIRAnalytics.setUserPropertyString(String(startsSinceAppRating), forName: "starts_since_apprating")
+    
+    print("startsSinceAppRating:\(startsSinceAppRating)")
+    
+    }
+    
+    
+    
+    func presentAppRating() {
+        guard let url = URL(string : "itms-apps://itunes.apple.com/de/app/id1089153890") else { return}
+        let alert = UIAlertController(title: "Dir gefällt Local24?", message: "Dann würden wir uns freuen, du nimmst dir die Zeit und zeigst es uns.\n\n\u{1F31F} \u{1F31F} \u{1F31F} \u{1F31F} \u{1F31F} \n\n Vielen Dank!", preferredStyle: .alert)
+        let confirmAction = UIAlertAction(title: "Ok", style: .cancel, handler: {_ in UIApplication.shared.openURL(url)})
+        let cancelAction = UIAlertAction(title: "Vieleicht später", style: .default, handler: nil)
+        alert.addAction(confirmAction)
+        alert.addAction(cancelAction)
+        
+        self.present(alert, animated: true, completion: nil)
     }
 
 }

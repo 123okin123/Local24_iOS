@@ -11,6 +11,7 @@ import Alamofire
 import MapleBacon
 
 private let reuseIdentifier = "MyAdsCellID"
+private let insertListingIdentifier = "InsertListingCellID"
 
 class AccountCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UIGestureRecognizerDelegate, MyAdsCellDelegate {
     
@@ -116,20 +117,21 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
         networkManager.getUserProfile(userToken: userToken!, completion: {(fetchedUser, statusCode) in
         user = fetchedUser
         })
+        getAds()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if userListings.count == 0 {
-        if collectionView!.contentOffset.y == 0 {
-            UIView.animate(withDuration: 0.25, animations: {
-            self.collectionView?.contentOffset.y = -self.refresher.frame.size.height
-            }, completion: { _ in
-            self.refresher.beginRefreshing()
-            })
-            self.getAds()
-        }
-        }
+//        if userListings.count == 0 {
+//        if collectionView!.contentOffset.y == 0 {
+//            UIView.animate(withDuration: 0.25, animations: {
+//            self.collectionView?.contentOffset.y = -self.refresher.frame.size.height
+//            }, completion: { _ in
+//            self.refresher.beginRefreshing()
+//            })
+//            self.getAds()
+//        }
+//        }
     }
 
     
@@ -140,38 +142,24 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
     func getAds() {
         if !(isLoading) {
             isLoading = true
-
-        Alamofire.request("https://cfw-api-11.azurewebsites.net/ads/", method: .get, parameters: ["auth":userToken!]).validate().responseJSON (completionHandler: {response in
-            self.refresher.endRefreshing()
-            if let statusCode = response.response?.statusCode {
-            
-            switch statusCode {
-            case 200:
-            let ads = response.result.value as! [[AnyHashable:Any]]
-            self.userListings.removeAll()
-            if ads.count > 0 {
-                for ad in ads {
-                    let listing = Listing(value: ad)
+            networkManager.getOwnAds(userToken: userToken!, completion: {(error, listings) in
+                self.refresher.endRefreshing()
+                if error == nil {
+                    self.userListings.removeAll()
+                    if listings != nil {
+                        self.userListings = listings!
+                    }
+                } else {
+                    let errorMenu = UIAlertController(title: "Fehler", message: "Da ist leider etwas schief gegangen, das Laden der Anzeige war nicht erfolgreich.", preferredStyle: .alert)
+                    let confirmAction = UIAlertAction(title: "Ok", style: .default, handler: {alert in})
+                    errorMenu.addAction(confirmAction)
+                    self.present(errorMenu, animated: true, completion: nil)
                     
-                    self.userListings.append(listing)
                 }
-            }
+                self.collectionView?.reloadData()
+                self.isLoading = false
+            })
             
-            self.collectionView?.reloadData()
-            
-            case 400, 401:
-                let errorMenu = UIAlertController(title: "Fehler", message: "Da ist leider etwas schief gegangen, das Laden der Anzeige war nicht erfolgreich.", preferredStyle: .alert)
-                let confirmAction = UIAlertAction(title: "Ok", style: .default, handler: {alert in})
-                errorMenu.addAction(confirmAction)
-                self.present(errorMenu, animated: true, completion: nil)
-            case 404:
-            self.collectionView?.reloadData()
-            // keine Inserate
-            default: break
-                }
-            }
-            self.isLoading = false
-        })
         }
     }
     
@@ -187,10 +175,16 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
 
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if userListings.count == 0 {
+        return userListings.count + 1
+        } else {
         return userListings.count
+        }
+        
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if indexPath.item <= userListings.count - 1 {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! MyAdsCollectionViewCell
         let listing = userListings[indexPath.row]
         let gestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(cellLongPressed))
@@ -223,9 +217,12 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
         self.userListings[indexPath.row].images = images
         cell.listing.images = images
         })
-        
-    
         return cell
+        } else {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: insertListingIdentifier, for: indexPath) as! InsertListingCell
+        return cell
+        }
+
     }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -293,6 +290,15 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
     }
     @IBAction func saveAndBackFromEditProfileToProfil(_ segue: UIStoryboardSegue) {
     }
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if indexPath.item == userListings.count {
+            if let tabBarVC = tabBarController as? TabBarController {
+            tabBarVC.insertButtonAction()
+            }
+        }
+    }
+    
 
     //  MARK: CellSubclassDelegate
     

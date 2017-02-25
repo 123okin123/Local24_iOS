@@ -26,7 +26,8 @@ class EditProfileViewController: UITableViewController, UIPickerViewDelegate, UI
     let toolBar = UIToolbar()
     
     @IBAction func saveProfileInfo(_ sender: UIBarButtonItem) {
-        if user != nil {
+        guard validate() else {return}
+        guard user != nil else {return}
             user!.salutationID = salutationID
             user!.firstName = firstNameField.text
             user!.lastName = lastNameField.text
@@ -58,7 +59,7 @@ class EditProfileViewController: UITableViewController, UIPickerViewDelegate, UI
                     }
                 })
             })
-        }
+        
     }
 
     override func viewDidLoad() {

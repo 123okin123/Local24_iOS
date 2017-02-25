@@ -69,20 +69,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         FIROptions.default().deepLinkURLScheme = "com.scout24.local24"
         FIRApp.configure()
 
+        // STARTED FROM NOTIFICATION
         
         if let notification = launchOptions?[UIApplicationLaunchOptionsKey.remoteNotification] as? [String: AnyObject] {
             if let stringIndex = notification["tabBarSelectedIndex"] as? String {
                 tabBarPreferedIndex = Int(stringIndex)
             }
-            if let showAppRating = notification["showAppRating"]?.boolValue {
-                if showAppRating {
-                    if remoteConfig["showAppRating"].boolValue {
-                        presentAppRating()
-                    }
-                }
-            }
+//            if let showAppRating = notification["showAppRating"]?.boolValue {
+//                if showAppRating {
+//                    if remoteConfig["showAppRating"].boolValue {
+//                        presentAppRating()
+//                    }
+//                }
+//            }
         }
+        
 
+        
         
          // FACEBOOK
         return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
@@ -283,26 +286,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
 
     
-    func presentAppRating() {
-        guard let url = URL(string : "itms-apps://itunes.apple.com/de/app/id1089153890") else { return}
-        let alert = UIAlertController(title: "Dir gefällt Local24?", message: "Dann würden wir uns freuen, du nimmst dir die Zeit und zeigst es uns.\n\n\u{1F31F} \u{1F31F} \u{1F31F} \u{1F31F} \u{1F31F} \n\n Vielen Dank!", preferredStyle: .alert)
-        let confirmAction = UIAlertAction(title: "Ok", style: .cancel, handler: {_ in UIApplication.shared.openURL(url)})
-        let cancelAction = UIAlertAction(title: "Vieleicht später", style: .default, handler: nil)
-        alert.addAction(confirmAction)
-        alert.addAction(cancelAction)
-        self.window?.rootViewController?.present(alert, animated: true, completion: nil)
-    }
+
     
     // Background
     @available(iOS 10.0, *)
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        if let showAppRating = response.notification.request.content.userInfo["showAppRating"] as? String {
-            if showAppRating == "true" {
-                if remoteConfig["showAppRating"].boolValue {
-                    presentAppRating()
-                }
-            }
-        }
+//        if let showAppRating = response.notification.request.content.userInfo["showAppRating"] as? String {
+//            if showAppRating == "true" {
+//                if remoteConfig["showAppRating"].boolValue {
+//                    presentAppRating()
+//                }
+//            }
+//        }
         completionHandler()
     }
     // inApp
@@ -318,6 +313,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func applicationReceivedRemoteMessage(_ remoteMessage: FIRMessagingRemoteMessage) {
         print("ping5")
     }
+    
+    
+    
+
 }
 
 

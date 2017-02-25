@@ -33,7 +33,7 @@ public var dryRunGA = false
 public var gaLogging = false
 public let mode = "www"
 public var adultContent = true
-public var remoteConfigDevMode = false
+public var remoteConfigDevMode = true
 
 public var searchIndexURL = "https://l24-app-proxy.herokuapp.com"
 

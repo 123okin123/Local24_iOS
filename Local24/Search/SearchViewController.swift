@@ -175,6 +175,7 @@ class SearchViewController: UIViewController, UICollectionViewDelegate, UICollec
             if error == nil && listings != nil {
                self.listings.append(contentsOf: listings!)
                 if self.listings.count == 0 {
+                    self.noListingsLabel.text = "Leider konnten keine Anzeigen zu deiner Suche gefunden werden."
                     self.noListingsLabel.isHidden = false
                 } else {
                     self.noListingsLabel.isHidden = true
@@ -184,6 +185,8 @@ class SearchViewController: UIViewController, UICollectionViewDelegate, UICollec
                 }
             } else {
                 print(error!.localizedDescription)
+                self.noListingsLabel.text = "Leider ist beim Abrufen der Anzeigen ein Fehler aufgetreten."
+                self.noListingsLabel.isHidden = false
             }
             
             self.collectionView?.reloadData()
