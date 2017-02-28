@@ -10,7 +10,7 @@ import UIKit
 import MapKit
 
 
-public var viewedRegion = MKCoordinateRegion()
+public var viewedRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 51.321304218518435, longitude: 10.26933636230746), span: MKCoordinateSpan(latitudeDelta: 13.912692064754779, longitudeDelta: 14.115745522013924))
 
 class LocationViewController: UIViewController, UISearchBarDelegate, UISearchResultsUpdating, UISearchControllerDelegate, MKMapViewDelegate , UIGestureRecognizerDelegate, CLLocationManagerDelegate {
     @IBOutlet weak var mapView: MKMapView!
@@ -56,7 +56,6 @@ class LocationViewController: UIViewController, UISearchBarDelegate, UISearchRes
         searchController.delegate = self
         searchController.dimsBackgroundDuringPresentation = false
         definesPresentationContext = true
-        
         configureSearchBar()
 
     }
@@ -166,6 +165,7 @@ class LocationViewController: UIViewController, UISearchBarDelegate, UISearchRes
                     let geofilter = Geofilter(lat: lat, lon: lon, distance: radius, value: (zip + " " + subAdminArea + " (\(Int(radius))km)"))
                     FilterManager.shared.setfilter(newfilter: geofilter)
                     viewedRegion = self.mapView.region
+                    debugPrint(viewedRegion)
                 }
             }
         })

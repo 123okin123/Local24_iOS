@@ -12,6 +12,7 @@ import Firebase
 
 public var tabBarPreferedIndex :Int?
 public var hasSeenAppRatingInSession = false
+public var checkedForAppRating = false
 class TabBarController: UITabBarController, UITabBarControllerDelegate {
 
     var willSelectedIndex = 0
@@ -32,7 +33,10 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        checkAppRating()
+        if !checkedForAppRating {
+            checkAppRating()
+            checkedForAppRating = true
+        }
     }
     
     func setPreferredIndex() {
