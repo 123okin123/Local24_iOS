@@ -298,7 +298,7 @@ class Listing :NSObject {
         }
         if source != nil {
         switch self.source! {
-        case "AS":
+        case "AS", "ASBikes":
             self.thumbImageURL = self.thumbImageURL?.replacingOccurrences(of: "small", with: "420x315")
             self.imageURLs = imageURLs.map({$0.replacingOccurrences(of: "small", with: "big")})
         case "IS":
