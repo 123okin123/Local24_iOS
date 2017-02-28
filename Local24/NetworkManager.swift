@@ -18,7 +18,8 @@ public class NetworkManager  {
 
     private var request :Request?
     
-    init() {}
+    static let shared = NetworkManager()
+    
     
     // MARK: Inserate
     

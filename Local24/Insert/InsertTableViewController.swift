@@ -121,7 +121,7 @@ class InsertTableViewController: UITableViewController {
             navigationItem.setHidesBackButton(true, animated: false)
         }
         navigationController?.setNavigationBarHidden(false, animated: false)
-        networkManager.getUserProfile(userToken: userToken!, completion: {(fetchedUser, statusCode) in
+        NetworkManager.shared.getUserProfile(userToken: userToken!, completion: {(fetchedUser, statusCode) in
             user = fetchedUser
         })
        
@@ -276,7 +276,7 @@ class InsertTableViewController: UITableViewController {
         indicator.color = UIColor.darkGray
         pendingAlertController.view.addSubview(indicator)
         indicator.isUserInteractionEnabled = false
-        let cancleAction = UIAlertAction(title: "Abbrechen", style: .cancel, handler: { _ in networkManager.cancelCurrentRequest()})
+        let cancleAction = UIAlertAction(title: "Abbrechen", style: .cancel, handler: { _ in NetworkManager.shared.cancelCurrentRequest()})
         
         pendingAlertController.addAction(cancleAction)
         indicator.startAnimating()
@@ -348,7 +348,7 @@ class InsertTableViewController: UITableViewController {
         }
         // End of Optional Values
         
-         networkManager.insertAdWith(values: values, images: imageArray, existing: listingExists, userToken: userToken!, completion: { errorString in
+         NetworkManager.shared.insertAdWith(values: values, images: imageArray, existing: listingExists, userToken: userToken!, completion: { errorString in
             pendingAlertController.dismiss(animated: true, completion: {
             if errorString == nil {
 

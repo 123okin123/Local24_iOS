@@ -182,7 +182,7 @@ class MoreViewController: UIViewController, WKNavigationDelegate {
                 }
             }
         } else {
-            loadStylesString = "var script = document.createElement('link'); script.type = 'text/css'; script.rel = 'stylesheet'; script.media = 'all' ; script.href = 'https://\(mode).local24.de/assets/css/iosApp.css'; document.getElementsByTagName('head')[0].appendChild(script);"
+            loadStylesString = "var script = document.createElement('link'); script.type = 'text/css'; script.rel = 'stylesheet'; script.media = 'all' ; script.href = 'https://www.local24.de/assets/css/iosApp.css'; document.getElementsByTagName('head')[0].appendChild(script);"
             
             
         }
@@ -201,9 +201,7 @@ class MoreViewController: UIViewController, WKNavigationDelegate {
             }
         })
             
-        
-        // STAGE MODE
-        showMode(webView,view: self.view)
+     
     }
 
     

@@ -59,7 +59,7 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
     }
     
     func changeAdStateOf(listing :Listing, to adState: String) {
-        networkManager.changeAdWith(adID: listing.adID!, to: adState, userToken: userToken!, completion: {error in
+        NetworkManager.shared.changeAdWith(adID: listing.adID!, to: adState, userToken: userToken!, completion: {error in
             if error == nil {
                 if let index = self.userListings.index(where: {$0.adID == listing.adID}) {
                     self.userListings[index].adState = AdState(rawValue: adState)
@@ -80,7 +80,7 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
     func delete(listing :Listing) {
         let confirmMenu = UIAlertController(title: "Anzeige Löschen", message: "Bist du sicher, dass du diese Anzeige löschen möchtest?", preferredStyle: .alert)
         let confirmAction = UIAlertAction(title: "Löschen", style: .destructive, handler: {alert in
-            networkManager.deleteAdWith(adID: listing.adID!, userToken: userToken!, completion: { error in
+            NetworkManager.shared.deleteAdWith(adID: listing.adID!, userToken: userToken!, completion: { error in
                 if error == nil {
                     if let index = self.userListings.index(where: {$0.createdDate == listing.createdDate}) {
                         self.userListings.remove(at: index)
@@ -114,7 +114,7 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
         gaUserTracking("Profil")
         navigationItem.setHidesBackButton(true, animated: false)
         navigationController?.setNavigationBarHidden(false, animated: false)
-        networkManager.getUserProfile(userToken: userToken!, completion: {(fetchedUser, statusCode) in
+        NetworkManager.shared.getUserProfile(userToken: userToken!, completion: {(fetchedUser, statusCode) in
         user = fetchedUser
         })
         getAds()
@@ -142,7 +142,7 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
     func getAds() {
         if !(isLoading) {
             isLoading = true
-            networkManager.getOwnAds(userToken: userToken!, completion: {(error, listings) in
+            NetworkManager.shared.getOwnAds(userToken: userToken!, completion: {(error, listings) in
                 self.refresher.endRefreshing()
                 if error == nil {
                     self.userListings.removeAll()
@@ -175,11 +175,8 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
 
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if userListings.count == 0 {
+        
         return userListings.count + 1
-        } else {
-        return userListings.count
-        }
         
     }
 
@@ -213,7 +210,7 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
         } else {
             cell.listingImage.image = listing.thumbImage
         }
-        networkManager.getImagesFor(adID: listing.adID, completion: { images in
+        NetworkManager.shared.getImagesFor(adID: listing.adID, completion: { images in
         self.userListings[indexPath.row].images = images
         cell.listing.images = images
         })

@@ -71,7 +71,7 @@ class RegisterViewController: UITableViewController, UIPickerViewDelegate, UIPic
             }
             
         
-        networkManager.registerUserWith(values: values, completion: { error in
+        NetworkManager.shared.registerUserWith(values: values, completion: { error in
             pendingAlertController.dismiss(animated: true, completion: {
             if error == nil {
                 let tracker = GAI.sharedInstance().defaultTracker

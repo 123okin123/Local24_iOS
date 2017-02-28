@@ -45,13 +45,12 @@ class EditProfileViewController: UITableViewController, UIPickerViewDelegate, UI
             indicator.startAnimating()
             present(pendingAlertController, animated: true, completion: nil)
             
-            networkManager.editUserInfos(user: user!, userToken: userToken!, completion: {
+            NetworkManager.shared.editUserInfos(user: user!, userToken: userToken!, completion: {
                 error in
                 pendingAlertController.dismiss(animated: true, completion: {
                     if error == nil {
                         self.performSegue(withIdentifier: "backFromEditProfileToProfilSeugueID", sender: nil)
                     } else {
-                        debugPrint(error)
                         let errorMenu = UIAlertController(title: "Fehler", message: "Beim bearbeiten ist ein Fehler aufgetreten", preferredStyle: .alert)
                         let confirmAction = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
                         errorMenu.addAction(confirmAction)

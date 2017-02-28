@@ -133,15 +133,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         guard let dynamicLinks = FIRDynamicLinks.dynamicLinks() else {
             return false
         }
-        //print(userActivity.webpageURL)
+        
         let handled = dynamicLinks.handleUniversalLink(userActivity.webpageURL!) { (dynamiclink, error) in
             
             if let url = dynamiclink?.url {
-                    if let tabBarController = self.window?.rootViewController?.presentedViewController as? TabBarController {
-                        tabBarPreferedIndex = 1
-                        tabBarController.setPreferredIndex()
-                        FilterManager.shared.setFiltersFromURL(url: url)
-                    }
+                FilterManager.shared.setFiltersFromURL(url: url)
+                tabBarPreferedIndex = 1
             }
         }
         
@@ -164,12 +161,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let dynamicLink = FIRDynamicLinks.dynamicLinks()?.dynamicLink(fromCustomSchemeURL: url)
         FBSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
             if let url = dynamicLink?.url {
-                if let tabBarController = self.window?.rootViewController?.presentedViewController as? TabBarController {
-                    tabBarPreferedIndex = 1
-                    tabBarController.setPreferredIndex()
-                    FilterManager.shared.setFiltersFromURL(url: url)
-                    return true
-                }
+                FilterManager.shared.setFiltersFromURL(url: url)
+                tabBarPreferedIndex = 1
+                return true
             }
         return false
     }

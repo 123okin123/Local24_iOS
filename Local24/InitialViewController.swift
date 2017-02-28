@@ -19,12 +19,11 @@ class InitialViewController: UIViewController {
             if error == nil {
                 self.setRemoteConfiguration(completion: {
                     if userToken != nil {
-                        networkManager.getUserProfile(userToken: userToken!, completion: { (fetchedUser, statusCode) in
+                        NetworkManager.shared.getUserProfile(userToken: userToken!, completion: { (fetchedUser, statusCode) in
                             if statusCode == 200 {
                                 user = fetchedUser
                             }
                             self.performSegue(withIdentifier: "initialSegueID", sender: self)
-
                         })
                     } else {
                         self.performSegue(withIdentifier: "initialSegueID", sender: self)
@@ -40,7 +39,8 @@ class InitialViewController: UIViewController {
         remoteConfig.configSettings = remoteConfigSettings!
         remoteConfig.setDefaultsFromPlistFileName("RemoteConfigDefaults")
         var expirationDuration = 3600
-        if remoteConfig.configSettings.isDeveloperModeEnabled {
+        if remoteConfig.configSettings.isDeveloperModeEnabled ||
+            remoteConfig["showAppRating"].boolValue == true {
             expirationDuration = 0
         }
         remoteConfig.fetch(withExpirationDuration: TimeInterval(expirationDuration)) { (status, error) -> Void in

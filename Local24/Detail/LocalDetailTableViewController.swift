@@ -163,7 +163,7 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
         } else {
         activityIndi.startAnimating()
         if listing.source == "MPS" {
-            networkManager.getImagesFor(adID: listing.adID, completion: {images in
+            NetworkManager.shared.getImagesFor(adID: listing.adID, completion: {images in
                 if images != nil {
                 self.images = images!
                     self.displayImages()
@@ -173,7 +173,7 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
             })
         } else {
             
-                networkManager.getImageFor(paths: listing.imageURLs, completion: {(images, error) in
+                NetworkManager.shared.getImageFor(paths: listing.imageURLs, completion: {(images, error) in
                     if error == nil && images != nil {
                         self.images = images!
                         self.displayImages()

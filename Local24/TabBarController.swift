@@ -11,7 +11,7 @@ import Alamofire
 import Firebase
 
 public var tabBarPreferedIndex :Int?
-
+public var hasSeenAppRatingInSession = false
 class TabBarController: UITabBarController, UITabBarControllerDelegate {
 
     var willSelectedIndex = 0
@@ -23,7 +23,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         self.setupInsertButton()
         self.tabBar.shadowImage = UIImage(named: "tabBarShadow")
         self.tabBar.backgroundImage = UIImage()
-
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -92,22 +92,14 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     
     
     func checkAppRating() {
-    //APP RATING
-    if remoteConfig["showAppRating"].boolValue {
-    presentAppRating()
-    UserDefaults.standard.set(0, forKey: "startsSinceAppRating")
-    FIRAnalytics.setUserPropertyString(String(0), forName: "starts_since_apprating")
-        remoteConfig.fetch(completionHandler: {(status, error) -> Void in
-            if status == .success {
-                print("Config fetched!")
-                remoteConfig.activateFetched()
-            } else {
-                print("Config not fetched")
-                print("Error \(error!.localizedDescription)")
+        if !hasSeenAppRatingInSession {
+            if remoteConfig["showAppRating"].boolValue {
+                presentAppRating()
+                hasSeenAppRatingInSession = true
+                UserDefaults.standard.set(0, forKey: "startsSinceAppRating")
+                FIRAnalytics.setUserPropertyString(String(0), forName: "starts_since_apprating")
             }
-        
-        })
-    }
+        }
     let startsSinceAppRating = UserDefaults.standard.integer(forKey: "startsSinceAppRating") + 1
     UserDefaults.standard.set(startsSinceAppRating, forKey: "startsSinceAppRating")
     FIRAnalytics.setUserPropertyString(String(startsSinceAppRating), forName: "starts_since_apprating")
@@ -121,7 +113,10 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     func presentAppRating() {
         guard let url = URL(string : "itms-apps://itunes.apple.com/de/app/id1089153890") else { return}
         let alert = UIAlertController(title: "Dir gefällt Local24?", message: "Dann würden wir uns freuen, du nimmst dir die Zeit und zeigst es uns.\n\n\u{1F31F} \u{1F31F} \u{1F31F} \u{1F31F} \u{1F31F} \n\n Vielen Dank!", preferredStyle: .alert)
-        let confirmAction = UIAlertAction(title: "Ok", style: .cancel, handler: {_ in UIApplication.shared.openURL(url)})
+        let confirmAction = UIAlertAction(title: "Ok", style: .cancel, handler: {_ in
+            UIApplication.shared.openURL(url)
+            FIRAnalytics.setUserPropertyString("true", forName: "has_confirmed_apprating")
+        })
         let cancelAction = UIAlertAction(title: "Vieleicht später", style: .default, handler: nil)
         alert.addAction(confirmAction)
         alert.addAction(cancelAction)

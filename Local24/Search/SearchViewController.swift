@@ -170,7 +170,7 @@ class SearchViewController: UIViewController, UICollectionViewDelegate, UICollec
   
     func loadListings(page :Int, completion: @escaping (() -> Void)) {
         
-        currentRequest = networkManager.getAdsSatisfying(filterArray: FilterManager.shared.filters, page: page, completion: { (listings, error) in
+        currentRequest = NetworkManager.shared.getAdsSatisfying(filterArray: FilterManager.shared.filters, page: page, completion: { (listings, error) in
             completion()
             if error == nil && listings != nil {
                self.listings.append(contentsOf: listings!)
