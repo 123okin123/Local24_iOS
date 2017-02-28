@@ -55,7 +55,7 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        gaUserTracking("Home")
+       // gaUserTracking("Home")
         collectionView?.reloadData()
         
         
@@ -136,8 +136,8 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
         searchBar.resignFirstResponder()
         if searchBar.text != "" {
             if searchBar.text != nil {
-                let tracker = GAI.sharedInstance().defaultTracker
-                tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Search", action: "searchInHome", label: searchBar.text!, value: 0).build() as NSDictionary as! [AnyHashable: Any])
+                //let tracker = GAI.sharedInstance().defaultTracker
+                //tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Search", action: "searchInHome", label: searchBar.text!, value: 0).build() as NSDictionary as! [AnyHashable: Any])
             }
             if let navVC = tabBarController?.childViewControllers[1] as? UINavigationController {
                 FilterManager.shared.setfilter(newfilter: Stringfilter(value: searchBar.text!))

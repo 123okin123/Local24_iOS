@@ -82,7 +82,7 @@ class FilterViewController: UITableViewController, UITextFieldDelegate {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        gaUserTracking("Filter")
+        //gaUserTracking("Filter")
         loadfilters()
 
     }

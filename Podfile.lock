@@ -1,5 +1,5 @@
 PODS:
-  - Alamofire (4.3.0)
+  - Alamofire (4.4.0)
   - Bolts (1.8.4):
     - Bolts/AppLinks (= 1.8.4)
     - Bolts/Tasks (= 1.8.4)
@@ -13,68 +13,62 @@ PODS:
     - FBSDKCoreKit
   - FBSDKShareKit (4.19.0):
     - FBSDKCoreKit
-  - Firebase/Core (3.12.0):
-    - FirebaseAnalytics (= 3.6.0)
-    - FirebaseCore (= 3.4.7)
-  - Firebase/DynamicLinks (3.12.0):
+  - Firebase/Core (3.14.0):
+    - FirebaseAnalytics (= 3.7.0)
+    - FirebaseCore (= 3.5.1)
+  - Firebase/DynamicLinks (3.14.0):
     - Firebase/Core
-    - FirebaseDynamicLinks (= 1.3.2)
-  - Firebase/Messaging (3.12.0):
+    - FirebaseDynamicLinks (= 1.3.3)
+  - Firebase/Messaging (3.14.0):
     - Firebase/Core
-    - FirebaseMessaging (= 1.2.1)
-  - Firebase/RemoteConfig (3.12.0):
+    - FirebaseMessaging (= 1.2.2)
+  - Firebase/RemoteConfig (3.14.0):
     - Firebase/Core
-    - FirebaseRemoteConfig (= 1.3.2)
-  - FirebaseAnalytics (3.6.0):
-    - FirebaseCore (~> 3.4)
+    - FirebaseRemoteConfig (= 1.3.4)
+  - FirebaseAnalytics (3.7.0):
+    - FirebaseCore (~> 3.5)
     - FirebaseInstanceID (~> 1.0)
-    - GoogleInterchangeUtilities (~> 1.2)
-    - GoogleSymbolUtilities (~> 1.1)
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
-  - FirebaseCore (3.4.7):
-    - GoogleInterchangeUtilities (~> 1.2)
-    - GoogleSymbolUtilities (~> 1.1)
+  - FirebaseCore (3.5.1):
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
-  - FirebaseDynamicLinks (1.3.2):
-    - FirebaseAnalytics (~> 3.6)
-  - FirebaseInstanceID (1.0.8)
-  - FirebaseMessaging (1.2.1):
-    - FirebaseAnalytics (~> 3.4)
+  - FirebaseDynamicLinks (1.3.3):
+    - FirebaseAnalytics (~> 3.7)
+  - FirebaseInstanceID (1.0.9)
+  - FirebaseMessaging (1.2.2):
+    - FirebaseAnalytics (~> 3.7)
     - FirebaseInstanceID (~> 1.0)
-    - GoogleInterchangeUtilities (~> 1.2)
-    - GoogleSymbolUtilities (~> 1.1)
     - GoogleToolboxForMac/Logger (~> 2.1)
-  - FirebaseRemoteConfig (1.3.2):
-    - FirebaseAnalytics (~> 3.6)
+    - Protobuf (~> 3.1)
+  - FirebaseRemoteConfig (1.3.4):
+    - FirebaseAnalytics (~> 3.7)
     - FirebaseInstanceID (~> 1.0)
-    - GoogleInterchangeUtilities (~> 1.2)
-    - GoogleSymbolUtilities (~> 1.1)
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
-  - Fuzi (1.0.1)
+    - Protobuf (~> 3.1)
   - Google (3.0.3):
     - Google/Core (= 3.0.3)
-  - Google/Analytics (3.0.3):
-    - Google/Core
-    - GoogleAnalytics (~> 3.12)
   - Google/Core (3.0.3):
     - FirebaseAnalytics (~> 3.2)
   - GoogleAnalytics (3.17.0)
   - GoogleConversionTracking (3.4.0)
   - GoogleIDFASupport (3.14.0)
-  - GoogleInterchangeUtilities (1.2.2):
-    - GoogleSymbolUtilities (~> 1.1)
   - GoogleSymbolUtilities (1.1.2)
+  - GoogleTagManager (5.0.8):
+    - FirebaseAnalytics (~> 3.0)
+    - GoogleAnalytics (~> 3.0)
+    - GoogleUtilities (~> 1.3.0)
   - GoogleToolboxForMac/Defines (2.1.1)
   - GoogleToolboxForMac/Logger (2.1.1):
     - GoogleToolboxForMac/Defines (= 2.1.1)
   - GoogleToolboxForMac/NSData+zlib (2.1.1):
     - GoogleToolboxForMac/Defines (= 2.1.1)
+  - GoogleUtilities (1.3.2):
+    - GoogleSymbolUtilities (~> 1.1)
   - ImagePicker (2.0.0)
-  - MapleBacon (3.0.1)
+  - MapleBacon (3.0.2)
   - MZAppearance (1.1.6)
   - MZFormSheetPresentationController (2.4.2):
     - MZAppearance
-  - NVActivityIndicatorView (3.3)
+  - Protobuf (3.2.0)
   - SwiftyJSON (3.1.4)
 
 DEPENDENCIES:
@@ -87,46 +81,44 @@ DEPENDENCIES:
   - Firebase/DynamicLinks
   - Firebase/Messaging
   - Firebase/RemoteConfig
-  - Fuzi (~> 1.0.0)
   - Google
-  - Google/Analytics
   - GoogleConversionTracking
   - GoogleIDFASupport
+  - GoogleTagManager (~> 5.0)
   - ImagePicker
   - MapleBacon
   - MZFormSheetPresentationController
-  - NVActivityIndicatorView
   - SwiftyJSON
 
 SPEC CHECKSUMS:
-  Alamofire: 856a113053a7bc9cbe5d6367a555d773fc5cfef7
+  Alamofire: dc44b1600b800eb63da6a19039a0083d62a6a62d
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
   FBAudienceNetwork: 6081a5ce8c54419582b06267f777682d40c26c7a
   FBSDKCoreKit: 894b2b6eda6a4c8c4204e92e59cc355709ef045c
   FBSDKLoginKit: 83ca4d8f12a2022570af9fd6aacf27f6b425b99f
   FBSDKShareKit: 5953758366278430dc322d5cdc906db361ed7f81
-  Firebase: 8e99eb1ff553ad5bcc6072cc3d925bb89c1244d6
-  FirebaseAnalytics: 9c67af0ebeb8d2146c9b4ea2616439affa947b58
-  FirebaseCore: 46afaf2c2e0419ea7d3acfb08cf26a461a75fe85
-  FirebaseDynamicLinks: c135f328a320316f0095f24aa599ff832fdebcec
-  FirebaseInstanceID: ba1e640935235e5fac39dfa816fe7660e72e1a8a
-  FirebaseMessaging: acf66347e43c5637c697060c3001d25c809a4131
-  FirebaseRemoteConfig: a03e73abef495c0a0063e2ff461f0c4e8af4b57f
-  Fuzi: 851403654bac55675aaeed815d0c8a1d3e3d3e8b
+  Firebase: 85a581fb04e44f63ae9f4fbc8d6dabf4a4c18653
+  FirebaseAnalytics: 0d1b7d81d5021155be37702a94ba1ec16d45365d
+  FirebaseCore: 225d40532489835a034b8f4e2c9c87fbf4f615a2
+  FirebaseDynamicLinks: f0d025dd29a1d70418c003344813b67ab748ffb9
+  FirebaseInstanceID: 2d0518b1378fe9d685ef40cbdd63d2fdc1125339
+  FirebaseMessaging: df8267f378580a24174ce7861233aa11d5c90109
+  FirebaseRemoteConfig: af3003f4e8daa2bd1d5cf90d3cccc1fe224f8ed9
   Google: 813c467362eabc11385f5a5cc9ad0cb651a58f4e
   GoogleAnalytics: f42cc53a87a51fe94334821868d9c8481ff47a7b
   GoogleConversionTracking: ca8c89abda2bd28bb6472b316eeb4ece9264e279
   GoogleIDFASupport: aaf8c10bd429abb1c15349d5252244f5eda8ead1
-  GoogleInterchangeUtilities: d5bc4d88d5b661ab72f9d70c58d02ca8c27ad1f7
   GoogleSymbolUtilities: 631ee17048aa5e9ab133470d768ea997a5ef9b96
+  GoogleTagManager: 312a9a033d224e66ceaa42f35f4c7bf893211d79
   GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
+  GoogleUtilities: 8bbc733218aad26306f9d4a253823986110e3358
   ImagePicker: 81175d36c2852cb543cb4f5d6c19e28f3e8d90eb
-  MapleBacon: 8fb0c45a0f147049ad49af6b36ac04a649baa74d
+  MapleBacon: 75ffc4d40c63b6e643bb66c2eca62b09de01a1cc
   MZAppearance: 0c06d3fa9cc55142f1da14bc8631fbe8fd6e19d5
   MZFormSheetPresentationController: c1dc3bce639d2393b3cc416fcb6e050eb5bca062
-  NVActivityIndicatorView: 0a4cd7863d0e409e65b72e253c3e13f48d0260d7
+  Protobuf: 745f59e122e5de98d4d7ef291e264a0eef80f58e
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
 
-PODFILE CHECKSUM: de99e06ebdb7464b3326ec55b78cfcf61d34c72a
+PODFILE CHECKSUM: ce41e228da1143119368d4b758efbbe33b21b1c4
 
 COCOAPODS: 1.2.0

@@ -11,7 +11,6 @@ import Alamofire
 import UIKit
 import MapleBacon
 import MapKit
-import Fuzi
 import SwiftyJSON
 
 public class NetworkManager  {

@@ -119,22 +119,22 @@ class MoreViewController: UIViewController, WKNavigationDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        switch moreTag {
-        case 0:
-            gaUserTracking("More/Imprint")
-        case 1:
-            gaUserTracking("More/Contact")
-        case 2:
-            gaUserTracking("More/About")
-        case 3:
-            gaUserTracking("More/Help")
-        case 4:
-            gaUserTracking("More/PrivacyPolicy")
-        case 5:
-            gaUserTracking("More/TermsAndConditions")
-        default:
-            break
-        }
+//        switch moreTag {
+//        case 0:
+//            gaUserTracking("More/Imprint")
+//        case 1:
+//            gaUserTracking("More/Contact")
+//        case 2:
+//            gaUserTracking("More/About")
+//        case 3:
+//            gaUserTracking("More/Help")
+//        case 4:
+//            gaUserTracking("More/PrivacyPolicy")
+//        case 5:
+//            gaUserTracking("More/TermsAndConditions")
+//        default:
+//            break
+//        }
     }
 
     override func didReceiveMemoryWarning() {

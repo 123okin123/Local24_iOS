@@ -42,11 +42,11 @@ class filterSelectTableViewController: UITableViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if let title = self.title {
-            gaUserTracking("Filter/\(title)")
-        } else {
-            gaUserTracking("Filter/NotSet")
-        }
+//        if let title = self.title {
+//            gaUserTracking("Filter/\(title)")
+//        } else {
+//            gaUserTracking("Filter/NotSet")
+//        }
     }
 
     override func didReceiveMemoryWarning() {

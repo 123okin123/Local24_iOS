@@ -35,11 +35,11 @@ class filterMoreSelectTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if let title = self.title {
-        gaUserTracking("Filter/Kategorien/\(title)")
-        } else {
-        gaUserTracking("Filter/Kategorien/NotSet")
-        }
+//        if let title = self.title {
+//        gaUserTracking("Filter/Kategorien/\(title)")
+//        } else {
+//        gaUserTracking("Filter/Kategorien/NotSet")
+//        }
         
     }
     

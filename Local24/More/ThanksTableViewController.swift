@@ -21,7 +21,7 @@ class ThanksTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        gaUserTracking("More/ThanksOverview")
+        //gaUserTracking("More/ThanksOverview")
     }
     
     

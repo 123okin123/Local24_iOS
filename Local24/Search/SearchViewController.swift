@@ -95,7 +95,7 @@ class SearchViewController: UIViewController, UICollectionViewDelegate, UICollec
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        gaUserTracking("Search")
+        //gaUserTracking("Search")
         filterCollectionView.reloadData()
         filterCollectionView.collectionViewLayout.invalidateLayout()
     }
@@ -115,8 +115,8 @@ class SearchViewController: UIViewController, UICollectionViewDelegate, UICollec
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if searchBar.text != "" && searchBar.text != nil {
-            let tracker = GAI.sharedInstance().defaultTracker
-            tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Search", action: "searchInSearch", label: searchBar.text!, value: 0).build() as NSDictionary as! [AnyHashable: Any])
+          //  let tracker = GAI.sharedInstance().defaultTracker
+          //  tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Search", action: "searchInSearch", label: searchBar.text!, value: 0).build() as NSDictionary as! [AnyHashable: Any])
             if FilterManager.shared.filters.contains(where: {$0.name == .sorting}) {
                 FilterManager.shared.setfilter(newfilter: Stringfilter(value: searchBar.text!))
                 filterCollectionView.reloadData()

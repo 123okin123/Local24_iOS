@@ -74,8 +74,8 @@ class RegisterViewController: UITableViewController, UIPickerViewDelegate, UIPic
         NetworkManager.shared.registerUserWith(values: values, completion: { error in
             pendingAlertController.dismiss(animated: true, completion: {
             if error == nil {
-                let tracker = GAI.sharedInstance().defaultTracker
-                tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Registration", action: "registration", label: "", value: 0).build() as NSDictionary as! [AnyHashable: Any])
+               // let tracker = GAI.sharedInstance().defaultTracker
+               // tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Registration", action: "registration", label: "", value: 0).build() as NSDictionary as! [AnyHashable: Any])
                 let errorAlert = UIAlertController(title: "Registrierung erfolgreich", message: "Um Ihre Registrierung abzuschließen, klicken Sie bitte auf den Link in der an die angegebene Adresse versendete E-Mail", preferredStyle: .alert)
                 let okAction = UIAlertAction(title: "Ok", style: .default, handler: { action in
                     self.dismiss(animated: true, completion: nil)})
@@ -112,7 +112,7 @@ class RegisterViewController: UITableViewController, UIPickerViewDelegate, UIPic
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        gaUserTracking("Register")
+       //gaUserTracking("Register")
     }
 
     

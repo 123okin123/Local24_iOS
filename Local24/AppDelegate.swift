@@ -51,16 +51,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         
         // Configure tracker from GoogleService-Info.plist.
-        var configureError:NSError?
-        GGLContext.sharedInstance().configureWithError(&configureError)
-        assert(configureError == nil, "Error configuring Google services: \(configureError)")
+//        var configureError:NSError?
+//        GGLContext.sharedInstance().configureWithError(&configureError)
+//        assert(configureError == nil, "Error configuring Google services: \(configureError)")
         
-        // Optional: configure GAI options.
-        let gai = GAI.sharedInstance()
-        gai?.trackUncaughtExceptions = true  // report uncaught exceptions
-        if gaLogging {
-        gai?.logger.logLevel = GAILogLevel.verbose  // remove before app release
-        }
+//        // Optional: configure GAI options.
+//        let gai = GAI.sharedInstance()
+//        gai?.trackUncaughtExceptions = true  // report uncaught exceptions
+//        if gaLogging {
+//        gai?.logger.logLevel = GAILogLevel.verbose  // remove before app release
+//        }
        
         //ADWORDS CONVERSION TRACKING
         ACTConversionReporter.report(withConversionID: "1059198657", label: "vk-bCOu16WgQwa2I-QM", value: "0.50", isRepeatable: false)

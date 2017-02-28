@@ -35,7 +35,7 @@ public var gaLogging = false
 public var searchIndexURL = "https://l24-app-proxy.herokuapp.com"
 
 public var remoteConfig = FIRRemoteConfig.remoteConfig()
-public var remoteConfigDevMode = true
+public var remoteConfigDevMode = false
 
 public var user :User?
 public var userToken :String?
@@ -50,13 +50,13 @@ public let bluecolor = UIColor(red: 11/255, green: 106/255, blue: 165/255, alpha
 
 
 
-public func gaUserTracking(_ screenName :String) {
-    GAI.sharedInstance().dryRun = dryRunGA
-    let tracker = GAI.sharedInstance().defaultTracker
-    tracker?.set(kGAIScreenName, value: screenName)
-    tracker?.allowIDFACollection = true
-    
-    let builder = GAIDictionaryBuilder.createScreenView()
-    tracker?.send((builder?.build())!  as NSDictionary as! [AnyHashable: Any])
-}
+//public func gaUserTracking(_ screenName :String) {
+//    GAI.sharedInstance().dryRun = dryRunGA
+//    let tracker = GAI.sharedInstance().defaultTracker
+//    tracker?.set(kGAIScreenName, value: screenName)
+//    tracker?.allowIDFACollection = true
+//    
+//    let builder = GAIDictionaryBuilder.createScreenView()
+//    tracker?.send((builder?.build())!  as NSDictionary as! [AnyHashable: Any])
+//}
 

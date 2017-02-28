@@ -192,11 +192,11 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if let categoryName = categoryBuilder.allCategories.first(where: {$0.id == listing.catID})?.name {
-            gaUserTracking("Search/\(categoryName)/Detail")
-        } else {
-            gaUserTracking("Search/Detail")
-        }
+//        if let categoryName = categoryBuilder.allCategories.first(where: {$0.id == listing.catID})?.name {
+//            gaUserTracking("Search/\(categoryName)/Detail")
+//        } else {
+//            gaUserTracking("Search/Detail")
+//        }
         navigationController?.hidesBarsOnSwipe = false
     }
 

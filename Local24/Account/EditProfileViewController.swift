@@ -84,7 +84,7 @@ class EditProfileViewController: UITableViewController, UIPickerViewDelegate, UI
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        gaUserTracking("EditProfile")
+       // gaUserTracking("EditProfile")
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)

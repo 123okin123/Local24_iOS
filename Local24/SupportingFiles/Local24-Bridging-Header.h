@@ -9,7 +9,7 @@
 #ifndef Local24_Bridging_Header_h
 #define Local24_Bridging_Header_h
 
-#import <Google/Analytics.h>
+
 #import <GoogleConversionTracking/ACTReporter.h>
 #import "NMRangeSlider.h"
 

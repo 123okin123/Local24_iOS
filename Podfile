@@ -7,7 +7,6 @@ target 'Local24' do
 
   # Pods for Local24
   pod 'Google'
-  pod 'Google/Analytics'
   pod 'GoogleIDFASupport'
   pod 'GoogleConversionTracking'
   pod 'FBSDKCoreKit'
@@ -18,13 +17,12 @@ target 'Local24' do
   pod 'MapleBacon'
   pod 'ImagePicker'
   pod 'MZFormSheetPresentationController'
-  pod 'Fuzi', '~> 1.0.0'
-  pod 'NVActivityIndicatorView'
   pod 'SwiftyJSON'
   pod 'Firebase/Core'
   pod 'Firebase/Messaging'
   pod 'Firebase/RemoteConfig'
   pod 'Firebase/DynamicLinks'
+  pod 'GoogleTagManager', '~> 5.0'
 
   target 'Local24Tests' do
     inherit! :search_paths

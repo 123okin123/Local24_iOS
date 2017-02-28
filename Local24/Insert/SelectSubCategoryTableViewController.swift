@@ -36,7 +36,7 @@ class SelectSubCategoryTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        gaUserTracking("Insert/SelectSubCategory")
+       // gaUserTracking("Insert/SelectSubCategory")
     }
     
     override func didReceiveMemoryWarning() {

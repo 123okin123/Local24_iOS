@@ -57,7 +57,7 @@ class ChooseLocationViewController: UIViewController, UITableViewDelegate, UITab
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        gaUserTracking("Insert/ChooseLocation")
+        //gaUserTracking("Insert/ChooseLocation")
         checkLocationAuthorizationStatus()
         if let userPlacemark = user?.placemark {
             addresses.append(userPlacemark)

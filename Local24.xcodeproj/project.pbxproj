@@ -106,6 +106,7 @@
 		CDE4DA001C0DEA3400FE7611 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CDE4D9F61C0DEA3400FE7611 /* OpenSans-Regular.ttf */; };
 		CDE4DA011C0DEA3400FE7611 /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CDE4D9F71C0DEA3400FE7611 /* OpenSans-Semibold.ttf */; };
 		CDE4DA021C0DEA3400FE7611 /* OpenSans-SemiboldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CDE4D9F81C0DEA3400FE7611 /* OpenSans-SemiboldItalic.ttf */; };
+		CDE5EF9E1E65C56500AA62C0 /* container in Resources */ = {isa = PBXBuildFile; fileRef = CDE5EF9D1E65C56500AA62C0 /* container */; };
 		CDEE24AB1CC78B8100F08D4E /* AbuseReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDEE24AA1CC78B8100F08D4E /* AbuseReportViewController.swift */; };
 		CDF6184D1CD8F3CA00041885 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDF6184C1CD8F3CA00041885 /* AdSupport.framework */; };
 		CDFC107A1E2CF7010006DA8F /* specialFields.json in Resources */ = {isa = PBXBuildFile; fileRef = CDFC10791E2CF7010006DA8F /* specialFields.json */; };
@@ -245,6 +246,7 @@
 		CDE4D9F61C0DEA3400FE7611 /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
 		CDE4D9F71C0DEA3400FE7611 /* OpenSans-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Semibold.ttf"; sourceTree = "<group>"; };
 		CDE4D9F81C0DEA3400FE7611 /* OpenSans-SemiboldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-SemiboldItalic.ttf"; sourceTree = "<group>"; };
+		CDE5EF9D1E65C56500AA62C0 /* container */ = {isa = PBXFileReference; lastKnownFileType = folder; path = container; sourceTree = "<group>"; };
 		CDEE24AA1CC78B8100F08D4E /* AbuseReportViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AbuseReportViewController.swift; path = Detail/AbuseReportViewController.swift; sourceTree = "<group>"; };
 		CDF6184C1CD8F3CA00041885 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		CDFC10791E2CF7010006DA8F /* specialFields.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = specialFields.json; path = SupportingFiles/specialFields.json; sourceTree = "<group>"; };
@@ -439,6 +441,7 @@
 				CD4F7C681E362C4D001E0730 /* RemoteConfigDefaults.plist */,
 				1081F2E91BB02A7600688F3B /* Info.plist */,
 				CDFC107B1E2D29100006DA8F /* GoogleService-Info.plist */,
+				CDE5EF9D1E65C56500AA62C0 /* container */,
 				10D00FCD1E1FE3E6006199E8 /* Local24.entitlements */,
 				1081F2E61BB02A7600688F3B /* LaunchScreen.storyboard */,
 				CDA418CD1E0D1B3B00CFDD20 /* Assets.xcassets */,
@@ -750,6 +753,7 @@
 				CDA32CB31E096F3A004969E7 /* Bolts.txt in Resources */,
 				CDCF31881E09735600379468 /* Facebook-iOS-SDK.txt in Resources */,
 				CDCF317F1E09710D00379468 /* Alamofire.txt in Resources */,
+				CDE5EF9E1E65C56500AA62C0 /* container in Resources */,
 				CDE4DA011C0DEA3400FE7611 /* OpenSans-Semibold.ttf in Resources */,
 				CDE4D9FB1C0DEA3400FE7611 /* OpenSans-ExtraBold.ttf in Resources */,
 				1081F2E81BB02A7600688F3B /* LaunchScreen.storyboard in Resources */,

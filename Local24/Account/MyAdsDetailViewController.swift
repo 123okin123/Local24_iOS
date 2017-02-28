@@ -122,7 +122,7 @@ class MyAdsDetailViewController: UIViewController, UITableViewDataSource, UITabl
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        gaUserTracking("Profil/MyAdsDetail")
+        //gaUserTracking("Profil/MyAdsDetail")
         navigationController?.hidesBarsOnSwipe = false
         
     }
