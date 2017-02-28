@@ -76,8 +76,11 @@ public class NetworkManager  {
                     completion(NCError.RuntimeError("(Bad Request) - Ungültige(r) Filter-Parameter.") ,nil)
                 case 401:
                     completion(NCError.RuntimeError("(Unauthorized) - Kein oder ungültiges Token oder die erforderliche Berechtigungsstufe fehlt.") ,nil)
-                default: break
+                default:
+                    completion(NCError.RuntimeError("Unkown Error") ,nil)
                 }
+            } else {
+                completion(NCError.RuntimeError("No Status Code Error") ,nil)
             }
         })
     }

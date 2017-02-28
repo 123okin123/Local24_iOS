@@ -106,7 +106,7 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
         super.viewDidLoad()
         refresher.addTarget(self, action: #selector(getAds), for: .valueChanged)
         collectionView!.addSubview(refresher)
-        
+        getAds()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -117,7 +117,7 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
         NetworkManager.shared.getUserProfile(userToken: userToken!, completion: {(fetchedUser, statusCode) in
         user = fetchedUser
         })
-        getAds()
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
