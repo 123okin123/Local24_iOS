@@ -28,9 +28,11 @@ class filterMoreSelectTableViewController: UITableViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-       
-        
+        if let title = self.title {
+            trackScreen("Filter/Kategorien/\(title)")
+        } else {
+            trackScreen("Filter/Kategorien/NotSet")
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {

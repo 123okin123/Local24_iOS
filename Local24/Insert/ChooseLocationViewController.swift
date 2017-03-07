@@ -69,7 +69,7 @@ class ChooseLocationViewController: UIViewController, UITableViewDelegate, UITab
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-
+        trackScreen("Insert/ChooseLocation")
         if !(self.addresses.isEmpty) {
             if let location = self.addresses[0].location {
                 self.centerMapViewOnCoordinate(coordinate: location.coordinate)

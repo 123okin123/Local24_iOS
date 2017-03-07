@@ -128,7 +128,7 @@ class MyAdsDetailViewController: UIViewController, UITableViewDataSource, UITabl
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
+        trackScreen("Profil/MyAdsDetail")
     }
     
     

@@ -29,7 +29,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-            setPreferredIndex()
+        setPreferredIndex()
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -41,8 +41,9 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     
     func setPreferredIndex() {
         if tabBarPreferedIndex != nil {
-            self.selectedIndex = tabBarPreferedIndex!
             _  = self.tabBarController(self, shouldSelect: self.viewControllers![tabBarPreferedIndex!])
+            self.selectedIndex = tabBarPreferedIndex!
+            self.viewControllers![tabBarPreferedIndex!].viewWillAppear(true)
             tabBarPreferedIndex = nil
         }
     }

@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import FirebaseAnalytics
 
 class FilterViewController: UITableViewController, UITextFieldDelegate {
 
@@ -72,7 +72,12 @@ class FilterViewController: UITableViewController, UITextFieldDelegate {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.view.endEditing(true)
-        
+        if searchQueryTextField.text != "" {
+        FIRAnalytics.logEvent(withName: kFIREventSearch, parameters: [
+            kFIRParameterSearchTerm: searchQueryTextField.text! as NSObject,
+            "screen": "filter" as NSObject
+            ])
+        }
 //        let tracker = GAI.sharedInstance().defaultTracker
 //        tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Search", action: "searchInfilter", label: searchQueryTextField.text!, value: 0).build() as NSDictionary as! [AnyHashable: Any])
 //        
@@ -84,7 +89,26 @@ class FilterViewController: UITableViewController, UITextFieldDelegate {
         super.viewWillAppear(animated)
         //gaUserTracking("Filter")
         loadfilters()
-
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        trackScreen("Filter")
+        
+        rangeSlider.setUpperValue(Float(upperValue), animated: true)
+        rangeSlider.setLowerValue(Float(lowerValue), animated: true)
+        rangeSlider.minimumValue = 0
+        rangeSlider.maximumValue = 500000
+        rangeSlider.stepValue = 5000
+        
+        
+        
+    }
+    
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
     }
     
  
@@ -166,23 +190,7 @@ class FilterViewController: UITableViewController, UITextFieldDelegate {
  */
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-       rangeSlider.setUpperValue(Float(upperValue), animated: true)
-        rangeSlider.setLowerValue(Float(lowerValue), animated: true)
-        rangeSlider.minimumValue = 0
-        rangeSlider.maximumValue = 500000
-        rangeSlider.stepValue = 5000
-        
 
-
-    }
-
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
 
     // MARK: - Table view data source

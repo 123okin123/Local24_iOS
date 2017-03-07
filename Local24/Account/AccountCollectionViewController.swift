@@ -122,6 +122,7 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        trackScreen("Profil")
 //        if userListings.count == 0 {
 //        if collectionView!.contentOffset.y == 0 {
 //            UIView.animate(withDuration: 0.25, animations: {

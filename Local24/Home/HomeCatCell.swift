@@ -18,6 +18,9 @@ class HomeCatCell: UICollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
 
+//        let templateImage = imageView.image?.withRenderingMode(.alwaysTemplate)
+//        imageView.image = templateImage
+//        imageView.tintColor = UIColor.darkGray
         
         
         self.layer.cornerRadius = 5
@@ -29,9 +32,9 @@ class HomeCatCell: UICollectionViewCell {
             shadowLayer.fillColor = UIColor.white.cgColor
             shadowLayer.shadowColor = UIColor(red: 220/255, green: 220/255, blue: 220/255, alpha: 1).cgColor
             shadowLayer.shadowPath = shadowLayer.path
-            shadowLayer.shadowOffset = CGSize(width: 0.0, height: 1.5)
+            shadowLayer.shadowOffset = CGSize(width: 0.0, height: 0)
             shadowLayer.shadowOpacity = 1.0
-            shadowLayer.shadowRadius = 0.0
+            shadowLayer.shadowRadius = 1.0
             layer.insertSublayer(shadowLayer, at: 0)
         }
  

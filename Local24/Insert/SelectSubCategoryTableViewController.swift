@@ -43,6 +43,10 @@ class SelectSubCategoryTableViewController: UITableViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        trackScreen("Insert/SelectSubCategory")
+    }
     
     // MARK: - Table view data source
     

@@ -74,6 +74,11 @@ class DetailImageViewController: UIViewController, UIScrollViewDelegate {
        
         
     }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        trackScreen("DetailImage")
+    }
+    
     override var prefersStatusBarHidden : Bool {
        return true
     }

@@ -291,7 +291,7 @@ class FilterManager {
         }
         if var subCat = queryItems.first(where: {$0.name == "subcategory"})?.value {
             subCat = subCat.replacingOccurrences(of: "+", with: " ")
-            setfilter(newfilter: Termfilter(name: .category, descriptiveString: "Unterkategorie", value: subCat))
+            setfilter(newfilter: Termfilter(name: .subcategory, descriptiveString: "Unterkategorie", value: subCat))
         }
 //        let priceLte = queryItems.first(where: {$0.name == "preisbis"})?.value
 //        let priceGte = queryItems.first(where: {$0.name == "preisvon"})?.value

@@ -91,6 +91,11 @@ class EditProfileViewController: UITableViewController, UIPickerViewDelegate, UI
         view.endEditing(true)
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        trackScreen("EditProfile")
+    }
+    
     func validate() -> Bool {
         var success = true
         let failColor = UIColor(red: 244/255, green: 214/255, blue: 213/255, alpha: 1.0)

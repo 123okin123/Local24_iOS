@@ -9,6 +9,7 @@
 import UIKit
 import FBAudienceNetwork
 import Alamofire
+import FirebaseAnalytics
 
 class SearchViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout ,/*FBNativeAdsManagerDelegate,*/ FilterManagerDelegate, UISearchBarDelegate, UIScrollViewDelegate  {
     
@@ -77,27 +78,34 @@ class SearchViewController: UIViewController, UICollectionViewDelegate, UICollec
         searchBar.delegate = self
         searchBar.tintColor = UIColor.white
         searchBar.searchBarStyle = .minimal
-        searchBar.setImage(UIImage(named: "lupe_gruen"), for: UISearchBarIcon.search, state: UIControlState())
-        let searchTextField: UITextField? = searchBar.value(forKey: "searchField") as? UITextField
-        if searchTextField!.responds(to: #selector(getter: UITextField.attributedPlaceholder)) {
+
+        let searchTextField = searchBar.value(forKey: "searchField") as! UITextField
+        if searchTextField.responds(to: #selector(getter: UITextField.attributedPlaceholder)) {
             let font = UIFont(name: "OpenSans", size: 13.0)
             let attributeDict = [
                 NSFontAttributeName: font!,
-                NSForegroundColorAttributeName: UIColor(red: 132/255, green: 168/255, blue: 77/255, alpha: 1)
+                NSForegroundColorAttributeName: greencolor
             ]
-            searchTextField!.attributedPlaceholder = NSAttributedString(string: "Wonach suchst du?", attributes: attributeDict)
+            searchTextField.attributedPlaceholder = NSAttributedString(string: "Wonach suchst du?", attributes: attributeDict)
         }
-        searchTextField?.textColor = UIColor.white
-        let textField :UITextField? = searchBar.value(forKey: "searchField") as? UITextField
-        textField!.clearButtonMode = .never
+        searchTextField.textColor = UIColor.white
+        searchTextField.clearButtonMode = .never
+        if let glassIconView = searchTextField.leftView as? UIImageView {
+            glassIconView.image = glassIconView.image?.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
+            glassIconView.tintColor = greencolor
+        }
         
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //gaUserTracking("Search")
         filterCollectionView.reloadData()
         filterCollectionView.collectionViewLayout.invalidateLayout()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        trackScreen("Search")
     }
     
     override func didReceiveMemoryWarning() {
@@ -111,10 +119,14 @@ class SearchViewController: UIViewController, UICollectionViewDelegate, UICollec
         refresh()
     }
 
-    
+
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if searchBar.text != "" && searchBar.text != nil {
+            FIRAnalytics.logEvent(withName: kFIREventSearch, parameters: [
+                kFIRParameterSearchTerm: searchBar.text! as NSObject,
+                "screen": "search" as NSObject
+                ])
           //  let tracker = GAI.sharedInstance().defaultTracker
           //  tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Search", action: "searchInSearch", label: searchBar.text!, value: 0).build() as NSDictionary as! [AnyHashable: Any])
             if FilterManager.shared.filters.contains(where: {$0.name == .sorting}) {

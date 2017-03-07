@@ -103,7 +103,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         gradient.frame = view.frame
         gradient.frame.size.height += 64
         gradient.frame.origin.y -= 64
-        gradient.colors = [UIColor(red: 125/255, green: 175/255, blue: 20/255, alpha: 1).cgColor,
+        gradient.colors = [lightgreencolor.cgColor,
                            greencolor.cgColor]
         view.layer.insertSublayer(gradient, at: 0)
         print("loginvc viewWillAppear")
@@ -117,8 +117,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             if (tabBarController as! TabBarController).willSelectedIndex == 2 {
                 performSegue(withIdentifier: "fromLoginToInsertSegueID", sender: nil)
             }
-        } else {
-            //gaUserTracking("Login")
         }
   
     }
@@ -126,7 +124,11 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.setNavigationBarHidden(false, animated: false)
-
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        trackScreen("Login")
     }
 
     

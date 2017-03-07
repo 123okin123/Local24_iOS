@@ -102,7 +102,7 @@ class LocationViewController: UIViewController, UISearchBarDelegate, UISearchRes
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-
+        trackScreen("SelectLocation")
     }
     
     func showRadiusInLabel() {
@@ -199,20 +199,22 @@ class LocationViewController: UIViewController, UISearchBarDelegate, UISearchRes
     func configureSearchBar() {
         searchController.searchBar.delegate = self
         searchController.searchBar.tintColor = UIColor.white
-        searchController.searchBar.setImage(UIImage(named: "lupe_gruen"), for: UISearchBarIcon.search, state: UIControlState())
-        let searchTextField: UITextField? = searchController.searchBar.value(forKey: "searchField") as? UITextField
-        if searchTextField!.responds(to: #selector(getter: UITextField.attributedPlaceholder)) {
+        let searchTextField = searchController.searchBar.value(forKey: "searchField") as! UITextField
+        if searchTextField.responds(to: #selector(getter: UITextField.attributedPlaceholder)) {
             let font = UIFont(name: "OpenSans", size: 13.0)
             let attributeDict = [
                 NSFontAttributeName: font!,
-                NSForegroundColorAttributeName: UIColor(red: 132/255, green: 168/255, blue: 77/255, alpha: 1)
+                NSForegroundColorAttributeName: greencolor
             ]
-            searchTextField!.attributedPlaceholder = NSAttributedString(string: "Nach einer Stadt oder PLZ suchen", attributes: attributeDict)
+            searchTextField.attributedPlaceholder = NSAttributedString(string: "Nach einer Stadt oder PLZ suchen", attributes: attributeDict)
         }
-        searchTextField?.textColor = UIColor.white
-        let textField :UITextField? = searchController.searchBar.value(forKey: "searchField") as? UITextField
-        textField!.clearButtonMode = .never
-        
+        searchTextField.textColor = UIColor.white
+        searchTextField.clearButtonMode = .never
+        if let glassIconView = searchTextField.leftView as? UIImageView {
+        glassIconView.image = glassIconView.image?.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
+        glassIconView.tintColor = greencolor
+        }
+       
     }
 
 

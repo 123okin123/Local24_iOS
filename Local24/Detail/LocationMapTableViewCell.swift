@@ -19,7 +19,7 @@ class LocationMapTableViewCell: UITableViewCell {
         let littleRadiusView = UIView()
         littleRadiusView.frame.size = CGSize(width: 75, height: 75)
         littleRadiusView.center = CGPoint(x: screenwidth/2, y: self.center.y)
-        littleRadiusView.backgroundColor = UIColor(red: 0.40, green: 0.61, blue: 0.0, alpha: 0.3)
+        littleRadiusView.backgroundColor = UIColor(red:  70/255, green: 177/255, blue: 13/255, alpha: 0.3)
         littleRadiusView.layer.cornerRadius = littleRadiusView.frame.size.height/2
         self.addSubview(littleRadiusView)
 

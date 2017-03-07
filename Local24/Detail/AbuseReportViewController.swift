@@ -69,7 +69,10 @@ class AbuseReportViewController: UIViewController, UITextViewDelegate {
         abuseText.resignFirstResponder()
     }
     
-    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        trackScreen("AbuseReport")
+    }
 
 
  

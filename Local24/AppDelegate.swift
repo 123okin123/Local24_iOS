@@ -88,8 +88,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         
          // FACEBOOK
-        return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
-        
+         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+        return true
     }
 
     
@@ -139,6 +139,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             if let url = dynamiclink?.url {
                 FilterManager.shared.setFiltersFromURL(url: url)
                 tabBarPreferedIndex = 1
+                let storybard = UIStoryboard.init(name: "Main", bundle: nil)
+                self.window?.rootViewController = storybard.instantiateInitialViewController()
             }
         }
         
@@ -163,6 +165,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             if let url = dynamicLink?.url {
                 FilterManager.shared.setFiltersFromURL(url: url)
                 tabBarPreferedIndex = 1
+                let storybard = UIStoryboard.init(name: "Main", bundle: nil)
+                storybard.instantiateInitialViewController()
+                self.window?.rootViewController = storybard.instantiateInitialViewController()
                 return true
             }
         return false
@@ -173,8 +178,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     // ------------------- Important: Consider Old App Versions --------------- //
     
+    private let geoFilterValue = "geoFilterValue"
     func geoFilterFromDefaults(defaults :UserDefaults)  {
-        guard let value = defaults.string(forKey: "geoFilterValue") else {return}
+        guard let value = defaults.string(forKey: geoFilterValue) else {return}
         let long = defaults.double(forKey: "lon")
         let lat = defaults.double(forKey: "lat")
         let distance = defaults.double(forKey: "distance")
@@ -187,25 +193,46 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     func geoFiltersToDefaults(defaults :UserDefaults) {
         if let geoFilter = FilterManager.shared.getFilter(withName: .geo_distance) as? Geofilter {
-            defaults.set(geoFilter.value, forKey: "geoFilterValue")
+            defaults.set(geoFilter.value, forKey: geoFilterValue)
             defaults.set(geoFilter.lon, forKey: "lon")
             defaults.set(geoFilter.lat, forKey: "lat")
             defaults.set(geoFilter.distance, forKey: "distance")
         }
     }
     
+    private let catFilterValue = "catFilterValue"
+    private let subCatFilterValue = "subCatFilterValue"
+    func categoryFilterToDefaults(defaults:UserDefaults) {
+        if let catFilter = FilterManager.shared.getFilter(withName: .category) as? Termfilter {
+            defaults.set(catFilter.value, forKey: catFilterValue)
+        }
+        if let subCatFilter = FilterManager.shared.getFilter(withName: .subcategory) as? Termfilter {
+            defaults.set(subCatFilter.value, forKey: subCatFilterValue)
+        }
+    }
+    
+    func categoryFilterFromDefaults(defaults :UserDefaults) {
+        if let catValue = defaults.string(forKey: catFilterValue) {
+            let filter = Termfilter(name: .category, descriptiveString: "Kategorie", value: catValue)
+            FilterManager.shared.setfilter(newfilter: filter)
+        }
+        if let subCatValue = defaults.string(forKey: subCatFilterValue) {
+            let filter = Termfilter(name: .subcategory, descriptiveString: "Unterkategorie", value: subCatValue)
+            FilterManager.shared.setfilter(newfilter: filter)
+        }
+        
+    }
+    
     func loadDataFromDefaults() {
         
         let defaults = UserDefaults.standard
         geoFilterFromDefaults(defaults: defaults)
-        
+        categoryFilterFromDefaults(defaults: defaults)
         viewedRegion.center.latitude = defaults.double(forKey: "viewedRegion.center.latitude")
         viewedRegion.center.longitude = defaults.double(forKey: "viewedRegion.center.longitude")
         viewedRegion.span.latitudeDelta = defaults.double(forKey: "viewedRegion.span.latitudeDelta")
         viewedRegion.span.longitudeDelta = defaults.double(forKey: "viewedRegion.span.longitudeDelta")
         userToken = defaults.string(forKey: "userToken")
-        
-        
         
         
        // if defaults.string(forKey: "existingUser") != nil {
@@ -222,14 +249,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             filter.subCategoryID = defaults.integer(forKey: "subCategoryID")
              filter.onlyLocalListings = defaults.bool(forKey: "onlyLocalListings")
             */
-
-     
-        
     }
+    
     func saveDataToDefaults() {
         
         let defaults = UserDefaults.standard
         geoFiltersToDefaults(defaults: defaults)
+        categoryFilterToDefaults(defaults: defaults)
         defaults.set("existingUser", forKey: "existingUser")
         defaults.set(viewedRegion.center.latitude, forKey: "viewedRegion.center.latitude")
         defaults.set(viewedRegion.center.longitude, forKey: "viewedRegion.center.longitude")
@@ -268,7 +294,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         UITabBar.appearance().tintColor = UIColor(red: 0/255, green: 80/255, blue: 141/255, alpha: 1)
         let navBarFont = UIFont(name: "OpenSans-Semibold", size: 17.0)!
         let buttonFont = UIFont(name: "OpenSans", size: 18.0)!
-        UINavigationBar.appearance().titleTextAttributes = [NSFontAttributeName: navBarFont, NSForegroundColorAttributeName: UIColor.white,]
+        UINavigationBar.appearance().titleTextAttributes = [NSFontAttributeName: navBarFont]
         UIButton.appearance().titleLabel?.font = buttonFont
         UINavigationBar.appearance().tintColor = UIColor.white
         UINavigationBar.appearance().barTintColor = greencolor

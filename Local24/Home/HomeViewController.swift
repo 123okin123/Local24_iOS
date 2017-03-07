@@ -7,18 +7,30 @@
 //
 
 import UIKit
+import FirebaseAnalytics
 
 private let reuseIdentifier = "HomeCatCell"
 
 class HomeViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UISearchBarDelegate {
 
+ 
     var homeCategories = [CategoryModel]()
+    var featuredListings = [Listing]()
+    var isLoadingFeaturedListings = true
+    
     var searchBar = UISearchBar()
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        
         navigationItem.titleView = searchBar
+
+        getFeaturedListings(completion: {_ in
+            self.isLoadingFeaturedListings = false
+            self.collectionView?.reloadData()
+        })
         configureSearchBar()
         
         if let idString = remoteConfig["homeCategories"].stringValue {
@@ -32,53 +44,54 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
         }
     }
     
-    
+    func getFeaturedListings(completion: @escaping (_ error:Error?) -> Void) {
+        _ = NetworkManager.shared.getAdsSatisfying(filterArray: FilterManager.shared.filters, page: 0, completion: {(listings, error) in
+            if error == nil && listings != nil {
+                self.featuredListings = listings!
+                completion(nil)
+            } else {
+                completion(error)
+            }
+        })
+    }
     
     func configureSearchBar() {
-        searchBar.delegate = self
         searchBar.tintColor = UIColor.white
         searchBar.searchBarStyle = .minimal
-        searchBar.setImage(UIImage(named: "lupe_gruen"), for: UISearchBarIcon.search, state: UIControlState())
-        let searchTextField: UITextField? = searchBar.value(forKey: "searchField") as? UITextField
-        if searchTextField!.responds(to: #selector(getter: UITextField.attributedPlaceholder)) {
+        searchBar.delegate = self
+        let searchTextField = searchBar.value(forKey: "searchField") as! UITextField
+        if searchTextField.responds(to: #selector(getter: UITextField.attributedPlaceholder)) {
             let font = UIFont(name: "OpenSans", size: 13.0)
             let attributeDict = [
                 NSFontAttributeName: font!,
-                NSForegroundColorAttributeName: UIColor(red: 132/255, green: 168/255, blue: 77/255, alpha: 1)
+                NSForegroundColorAttributeName: greencolor
             ]
-            searchTextField!.attributedPlaceholder = NSAttributedString(string: "Wonach suchst du?", attributes: attributeDict)
+            searchTextField.attributedPlaceholder = NSAttributedString(string: "Wonach suchst du?", attributes: attributeDict)
         }
-        searchTextField?.textColor = UIColor.white
-        let textField :UITextField? = searchBar.value(forKey: "searchField") as? UITextField
-        textField!.clearButtonMode = .never
-        
+        searchTextField.textColor = UIColor.white
+        searchTextField.clearButtonMode = .never
+        if let glassIconView = searchTextField.leftView as? UIImageView {
+            glassIconView.image = glassIconView.image?.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
+            glassIconView.tintColor = greencolor
+        }
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-       // gaUserTracking("Home")
         collectionView?.reloadData()
-        
-        
-//        if filter.searchLocationString == "Deutschland" {
-//            searchLocationButton.setTitle("Suchen in: \(filter.searchLocationString)", for: UIControlState())
-//        } else {
-//            let radiusString = String(filter.searchRadius)
-//            searchLocationButton.setTitle("Suchen in: (\(radiusString)km) \(filter.searchZip) \(filter.searchLocationString)", for: UIControlState())
-//        }
-        
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        trackScreen("Home")
     }
+    
+
 
 
 
     // MARK: UICollectionViewDataSource
 
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
@@ -105,6 +118,7 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
     }
 
     // MARK: UICollectionViewDelegate
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: (screenwidth - 30)/2, height: 70)
     }
@@ -118,7 +132,7 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
  
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "HomeHeader", for: indexPath) as! HomeHeaderCollectionReusableView
-        
+        headerView.homeViewController = self
         if let geofilterValue = FilterManager.shared.getValueOffilter(withName: .geo_distance, filterType: .geo_distance) {
             headerView.currentLocationButton.setTitle(geofilterValue, for: .normal)
         } else {
@@ -136,6 +150,10 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
         searchBar.resignFirstResponder()
         if searchBar.text != "" {
             if searchBar.text != nil {
+                FIRAnalytics.logEvent(withName: kFIREventSearch, parameters: [
+                    kFIRParameterSearchTerm: searchBar.text! as NSObject,
+                    "screen": "home" as NSObject
+                    ])
                 //let tracker = GAI.sharedInstance().defaultTracker
                 //tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Search", action: "searchInHome", label: searchBar.text!, value: 0).build() as NSDictionary as! [AnyHashable: Any])
             }
@@ -151,9 +169,7 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
     
     
     override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-  
             searchBar.resignFirstResponder()
-        
     }
     
     

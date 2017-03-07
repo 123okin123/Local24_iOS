@@ -10,7 +10,7 @@ import UIKit
 import Alamofire
 import ImagePicker
 import SwiftyJSON
-
+import FirebaseAnalytics
 
 class InsertTableViewController: UITableViewController {
 
@@ -68,12 +68,14 @@ class InsertTableViewController: UITableViewController {
     // MARK: - IBActions
     @IBAction func insertListing(_ sender: UIButton) {
         if validate() {
-//            let tracker = GAI.sharedInstance().defaultTracker
-//            if listingExists {
-//                tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Insertion", action: "edited", label: categoryLabel.text!, value: 0).build() as NSDictionary as! [AnyHashable: Any])
-//            } else {
-//                tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Insertion", action: "insertion", label: categoryLabel.text!, value: 0).build() as NSDictionary as! [AnyHashable: Any])
-//            }
+            //let tracker = GAI.sharedInstance().defaultTracker
+            if listingExists {
+                FIRAnalytics.logEvent(withName: "insertion", parameters: ["category": categoryLabel.text! as NSObject])
+               // tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Insertion", action: "edited", label: categoryLabel.text!, value: 0).build() as NSDictionary as! [AnyHashable: Any])
+            } else {
+                FIRAnalytics.logEvent(withName: "edited", parameters: ["category": categoryLabel.text! as NSObject])
+               // tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Insertion", action: "insertion", label: categoryLabel.text!, value: 0).build() as NSDictionary as! [AnyHashable: Any])
+            }
             submitAd()
         }
     }
@@ -124,15 +126,16 @@ class InsertTableViewController: UITableViewController {
         NetworkManager.shared.getUserProfile(userToken: userToken!, completion: {(fetchedUser, statusCode) in
             user = fetchedUser
         })
-       
-        
-       
-        
-        
-        
-       
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if listingExists {
+            trackScreen("Insert(editExisting)")
+        } else {
+            trackScreen("Insert")
+        }
+    }
     
     
 

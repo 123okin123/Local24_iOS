@@ -137,6 +137,26 @@ class MoreViewController: UIViewController, WKNavigationDelegate {
 //        }
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+                switch moreTag {
+                case 0:
+                    trackScreen("More/Imprint")
+                case 1:
+                    trackScreen("More/Contact")
+                case 2:
+                    trackScreen("More/About")
+                case 3:
+                    trackScreen("More/Help")
+                case 4:
+                    trackScreen("More/PrivacyPolicy")
+                case 5:
+                    trackScreen("More/TermsAndConditions")
+                default:
+                    break
+                }
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

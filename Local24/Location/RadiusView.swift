@@ -16,11 +16,10 @@ class RadiusView: UIView {
     override func draw(_ rect: CGRect) {
         // Drawing code
   
+        let darkgreen = UIColor(red:  60/255, green: 167/255, blue: 3/255, alpha: 0.5)
+        let green = UIColor(red:  70/255, green: 177/255, blue: 13/255, alpha: 0.3)
         
-        
-       
-        let darkgreen = UIColor(red: 0.43, green: 0.59, blue: 0.16, alpha: 0.5)
-        let green = UIColor(red: 0.40, green: 0.61, blue: 0.0, alpha: 0.3)
+
 
         
         

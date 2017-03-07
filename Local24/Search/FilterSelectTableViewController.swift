@@ -38,7 +38,11 @@ class filterSelectTableViewController: UITableViewController {
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-
+        if let title = self.title {
+            trackScreen("Filter/\(title)")
+        } else {
+            trackScreen("Filter/NotSet")
+        }
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)

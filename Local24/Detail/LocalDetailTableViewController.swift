@@ -205,6 +205,11 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
         activityIndi.hidesWhenStopped = true
         activityIndi.center = tableView.tableHeaderView!.center
         tableView.tableHeaderView!.addSubview(activityIndi)
+        if let categoryName = categoryBuilder.allCategories.first(where: {$0.id == listing.catID})?.name {
+            trackScreen("Search/\(categoryName)/Detail")
+        } else {
+            trackScreen("Search/Detail")
+        }
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

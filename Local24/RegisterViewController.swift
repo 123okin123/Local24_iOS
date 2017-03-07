@@ -114,6 +114,10 @@ class RegisterViewController: UITableViewController, UIPickerViewDelegate, UIPic
         super.viewWillAppear(animated)
        //gaUserTracking("Register")
     }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        trackScreen("Register")
+    }
 
     
         func validate() -> Bool {

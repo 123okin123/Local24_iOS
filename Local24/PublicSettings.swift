@@ -45,9 +45,16 @@ public var categoryBuilder = Categories()
 
 public let screenwidth = UIScreen.main.bounds.size.width
 public let screenheight = UIScreen.main.bounds.size.height
-public let greencolor = UIColor(red: 105/255, green: 155/255, blue: 0/255, alpha: 1)
-public let bluecolor = UIColor(red: 11/255, green: 106/255, blue: 165/255, alpha: 1)
+public let greencolor = UIColor(red:  60/255, green: 167/255, blue: 3/255, alpha: 1)
+public let lightgreencolor = UIColor(red:  70/255, green: 177/255, blue: 13/255, alpha: 1)
+public let bluecolor = UIColor(red: 11/255, green: 93/255, blue: 165/255, alpha: 1)
 
+
+public func trackScreen(_ screenName :String) {
+    FIRAnalytics.logEvent(withName: kFIREventViewItem, parameters: [
+        kFIRParameterItemName: screenName as NSObject
+        ])
+}
 
 
 //public func gaUserTracking(_ screenName :String) {

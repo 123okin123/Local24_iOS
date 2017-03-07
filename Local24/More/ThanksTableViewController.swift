@@ -24,6 +24,10 @@ class ThanksTableViewController: UITableViewController {
         //gaUserTracking("More/ThanksOverview")
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        trackScreen("More/ThanksOverview")
+    }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return thanks.count
