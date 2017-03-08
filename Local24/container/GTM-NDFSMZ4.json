@@ -1,9 +1,9 @@
 {
 
-"fingerprint":"MTA$0",
+"fingerprint":"MTE$0",
 
 "resource": {
-  "version":"10",
+  "version":"11",
   "macros":[
     {
       "function":"__e",
@@ -168,7 +168,7 @@
       "arg1":"insertion"
     },
     {
-      "function":"_re",
+      "function":"_eq",
       "arg0":["macro",0],
       "arg1":"contact"
     }
