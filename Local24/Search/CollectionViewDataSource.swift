@@ -84,13 +84,19 @@ class CollectionViewDataSource :NSObject, UICollectionViewDataSource {
         } else {
             cell.listingDistance.text = listing.city
         }
+        
         if listing.thumbImage == nil {
             if let thumbImageURL = listing.thumbImageURL {
                 if let imageUrl = URL(string: thumbImageURL) {
                     cell.listingImage.setImage(withUrl: imageUrl, placeholder: UIImage(named: "home_Background"), crossFadePlaceholder: true, cacheScaled: true, completion: { instance, error in
+                        if instance?.image != nil {
                         cell.listingImage.layer.add(CATransition(), forKey: nil)
                         cell.listingImage.image = instance?.image
                         listing.thumbImage = instance?.image
+                        } else {
+                            let image = UIImage(named: "home_Background")
+                            cell.listingImage.image = image
+                        }
                     })
                 }
             } else {

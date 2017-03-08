@@ -42,9 +42,14 @@ class HomeHeaderCollectionReusableView: UICollectionReusableView, UICollectionVi
                 if let thumbImageURL = listing.thumbImageURL {
                     if let imageUrl = URL(string: thumbImageURL) {
                         cell.imageView.setImage(withUrl: imageUrl, placeholder: UIImage(named: "home_Background"), crossFadePlaceholder: true, cacheScaled: true, completion: { instance, error in
-                            cell.imageView.layer.add(CATransition(), forKey: nil)
-                            cell.imageView.image = instance?.image
-                            listing.thumbImage = instance?.image
+                            if instance?.image != nil {
+                                cell.imageView.layer.add(CATransition(), forKey: nil)
+                                cell.imageView.image = instance?.image
+                                listing.thumbImage = instance?.image
+                            } else {
+                                let image = UIImage(named: "home_Background")
+                                cell.imageView.image = image
+                            }
                         })
                     }
                 } else {

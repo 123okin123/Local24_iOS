@@ -209,7 +209,7 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
         let priceCell = tableView.cellForRow(at: IndexPath(row: 0, section: 0))
-        if listing.imageURLs.count > 0 {
+        if listing.imageURLs.count > 0 && listing.hasImages {
             if tableView.contentOffset.y > 250 {
                 priceCell?.contentView.isHidden = true
                 fixedPriceCell.isHidden = false
@@ -218,7 +218,8 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
                 fixedPriceCell.isHidden = true
             }
         } else {
-            if tableView.contentOffset.y > (36) {
+            print(tableView.contentOffset.y)
+            if tableView.contentOffset.y > 36 {
                 priceCell?.contentView.isHidden = true
                 fixedPriceCell.isHidden = false
             } else {

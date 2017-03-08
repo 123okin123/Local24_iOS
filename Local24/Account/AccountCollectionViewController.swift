@@ -115,7 +115,8 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
         navigationItem.setHidesBackButton(true, animated: false)
         navigationController?.setNavigationBarHidden(false, animated: false)
         NetworkManager.shared.getUserProfile(userToken: userToken!, completion: {(fetchedUser, statusCode) in
-        user = fetchedUser
+            user = fetchedUser
+            self.collectionView?.reloadData()
         })
         
     }

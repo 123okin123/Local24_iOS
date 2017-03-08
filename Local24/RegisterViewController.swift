@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseAnalytics
 
 class RegisterViewController: UITableViewController, UIPickerViewDelegate, UIPickerViewDataSource {
 
@@ -74,6 +75,7 @@ class RegisterViewController: UITableViewController, UIPickerViewDelegate, UIPic
         NetworkManager.shared.registerUserWith(values: values, completion: { error in
             pendingAlertController.dismiss(animated: true, completion: {
             if error == nil {
+                FIRAnalytics.logEvent(withName: kFIREventSignUp, parameters: nil)
                // let tracker = GAI.sharedInstance().defaultTracker
                // tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Registration", action: "registration", label: "", value: 0).build() as NSDictionary as! [AnyHashable: Any])
                 let errorAlert = UIAlertController(title: "Registrierung erfolgreich", message: "Um Ihre Registrierung abzuschließen, klicken Sie bitte auf den Link in der an die angegebene Adresse versendete E-Mail", preferredStyle: .alert)

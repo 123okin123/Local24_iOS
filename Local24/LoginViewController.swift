@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 import MZFormSheetPresentationController
+import FirebaseAnalytics
 
 class LoginViewController: UIViewController, UITextFieldDelegate {
     
@@ -59,6 +60,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 self.activityIndicator.stopAnimating()
                 switch response.result {
                 case .success:
+                    FIRAnalytics.logEvent(withName: kFIREventLogin, parameters: nil)
                  //   let tracker = GAI.sharedInstance().defaultTracker
                  //   tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Login", action: "login", label: "", value: 0).build() as NSDictionary as! [AnyHashable: Any])
                     userToken = String(describing: response.result.value!)
@@ -167,7 +169,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBAction func backfromRegisterToLogin(_ segue:UIStoryboardSegue) {
     }
     
-
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
 
 
 }
