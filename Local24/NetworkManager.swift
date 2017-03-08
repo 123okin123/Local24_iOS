@@ -29,7 +29,7 @@ public class NetworkManager  {
         }
         
         let request = Alamofire.request(searchIndexURL, method: .get, parameters: parameters).responseJSON (completionHandler: { responseData in
-           // debugPrint(responseData)
+            debugPrint(responseData)
             
             switch responseData.result {
             case .failure(let error):

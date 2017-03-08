@@ -60,6 +60,8 @@ class Listing :NSObject {
     var phoneNumber :String?
     
     var catID :Int?
+    var mainCatString :String?
+    var subCatString :String?
     
     var createdDate :String?
     var updatedDate :String?
@@ -249,6 +251,8 @@ class Listing :NSObject {
             self.url = URL(string: urlString)
         }
         self.catID = json["subcategoryId"].int
+        self.mainCatString = json["category"].string
+        self.subCatString = json["subcategory"].string
         self.price = json["price"].string
         if let latString = json["lat"].string {
             self.adLat = Double(latString)

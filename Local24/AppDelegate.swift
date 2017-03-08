@@ -50,18 +50,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
 
         
-        // Configure tracker from GoogleService-Info.plist.
-//        var configureError:NSError?
-//        GGLContext.sharedInstance().configureWithError(&configureError)
-//        assert(configureError == nil, "Error configuring Google services: \(configureError)")
-        
-//        // Optional: configure GAI options.
-//        let gai = GAI.sharedInstance()
-//        gai?.trackUncaughtExceptions = true  // report uncaught exceptions
-//        if gaLogging {
-//        gai?.logger.logLevel = GAILogLevel.verbose  // remove before app release
-//        }
-       
+
         //ADWORDS CONVERSION TRACKING
         ACTConversionReporter.report(withConversionID: "1059198657", label: "vk-bCOu16WgQwa2I-QM", value: "0.50", isRepeatable: false)
       
@@ -205,9 +194,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func categoryFilterToDefaults(defaults:UserDefaults) {
         if let catFilter = FilterManager.shared.getFilter(withName: .category) as? Termfilter {
             defaults.set(catFilter.value, forKey: catFilterValue)
-        }
-        if let subCatFilter = FilterManager.shared.getFilter(withName: .subcategory) as? Termfilter {
-            defaults.set(subCatFilter.value, forKey: subCatFilterValue)
+            if let subCatFilter = FilterManager.shared.getFilter(withName: .subcategory) as? Termfilter {
+                defaults.set(subCatFilter.value, forKey: subCatFilterValue)
+            } else {
+                defaults.removeObject(forKey: subCatFilterValue)
+            }
+        } else {
+            defaults.removeObject(forKey: catFilterValue)
+            defaults.removeObject(forKey: subCatFilterValue)
         }
     }
     
@@ -215,12 +209,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         if let catValue = defaults.string(forKey: catFilterValue) {
             let filter = Termfilter(name: .category, descriptiveString: "Kategorie", value: catValue)
             FilterManager.shared.setfilter(newfilter: filter)
+            if let subCatValue = defaults.string(forKey: subCatFilterValue) {
+                let filter = Termfilter(name: .subcategory, descriptiveString: "Unterkategorie", value: subCatValue)
+                FilterManager.shared.setfilter(newfilter: filter)
+            }
         }
-        if let subCatValue = defaults.string(forKey: subCatFilterValue) {
-            let filter = Termfilter(name: .subcategory, descriptiveString: "Unterkategorie", value: subCatValue)
-            FilterManager.shared.setfilter(newfilter: filter)
-        }
-        
     }
     
     func loadDataFromDefaults() {

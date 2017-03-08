@@ -29,6 +29,7 @@ class HomeHeaderCollectionReusableView: UICollectionReusableView, UICollectionVi
     }
   
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
         if homeViewController.isLoadingFeaturedListings {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: loadFeaturedListingsCellID, for: indexPath) as UICollectionViewCell
             return cell

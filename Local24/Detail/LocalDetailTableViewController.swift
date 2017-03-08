@@ -191,12 +191,6 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-//        if let categoryName = categoryBuilder.allCategories.first(where: {$0.id == listing.catID})?.name {
-//            gaUserTracking("Search/\(categoryName)/Detail")
-//        } else {
-//            gaUserTracking("Search/Detail")
-//        }
         navigationController?.hidesBarsOnSwipe = false
     }
 
@@ -435,8 +429,6 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
             if let navVC = segue.destination as? UINavigationController {
                 if let contactVC = navVC.viewControllers[0] as? ContactTableViewController {
                     contactVC.listing = self.listing
-                    contactVC.adID = String(describing: listing!.adID)
-                    contactVC.detailLink = listing!.url!.absoluteString
                 }
                 
             }

@@ -26,7 +26,7 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
         
         
         navigationItem.titleView = searchBar
-
+        
         getFeaturedListings(completion: {_ in
             self.isLoadingFeaturedListings = false
             self.collectionView?.reloadData()

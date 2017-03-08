@@ -1,9 +1,9 @@
 {
 
-"fingerprint":"NQ$0",
+"fingerprint":"MTA$0",
 
 "resource": {
-  "version":"5",
+  "version":"10",
   "macros":[
     {
       "function":"__e",
@@ -38,11 +38,11 @@
     },
     {
       "function":"__md",
-      "instance_name":"Category",
+      "instance_name":"Search Screen",
       "vendor_template_version":"1",
       "vtp_setDefaultValue":false,
       "vtp_eventType":"CUSTOM",
-      "vtp_key":"category"
+      "vtp_key":"screen"
     },
     {
       "function":"__md",
@@ -55,11 +55,19 @@
     },
     {
       "function":"__md",
-      "instance_name":"Search Screen",
+      "instance_name":"Maincategory",
       "vendor_template_version":"1",
       "vtp_setDefaultValue":false,
       "vtp_eventType":"CUSTOM",
-      "vtp_key":"screen"
+      "vtp_key":"mainCategory"
+    },
+    {
+      "function":"__md",
+      "instance_name":"Subcategory",
+      "vendor_template_version":"1",
+      "vtp_setDefaultValue":false,
+      "vtp_eventType":"CUSTOM",
+      "vtp_key":"subCategory"
     },
     {
       "function":"__ai",
@@ -88,9 +96,13 @@
       "once_per_event":true,
       "vendor_template_version":"1",
       "vtp_nonInteraction":true,
+      "vtp_fieldsToSet":["list",["map","fieldName","screenName","value",["macro",5]],["map","fieldName","appName","value",["macro",2]],["map","fieldName","appVersion","value",["macro",3]]],
+      "vtp_eventCategory":"Search",
       "vtp_trackType":"TRACK_EVENT",
       "vtp_collectAdid":false,
       "vtp_sendFirebaseCampaignData":true,
+      "vtp_eventAction":"search",
+      "vtp_eventLabel":["macro",6],
       "vtp_trackingId":["macro",4],
       "vtp_enableUaRlsa":false,
       "vtp_enableUseInternalVersion":false,
@@ -104,18 +116,39 @@
       "once_per_event":true,
       "vendor_template_version":"1",
       "vtp_nonInteraction":true,
+      "vtp_fieldsToSet":["list",["map","fieldName","appName","value",["macro",2]],["map","fieldName","appVersion","value",["macro",3]]],
       "vtp_eventCategory":"Insertion",
       "vtp_trackType":"TRACK_EVENT",
       "vtp_collectAdid":false,
       "vtp_sendFirebaseCampaignData":true,
       "vtp_eventAction":"insertion",
-      "vtp_eventLabel":["macro",5],
+      "vtp_eventLabel":["macro",7],
       "vtp_trackingId":["macro",4],
       "vtp_enableUaRlsa":false,
       "vtp_enableUseInternalVersion":false,
       "vtp_enableFirebaseCampaignData":true,
       "vtp_trackTypeIsEvent":true,
       "tag_id":3
+    },
+    {
+      "function":"__ua",
+      "instance_name":"GA Contact",
+      "once_per_event":true,
+      "vendor_template_version":"1",
+      "vtp_nonInteraction":true,
+      "vtp_fieldsToSet":["list",["map","fieldName","appName","value",["macro",2]],["map","fieldName","appVersion","value",["macro",3]]],
+      "vtp_eventCategory":"Contact",
+      "vtp_trackType":"TRACK_EVENT",
+      "vtp_collectAdid":false,
+      "vtp_sendFirebaseCampaignData":true,
+      "vtp_eventAction":"contact",
+      "vtp_eventLabel":["macro",7],
+      "vtp_trackingId":["macro",4],
+      "vtp_enableUaRlsa":false,
+      "vtp_enableUseInternalVersion":false,
+      "vtp_enableFirebaseCampaignData":true,
+      "vtp_trackTypeIsEvent":true,
+      "tag_id":4
     }
   ],
   "predicates":[
@@ -133,12 +166,18 @@
       "function":"_eq",
       "arg0":["macro",0],
       "arg1":"insertion"
+    },
+    {
+      "function":"_re",
+      "arg0":["macro",0],
+      "arg1":"contact"
     }
   ],
   "rules":[
     [["if",0],["add",0]],
     [["if",1],["add",1]],
-    [["if",2],["add",2]]
+    [["if",2],["add",2]],
+    [["if",3],["add",3]]
   ]
 },
 "runtime":

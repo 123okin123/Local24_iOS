@@ -17,6 +17,16 @@ public class User {
     var email :String?
     var firstName :String?
     var lastName :String?
+    var fullName :String? {
+        var fullName :String?
+        if firstName != nil {
+        fullName = firstName
+            if lastName != nil {
+                fullName = fullName! + " " + lastName!
+            }
+        }
+        return fullName
+    }
     var totalAdsCount :Int?
     var zipCode :String?
     var city :String?

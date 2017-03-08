@@ -70,10 +70,10 @@ class InsertTableViewController: UITableViewController {
         if validate() {
             //let tracker = GAI.sharedInstance().defaultTracker
             if listingExists {
-                FIRAnalytics.logEvent(withName: "insertion", parameters: ["category": categoryLabel.text! as NSObject])
+                FIRAnalytics.logEvent(withName: "insertion", parameters: ["mainCategory": categoryLabel.text! as NSObject])
                // tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Insertion", action: "edited", label: categoryLabel.text!, value: 0).build() as NSDictionary as! [AnyHashable: Any])
             } else {
-                FIRAnalytics.logEvent(withName: "edited", parameters: ["category": categoryLabel.text! as NSObject])
+                FIRAnalytics.logEvent(withName: "edited", parameters: ["mainCategory": categoryLabel.text! as NSObject])
                // tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Insertion", action: "insertion", label: categoryLabel.text!, value: 0).build() as NSDictionary as! [AnyHashable: Any])
             }
             submitAd()

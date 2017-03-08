@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import FirebaseAnalytics
+import Alamofire
+
 
 class ContactTableViewController: UITableViewController, UITextViewDelegate {
 
@@ -22,9 +25,8 @@ class ContactTableViewController: UITableViewController, UITextViewDelegate {
     @IBOutlet weak var telefonNumber: UIButton!
     
     var copyForMe = true
-    var adID = ""
-    var detailLink = ""
-    
+   
+   
     var listing :Listing!
     
     override func viewDidLoad() {
@@ -33,12 +35,16 @@ class ContactTableViewController: UITableViewController, UITextViewDelegate {
         messageTextView.text = "Nachricht*"
         messageTextView.textColor = UIColor(red: 206/255, green: 206/255, blue: 211/255, alpha: 1.0)
         
+        // Inserent
         street.text = listing.street
         city.text = listing.city
         zipCode.text = listing.zipcode
         houseNumber.text = listing.houseNumber
         telefonNumber.setTitle(listing.phoneNumber, for: UIControlState())
 
+        // User
+        nameTextField.text = user?.fullName
+        emailTextField.text = user?.email
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -91,67 +97,70 @@ class ContactTableViewController: UITableViewController, UITextViewDelegate {
     @IBAction func sendMessage(_ sender: UIButton) {
         var requiredFieldsSet = false
         if nameTextField.text != "" && emailTextField.text != "" && messageTextView.text != "" {
-        requiredFieldsSet = true
+            requiredFieldsSet = true
         }
         
+        
         if requiredFieldsSet {
-        let url = "https://www.local24.de/ajax/contact/"
-        var request = URLRequest(url: URL(string: url)!)
-        let session = URLSession.shared
-        request.httpMethod = "POST"
-        request.setValue("application/x-www-form-urlencoded; charset=UTF-8", forHTTPHeaderField: "Content-Type")
-        
-        let name = "name=\(nameTextField.text!)"
-        let email = "email=\(emailTextField.text!)"
-        let message = "message=\(messageTextView.text!)"
-        let copy = "on"
-        let contactAdID = "ID=\(adID)"
-        let contactdetailLink = "detailLink=\(detailLink)"
-        let title = ""
             
-            var bodyData = ""
+            let pendingAlertController = UIAlertController(title: "Nachricht wird versendet.\n\n\n", message: nil, preferredStyle: .alert)
+            let indicator = UIActivityIndicatorView(frame: pendingAlertController.view.bounds)
+            indicator.autoresizingMask = [.flexibleWidth, . flexibleHeight]
+            indicator.color = UIColor.darkGray
+            pendingAlertController.view.addSubview(indicator)
+            indicator.isUserInteractionEnabled = false
+            indicator.startAnimating()
+            present(pendingAlertController, animated: true, completion: nil)
+            
+            
+            var parameters = [
+                "name" : nameTextField.text!,
+                "email" : emailTextField.text!,
+                "message" : messageTextView.text!,
+                "ID" : String(listing.adID),
+                "detailLink" : listing!.url!.absoluteString,
+                "title" : listing.title!
+            ]
             if copyForMe {
-                bodyData = name + "&" + email + "&" + message + "&" + copy + "&" + contactAdID + "&" + contactdetailLink + "&" + title
-            } else {
-            bodyData = name + "&" + email + "&" + message +  "&" + contactAdID + "&" + contactdetailLink + "&" + title
-            
+                parameters["copy"] = "on"
             }
-        
-        request.httpBody = bodyData.data(using: String.Encoding.utf8)
-        let task = session.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
-            let alert = UIAlertController(title: "Fehler", message: "Beim Senden der Nachricht ist ein Fehler aufgetreten.", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-            if error != nil {
-                self.present(alert, animated: true, completion: nil)
-            } else {
-                DispatchQueue.main.async {
+            let headers: HTTPHeaders = [
+                "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+                "Referer": listing!.url!.absoluteString,
+                ]
+            
+            Alamofire.request("https://www.local24.de/ajax/contact/", method: .post, parameters: parameters, encoding: URLEncoding.default, headers: headers).responseJSON(completionHandler: {response in
+                debugPrint(response)
+                pendingAlertController.dismiss(animated: true, completion: {
                     
-                    if let responseBody = String(data: data!, encoding: String.Encoding.utf8) {
-                    if responseBody.contains("{\"ResponseCode\":200") {
-                        let successAlert = UIAlertController(title: "Nachricht wurde versendet", message: "Ihre Nachricht wurde per Mail an den Anbieter versendet.", preferredStyle: .alert)
-                        successAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-                        self.present(successAlert, animated: true, completion: nil)
-                        
-                    } else {
-                      self.present(alert, animated: true, completion: nil)
+                    let alert = UIAlertController(title: "Fehler", message: "Beim Senden der Nachricht ist ein Fehler aufgetreten.", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+                    guard response.result.isSuccess else {self.present(alert, animated: true, completion: nil); return}
+                    guard let value = response.result.value as? NSDictionary else {self.present(alert, animated: true, completion: nil); return}
+                    guard value["ResponseCode"] as! Int == 200 else {self.present(alert, animated: true, completion: nil); return}
+                    
+                    let successAlert = UIAlertController(title: "Nachricht wurde versendet", message: "Ihre Nachricht wurde per Mail an den Anbieter versendet.", preferredStyle: .alert)
+                    successAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+                    self.present(successAlert, animated: true, completion: nil)
+                    
+                    if let mainCat = self.listing.mainCatString {
+                        if let subCat = self.listing.subCatString {
+                            FIRAnalytics.logEvent(withName: "contact", parameters: [
+                                "mainCategory": mainCat as NSObject,
+                                "subCategory": subCat as NSObject
+                                ])
+                        }
                     }
-                    }
-
-                    print(String(data: data!, encoding: String.Encoding.utf8)!)
-                }
-            }
-            
-        }) 
-        
-        task.resume()
-            
+                })
+            })
         } else {
             let requiredFieldsAlert = UIAlertController(title: "Fehler", message: "Bitte füllen Sie alle als Pflichtfeld markierten Felder aus.", preferredStyle: .alert)
             requiredFieldsAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
             self.present(requiredFieldsAlert, animated: true, completion: nil)
-
-        
+            
+            
         }
+        
     }
 
     override func didReceiveMemoryWarning() {

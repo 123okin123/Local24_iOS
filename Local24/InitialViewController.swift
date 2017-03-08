@@ -14,7 +14,7 @@ class InitialViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         categoryBuilder.getCategories(completion: { (mainCat, subCat, error) in
             if error == nil {
                 self.setRemoteConfiguration(completion: {
@@ -54,6 +54,8 @@ class InitialViewController: UIViewController {
             completion()
         }
     }
-    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
     
 }
