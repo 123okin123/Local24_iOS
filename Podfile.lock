@@ -6,12 +6,12 @@ PODS:
   - Bolts/AppLinks (1.8.4):
     - Bolts/Tasks
   - Bolts/Tasks (1.8.4)
-  - FBAudienceNetwork (4.19.0)
-  - FBSDKCoreKit (4.19.0):
+  - FBAudienceNetwork (4.20.0)
+  - FBSDKCoreKit (4.20.0):
     - Bolts (~> 1.7)
-  - FBSDKLoginKit (4.19.0):
+  - FBSDKLoginKit (4.20.0):
     - FBSDKCoreKit
-  - FBSDKShareKit (4.19.0):
+  - FBSDKShareKit (4.20.0):
     - FBSDKCoreKit
   - Firebase/Core (3.14.0):
     - FirebaseAnalytics (= 3.7.0)
@@ -93,10 +93,10 @@ DEPENDENCIES:
 SPEC CHECKSUMS:
   Alamofire: dc44b1600b800eb63da6a19039a0083d62a6a62d
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
-  FBAudienceNetwork: 6081a5ce8c54419582b06267f777682d40c26c7a
-  FBSDKCoreKit: 894b2b6eda6a4c8c4204e92e59cc355709ef045c
-  FBSDKLoginKit: 83ca4d8f12a2022570af9fd6aacf27f6b425b99f
-  FBSDKShareKit: 5953758366278430dc322d5cdc906db361ed7f81
+  FBAudienceNetwork: d8f36dcbbcdeca3843045dfb084c5e4d7c4a1d9e
+  FBSDKCoreKit: 2d16979b28fe28c2b95af0d275ad5f9703c6c8de
+  FBSDKLoginKit: a9d9391506c687e2304a590bf9312837fce7f375
+  FBSDKShareKit: 1b91af62a603d67f392bc7fde63bc4a0705dde31
   Firebase: 85a581fb04e44f63ae9f4fbc8d6dabf4a4c18653
   FirebaseAnalytics: 0d1b7d81d5021155be37702a94ba1ec16d45365d
   FirebaseCore: 225d40532489835a034b8f4e2c9c87fbf4f615a2
