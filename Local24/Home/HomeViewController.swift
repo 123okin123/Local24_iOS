@@ -47,8 +47,15 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
     func getFeaturedListings(completion: @escaping (_ error:Error?) -> Void) {
         _ = NetworkManager.shared.getAdsSatisfying(filterArray: FilterManager.shared.filters, page: 0, completion: {(listings, error) in
             if error == nil && listings != nil {
-                self.featuredListings = listings!
-                completion(nil)
+                if listings!.count < 3 {
+                    _ = NetworkManager.shared.getAdsSatisfying(filterArray: [Filter](), page: 0, completion: {(listings, error) in
+                        self.featuredListings = listings!
+                        completion(nil)
+                    })
+                } else {
+                    self.featuredListings = listings!
+                    completion(nil)
+                }
             } else {
                 completion(error)
             }
