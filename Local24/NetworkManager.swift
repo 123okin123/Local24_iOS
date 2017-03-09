@@ -18,7 +18,7 @@ public class NetworkManager  {
     private var request :Request?
     
     static let shared = NetworkManager()
-    
+
     
     // MARK: Inserate
     
@@ -191,8 +191,12 @@ public class NetworkManager  {
     }
     
     
-    // MARK: Forms
     
+    
+    
+    
+    
+    // MARK: Forms
     
     class func getValuesForDepending(field: String, independendField: String, value: String, entityType: String, completion: @escaping (_ values: [String]?, _ error: Error?) -> Void) {
         Alamofire.request("https://cfw-api-11.azurewebsites.net/forms/\(entityType)/options", method: .get, parameters: ["name": entityType,"dependson": independendField, "value": value]).responseJSON(completionHandler: { response in

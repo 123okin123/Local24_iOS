@@ -24,7 +24,6 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         navigationItem.titleView = searchBar
         
         getFeaturedListings(completion: {_ in

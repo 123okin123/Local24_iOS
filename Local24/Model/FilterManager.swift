@@ -1,5 +1,5 @@
 //
-//  filterManager.swift
+//  FilterManager.swift
 //  Local24
 //
 //  Created by Local24 on 25/05/16.
@@ -105,6 +105,7 @@ class FilterManager {
             return nil
         }
     }
+    
     func getValuesOfRangefilter(withName name :filterName) -> (gte: Double?,lte: Double?)? {
         if let filter = filters.first(where: {$0.name == name}) {
             return ((filter as! Rangefilter).gte, (filter as! Rangefilter).lte)
@@ -167,20 +168,6 @@ class FilterManager {
                         ]
                     ]
                 ]
-//                let geoJson = ["geo_bounding_box": [
-//                    "type":       "indexed",
-//                    "location": [
-//                        "top_left": [
-//                            "lat":  geofilter.lat,
-//                            "lon":  geofilter.lon
-//                        ],
-//                        "bottom_right": [
-//                            "lat":  geofilter.lat + 1,
-//                            "lon":  geofilter.lon + 1
-//                        ]
-//                    ]
-//                    ]
-//                ]
                 filterJson.append(geoJson)
             case .search_string:
                 searchString = (filter as! Stringfilter).queryString
@@ -212,10 +199,6 @@ class FilterManager {
         ]
         filterJson.append(notFlirt)
         }
-        
-        
-        
-        
         
         if filterJson.count > 0 || searchString != nil {
             var query :Any!
@@ -293,50 +276,11 @@ class FilterManager {
             subCat = subCat.replacingOccurrences(of: "+", with: " ")
             setfilter(newfilter: Termfilter(name: .subcategory, descriptiveString: "Unterkategorie", value: subCat))
         }
-//        let priceLte = queryItems.first(where: {$0.name == "preisbis"})?.value
-//        let priceGte = queryItems.first(where: {$0.name == "preisvon"})?.value
-//        if priceGte != nil || priceLte != nil {
-//            
-//            let priceRange = Rangefilter(name: .price, descriptiveString: "Preis", gte: nil, lte: nil)
-//            if priceGte != nil {
-//                priceRange.gte = Double(priceGte!)
-//            }
-//            if priceLte != nil {
-//                priceRange.lte = Double(priceLte!)
-//            }
-//        }
-        
-        
-
-        
         delegate?.filtersDidChange()
-        
     }
     
     
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

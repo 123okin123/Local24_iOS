@@ -13,6 +13,7 @@ import FirebaseAnalytics
 
 class LoginViewController: UIViewController, UITextFieldDelegate {
     
+    // MARK: IBOutlets
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var inputBGViewBottomContraint: NSLayoutConstraint!
@@ -28,19 +29,17 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             submitButton.layer.cornerRadius = 3
         }
     }
+    
+    // MARK: IBActions
+    
     @IBAction func submitButtonPressed(_ sender: UIButton) {
-            view.endEditing(true)
+        view.endEditing(true)
         submitCredentials()
-    //    let tracker = GAI.sharedInstance().defaultTracker
-    //    tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Login", action: "loginTry", label: "", value: 0).build() as NSDictionary as! [AnyHashable: Any])
     }
     @IBAction func backgroundTapped(_ sender: UITapGestureRecognizer) {
         view.endEditing(true)
     }
-    
     @IBAction func registerButtonPressed(_ sender: UIButton) {
-
-
         let navigationController = self.storyboard!.instantiateViewController(withIdentifier: "formSheetController") as! UINavigationController
         let formSheetController = MZFormSheetPresentationViewController(contentViewController: navigationController)
         formSheetController.presentationController?.contentViewSize = CGSize(width: screenwidth - 20, height: screenheight - 60)
@@ -49,42 +48,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         self.present(formSheetController, animated: true, completion: nil)
     }
     
+    // MARK: ViewController Lifecycle
     
-    func submitCredentials() {
-        activityIndicator.startAnimating()
-        let credentials = emailTextField.text! + ":" + passwordTextField.text!
-        let utf8credentials = credentials.data(using: String.Encoding.utf8)
-        if let base64Encoded = utf8credentials?.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
-        {
-            Alamofire.request("https://cfw-api-11.azurewebsites.net/tokens/\(base64Encoded)", method: .post).validate().responseJSON (completionHandler: {response in
-                self.activityIndicator.stopAnimating()
-                switch response.result {
-                case .success:
-                    FIRAnalytics.logEvent(withName: kFIREventLogin, parameters: nil)
-                 //   let tracker = GAI.sharedInstance().defaultTracker
-                 //   tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Login", action: "login", label: "", value: 0).build() as NSDictionary as! [AnyHashable: Any])
-                    userToken = String(describing: response.result.value!)
-                    tokenValid = true
-                    if self.tabBarController?.selectedIndex == 3 {
-                        self.performSegue(withIdentifier: "fromLoginToProfilSegueID", sender: nil)
-                    }
-                    if self.tabBarController?.selectedIndex == 2 {
-                        self.performSegue(withIdentifier: "fromLoginToInsertSegueID", sender: nil)
-                    }
-                case .failure:
-                    let animation = CABasicAnimation(keyPath: "position")
-                    animation.duration = 0.07
-                    animation.repeatCount = 4
-                    animation.autoreverses = true
-                    animation.fromValue = NSValue(cgPoint: CGPoint(x: self.inputBGView.center.x - 10, y: self.inputBGView.center.y))
-                    animation.toValue = NSValue(cgPoint: CGPoint(x: self.inputBGView.center.x + 10, y: self.inputBGView.center.y))
-                    self.inputBGView.layer.add(animation, forKey: "position")
-                }
-            })
-        }
-    
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(LoginViewController.keyboardWillShow(_:)), name:NSNotification.Name.UIKeyboardWillShow, object: nil);
@@ -94,8 +59,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         passwordTextField.delegate = self
         emailTextField.addTarget(self, action: #selector(LoginViewController.textFieldDidChange(_:)), for: UIControlEvents.editingChanged)
         passwordTextField.addTarget(self, action: #selector(LoginViewController.textFieldDidChange(_:)), for: UIControlEvents.editingChanged)
-        
-
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -120,7 +83,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 performSegue(withIdentifier: "fromLoginToInsertSegueID", sender: nil)
             }
         }
-  
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -132,7 +94,40 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         super.viewDidAppear(animated)
         trackScreen("Login")
     }
-
+    
+    // MARK: Methods
+    
+    func submitCredentials() {
+        activityIndicator.startAnimating()
+        let credentials = emailTextField.text! + ":" + passwordTextField.text!
+        let utf8credentials = credentials.data(using: String.Encoding.utf8)
+        if let base64Encoded = utf8credentials?.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
+        {
+            Alamofire.request("https://cfw-api-11.azurewebsites.net/tokens/\(base64Encoded)", method: .post).validate().responseJSON (completionHandler: {response in
+                self.activityIndicator.stopAnimating()
+                switch response.result {
+                case .success:
+                    FIRAnalytics.logEvent(withName: kFIREventLogin, parameters: nil)
+                    userToken = String(describing: response.result.value!)
+                    tokenValid = true
+                    if self.tabBarController?.selectedIndex == 3 {
+                        self.performSegue(withIdentifier: "fromLoginToProfilSegueID", sender: nil)
+                    }
+                    if self.tabBarController?.selectedIndex == 2 {
+                        self.performSegue(withIdentifier: "fromLoginToInsertSegueID", sender: nil)
+                    }
+                case .failure:
+                    let animation = CABasicAnimation(keyPath: "position")
+                    animation.duration = 0.07
+                    animation.repeatCount = 4
+                    animation.autoreverses = true
+                    animation.fromValue = NSValue(cgPoint: CGPoint(x: self.inputBGView.center.x - 10, y: self.inputBGView.center.y))
+                    animation.toValue = NSValue(cgPoint: CGPoint(x: self.inputBGView.center.x + 10, y: self.inputBGView.center.y))
+                    self.inputBGView.layer.add(animation, forKey: "position")
+                }
+            })
+        }
+    }
     
     func textFieldDidChange(_ textField :UITextField) {
         if emailTextField.text != "" && passwordTextField.text != "" {
@@ -142,11 +137,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         }
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     
     func keyboardWillShow(_ notification: Notification) {
         inputBGViewBottomContraint.constant = 350
@@ -164,7 +154,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     
     // MARK: Navigation
-    
     
     @IBAction func backfromRegisterToLogin(_ segue:UIStoryboardSegue) {
     }

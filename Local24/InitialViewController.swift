@@ -54,6 +54,7 @@ class InitialViewController: UIViewController {
             completion()
         }
     }
+    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }

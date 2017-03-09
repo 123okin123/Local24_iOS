@@ -11,17 +11,15 @@ import SwiftyJSON
 import CoreLocation
 
 class Listing :NSObject {
-    var adID :Int!
     
+    var adID :Int!
     var source :String?
     var adState :AdState?
     var advertiserID :Int?
     var user :User?
     var title :String?
     var adDescription :String?
-
     var specialFields :[SpecialField]?
-    
     var adType :AdType?
     var entityType :String?
     var price :String?
@@ -38,11 +36,9 @@ class Listing :NSObject {
         } else {
         return nil
         }
-        }}
-
+    }}
     var adLat: Double?
     var adLong: Double?
-    
     var distance :Double? {
         guard self.adLat != nil else {return nil}
         guard self.adLong != nil else {return nil}
@@ -56,29 +52,22 @@ class Listing :NSObject {
     var zipcode: String?
     var street: String?
     var houseNumber :String?
-   
     var phoneNumber :String?
-    
     var catID :Int?
     var mainCatString :String?
     var subCatString :String?
-    
     var createdDate :String?
     var updatedDate :String?
-    
     var hasImages = false
     var thumbImage :UIImage?
     var images :[UIImage]?
     var thumbImageURL :String?
     var imageURLs = [String]()
-    
-    
     var url :URL?
-    
     var containsAdultContent = false
     
     override init() {
-    super.init()
+        super.init()
     }
     
     
@@ -250,6 +239,7 @@ class Listing :NSObject {
         if let urlString = json["url"].string {
             self.url = URL(string: urlString)
         }
+        self.phoneNumber = json["debug_source_Phone"].string
         self.catID = json["subcategoryId"].int
         self.mainCatString = json["category"].string
         self.subCatString = json["subcategory"].string
@@ -262,6 +252,8 @@ class Listing :NSObject {
         }
         self.city = json["city"].string
         self.zipcode = json["postalcode"].string
+        self.street = json["street"].string
+        self.houseNumber = json["housenumber"].string
         
         if var listingDate = json["createDate"].string {
             let listingDateYear = listingDate[Range(listingDate.characters.index(listingDate.startIndex, offsetBy: 2) ..< listingDate.characters.index(listingDate.startIndex, offsetBy: 4))]

@@ -59,6 +59,7 @@
 		CD6A262B1E08047A00CD22EB /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6A262A1E08047A00CD22EB /* RegisterViewController.swift */; };
 		CD7754211C71C0E200253B7B /* CenterLocationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7754201C71C0E200253B7B /* CenterLocationButton.swift */; };
 		CD84C5921C88844400A6E8A4 /* LocalDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD84C5911C88844400A6E8A4 /* LocalDetailTableViewController.swift */; };
+		CD8B74FB1E719356007ADB76 /* InitialSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8B74FA1E719356007ADB76 /* InitialSegue.swift */; };
 		CD993E091DF9AFAF00F686C7 /* MyAdsDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD993E081DF9AFAF00F686C7 /* MyAdsDetailViewController.swift */; };
 		CD993E0D1DF9BD4300F686C7 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD993E0C1DF9BD4300F686C7 /* NetworkManager.swift */; };
 		CD9A1F251E376F67003574BC /* HomeHeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9A1F241E376F67003574BC /* HomeHeaderCollectionReusableView.swift */; };
@@ -198,6 +199,7 @@
 		CD6A262A1E08047A00CD22EB /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = RegisterViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		CD7754201C71C0E200253B7B /* CenterLocationButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CenterLocationButton.swift; path = Location/CenterLocationButton.swift; sourceTree = "<group>"; };
 		CD84C5911C88844400A6E8A4 /* LocalDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocalDetailTableViewController.swift; path = Detail/LocalDetailTableViewController.swift; sourceTree = "<group>"; };
+		CD8B74FA1E719356007ADB76 /* InitialSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitialSegue.swift; sourceTree = "<group>"; };
 		CD993E081DF9AFAF00F686C7 /* MyAdsDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MyAdsDetailViewController.swift; path = Account/MyAdsDetailViewController.swift; sourceTree = "<group>"; };
 		CD993E0C1DF9BD4300F686C7 /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = NetworkManager.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		CD9A1F241E376F67003574BC /* HomeHeaderCollectionReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HomeHeaderCollectionReusableView.swift; path = Home/HomeHeaderCollectionReusableView.swift; sourceTree = "<group>"; };
@@ -318,6 +320,7 @@
 			isa = PBXGroup;
 			children = (
 				1081F2E11BB02A7600688F3B /* Main.storyboard */,
+				CD8B74FA1E719356007ADB76 /* InitialSegue.swift */,
 				CD4F7C6E1E3669DE001E0730 /* InitialViewController.swift */,
 				1081F2DD1BB02A7600688F3B /* AppDelegate.swift */,
 				CDB594E41DE5E6230056B405 /* TabBarController.swift */,
@@ -971,6 +974,7 @@
 				CDB594E51DE5E6230056B405 /* TabBarController.swift in Sources */,
 				CDA9CCCC1C070793005ED562 /* PublicSettings.swift in Sources */,
 				10B765D41E5627DC00EE3CF3 /* SearchVCAdExtension.swift in Sources */,
+				CD8B74FB1E719356007ADB76 /* InitialSegue.swift in Sources */,
 				CDB04AD01DD3259100034C1F /* AccountCollectionViewController.swift in Sources */,
 				CD358E801E0C105C00C63020 /* CustomFieldTableViewController.swift in Sources */,
 				CDCA848F1DE324AA00F71A42 /* User.swift in Sources */,

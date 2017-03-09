@@ -13,6 +13,8 @@ import Firebase
 public var tabBarPreferedIndex :Int?
 public var hasSeenAppRatingInSession = false
 public var checkedForAppRating = false
+public var forceShowAppRating = false
+
 class TabBarController: UITabBarController, UITabBarControllerDelegate {
 
     var willSelectedIndex = 0
@@ -24,13 +26,13 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         self.setupInsertButton()
         self.tabBar.shadowImage = UIImage(named: "tabBarShadow")
         self.tabBar.backgroundImage = UIImage()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setPreferredIndex()
     }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if !checkedForAppRating {
@@ -48,10 +50,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         }
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-     
-    }
+
     private func setupInsertButton() {
         var insertButtonFrame = insertButton.frame
         insertButtonFrame.origin.y = self.view.bounds.height - insertButtonFrame.height - 15
@@ -98,7 +97,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     
     func checkAppRating() {
         if !hasSeenAppRatingInSession {
-            if remoteConfig["showAppRating"].boolValue {
+            if remoteConfig["showAppRating"].boolValue || forceShowAppRating {
                 presentAppRating()
                 hasSeenAppRatingInSession = true
                 UserDefaults.standard.set(0, forKey: "startsSinceAppRating")
@@ -110,7 +109,6 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     FIRAnalytics.setUserPropertyString(String(startsSinceAppRating), forName: "starts_since_apprating")
     
     print("startsSinceAppRating:\(startsSinceAppRating)")
-    
     }
     
     

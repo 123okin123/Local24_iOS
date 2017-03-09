@@ -24,18 +24,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
-
-        
         loadDataFromDefaults()
-        
-        
         applyCustomStyles()
-
         
         FilterManager.shared.setfilter(newfilter: Sortfilter(criterium: .createDate, order: .desc))
         
         
-        //notifications
+        //NOTIFICATIONS REGISTRATION
         application.applicationIconBadgeNumber = 0
         if #available(iOS 10.0, *) {
             let center  = UNUserNotificationCenter.current()
@@ -47,9 +42,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 }
             }
         }
-        
-
-        
 
         //ADWORDS CONVERSION TRACKING
         ACTConversionReporter.report(withConversionID: "1059198657", label: "vk-bCOu16WgQwa2I-QM", value: "0.50", isRepeatable: false)
@@ -59,30 +51,49 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         FIRApp.configure()
 
         // STARTED FROM NOTIFICATION
-        
         if let notification = launchOptions?[UIApplicationLaunchOptionsKey.remoteNotification] as? [String: AnyObject] {
             if let stringIndex = notification["tabBarSelectedIndex"] as? String {
                 tabBarPreferedIndex = Int(stringIndex)
             }
-//            if let showAppRating = notification["showAppRating"]?.boolValue {
-//                if showAppRating {
-//                    if remoteConfig["showAppRating"].boolValue {
-//                        presentAppRating()
-//                    }
-//                }
-//            }
+            if let showAppRating = notification["showAppRating"]?.boolValue {
+                if showAppRating {
+                    forceShowAppRating = true
+                }
+            }
         }
-        
 
-        
         
          // FACEBOOK
          FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+        
         return true
     }
 
+    // ---------- NOTIFICATIONS ---------- //
     
+    // BACKGROUND iOS 10
+    @available(iOS 10.0, *)
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        if let showAppRating = response.notification.request.content.userInfo["showAppRating"] as? String {
+            if showAppRating == "true" {
+                forceShowAppRating = true
+            }
+        }
+        completionHandler()
+    }
     
+    // INAPP iOS 10
+    @available(iOS 10.0, *)
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        debugPrint(notification.request.content.userInfo["tabBarSelectedIndex"] as! String)
+    }
+    
+    // For iOS 10 data message (sent via FCM)
+    func applicationReceivedRemoteMessage(_ remoteMessage: FIRMessagingRemoteMessage) {
+        
+    }
+    
+    // End ---------- NOTIFICATIONS ---------- //
 
 
     func applicationWillResignActive(_ application: UIApplication) {
@@ -93,7 +104,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
- 
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -109,7 +119,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-        
         saveDataToDefaults()
     }
  
@@ -118,11 +127,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     // ---------- Dynamic Links iOS 10 App not opened for the first time ---------- //
     
     func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
-        
         guard let dynamicLinks = FIRDynamicLinks.dynamicLinks() else {
             return false
         }
-        
         let handled = dynamicLinks.handleUniversalLink(userActivity.webpageURL!) { (dynamiclink, error) in
             
             if let url = dynamiclink?.url {
@@ -132,10 +139,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 self.window?.rootViewController = storybard.instantiateInitialViewController()
             }
         }
-        
-        
         return handled
- 
     }
 
     // End ---------- Dynamic Links iOS 10 App not opened for the first time ---------- //
@@ -165,7 +169,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     
     
-    // ------------------- Important: Consider Old App Versions --------------- //
+    // ------------------- USER DEFAULTS Important: Consider Old App Versions --------------- //
+    
+    func loadDataFromDefaults() {
+        let defaults = UserDefaults.standard
+        geoFilterFromDefaults(defaults: defaults)
+        categoryFilterFromDefaults(defaults: defaults)
+        viewedRegion.center.latitude = defaults.double(forKey: "viewedRegion.center.latitude")
+        viewedRegion.center.longitude = defaults.double(forKey: "viewedRegion.center.longitude")
+        viewedRegion.span.latitudeDelta = defaults.double(forKey: "viewedRegion.span.latitudeDelta")
+        viewedRegion.span.longitudeDelta = defaults.double(forKey: "viewedRegion.span.longitudeDelta")
+        userToken = defaults.string(forKey: "userToken")
+    }
+    
+    func saveDataToDefaults() {
+        let defaults = UserDefaults.standard
+        geoFiltersToDefaults(defaults: defaults)
+        categoryFilterToDefaults(defaults: defaults)
+        defaults.set("existingUser", forKey: "existingUser")
+        defaults.set(viewedRegion.center.latitude, forKey: "viewedRegion.center.latitude")
+        defaults.set(viewedRegion.center.longitude, forKey: "viewedRegion.center.longitude")
+        defaults.set(viewedRegion.span.latitudeDelta, forKey: "viewedRegion.span.latitudeDelta")
+        defaults.set(viewedRegion.span.longitudeDelta, forKey: "viewedRegion.span.longitudeDelta")
+        
+        if userToken != nil {
+            defaults.set(userToken!, forKey: "userToken")
+        } else {
+            defaults.removeObject(forKey: "userToken")
+        }
+    }
     
     private let geoFilterValue = "geoFilterValue"
     func geoFilterFromDefaults(defaults :UserDefaults)  {
@@ -216,67 +248,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
     }
     
-    func loadDataFromDefaults() {
-        
-        let defaults = UserDefaults.standard
-        geoFilterFromDefaults(defaults: defaults)
-        categoryFilterFromDefaults(defaults: defaults)
-        viewedRegion.center.latitude = defaults.double(forKey: "viewedRegion.center.latitude")
-        viewedRegion.center.longitude = defaults.double(forKey: "viewedRegion.center.longitude")
-        viewedRegion.span.latitudeDelta = defaults.double(forKey: "viewedRegion.span.latitudeDelta")
-        viewedRegion.span.longitudeDelta = defaults.double(forKey: "viewedRegion.span.longitudeDelta")
-        userToken = defaults.string(forKey: "userToken")
-        
-        
-       // if defaults.string(forKey: "existingUser") != nil {
-         //   }
-            /*
-            if let sZ = defaults.string(forKey: "searchZip") {filter.searchZip = sZ}
-            if let minP = defaults.string(forKey: "minPrice") {filter.minPrice = minP}
-            if let maxP = defaults.string(forKey: "maxPrice") {filter.maxPrice = maxP}
-            if let sls = defaults.string(forKey: "searchLocationString") {filter.searchLocationString = sls}
-            filter.searchLong = defaults.double(forKey: "long")
-            filter.searchLat = defaults.double(forKey: "lat")
-            filter.searchRadius = defaults.integer(forKey: "radius")
-            filter.mainCategoryID = defaults.integer(forKey: "mainCategoryID")
-            filter.subCategoryID = defaults.integer(forKey: "subCategoryID")
-             filter.onlyLocalListings = defaults.bool(forKey: "onlyLocalListings")
-            */
-    }
     
-    func saveDataToDefaults() {
-        
-        let defaults = UserDefaults.standard
-        geoFiltersToDefaults(defaults: defaults)
-        categoryFilterToDefaults(defaults: defaults)
-        defaults.set("existingUser", forKey: "existingUser")
-        defaults.set(viewedRegion.center.latitude, forKey: "viewedRegion.center.latitude")
-        defaults.set(viewedRegion.center.longitude, forKey: "viewedRegion.center.longitude")
-        defaults.set(viewedRegion.span.latitudeDelta, forKey: "viewedRegion.span.latitudeDelta")
-        defaults.set(viewedRegion.span.longitudeDelta, forKey: "viewedRegion.span.longitudeDelta")
-        
-        
-        /*
-        defaults.set(filter.searchZip, forKey: "searchZip")
-        defaults.set(filter.minPrice, forKey: "minPrice")
-        defaults.set(filter.maxPrice, forKey: "maxPrice")
-        defaults.set(filter.searchLocationString, forKey: "searchLocationString")
-        defaults.set(filter.searchLong, forKey: "long")
-        defaults.set(filter.searchLat, forKey: "lat")
-        defaults.set(filter.searchRadius, forKey: "radius")
-        defaults.set(filter.mainCategoryID, forKey: "mainCategoryID")
-        defaults.set(filter.subCategoryID, forKey: "subCategoryID")
-        defaults.set(filter.onlyLocalListings, forKey: "onlyLocalListings")
- */
-        if userToken != nil {
-            defaults.set(userToken!, forKey: "userToken")
-        } else {
-            defaults.removeObject(forKey: "userToken")
-        }
-
-    }
+    // End  ------------------- USER DEFAULTS Important: Consider Old App Versions --------------- //
     
-    // End  ------------------- Important: Consider Old App Versions --------------- //
     
     
     func applyCustomStyles() {
@@ -298,36 +272,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
 
-    
-
-    
-    // Background
-    @available(iOS 10.0, *)
-    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-//        if let showAppRating = response.notification.request.content.userInfo["showAppRating"] as? String {
-//            if showAppRating == "true" {
-//                if remoteConfig["showAppRating"].boolValue {
-//                    presentAppRating()
-//                }
-//            }
-//        }
-        completionHandler()
-    }
-    // inApp
-    @available(iOS 10.0, *)
-    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        print("ping2")
-        
-        debugPrint(notification.request.content.userInfo["tabBarSelectedIndex"] as! String)
-        
-    }
-
-    // For iOS 10 data message (sent via FCM)
-    func applicationReceivedRemoteMessage(_ remoteMessage: FIRMessagingRemoteMessage) {
-        print("ping5")
-    }
-    
-    
     
 
 }
