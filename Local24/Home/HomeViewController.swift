@@ -83,12 +83,13 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        collectionView?.reloadData()
+        
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         trackScreen("Home")
+        
     }
     
 
@@ -160,8 +161,6 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
                     kFIRParameterSearchTerm: searchBar.text! as NSObject,
                     "screen": "home" as NSObject
                     ])
-                //let tracker = GAI.sharedInstance().defaultTracker
-                //tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Search", action: "searchInHome", label: searchBar.text!, value: 0).build() as NSDictionary as! [AnyHashable: Any])
             }
             if let navVC = tabBarController?.childViewControllers[1] as? UINavigationController {
                 FilterManager.shared.setfilter(newfilter: Stringfilter(value: searchBar.text!))
