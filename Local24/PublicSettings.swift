@@ -38,7 +38,6 @@ public func trackScreen(_ screenName :String) {
     FIRAnalytics.logEvent(withName: kFIREventViewItem, parameters: [
         kFIRParameterItemName: screenName as NSObject
         ])
-    
 }
 
 
