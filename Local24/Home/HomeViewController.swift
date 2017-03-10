@@ -9,21 +9,32 @@
 import UIKit
 import FirebaseAnalytics
 
+public var hasSeenAppRatingInSession = false
+public var checkedForAppRating = false
+public var forceShowAppRating = false
+
 private let reuseIdentifier = "HomeCatCell"
 
-class HomeViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UISearchBarDelegate {
+class HomeViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UISearchBarDelegate, UICollectionViewDelegate {
 
+    // MARK: IBOutlets
+    
+    @IBOutlet weak var collectionView: UICollectionView!
  
+    // MARK: Variables
+    
     var homeCategories = [CategoryModel]()
     var featuredListings = [Listing]()
     var isLoadingFeaturedListings = true
     
     var searchBar = UISearchBar()
 
-
+    // MARK: ViewController Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        collectionView.delegate = self
+        collectionView.dataSource = self
         navigationItem.titleView = searchBar
         
         getFeaturedListings(completion: {_ in
@@ -31,7 +42,7 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
             self.collectionView?.reloadData()
         })
         configureSearchBar()
-        
+  
         if let idString = remoteConfig["homeCategories"].stringValue {
             let idStrings = idString.characters.split(separator: ",").map(String.init)
             let ids = idStrings.map({Int($0)})
@@ -41,6 +52,17 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
                 }
             }
         }
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        trackScreen("Home")
+   
     }
     
     func getFeaturedListings(completion: @escaping (_ error:Error?) -> Void) {
@@ -81,33 +103,22 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
             glassIconView.tintColor = greencolor
         }
     }
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        trackScreen("Home")
-        
-    }
-    
 
 
 
 
     // MARK: UICollectionViewDataSource
 
-    override func numberOfSections(in collectionView: UICollectionView) -> Int {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
 
 
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return homeCategories.count + 1
     }
 
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! HomeCatCell
         if indexPath.item == homeCategories.count {
             cell.title.text = "Alle Anzeigen"
@@ -137,7 +148,7 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
         return UIEdgeInsets(top: 20, left: 10, bottom: 20, right: 10)
     }
  
-    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "HomeHeader", for: indexPath) as! HomeHeaderCollectionReusableView
         headerView.homeViewController = self
         if let geofilterValue = FilterManager.shared.getValueOffilter(withName: .geo_distance, filterType: .geo_distance) {
@@ -148,7 +159,9 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
         return headerView
     }
     
-    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        searchBar.resignFirstResponder()
+    }
     
     
     // MARK: SearchBar
@@ -170,13 +183,8 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
         }
     }
     
- 
     
-    
-    override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-            searchBar.resignFirstResponder()
-    }
-    
+    // MARK: Navigation
     
     @IBAction func backfromLocationSegue(_ segue:UIStoryboardSegue) {
         if let sVC = segue.source as? LocationViewController {

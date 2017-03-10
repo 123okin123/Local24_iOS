@@ -11,9 +11,7 @@ import Alamofire
 import Firebase
 
 public var tabBarPreferedIndex :Int?
-public var hasSeenAppRatingInSession = false
-public var checkedForAppRating = false
-public var forceShowAppRating = false
+
 
 class TabBarController: UITabBarController, UITabBarControllerDelegate {
 
@@ -31,14 +29,17 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setPreferredIndex()
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if !checkedForAppRating {
-            checkAppRating()
-            checkedForAppRating = true
-        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2), execute: { [unowned self] in
+            if !checkedForAppRating {
+                self.checkAppRating()
+                checkedForAppRating = true
+            }
+        })
     }
     
     func setPreferredIndex() {
@@ -94,21 +95,21 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         return true
     }
     
-    
     func checkAppRating() {
+        let startsSinceAppRating = UserDefaults.standard.integer(forKey: "startsSinceAppRating") + 1
+        UserDefaults.standard.set(startsSinceAppRating, forKey: "startsSinceAppRating")
+        FIRAnalytics.setUserPropertyString(String(startsSinceAppRating), forName: "starts_since_apprating")
+        
+        print("startsSinceAppRating:\(startsSinceAppRating)")
         if !hasSeenAppRatingInSession {
             if remoteConfig["showAppRating"].boolValue || forceShowAppRating {
-                presentAppRating()
                 hasSeenAppRatingInSession = true
                 UserDefaults.standard.set(0, forKey: "startsSinceAppRating")
                 FIRAnalytics.setUserPropertyString(String(0), forName: "starts_since_apprating")
+                presentAppRating()
             }
         }
-    let startsSinceAppRating = UserDefaults.standard.integer(forKey: "startsSinceAppRating") + 1
-    UserDefaults.standard.set(startsSinceAppRating, forKey: "startsSinceAppRating")
-    FIRAnalytics.setUserPropertyString(String(startsSinceAppRating), forName: "starts_since_apprating")
-    
-    print("startsSinceAppRating:\(startsSinceAppRating)")
+        
     }
     
     
@@ -123,8 +124,9 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         let cancelAction = UIAlertAction(title: "Vieleicht später", style: .default, handler: nil)
         alert.addAction(confirmAction)
         alert.addAction(cancelAction)
-        
         self.present(alert, animated: true, completion: nil)
     }
+    
+
 
 }
