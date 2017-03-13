@@ -30,7 +30,6 @@ class FilterViewController: UITableViewController, UITextFieldDelegate {
     var lowerValue = 0
 
     var sliderSectionHeaderString = ""
-    var categories = Categories()
     var showCarfilters = false
 
     // MARK: IBActions
@@ -86,7 +85,6 @@ class FilterViewController: UITableViewController, UITextFieldDelegate {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //gaUserTracking("Filter")
         loadfilters()
     }
     
@@ -159,6 +157,9 @@ class FilterViewController: UITableViewController, UITextFieldDelegate {
     }
     
     func checkForAdditionalfilters() {
+        
+        
+        
 /*
         if filter.mainCategoryID == 0 && filter.subCategoryID == 1 {
             lowerValue = filter.minMileAge

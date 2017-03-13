@@ -23,7 +23,7 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
  
     // MARK: Variables
     
-    var homeCategories = [CategoryModel]()
+    var homeCategories = [Category]()
     var featuredListings = [Listing]()
     var isLoadingFeaturedListings = true
     
@@ -47,7 +47,7 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
             let idStrings = idString.characters.split(separator: ",").map(String.init)
             let ids = idStrings.map({Int($0)})
             for id in ids {
-                if let category = categoryBuilder.mainCategories.first(where: {$0.id == id}) {
+                if let category = CategoryManager.shared.mainCategories.first(where: {$0.id == id}) {
                     homeCategories.append(category)
                 }
             }

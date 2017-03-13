@@ -12,11 +12,11 @@ class SelectCategoryTableViewController: UITableViewController {
 
     
     
-    var mainCategories = [CategoryModel]()
+    var mainCategories = [Category]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-            mainCategories = categoryBuilder.mainCategories.filter {
+            mainCategories = CategoryManager.shared.mainCategories.filter {
                     $0.name != "Kontaktanzeigen" &&
                     $0.name != "Flirt & Abenteuer" &&
                     $0.name != "Job" &&
@@ -33,19 +33,10 @@ class SelectCategoryTableViewController: UITableViewController {
             mainCategories.sort(by: {$0.name! < $1.name!})
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        //gaUserTracking("Insert/SelectMainCategory")
-    }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         trackScreen("Insert/SelectMainCategory")
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     // MARK: - Table view data source

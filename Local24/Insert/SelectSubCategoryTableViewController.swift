@@ -12,14 +12,14 @@ class SelectSubCategoryTableViewController: UITableViewController {
     
     
     
-    var subCategories = [CategoryModel]()
+    var subCategories = [Category]()
     var parentCategoryID :Int!
     var parentCategoryName :String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = parentCategoryName
-        subCategories = categoryBuilder.subCategories.filter({
+        subCategories = CategoryManager.shared.subCategories.filter({
                 $0.idParentCategory == parentCategoryID &&
                         $0.adclass != "AdTruck" &&
                         $0.adclass != "AdCat" &&

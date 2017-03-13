@@ -14,16 +14,15 @@ class NewCatTableViewController: UITableViewController {
     
     var mainCatID :Int!
     var mainCatName :String!
-    var categories = Categories()
-    var subCategories = [CategoryModel]()
+    var subCategories = [Category]()
     
     
     // MARK: ViewController Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        subCategories = categoryBuilder.subCategories.filter({$0.idParentCategory == mainCatID})
-        mainCatName = categoryBuilder.mainCategories.first(where: {$0.id == mainCatID})?.name
+        subCategories = CategoryManager.shared.subCategories.filter({$0.idParentCategory == mainCatID})
+        mainCatName = CategoryManager.shared.mainCategories.first(where: {$0.id == mainCatID})?.name
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -68,11 +67,11 @@ class NewCatTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         FilterManager.shared.removeAllfilters()
-        let category = categoryBuilder.mainCategories.first(where: {$0.id == mainCatID})
+        let category = CategoryManager.shared.mainCategories.first(where: {$0.id == mainCatID})
         FilterManager.shared.setfilter(newfilter: Termfilter(name: .category, descriptiveString: "Kategorie", value: category!.name))
         
         if indexPath.section == 1 {
-            let subcategory = categoryBuilder.subCategories.first(where: {$0.id == subCategories[indexPath.row].id!})
+            let subcategory = CategoryManager.shared.subCategories.first(where: {$0.id == subCategories[indexPath.row].id!})
             FilterManager.shared.setfilter(newfilter: Termfilter(name: .subcategory, descriptiveString: "Unterkategorie", value: subcategory!.name))
         }        
         if let navVC = tabBarController?.childViewControllers[1] as? UINavigationController {

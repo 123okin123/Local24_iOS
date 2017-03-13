@@ -28,7 +28,7 @@ class filterSelectTableViewController: UITableViewController {
         switch selectType! {
         case .categories:
             self.title = "Kategorien"
-            for category in categoryBuilder.mainCategories {
+            for category in CategoryManager.shared.mainCategories {
                 options.append(category.name)
             }
         case .sorting:
@@ -132,7 +132,7 @@ class filterSelectTableViewController: UITableViewController {
         if segue.identifier == "showfilterSubCatSegueID" {
             if let filterMoreSelect = segue.destination as? filterMoreSelectTableViewController {
                 if let cell = sender as? UITableViewCell {
-                    filterMoreSelect.mainCatID = categoryBuilder.mainCategories.first(where: {$0.name == cell.textLabel!.text!})!.id
+                    filterMoreSelect.mainCatID = CategoryManager.shared.mainCategories.first(where: {$0.name == cell.textLabel!.text!})!.id
 
                 }
             

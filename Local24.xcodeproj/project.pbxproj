@@ -39,7 +39,7 @@
 		CD4F7C6D1E364B81001E0730 /* HomeCatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD4F7C6C1E364B81001E0730 /* HomeCatCell.swift */; };
 		CD4F7C6F1E3669DE001E0730 /* InitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD4F7C6E1E3669DE001E0730 /* InitialViewController.swift */; };
 		CD5109841C58BD4700BA2CB8 /* NewCatTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5109831C58BD4700BA2CB8 /* NewCatTableViewController.swift */; };
-		CD5109861C58C0CF00BA2CB8 /* Categories.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5109851C58C0CF00BA2CB8 /* Categories.swift */; };
+		CD5109861C58C0CF00BA2CB8 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5109851C58C0CF00BA2CB8 /* Category.swift */; };
 		CD56FD511E09664C001164F0 /* ThanksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD56FD501E09664C001164F0 /* ThanksViewController.swift */; };
 		CD56FD531E0966CB001164F0 /* ThanksTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD56FD521E0966CB001164F0 /* ThanksTableViewController.swift */; };
 		CD5911A71E5DC17C00C6DA99 /* CollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5911A61E5DC17C00C6DA99 /* CollectionViewDataSource.swift */; };
@@ -60,6 +60,9 @@
 		CD7754211C71C0E200253B7B /* CenterLocationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7754201C71C0E200253B7B /* CenterLocationButton.swift */; };
 		CD7DD3581E76A7E400F56B3F /* SwiftyJSON.txt in Resources */ = {isa = PBXBuildFile; fileRef = CD7DD3571E76A7E400F56B3F /* SwiftyJSON.txt */; };
 		CD7DD35A1E76A9C600F56B3F /* ImagePicker.txt in Resources */ = {isa = PBXBuildFile; fileRef = CD7DD3591E76A9C600F56B3F /* ImagePicker.txt */; };
+		CD7DD35C1E76BA2F00F56B3F /* SpecialFieldsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7DD35B1E76BA2F00F56B3F /* SpecialFieldsManager.swift */; };
+		CD7DD35E1E76BC9A00F56B3F /* SpecialField.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7DD35D1E76BC9A00F56B3F /* SpecialField.swift */; };
+		CD7DD3611E76C1C300F56B3F /* CategoryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7DD3601E76C1C300F56B3F /* CategoryManager.swift */; };
 		CD84C5921C88844400A6E8A4 /* LocalDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD84C5911C88844400A6E8A4 /* LocalDetailTableViewController.swift */; };
 		CD8B74FB1E719356007ADB76 /* InitialSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8B74FA1E719356007ADB76 /* InitialSegue.swift */; };
 		CD993E091DF9AFAF00F686C7 /* MyAdsDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD993E081DF9AFAF00F686C7 /* MyAdsDetailViewController.swift */; };
@@ -181,7 +184,7 @@
 		CD4F7C6C1E364B81001E0730 /* HomeCatCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HomeCatCell.swift; path = Home/HomeCatCell.swift; sourceTree = "<group>"; };
 		CD4F7C6E1E3669DE001E0730 /* InitialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = InitialViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		CD5109831C58BD4700BA2CB8 /* NewCatTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewCatTableViewController.swift; path = Home/NewCatTableViewController.swift; sourceTree = "<group>"; };
-		CD5109851C58C0CF00BA2CB8 /* Categories.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Categories.swift; path = Model/Categories.swift; sourceTree = "<group>"; };
+		CD5109851C58C0CF00BA2CB8 /* Category.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Category.swift; path = Model/Category.swift; sourceTree = "<group>"; };
 		CD56FD501E09664C001164F0 /* ThanksViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ThanksViewController.swift; path = More/ThanksViewController.swift; sourceTree = "<group>"; };
 		CD56FD521E0966CB001164F0 /* ThanksTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ThanksTableViewController.swift; path = More/ThanksTableViewController.swift; sourceTree = "<group>"; };
 		CD5911A61E5DC17C00C6DA99 /* CollectionViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CollectionViewDataSource.swift; path = Search/CollectionViewDataSource.swift; sourceTree = "<group>"; };
@@ -202,6 +205,9 @@
 		CD7754201C71C0E200253B7B /* CenterLocationButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CenterLocationButton.swift; path = Location/CenterLocationButton.swift; sourceTree = "<group>"; };
 		CD7DD3571E76A7E400F56B3F /* SwiftyJSON.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SwiftyJSON.txt; sourceTree = "<group>"; };
 		CD7DD3591E76A9C600F56B3F /* ImagePicker.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ImagePicker.txt; sourceTree = "<group>"; };
+		CD7DD35B1E76BA2F00F56B3F /* SpecialFieldsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpecialFieldsManager.swift; sourceTree = "<group>"; };
+		CD7DD35D1E76BC9A00F56B3F /* SpecialField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SpecialField.swift; path = Model/SpecialField.swift; sourceTree = "<group>"; };
+		CD7DD3601E76C1C300F56B3F /* CategoryManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryManager.swift; sourceTree = "<group>"; };
 		CD84C5911C88844400A6E8A4 /* LocalDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocalDetailTableViewController.swift; path = Detail/LocalDetailTableViewController.swift; sourceTree = "<group>"; };
 		CD8B74FA1E719356007ADB76 /* InitialSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitialSegue.swift; sourceTree = "<group>"; };
 		CD993E081DF9AFAF00F686C7 /* MyAdsDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MyAdsDetailViewController.swift; path = Account/MyAdsDetailViewController.swift; sourceTree = "<group>"; };
@@ -330,9 +336,8 @@
 				CDB594E41DE5E6230056B405 /* TabBarController.swift */,
 				CD62AF621DE3412700AD06EF /* LoginViewController.swift */,
 				CD6A262A1E08047A00CD22EB /* RegisterViewController.swift */,
-				CDFD0BAA1CF5AE0E00B56BF6 /* FilterManager.swift */,
-				CD993E0C1DF9BD4300F686C7 /* NetworkManager.swift */,
 				CDA9CCCB1C070793005ED562 /* PublicSettings.swift */,
+				CD7DD35F1E76C15E00F56B3F /* Manager */,
 				CD860CFA1CAA9E0C003361D4 /* Home */,
 				CD860CF81CAA9DD5003361D4 /* Search */,
 				CD65D2581C6101CE00AD89DF /* Location */,
@@ -395,7 +400,8 @@
 			children = (
 				CDCA848E1DE324AA00F71A42 /* User.swift */,
 				CD0E3F811CE0BFA9005AA575 /* Listing.swift */,
-				CD5109851C58C0CF00BA2CB8 /* Categories.swift */,
+				CD7DD35D1E76BC9A00F56B3F /* SpecialField.swift */,
+				CD5109851C58C0CF00BA2CB8 /* Category.swift */,
 				CD65D2541C60FD6400AD89DF /* ZipGeo.swift */,
 				10F001D01E538B0100E91E70 /* Filter.swift */,
 			);
@@ -447,6 +453,17 @@
 				CD5D16EF1C9054F200ACE365 /* LocationMapTableViewCell.swift */,
 			);
 			name = DetailViews;
+			sourceTree = "<group>";
+		};
+		CD7DD35F1E76C15E00F56B3F /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				CD7DD3601E76C1C300F56B3F /* CategoryManager.swift */,
+				CDFD0BAA1CF5AE0E00B56BF6 /* FilterManager.swift */,
+				CD7DD35B1E76BA2F00F56B3F /* SpecialFieldsManager.swift */,
+				CD993E0C1DF9BD4300F686C7 /* NetworkManager.swift */,
+			);
+			name = Manager;
 			sourceTree = "<group>";
 		};
 		CD860CF71CAA9D8F003361D4 /* SupportingFiles */ = {
@@ -970,6 +987,7 @@
 				CD0E3F801CE0A06C005AA575 /* CollectionViewCell.swift in Sources */,
 				CDCA848D1DE30CA800F71A42 /* AccountHeaderView.swift in Sources */,
 				CD1D88821DF072A100DF2688 /* AddImageCollectionViewCell.swift in Sources */,
+				CD7DD35E1E76BC9A00F56B3F /* SpecialField.swift in Sources */,
 				CDA9CCDA1C073236005ED562 /* MoreViewController.swift in Sources */,
 				CD5911A71E5DC17C00C6DA99 /* CollectionViewDataSource.swift in Sources */,
 				CDD729051E130051009F0B99 /* InsertTextFieldPicker.swift in Sources */,
@@ -1008,9 +1026,10 @@
 				CDD7290C1E13CD06009F0B99 /* CustomField2TableViewController.swift in Sources */,
 				CD5D16EE1C903F7F00ACE365 /* DescriptionTableViewCell.swift in Sources */,
 				CDEE24AB1CC78B8100F08D4E /* AbuseReportViewController.swift in Sources */,
+				CD7DD35C1E76BA2F00F56B3F /* SpecialFieldsManager.swift in Sources */,
 				CD5D16EC1C903AF900ACE365 /* TitleTableViewCell.swift in Sources */,
 				107AD5B81E54D10800095A0C /* FilterCollectionViewDelegate.swift in Sources */,
-				CD5109861C58C0CF00BA2CB8 /* Categories.swift in Sources */,
+				CD5109861C58C0CF00BA2CB8 /* Category.swift in Sources */,
 				CD62AF631DE3412700AD06EF /* LoginViewController.swift in Sources */,
 				1081F2DE1BB02A7600688F3B /* AppDelegate.swift in Sources */,
 				10B765D61E5628D000EE3CF3 /* FilterCollectionViewDataSource.swift in Sources */,
@@ -1023,6 +1042,7 @@
 				CD3E16051DF07C7700D0C300 /* InsertImageCollectionViewCell.swift in Sources */,
 				CD0A28A21C6CF76300B27AFD /* RadiusView.swift in Sources */,
 				CD5109841C58BD4700BA2CB8 /* NewCatTableViewController.swift in Sources */,
+				CD7DD3611E76C1C300F56B3F /* CategoryManager.swift in Sources */,
 				CDDEF3E61E01393300CF737E /* ChooseLocationTableViewCell.swift in Sources */,
 				CD993E091DF9AFAF00F686C7 /* MyAdsDetailViewController.swift in Sources */,
 				CD286E481CCE455C004675A9 /* FilterMoreSelectTableViewController.swift in Sources */,

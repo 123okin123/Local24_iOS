@@ -150,7 +150,7 @@ class InsertTableViewController: UITableViewController {
     
     func prePopulate() {
         titleTextField.text = listing.title
-        categoryLabel.text  = categoryBuilder.allCategories.filter({$0.id == listing.catID})[0].name
+        categoryLabel.text  = CategoryManager.shared.allCategories.filter({$0.id == listing.catID})[0].name
         descriptionTextView.text = listing.adDescription
         if listing.price == "-, €" {
             priceTextField.text = ""

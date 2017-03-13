@@ -17,8 +17,8 @@ class filterMoreSelectTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = categoryBuilder.mainCategories.first(where: {$0.id == mainCatID})?.name
-        let subcategories = categoryBuilder.subCategories.filter({$0.idParentCategory == mainCatID})
+        self.title = CategoryManager.shared.mainCategories.first(where: {$0.id == mainCatID})?.name
+        let subcategories = CategoryManager.shared.subCategories.filter({$0.idParentCategory == mainCatID})
         for subcategory in subcategories {
             options.append(subcategory.name)
         }
@@ -54,7 +54,7 @@ class filterMoreSelectTableViewController: UITableViewController {
         var defaultCell = UITableViewCell()
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "maincatfilterOptionsCellID", for: indexPath)
-            let categoryName = categoryBuilder.mainCategories.first(where: {$0.id == mainCatID})!.name
+            let categoryName = CategoryManager.shared.mainCategories.first(where: {$0.id == mainCatID})!.name
             cell.textLabel?.text = "Alles in " + categoryName!
             if FilterManager.shared.getValueOffilter(withName: .category, filterType: .term) == categoryName &&
                 FilterManager.shared.getValueOffilter(withName: .subcategory, filterType: .term) == nil {
@@ -88,7 +88,7 @@ class filterMoreSelectTableViewController: UITableViewController {
     
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let category = categoryBuilder.mainCategories.first(where: {$0.id == mainCatID})
+        let category = CategoryManager.shared.mainCategories.first(where: {$0.id == mainCatID})
         FilterManager.shared.setfilter(newfilter: Termfilter(name: .category, descriptiveString: "Kategorie", value: category!.name))
         switch indexPath.section {
         case 1:

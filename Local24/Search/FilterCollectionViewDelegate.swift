@@ -27,6 +27,13 @@ class FilterCollectionViewDelegate :NSObject, UICollectionViewDelegate, UICollec
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let filter = FilterManager.shared.filters[indexPath.row]
         if filter.filterType! != .sort &&  filter.filterType! != .geo_distance {
+            if filter.name == .category {
+                if let subCatFilterIndex = FilterManager.shared.filters.index(where: {$0.name == .subcategory}) {
+                    let indexPath = IndexPath(item: subCatFilterIndex, section: 0)
+                    FilterManager.shared.removefilterWithName(name: .subcategory)
+                    collectionView.deleteItems(at: [indexPath])
+                }
+            }
             FilterManager.shared.removefilterWithIndex(index: indexPath.row)
             collectionView.deleteItems(at: [indexPath])
             collectionView.collectionViewLayout.invalidateLayout()

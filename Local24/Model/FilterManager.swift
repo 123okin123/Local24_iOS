@@ -137,7 +137,7 @@ class FilterManager {
                 }
                 let rangeJson = [
                     "range": [
-                        "price": range                    ]
+                        rangefilter.name: range                    ]
                 ]
                 filterJson.append(rangeJson)
             case .sort:

@@ -25,7 +25,6 @@ public var user :User?
 public var userToken :String?
 public var tokenValid = true
 
-public var categoryBuilder = Categories()
 
 public let screenwidth = UIScreen.main.bounds.size.width
 public let screenheight = UIScreen.main.bounds.size.height

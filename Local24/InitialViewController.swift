@@ -15,7 +15,7 @@ class InitialViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        categoryBuilder.getCategories(completion: { (mainCat, subCat, error) in
+        CategoryManager.shared.getCategories(completion: { (mainCat, subCat, error) in
             if error == nil {
                 self.setRemoteConfiguration(completion: {
                     if userToken != nil {
