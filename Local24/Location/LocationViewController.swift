@@ -13,17 +13,15 @@ import MapKit
 public var viewedRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 51.321304218518435, longitude: 10.26933636230746), span: MKCoordinateSpan(latitudeDelta: 13.912692064754779, longitudeDelta: 14.115745522013924))
 
 class LocationViewController: UIViewController, UISearchBarDelegate, UISearchResultsUpdating, UISearchControllerDelegate, MKMapViewDelegate , UIGestureRecognizerDelegate, CLLocationManagerDelegate {
+    
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var radiusLabel: UILabel!
-
     @IBOutlet weak var centerLocationButton: CenterLocationButton!
     @IBOutlet weak var radiusView: RadiusView!
 
     var resultsTableController: LocationResultsTableController!
     var searchController: UISearchController!
     
-
-
     
     @IBAction func centerLocationButton(_ sender: CenterLocationButton) {
         if CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
@@ -39,8 +37,7 @@ class LocationViewController: UIViewController, UISearchBarDelegate, UISearchRes
         }
     }
     
-   
-    
+    // MARK: - ViewController Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,50 +57,39 @@ class LocationViewController: UIViewController, UISearchBarDelegate, UISearchRes
 
     }
     
-    
-
-
-    
-
-    
-    // MARK: - location manager to authorize user location for Maps app
-    var locationManager = CLLocationManager()
-    func checkLocationAuthorizationStatus() {
-        if CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
-            mapView.showsUserLocation = true
-        } else {
-            locationManager.requestWhenInUseAuthorization()
-            
-        }
-    }
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        if CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
-            mapView.showsUserLocation = true
-        }
-    }
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        
-    }
-    
-    
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //gaUserTracking("SelectLocation")
-        
-        
         checkLocationAuthorizationStatus()
-        
         mapView.setRegion(viewedRegion, animated: true)
-        
-        
-
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         trackScreen("SelectLocation")
     }
+    
+    
+    // MARK: LocationManager
+    
+    var locationManager = CLLocationManager()
+    func checkLocationAuthorizationStatus() {
+        if CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
+            mapView.showsUserLocation = true
+        } else {
+            locationManager.requestWhenInUseAuthorization()
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
+            mapView.showsUserLocation = true
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        
+    }
+    
     
     func showRadiusInLabel() {
         let radiusPointY : CGFloat = mapView.bounds.size.height/2 - radiusView.bounds.height/2

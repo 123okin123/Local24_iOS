@@ -9,10 +9,8 @@
 import UIKit
 @IBDesignable
 class AccountHeaderView: UICollectionReusableView {
-   @IBOutlet weak var userView: UIView! {didSet {
-        userView.layer.cornerRadius = 35
     
-        }}
+    @IBOutlet weak var userView: UIView! {didSet { userView.layer.cornerRadius = 35}}
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var userInitialsLabel: UILabel!
     @IBOutlet weak var totalAdsCountLabel: UILabel!

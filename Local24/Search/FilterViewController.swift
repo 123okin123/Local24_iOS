@@ -11,6 +11,7 @@ import FirebaseAnalytics
 
 class FilterViewController: UITableViewController, UITextFieldDelegate {
 
+    //MARK: IBOutlets
     
     @IBOutlet weak var searchQueryTextField: UITextField!
     @IBOutlet weak var locationLabel: UILabel!
@@ -19,20 +20,21 @@ class FilterViewController: UITableViewController, UITextFieldDelegate {
     @IBOutlet weak var categoryLabel: UILabel!
     @IBOutlet weak var sortingLabel: UILabel!
     @IBOutlet weak var onlyLocalListingsSwitch: UISwitch!
-    
     @IBOutlet weak var sliderTableViewCell: UITableViewCell!
-
     @IBOutlet weak var rangeSlider: NMRangeSlider!
     @IBOutlet weak var rangeSliderLabel: UILabel!
+    
+    // MARK: Variables
+    
     var upperValue = 500000
     var lowerValue = 0
 
     var sliderSectionHeaderString = ""
-    
     var categories = Categories()
-    
     var showCarfilters = false
 
+    // MARK: IBActions
+    
     @IBAction func onlyLocalListingsSwitchChanged(_ sender: UISwitch) {
         if sender.isOn {
             FilterManager.shared.removefilterWithName(name: .sourceId)
@@ -40,7 +42,6 @@ class FilterViewController: UITableViewController, UITextFieldDelegate {
             FilterManager.shared.setfilter(newfilter: Termfilter(name: .sourceId, descriptiveString: "Nur Local24 Anzeigen", value: "MPS"))
         }
     }
-
 
     @IBAction func rangeSliderValueChanged(_ sender: NMRangeSlider) {
         if sliderSectionHeaderString == "Maximale Laufleistung" {
@@ -52,7 +53,6 @@ class FilterViewController: UITableViewController, UITextFieldDelegate {
             let lowerValueString = formater.string(from: NSNumber(value: lowerValue))
             let upperValueString = formater.string(from: NSNumber(value: upperValue))
             rangeSliderLabel.text = "von " + lowerValueString! + " km bis " + upperValueString! + " km"
-            
             
             
         }
@@ -80,8 +80,7 @@ class FilterViewController: UITableViewController, UITextFieldDelegate {
         }
 //        let tracker = GAI.sharedInstance().defaultTracker
 //        tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Search", action: "searchInfilter", label: searchQueryTextField.text!, value: 0).build() as NSDictionary as! [AnyHashable: Any])
-//        
-
+//
 
     }
 
@@ -100,18 +99,8 @@ class FilterViewController: UITableViewController, UITextFieldDelegate {
         rangeSlider.minimumValue = 0
         rangeSlider.maximumValue = 500000
         rangeSlider.stepValue = 5000
-        
-        
-        
     }
     
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
- 
     
     func loadfilters() {
         searchQueryTextField.text = FilterManager.shared.getValueOffilter(withName: .search_string, filterType: .search_string)
@@ -193,7 +182,7 @@ class FilterViewController: UITableViewController, UITextFieldDelegate {
 
     
 
-    // MARK: - Table view data source
+    // MARK: - UITableViewDataSource
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
@@ -281,7 +270,6 @@ class FilterViewController: UITableViewController, UITextFieldDelegate {
     
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showfilterSelectVCSegueID" {
             if let filterSelectVC = segue.destination as? filterSelectTableViewController {

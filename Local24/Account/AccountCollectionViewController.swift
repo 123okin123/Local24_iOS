@@ -15,47 +15,81 @@ private let insertListingIdentifier = "InsertListingCellID"
 
 class AccountCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UIGestureRecognizerDelegate, MyAdsCellDelegate {
     
+    //MARK: Variables
+    
     var userListings = [Listing]()
     var refresher = UIRefreshControl()
     var isLoading = false
-
-
-
     
+    //MARK: IBActions
+    
+    @IBAction func backFromEditProfileToProfil(_ segue: UIStoryboardSegue) {
+    }
+    @IBAction func saveAndBackFromEditProfileToProfil(_ segue: UIStoryboardSegue) {
+    }
+    
+    //MARK: GestureRecognizer
     
     func cellLongPressed(sender: UILongPressGestureRecognizer) {
         if let listing = (sender.view as! MyAdsCollectionViewCell).listing {
         showOptionsFor(listing: listing)
         }
     }
-    func showOptionsFor(listing :Listing) {
-            let optionMenu = UIAlertController(title: listing.title, message: nil, preferredStyle: .actionSheet)
-            if listing.adState == .active {
-                let pauseAction = UIAlertAction(title: "Anzeige pausieren", style: .default, handler: {alert in self.changeAdStateOf(listing: listing, to: "paused")})
-                optionMenu.addAction(pauseAction)
-            }else {
-                let activeAction = UIAlertAction(title: "Anzeige aktivieren", style: .default, handler: {alert in self.changeAdStateOf(listing: listing, to: "active")})
-                optionMenu.addAction(activeAction)
-            }
-            let editAction = UIAlertAction(title: "Anzeige bearbeiten", style: .default, handler: {alert in
-                let editVC = self.storyboard?.instantiateViewController(withIdentifier: "insertViewControllerID") as! InsertTableViewController
-                editVC.listing = listing
-                if let images = listing.images {
-                editVC.imageArray = images
-                }
-                
-                editVC.listingExists = true
-                self.navigationController?.pushViewController(editVC, animated: true)
-            })
-            let deleteAction = UIAlertAction(title: "Anzeige löschen", style: .destructive, handler: {alert in self.delete(listing: listing)})
-            let cancleAction = UIAlertAction(title: "Abbrechen", style: .cancel, handler: {alert in })
-            
-            optionMenu.addAction(editAction)
-            optionMenu.addAction(deleteAction)
-            optionMenu.addAction(cancleAction)
-            self.present(optionMenu, animated: true, completion: nil)
-        
 
+    //MARK: ViewController Lifecycle
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        refresher.addTarget(self, action: #selector(getAds), for: .valueChanged)
+        collectionView!.addSubview(refresher)
+        getAds()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        //gaUserTracking("Profil")
+        navigationItem.setHidesBackButton(true, animated: false)
+        navigationController?.setNavigationBarHidden(false, animated: false)
+        NetworkManager.shared.getUserProfile(userToken: userToken!, completion: {(fetchedUser, statusCode) in
+            user = fetchedUser
+            self.collectionView?.reloadData()
+        })
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        trackScreen("Profil")
+    }
+
+    //MARK: Methods
+    
+    func showOptionsFor(listing :Listing) {
+        let optionMenu = UIAlertController(title: listing.title, message: nil, preferredStyle: .actionSheet)
+        if listing.adState == .active {
+            let pauseAction = UIAlertAction(title: "Anzeige pausieren", style: .default, handler: {alert in self.changeAdStateOf(listing: listing, to: "paused")})
+            optionMenu.addAction(pauseAction)
+        }else {
+            let activeAction = UIAlertAction(title: "Anzeige aktivieren", style: .default, handler: {alert in self.changeAdStateOf(listing: listing, to: "active")})
+            optionMenu.addAction(activeAction)
+        }
+        let editAction = UIAlertAction(title: "Anzeige bearbeiten", style: .default, handler: {alert in
+            let editVC = self.storyboard?.instantiateViewController(withIdentifier: "insertViewControllerID") as! InsertTableViewController
+            editVC.listing = listing
+            if let images = listing.images {
+                editVC.imageArray = images
+            }
+            
+            editVC.listingExists = true
+            self.navigationController?.pushViewController(editVC, animated: true)
+        })
+        let deleteAction = UIAlertAction(title: "Anzeige löschen", style: .destructive, handler: {alert in self.delete(listing: listing)})
+        let cancleAction = UIAlertAction(title: "Abbrechen", style: .cancel, handler: {alert in })
+        
+        optionMenu.addAction(editAction)
+        optionMenu.addAction(deleteAction)
+        optionMenu.addAction(cancleAction)
+        self.present(optionMenu, animated: true, completion: nil)
     }
     
     func changeAdStateOf(listing :Listing, to adState: String) {
@@ -74,7 +108,7 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
                 self.present(errorMenu, animated: true, completion: nil)
             }
         })
- 
+        
     }
     
     func delete(listing :Listing) {
@@ -100,46 +134,6 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
         confirmMenu.addAction(confirmAction)
         self.present(confirmMenu, animated: true, completion: nil)
     }
-    
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        refresher.addTarget(self, action: #selector(getAds), for: .valueChanged)
-        collectionView!.addSubview(refresher)
-        getAds()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        //gaUserTracking("Profil")
-        navigationItem.setHidesBackButton(true, animated: false)
-        navigationController?.setNavigationBarHidden(false, animated: false)
-        NetworkManager.shared.getUserProfile(userToken: userToken!, completion: {(fetchedUser, statusCode) in
-            user = fetchedUser
-            self.collectionView?.reloadData()
-        })
-        
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        trackScreen("Profil")
-//        if userListings.count == 0 {
-//        if collectionView!.contentOffset.y == 0 {
-//            UIView.animate(withDuration: 0.25, animations: {
-//            self.collectionView?.contentOffset.y = -self.refresher.frame.size.height
-//            }, completion: { _ in
-//            self.refresher.beginRefreshing()
-//            })
-//            self.getAds()
-//        }
-//        }
-    }
-
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
 
     func getAds() {
         if !(isLoading) {
@@ -164,9 +158,6 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
             
         }
     }
-    
-    
-
 
 
     // MARK: UICollectionViewDataSource
@@ -177,9 +168,7 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
 
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
         return userListings.count + 1
-        
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -221,12 +210,9 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: insertListingIdentifier, for: indexPath) as! InsertListingCell
         return cell
         }
-
     }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-    
-     
             let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "Header", for: indexPath) as! AccountHeaderView
             if user != nil {
                 if user!.firstName != nil && user!.lastName != nil {
@@ -241,8 +227,6 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
                 headerView.totalAdsCountLabel.text = "Anzahl Anzeigen: " + String(describing: userListings.count)
             }
             return headerView
-            
-
     }
     
 
@@ -253,41 +237,6 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 20, left: 10, bottom: 20, right: 10)
-    }
-    
-
-    
-    // MARK: - Navigation
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "AccountshowLocalDetailSegueID" {
-            if let cell = sender as? MyAdsCollectionViewCell {
-                if cell.listing.adState == .active {
-                    if let detailVC = segue.destination as? MyAdsDetailViewController {
-                   // detailVC.urlToShow = cell.listing.url
-                        detailVC.listing = cell.listing
-                    }
-                }
-            }
-            
-        }
-    }
-
-    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-        if identifier == "AccountshowLocalDetailSegueID" {
-            if let cell = sender as? MyAdsCollectionViewCell {
-                if cell.listing.adState != .active {
-                return false
-                }
-            }
-        }
-        return true
-       
-    }
-    
-    @IBAction func backFromEditProfileToProfil(_ segue: UIStoryboardSegue) {
-    }
-    @IBAction func saveAndBackFromEditProfileToProfil(_ segue: UIStoryboardSegue) {
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -307,6 +256,30 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
         showOptionsFor(listing: cell.listing)
     }
     
+    // MARK: - Navigation
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "AccountshowLocalDetailSegueID" {
+            if let cell = sender as? MyAdsCollectionViewCell {
+                if cell.listing.adState == .active {
+                    if let detailVC = segue.destination as? MyAdsDetailViewController {
+                        detailVC.listing = cell.listing
+                    }
+                }
+            }
+        }
+    }
+    
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        if identifier == "AccountshowLocalDetailSegueID" {
+            if let cell = sender as? MyAdsCollectionViewCell {
+                if cell.listing.adState != .active {
+                    return false
+                }
+            }
+        }
+        return true
+    }
 
 
 }

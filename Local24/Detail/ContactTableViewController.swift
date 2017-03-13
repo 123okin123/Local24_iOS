@@ -13,6 +13,8 @@ import Alamofire
 
 class ContactTableViewController: UITableViewController, UITextViewDelegate {
 
+    //MARK: IBOutlets
+    
     @IBOutlet weak var sendButton: UIButton! {didSet { sendButton.layer.cornerRadius = 10}}
     @IBOutlet weak var copyForMeSwitch: UISwitch!
     @IBOutlet weak var messageTextView: UITextView!
@@ -24,10 +26,36 @@ class ContactTableViewController: UITableViewController, UITextViewDelegate {
     @IBOutlet weak var houseNumber: UILabel!
     @IBOutlet weak var telefonNumber: UIButton!
     
+    //MARK: Variables
+    
     var copyForMe = true
-   
-   
     var listing :Listing!
+    
+    //MARK: IBActions
+    
+    @IBAction func copySwitchChanged(_ sender: UISwitch) {
+        if sender.isOn {
+        copyForMe = true
+        } else {
+        copyForMe = false
+        }
+    }
+    
+    @IBAction func telephonNumberClicked(_ sender: UIButton) {
+        if telefonNumber.currentTitle != nil {
+            let telefonNumberString = "tel:\(telefonNumber.currentTitle!.replacingOccurrences(of: " ", with: "").replacingOccurrences(of: "/", with: ""))"
+            if let url = URL(string: telefonNumberString) {
+                UIApplication.shared.openURL(url)
+            }
+        }
+    }
+    
+    @IBAction func sendMessage(_ sender: UIButton) {
+        sendMessageAction()
+    }
+    
+    
+    //MARK: ViewController Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,7 +69,7 @@ class ContactTableViewController: UITableViewController, UITextViewDelegate {
         zipCode.text = listing.zipcode
         houseNumber.text = listing.houseNumber
         telefonNumber.setTitle(listing.phoneNumber, for: UIControlState())
-
+        
         // User
         nameTextField.text = user?.fullName
         emailTextField.text = user?.email
@@ -60,6 +88,8 @@ class ContactTableViewController: UITableViewController, UITextViewDelegate {
     }
     
     
+    //MARK: Methods
+    
     func textViewDidBeginEditing(_ textView: UITextView) {
         if messageTextView.textColor == UIColor(red: 206/255, green: 206/255, blue: 211/255, alpha: 1.0) {
             messageTextView.text = ""
@@ -73,33 +103,11 @@ class ContactTableViewController: UITableViewController, UITextViewDelegate {
         }
     }
 
-
-    @IBAction func copySwitchChanged(_ sender: UISwitch) {
-        if sender.isOn {
-        copyForMe = true
-        } else {
-        copyForMe = false
-        }
-    }
-        
-   
-
-    @IBAction func telephonNumberClicked(_ sender: UIButton) {
-        if telefonNumber.currentTitle != nil {
-            let telefonNumberString = "tel:\(telefonNumber.currentTitle!.replacingOccurrences(of: " ", with: "").replacingOccurrences(of: "/", with: ""))"
-            if let url = URL(string: telefonNumberString) {
-                UIApplication.shared.openURL(url)
-            }
-        }
-    }
-
-    
-    @IBAction func sendMessage(_ sender: UIButton) {
+    func sendMessageAction() {
         var requiredFieldsSet = false
         if nameTextField.text != "" && emailTextField.text != "" && messageTextView.text != "" {
             requiredFieldsSet = true
         }
-        
         
         if requiredFieldsSet {
             
@@ -157,17 +165,8 @@ class ContactTableViewController: UITableViewController, UITextViewDelegate {
             let requiredFieldsAlert = UIAlertController(title: "Fehler", message: "Bitte füllen Sie alle als Pflichtfeld markierten Felder aus.", preferredStyle: .alert)
             requiredFieldsAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
             self.present(requiredFieldsAlert, animated: true, completion: nil)
-            
-            
         }
-        
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
 
     
     

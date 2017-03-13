@@ -12,6 +12,8 @@ class filterMoreSelectTableViewController: UITableViewController {
 
     var mainCatID : Int!
     var options = [String]()
+
+    // MARK: - ViewController Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,10 +22,6 @@ class filterMoreSelectTableViewController: UITableViewController {
         for subcategory in subcategories {
             options.append(subcategory.name)
         }
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -35,17 +33,7 @@ class filterMoreSelectTableViewController: UITableViewController {
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-//        if let title = self.title {
-//        gaUserTracking("Filter/Kategorien/\(title)")
-//        } else {
-//        gaUserTracking("Filter/Kategorien/NotSet")
-//        }
-        
-    }
-    
-    // MARK: - Table view data source
+    // MARK: - UITableViewDataSource
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 2

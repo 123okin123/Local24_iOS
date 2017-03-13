@@ -13,7 +13,7 @@ import SwiftyJSON
 
 extension InsertTableViewController: InsertImageCellDelegate {
 
-    
+    //MARK: CustomFields
     
     func populateCustomFields() {
         self.customFields.removeAll()
@@ -31,8 +31,6 @@ extension InsertTableViewController: InsertImageCellDelegate {
                             if !specialField.hasDependentField {
                                 self.customFields.append(specialField)
                             }
-                            
-                            
                             
                             if entityType == "AdApartment" && self.independentFieldLabel.text == "Verkauf"{
                                 if let index = self.customFields.index(where: {$0.name == "AdditionalCosts"}) {self.customFields.remove(at: index)}
@@ -66,6 +64,7 @@ extension InsertTableViewController: InsertImageCellDelegate {
         }
     }
     
+    //MARK: TableViewDataSource
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
@@ -108,6 +107,8 @@ extension InsertTableViewController: InsertImageCellDelegate {
         }
     }
     
+    //MARK: TableViewDelegate
+    
     override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         let headerView = view as! UITableViewHeaderFooterView
         if shouldHideSection(section) {
@@ -136,7 +137,6 @@ extension InsertTableViewController: InsertImageCellDelegate {
             } else {
                 return false
             }
-    
 
         default: return false
         }

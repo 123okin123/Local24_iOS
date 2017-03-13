@@ -12,8 +12,5 @@ class InsertListingCell: UICollectionViewCell {
  
     
     @IBOutlet weak var cellContentView: UIView! {didSet {cellContentView.layer.cornerRadius = 5 }}
-    
-
-    
-    
+ 
 }

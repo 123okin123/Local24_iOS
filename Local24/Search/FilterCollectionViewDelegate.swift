@@ -11,7 +11,10 @@ import UIKit
 
 class FilterCollectionViewDelegate :NSObject, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
+    //MARK: Variables
+    
     var collectionViewController :UIViewController?
+    
     
     init(collectionView: UICollectionView, viewController: UIViewController) {
         super.init()
@@ -19,7 +22,7 @@ class FilterCollectionViewDelegate :NSObject, UICollectionViewDelegate, UICollec
         collectionViewController = viewController
     }
     
-    
+    //MARK: UICollectionViewDelegate
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let filter = FilterManager.shared.filters[indexPath.row]
@@ -40,6 +43,7 @@ class FilterCollectionViewDelegate :NSObject, UICollectionViewDelegate, UICollec
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
     }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 5
     }

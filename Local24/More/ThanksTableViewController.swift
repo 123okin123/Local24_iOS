@@ -12,16 +12,18 @@ class ThanksTableViewController: UITableViewController {
 
     
     
-    let thanks = ["Alamofire", "Bolts", "Facebook-iOS-SDK", "MapleBacon", "MZFormSheetPresentationController"]
+    let thanks = ["Alamofire",
+                  "Bolts",
+                  "Facebook-iOS-SDK",
+                  "MapleBacon",
+                  "MZFormSheetPresentationController",
+                  "SwiftyJSON",
+                  "ImagePicker"
+    ]
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        //gaUserTracking("More/ThanksOverview")
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -42,7 +44,6 @@ class ThanksTableViewController: UITableViewController {
 
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let cell = sender as? UITableViewCell {
             if let thanksVC = segue.destination as? ThanksViewController {

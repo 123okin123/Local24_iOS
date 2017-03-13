@@ -16,8 +16,9 @@ import SafariServices
 
 class LocalDetailTableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, MFMailComposeViewControllerDelegate {
     
-    @IBOutlet weak var tableView: UITableView!
+    //MARK: IBOutlets
     
+    @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var fixedPriceCell: UIView!
         {didSet {
             fixedPriceCell.layer.borderColor = UIColor(red: 0.783922, green: 0.780392, blue: 0.8, alpha: 1).cgColor
@@ -52,6 +53,7 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
                 }
             }
         }}
+    
     @IBOutlet weak var fixedPriceCellPriceLabel: UILabel!
     @IBOutlet weak var fixedPriceCellPhoneButton: UIButton!
         {didSet {
@@ -62,6 +64,16 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
             fixedPriceCellPhoneButton.isHidden = false
             }
         }}
+  
+    @IBOutlet weak var image2BottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var image1: UIImageView!
+    @IBOutlet weak var image2: UIImageView!
+    @IBOutlet weak var image3: UIImageView!
+    @IBOutlet weak var image1widthConstraint: NSLayoutConstraint!
+
+  
+    
+    // MARK: Variables
     
     var listing :Listing!
     
@@ -80,41 +92,28 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
     
     
     var images = [UIImage]() {didSet {
-            image1.isUserInteractionEnabled = true
-            image2.isUserInteractionEnabled = true
-            image3.isUserInteractionEnabled = true
+        image1.isUserInteractionEnabled = true
+        image2.isUserInteractionEnabled = true
+        image3.isUserInteractionEnabled = true
         }}
     
-
+    
     let activityIndi = UIActivityIndicatorView(activityIndicatorStyle: .gray)
     
-    @IBOutlet weak var image2BottomConstraint: NSLayoutConstraint!
-    @IBOutlet weak var image1: UIImageView!
-    @IBOutlet weak var image2: UIImageView!
-    @IBOutlet weak var image3: UIImageView!
-    @IBOutlet weak var image1widthConstraint: NSLayoutConstraint!
-
-    
-    
+    // MARK: IBActions
     
     @IBAction func actionButtonPressed(_ sender: UIBarButtonItem) {
-        
         let actionActionController = UIAlertController(title: "Was möchten Sie tun?", message: nil, preferredStyle: .actionSheet)
-        
         let abuseAction = UIAlertAction(title: "Anzeige melden", style: .destructive, handler: { (UIAlertAction) in
             self.performSegue(withIdentifier: "showAbuseReportSegueID", sender: self)
         })
-        
         let shareAction = UIAlertAction(title: "Anzeige teilen", style: .default, handler: {_  in
             if let url = self.listing.url {
                 let activityVC = UIActivityViewController(activityItems: [url], applicationActivities: nil)
                 self.present(activityVC, animated: true, completion: nil)
             }
         })
-        
         let cancelAction = UIAlertAction(title: "Abbrechen", style: .cancel, handler: nil)
-    
-        
         actionActionController.addAction(shareAction)
         if let source = listing.source {
             if source == "MPS" {
@@ -123,7 +122,6 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
         }
         actionActionController.addAction(cancelAction)
         self.present(actionActionController, animated: true, completion: nil)
-        
     }
 
     
@@ -148,7 +146,7 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
         sendUserToMapApp()
     }
     
-    
+    // MARK: - ViewController Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -157,38 +155,34 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 60
         title = listing.title
-
+        
         if !listing.hasImages {
-        tableView.tableHeaderView?.frame.size.height = 0
+            tableView.tableHeaderView?.frame.size.height = 0
         } else {
-        activityIndi.startAnimating()
-        if listing.source == "MPS" {
-            NetworkManager.shared.getImagesFor(adID: listing.adID, completion: {images in
-                if images != nil {
-                self.images = images!
-                    self.displayImages()
-                }
-                self.activityIndi.stopAnimating()
-
-            })
-        } else {
-            
+            activityIndi.startAnimating()
+            if listing.source == "MPS" {
+                NetworkManager.shared.getImagesFor(adID: listing.adID, completion: {images in
+                    if images != nil {
+                        self.images = images!
+                        self.displayImages()
+                    }
+                    self.activityIndi.stopAnimating()
+                    
+                })
+            } else {
+                
                 NetworkManager.shared.getImageFor(paths: listing.imageURLs, completion: {(images, error) in
                     if error == nil && images != nil {
                         self.images = images!
                         self.displayImages()
                     }
                     self.activityIndi.stopAnimating()
-
+                    
                 })
-            
-            
-        }
+            }
         }
     }
-    
-    
-    
+ 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.hidesBarsOnSwipe = false
@@ -205,6 +199,11 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
             trackScreen("Search/Detail")
         }
     }
+    
+    
+    
+    
+    
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
@@ -283,7 +282,7 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
     }
     
  
-    // MARK: - Table view data source
+    // MARK: - UITableViewDataSource
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 4
@@ -307,7 +306,6 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
         default:
             return nil
         }
-        
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -421,9 +419,7 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
     }
     @IBAction func backfromAbuseReport(_ segue:UIStoryboardSegue) {
         
-        
     }
-    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "contactSegueID" {

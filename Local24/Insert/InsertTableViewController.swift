@@ -15,7 +15,7 @@ import FirebaseAnalytics
 class InsertTableViewController: UITableViewController {
 
     
-    // MARK: - IBOutlets
+    // MARK: IBOutlets
     
     @IBOutlet weak var imageCollectionView: UICollectionView!
     @IBOutlet var customFieldCellCollection: [InsertCustomFieldCell]! {didSet {
@@ -26,7 +26,6 @@ class InsertTableViewController: UITableViewController {
             i += 1
         }
         }}
-
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var categoryLabel: UILabel!
     @IBOutlet weak var independentFieldLabel: UILabel!
@@ -42,9 +41,9 @@ class InsertTableViewController: UITableViewController {
     @IBOutlet weak var streetLabel: UILabel!
     @IBOutlet weak var houseNumberLabel: UILabel!
     
+    //MARK: Variables
     
     var listingExists = false
-
     var imageArray = [UIImage]()
     var imagePicker  = ImagePickerController()
     var listing = Listing() {didSet {
@@ -53,11 +52,7 @@ class InsertTableViewController: UITableViewController {
             listing.adLong = location.coordinate.longitude
         }
         }}
-    
-    
-   
     var customFields = [SpecialField]()
-    
     var pickerView = UIPickerView()
     var toolBar = UIToolbar()
     var currentPickerArray = [String]()
@@ -65,7 +60,8 @@ class InsertTableViewController: UITableViewController {
     
     
     
-    // MARK: - IBActions
+    // MARK: IBActions
+    
     @IBAction func insertListing(_ sender: UIButton) {
         if validate() {
             //let tracker = GAI.sharedInstance().defaultTracker
@@ -83,7 +79,7 @@ class InsertTableViewController: UITableViewController {
     
 
     
-    // MARK: - ViewController Lifecycle
+    // MARK: ViewController Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -111,15 +107,11 @@ class InsertTableViewController: UITableViewController {
 
     }
     
-    
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if listingExists {
-            //gaUserTracking("Insert(editExisting)")
             navigationItem.setHidesBackButton(false, animated: false)
         } else {
-            //gaUserTracking("Insert")
             navigationItem.setHidesBackButton(true, animated: false)
         }
         navigationController?.setNavigationBarHidden(false, animated: false)
@@ -137,9 +129,7 @@ class InsertTableViewController: UITableViewController {
         }
     }
     
-    
-
-    
+    //MARK: Clear and populate
     
     func clearAll() {
         imageArray.removeAll()
@@ -156,12 +146,9 @@ class InsertTableViewController: UITableViewController {
         customFields.removeAll()
         listing = Listing()
         tableView.reloadData()
-        
-        
     }
     
     func prePopulate() {
-        
         titleTextField.text = listing.title
         categoryLabel.text  = categoryBuilder.allCategories.filter({$0.id == listing.catID})[0].name
         descriptionTextView.text = listing.adDescription
@@ -203,9 +190,6 @@ class InsertTableViewController: UITableViewController {
                         print(error.localizedDescription)
                     }
                 }
-                
-                
-                
             }
             }
         }
@@ -225,8 +209,6 @@ class InsertTableViewController: UITableViewController {
 
     
     // MARK: Validation
-    
-    
     
     func validate() -> Bool {
         var success = true
@@ -266,10 +248,10 @@ class InsertTableViewController: UITableViewController {
             zipLabel.textColor = UIColor.darkGray
             cityLabel.textColor = UIColor.darkGray
         }
-
         return success
     }
     
+    //MARK: Insertion
     
     func submitAd() {
         

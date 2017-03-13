@@ -75,8 +75,9 @@ class Listing :NSObject {
         super.init()
         
         specialFields = [SpecialField]()
-        
+
         self.source = "MPS"
+        
         if let adID = value["Id"] as? Int {
             self.adID = adID
         }
@@ -205,7 +206,6 @@ class Listing :NSObject {
                                 self.specialFields?.append(specialField)
                                 
                             }
-                            
 
                         }
                         

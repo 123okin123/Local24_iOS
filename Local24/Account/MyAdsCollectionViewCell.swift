@@ -9,6 +9,7 @@
 import UIKit
 
 class MyAdsCollectionViewCell: UICollectionViewCell {
+
     @IBOutlet weak var listingImage: UIImageView!
     @IBOutlet weak var listingTitle: UILabel!
     @IBOutlet weak var listingPrice: UILabel!
@@ -16,12 +17,6 @@ class MyAdsCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var cellContentView: UIView!
     @IBOutlet weak var pausedIndicatorView: UIView!
     @IBOutlet weak var editButton: UIButton!
-    
-    @IBAction func editButtonPressed(_ sender: UIButton) {
-    self.delegate?.buttonTapped(cell: self)
-    }
-
-    
     
     var listing :Listing! {didSet {
         if listing.adState == .paused {
@@ -32,14 +27,17 @@ class MyAdsCollectionViewCell: UICollectionViewCell {
         }}
     
     var shadowLayer: CAShapeLayer!
-    
     var delegate: MyAdsCellDelegate?
     
+    
+    @IBAction func editButtonPressed(_ sender: UIButton) {
+    self.delegate?.buttonTapped(cell: self)
+    }
+
+
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        
-        
         cellContentView.layer.cornerRadius = 5
         listingPrice.layer.shadowColor = UIColor.black.cgColor
         listingPrice.layer.shadowOffset = CGSize(width: 1, height: 1)
@@ -59,20 +57,19 @@ class MyAdsCollectionViewCell: UICollectionViewCell {
             shadowLayer.shadowRadius = 0.0
             layer.insertSublayer(shadowLayer, at: 0)
         }
-
     }
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         listingImage.image = nil
         self.delegate = nil
     }
-    
- 
- 
-
-    
 }
+
+
 
 protocol MyAdsCellDelegate: class {
     func buttonTapped(cell: MyAdsCollectionViewCell)
 }
+
+

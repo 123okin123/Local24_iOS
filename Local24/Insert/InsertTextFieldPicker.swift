@@ -13,7 +13,6 @@ extension InsertTableViewController: UIPickerViewDataSource, UIPickerViewDelegat
 
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        
         currentTextField = textField
         
         let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)

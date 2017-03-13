@@ -58,6 +58,8 @@
 		CD65D2551C60FD6400AD89DF /* ZipGeo.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD65D2541C60FD6400AD89DF /* ZipGeo.swift */; };
 		CD6A262B1E08047A00CD22EB /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6A262A1E08047A00CD22EB /* RegisterViewController.swift */; };
 		CD7754211C71C0E200253B7B /* CenterLocationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7754201C71C0E200253B7B /* CenterLocationButton.swift */; };
+		CD7DD3581E76A7E400F56B3F /* SwiftyJSON.txt in Resources */ = {isa = PBXBuildFile; fileRef = CD7DD3571E76A7E400F56B3F /* SwiftyJSON.txt */; };
+		CD7DD35A1E76A9C600F56B3F /* ImagePicker.txt in Resources */ = {isa = PBXBuildFile; fileRef = CD7DD3591E76A9C600F56B3F /* ImagePicker.txt */; };
 		CD84C5921C88844400A6E8A4 /* LocalDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD84C5911C88844400A6E8A4 /* LocalDetailTableViewController.swift */; };
 		CD8B74FB1E719356007ADB76 /* InitialSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8B74FA1E719356007ADB76 /* InitialSegue.swift */; };
 		CD993E091DF9AFAF00F686C7 /* MyAdsDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD993E081DF9AFAF00F686C7 /* MyAdsDetailViewController.swift */; };
@@ -186,10 +188,10 @@
 		CD5911A81E5DCB6200C6DA99 /* EditProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditProfileViewController.swift; path = Account/EditProfileViewController.swift; sourceTree = "<group>"; };
 		CD5C2B9A1E6EEEBB0037C3F7 /* FeaturedListingsLoadingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeaturedListingsLoadingCell.swift; path = Home/FeaturedListingsLoadingCell.swift; sourceTree = "<group>"; };
 		CD5D16E41C8F11B200ACE365 /* ContactTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactTableViewController.swift; path = Detail/ContactTableViewController.swift; sourceTree = "<group>"; };
-		CD5D16E81C90377D00ACE365 /* PriceTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PriceTableViewCell.swift; path = Detail/PriceTableViewCell.swift; sourceTree = "<group>"; };
-		CD5D16EB1C903AF900ACE365 /* TitleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TitleTableViewCell.swift; path = Detail/TitleTableViewCell.swift; sourceTree = "<group>"; };
-		CD5D16ED1C903F7F00ACE365 /* DescriptionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DescriptionTableViewCell.swift; path = Detail/DescriptionTableViewCell.swift; sourceTree = "<group>"; };
-		CD5D16EF1C9054F200ACE365 /* LocationMapTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocationMapTableViewCell.swift; path = Detail/LocationMapTableViewCell.swift; sourceTree = "<group>"; };
+		CD5D16E81C90377D00ACE365 /* PriceTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PriceTableViewCell.swift; path = Detail/DetailViews/PriceTableViewCell.swift; sourceTree = "<group>"; };
+		CD5D16EB1C903AF900ACE365 /* TitleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TitleTableViewCell.swift; path = Detail/DetailViews/TitleTableViewCell.swift; sourceTree = "<group>"; };
+		CD5D16ED1C903F7F00ACE365 /* DescriptionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DescriptionTableViewCell.swift; path = Detail/DetailViews/DescriptionTableViewCell.swift; sourceTree = "<group>"; };
+		CD5D16EF1C9054F200ACE365 /* LocationMapTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocationMapTableViewCell.swift; path = Detail/DetailViews/LocationMapTableViewCell.swift; sourceTree = "<group>"; };
 		CD5D16F11C90673600ACE365 /* DetailImageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DetailImageViewController.swift; path = Detail/DetailImageViewController.swift; sourceTree = "<group>"; };
 		CD5D16F31C917A6300ACE365 /* FilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterViewController.swift; path = Search/FilterViewController.swift; sourceTree = "<group>"; };
 		CD62AF621DE3412700AD06EF /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -198,6 +200,8 @@
 		CD65D2541C60FD6400AD89DF /* ZipGeo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ZipGeo.swift; path = Model/ZipGeo.swift; sourceTree = "<group>"; };
 		CD6A262A1E08047A00CD22EB /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = RegisterViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		CD7754201C71C0E200253B7B /* CenterLocationButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CenterLocationButton.swift; path = Location/CenterLocationButton.swift; sourceTree = "<group>"; };
+		CD7DD3571E76A7E400F56B3F /* SwiftyJSON.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SwiftyJSON.txt; sourceTree = "<group>"; };
+		CD7DD3591E76A9C600F56B3F /* ImagePicker.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ImagePicker.txt; sourceTree = "<group>"; };
 		CD84C5911C88844400A6E8A4 /* LocalDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocalDetailTableViewController.swift; path = Detail/LocalDetailTableViewController.swift; sourceTree = "<group>"; };
 		CD8B74FA1E719356007ADB76 /* InitialSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitialSegue.swift; sourceTree = "<group>"; };
 		CD993E081DF9AFAF00F686C7 /* MyAdsDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MyAdsDetailViewController.swift; path = Account/MyAdsDetailViewController.swift; sourceTree = "<group>"; };
@@ -402,10 +406,7 @@
 			isa = PBXGroup;
 			children = (
 				CD84C5911C88844400A6E8A4 /* LocalDetailTableViewController.swift */,
-				CD5D16ED1C903F7F00ACE365 /* DescriptionTableViewCell.swift */,
-				CD5D16EB1C903AF900ACE365 /* TitleTableViewCell.swift */,
-				CD5D16E81C90377D00ACE365 /* PriceTableViewCell.swift */,
-				CD5D16EF1C9054F200ACE365 /* LocationMapTableViewCell.swift */,
+				CD7DD3541E7697A600F56B3F /* DetailViews */,
 				CD5D16E41C8F11B200ACE365 /* ContactTableViewController.swift */,
 				CD5D16F11C90673600ACE365 /* DetailImageViewController.swift */,
 				CDEE24AA1CC78B8100F08D4E /* AbuseReportViewController.swift */,
@@ -435,6 +436,17 @@
 				CD7754201C71C0E200253B7B /* CenterLocationButton.swift */,
 			);
 			name = Location;
+			sourceTree = "<group>";
+		};
+		CD7DD3541E7697A600F56B3F /* DetailViews */ = {
+			isa = PBXGroup;
+			children = (
+				CD5D16ED1C903F7F00ACE365 /* DescriptionTableViewCell.swift */,
+				CD5D16EB1C903AF900ACE365 /* TitleTableViewCell.swift */,
+				CD5D16E81C90377D00ACE365 /* PriceTableViewCell.swift */,
+				CD5D16EF1C9054F200ACE365 /* LocationMapTableViewCell.swift */,
+			);
+			name = DetailViews;
 			sourceTree = "<group>";
 		};
 		CD860CF71CAA9D8F003361D4 /* SupportingFiles */ = {
@@ -561,8 +573,10 @@
 			isa = PBXGroup;
 			children = (
 				CDCF31871E09735600379468 /* Facebook-iOS-SDK.txt */,
+				CD7DD3571E76A7E400F56B3F /* SwiftyJSON.txt */,
 				CDCF31851E0972C500379468 /* MZFormSheetPresentationController.txt */,
 				CDCF31831E0972AC00379468 /* MapleBacon.txt */,
+				CD7DD3591E76A9C600F56B3F /* ImagePicker.txt */,
 				CDCF317E1E09710D00379468 /* Alamofire.txt */,
 				CDA32CB21E096F3A004969E7 /* Bolts.txt */,
 			);
@@ -750,6 +764,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD7DD35A1E76A9C600F56B3F /* ImagePicker.txt in Resources */,
 				CD10748A1E27B7A400225BCA /* Local24.entitlements in Resources */,
 				CDE4D9FD1C0DEA3400FE7611 /* OpenSans-Italic.ttf in Resources */,
 				CDE4D9FA1C0DEA3400FE7611 /* OpenSans-BoldItalic.ttf in Resources */,
@@ -778,6 +793,7 @@
 				CDE4DA021C0DEA3400FE7611 /* OpenSans-SemiboldItalic.ttf in Resources */,
 				CDE4D9FE1C0DEA3400FE7611 /* OpenSans-Light.ttf in Resources */,
 				CDE4DA001C0DEA3400FE7611 /* OpenSans-Regular.ttf in Resources */,
+				CD7DD3581E76A7E400F56B3F /* SwiftyJSON.txt in Resources */,
 				CD4F7C691E362C4D001E0730 /* RemoteConfigDefaults.plist in Resources */,
 				CDB3AFFA1D2BF0B800C2F254 /* slider-default7-track@2x.png in Resources */,
 				CDB3AFF71D2BF0B800C2F254 /* slider-default7-trackCrossedOver.png in Resources */,

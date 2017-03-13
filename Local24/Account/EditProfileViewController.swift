@@ -10,57 +10,31 @@ import UIKit
 
 class EditProfileViewController: UITableViewController, UIPickerViewDelegate, UIPickerViewDataSource {
 
+    //MARK: IBOutlets
     
     @IBOutlet weak var userTitleField: UITextField!
     @IBOutlet weak var firstNameField: UITextField!
     @IBOutlet weak var lastNameField: UITextField!
-    
     @IBOutlet weak var telephoneField: UITextField!
     @IBOutlet weak var streetField: UITextField!
     @IBOutlet weak var houseNumberField: UITextField!
     @IBOutlet weak var zipCodeField: UITextField!
     @IBOutlet weak var cityField: UITextField!
     
+    //MARK: Variables
+    
     var salutationID = 0
     let pickerView = UIPickerView()
     let toolBar = UIToolbar()
     
+    //MARK: IBActions
+    
     @IBAction func saveProfileInfo(_ sender: UIBarButtonItem) {
-        guard validate() else {return}
-        guard user != nil else {return}
-            user!.salutationID = salutationID
-            user!.firstName = firstNameField.text
-            user!.lastName = lastNameField.text
-            user!.telephone = telephoneField.text
-            user!.street = streetField.text
-            user!.houseNumber = houseNumberField.text
-            user!.zipCode = zipCodeField.text
-            user!.city = cityField.text
-            let pendingAlertController = UIAlertController(title: "Profil wird bearbeitet\n\n\n", message: nil, preferredStyle: .alert)
-            let indicator = UIActivityIndicatorView(frame: pendingAlertController.view.bounds)
-            indicator.autoresizingMask = [.flexibleWidth, . flexibleHeight]
-            indicator.color = UIColor.darkGray
-            pendingAlertController.view.addSubview(indicator)
-            indicator.isUserInteractionEnabled = false
-            indicator.startAnimating()
-            present(pendingAlertController, animated: true, completion: nil)
-            
-            NetworkManager.shared.editUserInfos(user: user!, userToken: userToken!, completion: {
-                error in
-                pendingAlertController.dismiss(animated: true, completion: {
-                    if error == nil {
-                        self.performSegue(withIdentifier: "backFromEditProfileToProfilSeugueID", sender: nil)
-                    } else {
-                        let errorMenu = UIAlertController(title: "Fehler", message: "Beim bearbeiten ist ein Fehler aufgetreten", preferredStyle: .alert)
-                        let confirmAction = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
-                        errorMenu.addAction(confirmAction)
-                        self.present(errorMenu, animated: true, completion: nil)
-                    }
-                })
-            })
-        
+        saveProfileInfoAction()
     }
 
+    //MARK: ViewController Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         pickerView.delegate = self
@@ -77,24 +51,19 @@ class EditProfileViewController: UITableViewController, UIPickerViewDelegate, UI
         userTitleField.inputView = pickerView
         setUserInfo()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-       // gaUserTracking("EditProfile")
-    }
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        view.endEditing(true)
-    }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         trackScreen("EditProfile")
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        view.endEditing(true)
+    }
+
+    
+    //MARK: Methods
     
     func validate() -> Bool {
         var success = true
@@ -120,13 +89,44 @@ class EditProfileViewController: UITableViewController, UIPickerViewDelegate, UI
         return success
     }
     
-    
-    
     override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         view.endEditing(true)
     }
     
-    
+    func saveProfileInfoAction() {
+        guard validate() else {return}
+        guard user != nil else {return}
+        user!.salutationID = salutationID
+        user!.firstName = firstNameField.text
+        user!.lastName = lastNameField.text
+        user!.telephone = telephoneField.text
+        user!.street = streetField.text
+        user!.houseNumber = houseNumberField.text
+        user!.zipCode = zipCodeField.text
+        user!.city = cityField.text
+        let pendingAlertController = UIAlertController(title: "Profil wird bearbeitet\n\n\n", message: nil, preferredStyle: .alert)
+        let indicator = UIActivityIndicatorView(frame: pendingAlertController.view.bounds)
+        indicator.autoresizingMask = [.flexibleWidth, . flexibleHeight]
+        indicator.color = UIColor.darkGray
+        pendingAlertController.view.addSubview(indicator)
+        indicator.isUserInteractionEnabled = false
+        indicator.startAnimating()
+        present(pendingAlertController, animated: true, completion: nil)
+        
+        NetworkManager.shared.editUserInfos(user: user!, userToken: userToken!, completion: {
+            error in
+            pendingAlertController.dismiss(animated: true, completion: {
+                if error == nil {
+                    self.performSegue(withIdentifier: "backFromEditProfileToProfilSeugueID", sender: nil)
+                } else {
+                    let errorMenu = UIAlertController(title: "Fehler", message: "Beim bearbeiten ist ein Fehler aufgetreten", preferredStyle: .alert)
+                    let confirmAction = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
+                    errorMenu.addAction(confirmAction)
+                    self.present(errorMenu, animated: true, completion: nil)
+                }
+            })
+        })
+    }
     
     let pickerOptions = [("keine Angabe", 1), ("Herr", 2), ("Frau", 3)]
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
