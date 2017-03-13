@@ -17,11 +17,6 @@ class HomeCatCell: UICollectionViewCell {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-
-//        let templateImage = imageView.image?.withRenderingMode(.alwaysTemplate)
-//        imageView.image = templateImage
-//        imageView.tintColor = UIColor.darkGray
-        
         
         self.layer.cornerRadius = 5
         

@@ -86,7 +86,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
                 insertButton.layer.borderWidth = 1
                 insertButton.setImage(UIImage(named: "insert"), for: .normal)
             }
-            if index == 3 && selectedIndex == 3 {
+            if index == 2 && selectedIndex == 2 || index == 3 && selectedIndex == 3 {
             return false
             }
             

@@ -10,7 +10,8 @@ import UIKit
 
 class NewCatTableViewController: UITableViewController {
     
-    // MARK: Outlets & Variables
+    // MARK: Variables
+    
     var mainCatID :Int!
     var mainCatName :String!
     var categories = Categories()
@@ -27,21 +28,15 @@ class NewCatTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
             navigationItem.title = mainCatName
-            //gaUserTracking("Home/\(mainCatName!)/ChooseSubCategory")
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         trackScreen("Home/\(mainCatName!)/ChooseSubCategory")
     }
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
     
-    
-    // MARK: - Table view data source
+    // MARK: UITableViewDataSource
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
@@ -59,7 +54,6 @@ class NewCatTableViewController: UITableViewController {
         return n
     }
     
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "subCatCellID", for: indexPath)
         switch (indexPath as NSIndexPath).section {
@@ -70,6 +64,7 @@ class NewCatTableViewController: UITableViewController {
         return cell
     }
     
+    // MARK: UITableViewDelegate
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         FilterManager.shared.removeAllfilters()

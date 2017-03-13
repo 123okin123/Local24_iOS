@@ -13,10 +13,14 @@ import FirebaseAnalytics
 
 class SearchViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout ,/*FBNativeAdsManagerDelegate,*/ FilterManagerDelegate, UISearchBarDelegate, UIScrollViewDelegate  {
     
+    // MARK: IBOutlets
+    
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var filterCollectionView: UICollectionView!
-
     @IBOutlet weak var noListingsLabel: UILabel!
+    
+    
+    // MARK: Variables
     
     var listings = [Listing]()
 //    var ads = [FacebookAd]()
@@ -40,6 +44,8 @@ class SearchViewController: UIViewController, UICollectionViewDelegate, UICollec
     var searchBar = UISearchBar()
     
     var collectionViewDataSource :CollectionViewDataSource?
+    
+    // MARK: ViewController Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,28 +80,7 @@ class SearchViewController: UIViewController, UICollectionViewDelegate, UICollec
 //        fbNativeAdsManager.loadAds()
     }
     
-    func configureSearchBar() {
-        searchBar.delegate = self
-        searchBar.tintColor = UIColor.white
-        searchBar.searchBarStyle = .minimal
 
-        let searchTextField = searchBar.value(forKey: "searchField") as! UITextField
-        if searchTextField.responds(to: #selector(getter: UITextField.attributedPlaceholder)) {
-            let font = UIFont(name: "OpenSans", size: 13.0)
-            let attributeDict = [
-                NSFontAttributeName: font!,
-                NSForegroundColorAttributeName: greencolor
-            ]
-            searchTextField.attributedPlaceholder = NSAttributedString(string: "Wonach suchst du?", attributes: attributeDict)
-        }
-        searchTextField.textColor = UIColor.white
-        searchTextField.clearButtonMode = .never
-        if let glassIconView = searchTextField.leftView as? UIImageView {
-            glassIconView.image = glassIconView.image?.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
-            glassIconView.tintColor = greencolor
-        }
-        
-    }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -118,8 +103,30 @@ class SearchViewController: UIViewController, UICollectionViewDelegate, UICollec
         }
         refresh()
     }
+    
+    //MARK: SearchBar
 
-
+    func configureSearchBar() {
+        searchBar.delegate = self
+        searchBar.tintColor = UIColor.white
+        searchBar.searchBarStyle = .minimal
+        
+        let searchTextField = searchBar.value(forKey: "searchField") as! UITextField
+        if searchTextField.responds(to: #selector(getter: UITextField.attributedPlaceholder)) {
+            let font = UIFont(name: "OpenSans", size: 13.0)
+            let attributeDict = [
+                NSFontAttributeName: font!,
+                NSForegroundColorAttributeName: greencolor
+            ]
+            searchTextField.attributedPlaceholder = NSAttributedString(string: "Wonach suchst du?", attributes: attributeDict)
+        }
+        searchTextField.textColor = UIColor.white
+        searchTextField.clearButtonMode = .never
+        if let glassIconView = searchTextField.leftView as? UIImageView {
+            glassIconView.image = glassIconView.image?.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
+            glassIconView.tintColor = greencolor
+        }
+    }
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if searchBar.text != "" && searchBar.text != nil {
@@ -139,7 +146,6 @@ class SearchViewController: UIViewController, UICollectionViewDelegate, UICollec
                 }
             }
             filterCollectionView.collectionViewLayout.invalidateLayout()
-
         }
         searchBar.resignFirstResponder()
         searchBar.text = ""
@@ -153,7 +159,7 @@ class SearchViewController: UIViewController, UICollectionViewDelegate, UICollec
 
     
     
-
+    //MARK: Load Listings
     
     func addPulltoRefresh() {
         refresher.addTarget(self, action: #selector(refresh), for: .valueChanged)
@@ -161,7 +167,6 @@ class SearchViewController: UIViewController, UICollectionViewDelegate, UICollec
     }
     
     func refresh() {
-        
         noListingsLabel.isHidden = true
         if listings.isEmpty {
             for _ in 0...10 {
@@ -181,7 +186,6 @@ class SearchViewController: UIViewController, UICollectionViewDelegate, UICollec
     }
   
     func loadListings(page :Int, completion: @escaping (() -> Void)) {
-        
         currentRequest = NetworkManager.shared.getAdsSatisfying(filterArray: FilterManager.shared.filters, page: page, completion: { (listings, error) in
             completion()
             if error == nil && listings != nil {

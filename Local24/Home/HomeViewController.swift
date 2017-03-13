@@ -65,6 +65,8 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
    
     }
     
+    // MARK: Methods
+    
     func getFeaturedListings(completion: @escaping (_ error:Error?) -> Void) {
         _ = NetworkManager.shared.getAdsSatisfying(filterArray: FilterManager.shared.filters, page: 0, completion: {(listings, error) in
             if error == nil && listings != nil {
@@ -83,36 +85,12 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         })
     }
     
-    func configureSearchBar() {
-        searchBar.tintColor = UIColor.white
-        searchBar.searchBarStyle = .minimal
-        searchBar.delegate = self
-        let searchTextField = searchBar.value(forKey: "searchField") as! UITextField
-        if searchTextField.responds(to: #selector(getter: UITextField.attributedPlaceholder)) {
-            let font = UIFont(name: "OpenSans", size: 13.0)
-            let attributeDict = [
-                NSFontAttributeName: font!,
-                NSForegroundColorAttributeName: greencolor
-            ]
-            searchTextField.attributedPlaceholder = NSAttributedString(string: "Wonach suchst du?", attributes: attributeDict)
-        }
-        searchTextField.textColor = UIColor.white
-        searchTextField.clearButtonMode = .never
-        if let glassIconView = searchTextField.leftView as? UIImageView {
-            glassIconView.image = glassIconView.image?.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
-            glassIconView.tintColor = greencolor
-        }
-    }
-
-
-
 
     // MARK: UICollectionViewDataSource
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
-
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return homeCategories.count + 1
@@ -183,6 +161,26 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         }
     }
     
+    func configureSearchBar() {
+        searchBar.tintColor = UIColor.white
+        searchBar.searchBarStyle = .minimal
+        searchBar.delegate = self
+        let searchTextField = searchBar.value(forKey: "searchField") as! UITextField
+        if searchTextField.responds(to: #selector(getter: UITextField.attributedPlaceholder)) {
+            let font = UIFont(name: "OpenSans", size: 13.0)
+            let attributeDict = [
+                NSFontAttributeName: font!,
+                NSForegroundColorAttributeName: greencolor
+            ]
+            searchTextField.attributedPlaceholder = NSAttributedString(string: "Wonach suchst du?", attributes: attributeDict)
+        }
+        searchTextField.textColor = UIColor.white
+        searchTextField.clearButtonMode = .never
+        if let glassIconView = searchTextField.leftView as? UIImageView {
+            glassIconView.image = glassIconView.image?.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
+            glassIconView.tintColor = greencolor
+        }
+    }
     
     // MARK: Navigation
     

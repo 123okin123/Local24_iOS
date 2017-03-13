@@ -13,11 +13,14 @@ private let featuredListingsCellID = "featuredListingsCellID"
 private let loadFeaturedListingsCellID = "loadFeaturedListingsCellID"
 class HomeHeaderCollectionReusableView: UICollectionReusableView, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
+    // MARK: IBOutlets
+    
     @IBOutlet weak var featuredListingsCollectionView: UICollectionView!
     @IBOutlet weak var currentLocationButton: UIButton! {didSet {
         currentLocationButton.layer.cornerRadius = 5
         }}
     
+    // MARK: Variables
     
     var homeViewController :HomeViewController!
     
@@ -27,6 +30,8 @@ class HomeHeaderCollectionReusableView: UICollectionReusableView, UICollectionVi
         featuredListingsCollectionView.dataSource = self
         featuredListingsCollectionView.reloadData()
     }
+    
+    // MARK: UICollectionViewDataSource
   
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
@@ -61,16 +66,18 @@ class HomeHeaderCollectionReusableView: UICollectionReusableView, UICollectionVi
             }
             return cell
         }
-        
     }
-    
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return homeViewController.featuredListings.count
     }
+    
+    // MARK: UICollectionViewDelegate
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let listing = homeViewController.featuredListings[indexPath.item]
         if let detailVC = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "detailViewControllerID") as? LocalDetailTableViewController {
