@@ -12,7 +12,11 @@ import UIKit
 
 class CollectionViewDataSource :NSObject, UICollectionViewDataSource {
     
+    //MARK: Variables
+    
     var searchViewController :SearchViewController!
+    
+    
     
     init(collectionView: UICollectionView, viewController: SearchViewController) {
         super.init()
@@ -20,11 +24,11 @@ class CollectionViewDataSource :NSObject, UICollectionViewDataSource {
         self.searchViewController = viewController
     }
     
+    // MARK: UICollectionViewDataSource
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
-    
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return searchViewController.listings.count/* + numberOfAds*/
@@ -58,11 +62,7 @@ class CollectionViewDataSource :NSObject, UICollectionViewDataSource {
         })
         return cell
     }
-    
-    
-    
-    
-    
+
     func configureListingCellAt(collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ListingsCell", for: indexPath) as! CollectionViewCell
         var index:Int!
@@ -90,9 +90,9 @@ class CollectionViewDataSource :NSObject, UICollectionViewDataSource {
                 if let imageUrl = URL(string: thumbImageURL) {
                     cell.listingImage.setImage(withUrl: imageUrl, placeholder: UIImage(named: "home_Background"), crossFadePlaceholder: true, cacheScaled: true, completion: { instance, error in
                         if instance?.image != nil {
-                        cell.listingImage.layer.add(CATransition(), forKey: nil)
-                        cell.listingImage.image = instance?.image
-                        listing.thumbImage = instance?.image
+                            cell.listingImage.layer.add(CATransition(), forKey: nil)
+                            cell.listingImage.image = instance?.image
+                            listing.thumbImage = instance?.image
                         } else {
                             let image = UIImage(named: "home_Background")
                             cell.listingImage.image = image
@@ -106,7 +106,6 @@ class CollectionViewDataSource :NSObject, UICollectionViewDataSource {
         } else {
             cell.listingImage.image = listing.thumbImage
         }
-        
         return cell
     }
     

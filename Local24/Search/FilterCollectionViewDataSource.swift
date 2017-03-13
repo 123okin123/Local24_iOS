@@ -10,14 +10,20 @@ import Foundation
 import UIKit
 
 class FilterCollectionViewDataSource :NSObject, UICollectionViewDataSource {
-
+    
+    //MARK: Variables
+    
     var collectionViewController :UIViewController?
+    
+    
     
     init(collectionView: UICollectionView, viewController: UIViewController) {
         super.init()
         collectionView.dataSource = self
         collectionViewController = viewController
     }
+    
+    // MARK: UICollectionViewDataSource
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterCell", for: indexPath) as! FilterCollectionViewCell
