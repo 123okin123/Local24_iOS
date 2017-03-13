@@ -91,7 +91,7 @@ class FilterViewController: UITableViewController, UITextFieldDelegate {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         trackScreen("Filter")
-        
+        checkForAdditionalfilters()
         rangeSlider.setUpperValue(Float(upperValue), animated: true)
         rangeSlider.setLowerValue(Float(lowerValue), animated: true)
         rangeSlider.minimumValue = 0
@@ -157,7 +157,13 @@ class FilterViewController: UITableViewController, UITextFieldDelegate {
     }
     
     func checkForAdditionalfilters() {
-        
+        if let subCatFilter = FilterManager.shared.getFilter(withName: .subcategory) as? Termfilter {
+            if let subCat = CategoryManager.shared.subCategories.first(where: {$0.name == subCatFilter.value}) {
+                if let specialFields = SpecialFieldsManager.shared.getSpecialFieldsFor(entityType: subCat.adclass) {
+                
+                }
+            }
+        }
         
         
 /*

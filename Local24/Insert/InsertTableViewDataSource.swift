@@ -53,55 +53,6 @@ extension InsertTableViewController: InsertImageCellDelegate {
     }
 
     
-//    func populateCustomFields() {
-//        self.customFields.removeAll()
-//        if let path = Bundle.main.path(forResource: "specialFields", ofType: "json") {
-//            do {
-//                let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .alwaysMapped)
-//                let json = JSON(data: data)
-//                if json != JSON.null {
-//                    
-//                    guard let entityType = listing.entityType else {return}
-//                    
-//                    if let fields = json[entityType].dictionary {
-//                        for field in fields {
-//                            let specialField = SpecialField(entityType: entityType, name: field.key)
-//                            if !specialField.hasDependentField {
-//                                self.customFields.append(specialField)
-//                            }
-//                            
-//                            if entityType == "AdApartment" && self.independentFieldLabel.text == "Verkauf"{
-//                                if let index = self.customFields.index(where: {$0.name == "AdditionalCosts"}) {self.customFields.remove(at: index)}
-//                                if let index = self.customFields.index(where: {$0.name == "DepositAmount"}) {self.customFields.remove(at: index)}
-//                            }
-//                            if entityType == "AdHouse" && self.independentFieldLabel.text == "Verkauf"{
-//                                if let index = self.customFields.index(where: {$0.name == "AdditionalCosts"}) {self.customFields.remove(at: index)}
-//                                if let index = self.customFields.index(where: {$0.name == "DepositAmount"}) {self.customFields.remove(at: index)}
-//                            }
-//                        }
-//                        if self.customFields.count > 0 {
-//                            for i in 0...self.customFields.count - 1 {
-//                                self.customFieldCellCollection[i].textLabel?.text = self.customFields[i].descriptiveString
-//                                self.customFieldCellCollection[i].textField.placeholder = self.customFields[i].possibleStringValues?[0]
-//                            }
-//                        }
-//                        self.tableView.reloadData()
-//                    } else {
-//                        print("entitytype not in json")
-//                        self.customFields.removeAll()
-//                        self.independentFieldLabel.text = ""
-//                        self.dependentFieldLabel.text = ""
-//                        self.tableView.reloadData()
-//                    }
-//                } else {
-//                    print("Could not get json from file, make sure that file contains valid json.")
-//                }
-//            } catch let error {
-//                print(error.localizedDescription)
-//            }
-//        }
-//    }
-    
     //MARK: TableViewDataSource
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
