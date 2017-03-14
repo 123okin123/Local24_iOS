@@ -112,6 +112,10 @@ public enum filterName :String {
     case category
     case subcategory
     case sourceId
+    //Special Fields
+    // Adcar
+    case mileage
+    case powerPS
 }
 
 

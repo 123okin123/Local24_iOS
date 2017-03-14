@@ -137,7 +137,7 @@ class FilterManager {
                 }
                 let rangeJson = [
                     "range": [
-                        rangefilter.name: range                    ]
+                        rangefilter.name.rawValue: range                    ]
                 ]
                 filterJson.append(rangeJson)
             case .sort:
@@ -247,6 +247,7 @@ class FilterManager {
                         ]
                 ]
             }
+            print(query)
             let request = ["query": query,"from": from, "size": size, "sort": sort] as [String : Any]
             let json = JSON(request)
             print(json)

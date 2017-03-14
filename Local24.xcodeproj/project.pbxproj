@@ -63,6 +63,7 @@
 		CD7DD35C1E76BA2F00F56B3F /* SpecialFieldsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7DD35B1E76BA2F00F56B3F /* SpecialFieldsManager.swift */; };
 		CD7DD35E1E76BC9A00F56B3F /* SpecialField.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7DD35D1E76BC9A00F56B3F /* SpecialField.swift */; };
 		CD7DD3611E76C1C300F56B3F /* CategoryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7DD3601E76C1C300F56B3F /* CategoryManager.swift */; };
+		CD7DD3631E76D2FB00F56B3F /* SpecialRangeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7DD3621E76D2FB00F56B3F /* SpecialRangeCell.swift */; };
 		CD84C5921C88844400A6E8A4 /* LocalDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD84C5911C88844400A6E8A4 /* LocalDetailTableViewController.swift */; };
 		CD8B74FB1E719356007ADB76 /* InitialSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8B74FA1E719356007ADB76 /* InitialSegue.swift */; };
 		CD993E091DF9AFAF00F686C7 /* MyAdsDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD993E081DF9AFAF00F686C7 /* MyAdsDetailViewController.swift */; };
@@ -203,11 +204,12 @@
 		CD65D2541C60FD6400AD89DF /* ZipGeo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ZipGeo.swift; path = Model/ZipGeo.swift; sourceTree = "<group>"; };
 		CD6A262A1E08047A00CD22EB /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = RegisterViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		CD7754201C71C0E200253B7B /* CenterLocationButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CenterLocationButton.swift; path = Location/CenterLocationButton.swift; sourceTree = "<group>"; };
-		CD7DD3571E76A7E400F56B3F /* SwiftyJSON.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SwiftyJSON.txt; sourceTree = "<group>"; };
+		CD7DD3571E76A7E400F56B3F /* SwiftyJSON.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = SwiftyJSON.txt; path = SupportingFiles/Licences/SwiftyJSON.txt; sourceTree = "<group>"; };
 		CD7DD3591E76A9C600F56B3F /* ImagePicker.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ImagePicker.txt; sourceTree = "<group>"; };
 		CD7DD35B1E76BA2F00F56B3F /* SpecialFieldsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpecialFieldsManager.swift; sourceTree = "<group>"; };
 		CD7DD35D1E76BC9A00F56B3F /* SpecialField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SpecialField.swift; path = Model/SpecialField.swift; sourceTree = "<group>"; };
 		CD7DD3601E76C1C300F56B3F /* CategoryManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryManager.swift; sourceTree = "<group>"; };
+		CD7DD3621E76D2FB00F56B3F /* SpecialRangeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SpecialRangeCell.swift; path = Search/SpecialRangeCell.swift; sourceTree = "<group>"; };
 		CD84C5911C88844400A6E8A4 /* LocalDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocalDetailTableViewController.swift; path = Detail/LocalDetailTableViewController.swift; sourceTree = "<group>"; };
 		CD8B74FA1E719356007ADB76 /* InitialSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitialSegue.swift; sourceTree = "<group>"; };
 		CD993E081DF9AFAF00F686C7 /* MyAdsDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MyAdsDetailViewController.swift; path = Account/MyAdsDetailViewController.swift; sourceTree = "<group>"; };
@@ -532,6 +534,7 @@
 				CD5D16F31C917A6300ACE365 /* FilterViewController.swift */,
 				CD286E451CCE383B004675A9 /* FilterSelectTableViewController.swift */,
 				CD286E471CCE455C004675A9 /* FilterMoreSelectTableViewController.swift */,
+				CD7DD3621E76D2FB00F56B3F /* SpecialRangeCell.swift */,
 			);
 			name = Filter;
 			sourceTree = "<group>";
@@ -988,6 +991,7 @@
 				CDCA848D1DE30CA800F71A42 /* AccountHeaderView.swift in Sources */,
 				CD1D88821DF072A100DF2688 /* AddImageCollectionViewCell.swift in Sources */,
 				CD7DD35E1E76BC9A00F56B3F /* SpecialField.swift in Sources */,
+				CD7DD3631E76D2FB00F56B3F /* SpecialRangeCell.swift in Sources */,
 				CDA9CCDA1C073236005ED562 /* MoreViewController.swift in Sources */,
 				CD5911A71E5DC17C00C6DA99 /* CollectionViewDataSource.swift in Sources */,
 				CDD729051E130051009F0B99 /* InsertTextFieldPicker.swift in Sources */,

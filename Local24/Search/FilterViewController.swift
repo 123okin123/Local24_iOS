@@ -20,17 +20,22 @@ class FilterViewController: UITableViewController, UITextFieldDelegate {
     @IBOutlet weak var categoryLabel: UILabel!
     @IBOutlet weak var sortingLabel: UILabel!
     @IBOutlet weak var onlyLocalListingsSwitch: UISwitch!
-    @IBOutlet weak var sliderTableViewCell: UITableViewCell!
-    @IBOutlet weak var rangeSlider: NMRangeSlider!
-    @IBOutlet weak var rangeSliderLabel: UILabel!
+
+    
+    @IBOutlet var specialRangeCells: [SpecialRangeCell]! {didSet {
+        var i = 1
+        for cell in specialRangeCells {
+            cell.rangeSlider.tag = i
+            cell.rangeSlider.addTarget(self, action: #selector(rangeSliderValueChanged(_:)), for: .valueChanged)
+            i += 1
+        }
+        }}
+
     
     // MARK: Variables
     
-    var upperValue = 500000
-    var lowerValue = 0
-
-    var sliderSectionHeaderString = ""
-    var showCarfilters = false
+    var specialFields = [SpecialField]()
+  
 
     // MARK: IBActions
     
@@ -42,19 +47,29 @@ class FilterViewController: UITableViewController, UITextFieldDelegate {
         }
     }
 
-    @IBAction func rangeSliderValueChanged(_ sender: NMRangeSlider) {
-        if sliderSectionHeaderString == "Maximale Laufleistung" {
-            upperValue = Int(round(sender.upperValue/1000)*1000)
-            lowerValue = Int(round(sender.lowerValue/1000)*1000)
-            
-            let formater = NumberFormatter()
-            formater.numberStyle = .decimal
-            let lowerValueString = formater.string(from: NSNumber(value: lowerValue))
-            let upperValueString = formater.string(from: NSNumber(value: upperValue))
-            rangeSliderLabel.text = "von " + lowerValueString! + " km bis " + upperValueString! + " km"
-            
-            
+    func rangeSliderValueChanged(_ sender: NMRangeSlider) {
+        print("lower Value: \(sender.lowerValue)")
+        print("upper Value: \(sender.upperValue)")
+        let upperValue = Int(round(sender.upperValue/1000)*1000)
+        let lowerValue = Int(round(sender.lowerValue/1000)*1000)
+        print("tag: \(sender.tag)")
+        let formater = NumberFormatter()
+        formater.numberStyle = .decimal
+        guard let lowerValueString = formater.string(from: NSNumber(value: lowerValue)) else {return}
+        guard let upperValueString = formater.string(from: NSNumber(value: upperValue)) else {return}
+        
+        let rangeTag = sender.tag
+        guard let specialRangeCell = specialRangeCells.first(where: {$0.rangeSlider.tag == rangeTag}) else {return}
+        if let unit = specialRangeCell.unit {
+            specialRangeCell.upperRangeLabel.text = "bis " + upperValueString + " " + unit
+            specialRangeCell.lowerRangeLabel.text = "von " + lowerValueString + " " + unit
+        } else {
+            specialRangeCell.upperRangeLabel.text = "bis " + upperValueString
+            specialRangeCell.lowerRangeLabel.text = "von " + lowerValueString
         }
+        guard let filterName = filterName(rawValue: specialRangeCell.searchIndexName) else {return}
+        let filter = Rangefilter(name: filterName, descriptiveString: specialRangeCell.descriptionLabel.text!, gte: Double(lowerValue), lte: Double(upperValue))
+        FilterManager.shared.setfilter(newfilter: filter)
     }
     
     // MARK: - ViewController Lifecycle
@@ -86,17 +101,18 @@ class FilterViewController: UITableViewController, UITextFieldDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         loadfilters()
+        checkForAdditionalfilters()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         trackScreen("Filter")
-        checkForAdditionalfilters()
-        rangeSlider.setUpperValue(Float(upperValue), animated: true)
-        rangeSlider.setLowerValue(Float(lowerValue), animated: true)
-        rangeSlider.minimumValue = 0
-        rangeSlider.maximumValue = 500000
-        rangeSlider.stepValue = 5000
+        
+//        rangeSlider.setUpperValue(Float(upperValue), animated: true)
+//        rangeSlider.setLowerValue(Float(lowerValue), animated: true)
+//        rangeSlider.minimumValue = 0
+//        rangeSlider.maximumValue = 500000
+//        rangeSlider.stepValue = 5000
     }
     
     
@@ -159,31 +175,25 @@ class FilterViewController: UITableViewController, UITextFieldDelegate {
     func checkForAdditionalfilters() {
         if let subCatFilter = FilterManager.shared.getFilter(withName: .subcategory) as? Termfilter {
             if let subCat = CategoryManager.shared.subCategories.first(where: {$0.name == subCatFilter.value}) {
-                if let specialFields = SpecialFieldsManager.shared.getSpecialFieldsFor(entityType: subCat.adclass) {
-                
+                if let specialFields = SpecialFieldsManager.shared.getSpecialFieldsFor(entityType: subCat.adclass, withType: .int, withExistingSearchIndexName: true) {
+                self.specialFields = specialFields
+                    if self.specialFields.count > 0 {
+                        for i in 0...self.specialFields.count - 1 {
+                            let specialField = self.specialFields[i]
+                            let specialFieldCell = self.specialRangeCells[i]
+                            specialFieldCell.descriptionLabel.text = specialField.descriptiveString
+                            specialFieldCell.rangeSlider.minimumValue = Float((specialField.possibleValues as! [Int]).first!)
+                            specialFieldCell.rangeSlider.maximumValue = Float((specialField.possibleValues as! [Int]).last!)
+                            specialFieldCell.rangeSlider.stepValue = Float((specialField.possibleValues as! [Int]).first!.advanced(by: 1) - (specialField.possibleValues as! [Int]).first!)
+                            specialFieldCell.unit = specialField.unit
+                            specialFieldCell.searchIndexName = specialField.searchIndexName!
+                        }
+                    }
+                    self.tableView.reloadData()
                 }
             }
         }
         
-        
-/*
-        if filter.mainCategoryID == 0 && filter.subCategoryID == 1 {
-            lowerValue = filter.minMileAge
-            upperValue = filter.maxMileAge
-            sliderSectionHeaderString = "Maximale Laufleistung"
-            rangeSliderLabel.text = "von \(lowerValue) bis \(upperValue) km"
-        
-            rangeSlider.minimumValue = 0
-            rangeSlider.maximumValue = 500000
-            rangeSlider.stepValue = 5000
-
-            showCarfilters = true
-            
-        } else {
-            showCarfilters = false
-        }
-        tableView.reloadSections(IndexSet(integer: 4), with: .none)
- */
     }
     
 
@@ -191,14 +201,21 @@ class FilterViewController: UITableViewController, UITextFieldDelegate {
 
     // MARK: - UITableViewDataSource
     
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
-        case 4:
-            return sliderSectionHeaderString
-        default:
-            return nil
+        case 0: return 1
+        case 1: return 1
+        case 2: return 2
+        case 3: return 1
+        case 4: return specialFields.filter({$0.type == .int}).count
+        case 5: return 1
+        case 6: return 1
+        default: return 0
         }
-        
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    return nil
     }
   
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -264,7 +281,7 @@ class FilterViewController: UITableViewController, UITextFieldDelegate {
     func shouldHideSection(_ section: Int) -> Bool {
         switch section {
         case 4:
-            if showCarfilters { return false }
+            if specialFields.filter({$0.type == .int}).count != 0 { return false }
             else { return true }
         default: return false
         }

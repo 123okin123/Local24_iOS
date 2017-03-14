@@ -31,4 +31,30 @@ class SpecialFieldsManager {
                 return nil
             }
     }
+    
+    
+    
+    func getSpecialFieldsFor(entityType :String, withType type: SpecialFieldType, withExistingSearchIndexName searchIndexNameShouldExist: Bool) -> [SpecialField]? {
+        var specialFieldsRaw = [SpecialField]()
+        guard let path = Bundle.main.path(forResource: "specialFields", ofType: "json") else {return nil}
+        do {
+            let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .alwaysMapped)
+            let json = JSON(data: data)
+            guard json != JSON.null else {return nil}
+            guard let fields = json[entityType].dictionary else {return nil}
+            for field in fields {
+                let specialField = SpecialField(entityType: entityType, name: field.key)
+                specialFieldsRaw.append(specialField)
+            }
+            if searchIndexNameShouldExist {
+                return specialFieldsRaw.filter({$0.searchIndexName != nil}).filter({$0.type == type})
+            } else {
+            return specialFieldsRaw.filter({$0.type == type})
+            }
+            
+        } catch let error {
+            print(error.localizedDescription)
+            return nil
+        }
+    }
 }

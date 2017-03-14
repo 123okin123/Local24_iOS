@@ -10,7 +10,8 @@ import Foundation
 import SwiftyJSON
 
 class SpecialField {
-    var name:String?
+    var name:String!
+    var searchIndexName :String?
     var descriptiveString :String?
     var value :Any?
     var possibleValues :[Any]?
@@ -21,6 +22,7 @@ class SpecialField {
     var dependsOn :SpecialField?
     var dependingField :SpecialField?
     var unit: String?
+    
     
     var valueString :String? {
         var string :String?
@@ -66,10 +68,7 @@ class SpecialField {
         return stringValues
     }
     
-    enum SpecialFieldType :String {
-        case string
-        case int
-    }
+
     
     
     init(entityType: String, name: String) {
@@ -90,6 +89,7 @@ class SpecialField {
                             if let type = field["type"]?.string {
                                 self.type = SpecialFieldType.init(rawValue: type)
                             }
+                            self.searchIndexName = field["searchIndexName"]?.string
                         }
                     }
                 } else {
@@ -121,4 +121,17 @@ class SpecialField {
         self.possibleValues = possibleValues
         self.type = type
     }
+}
+
+
+
+
+
+
+
+
+
+enum SpecialFieldType :String {
+    case string
+    case int
 }
