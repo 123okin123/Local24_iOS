@@ -56,12 +56,19 @@ public class Geofilter: Filter {
 }
 
 public class Rangefilter :Filter {
+    var unit :String?
     var gte :Double? //Lower value
     var lte :Double? //Upper Value
     init(name: filterName, descriptiveString :String, gte: Double?, lte: Double?) {
         super.init(name: name, descriptiveString: descriptiveString, filterType: .range)
         self.gte = gte
         self.lte = lte
+    }
+    init(name: filterName, descriptiveString :String, gte: Double?, lte: Double?, unit: String?) {
+        super.init(name: name, descriptiveString: descriptiveString, filterType: .range)
+        self.gte = gte
+        self.lte = lte
+        self.unit = unit
     }
 }
 

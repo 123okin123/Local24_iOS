@@ -54,11 +54,20 @@ class FilterCollectionViewDataSource :NSObject, UICollectionViewDataSource {
         case .range:
             let rangeFilter = filter as! Rangefilter
             var value = ""
-            if let gte = rangeFilter.gte {
-                value += "von \(Int(gte))€ "
-            }
-            if let lte = rangeFilter.lte {
-                value += "bis \(Int(lte))€"
+            if let unit = rangeFilter.unit {
+                if let gte = rangeFilter.gte {
+                    value += "von \(Int(gte))\(unit) "
+                }
+                if let lte = rangeFilter.lte {
+                    value += "bis \(Int(lte))\(unit)"
+                }
+            } else {
+                if let gte = rangeFilter.gte {
+                    value += "von \(Int(gte)) "
+                }
+                if let lte = rangeFilter.lte {
+                    value += "bis \(Int(lte))"
+                }
             }
             cell.filtervalue.text = value
             cell.imageViewWidthConstraint.constant = 10

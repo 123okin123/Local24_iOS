@@ -68,7 +68,7 @@ class FilterViewController: UITableViewController, UITextFieldDelegate {
             specialRangeCell.lowerRangeLabel.text = "von " + lowerValueString
         }
         guard let filterName = filterName(rawValue: specialRangeCell.searchIndexName) else {return}
-        let filter = Rangefilter(name: filterName, descriptiveString: specialRangeCell.descriptionLabel.text!, gte: Double(lowerValue), lte: Double(upperValue))
+        let filter = Rangefilter(name: filterName, descriptiveString: specialRangeCell.descriptionLabel.text!, gte: Double(lowerValue), lte: Double(upperValue), unit: specialRangeCell.unit)
         FilterManager.shared.setfilter(newfilter: filter)
     }
     
@@ -158,7 +158,7 @@ class FilterViewController: UITableViewController, UITextFieldDelegate {
             }
             case maxPriceTextField, minPriceTextField:
                 if maxPriceTextField.text != "" || minPriceTextField.text != "" {
-                    let priceRange = Rangefilter(name: .price, descriptiveString: "Preis", gte: nil, lte: nil)
+                    let priceRange = Rangefilter(name: .price, descriptiveString: "Preis", gte: nil, lte: nil, unit: "€")
                     if maxPriceTextField.text != "" {
                         priceRange.lte = Double(maxPriceTextField.text!)
                     }
