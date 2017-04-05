@@ -242,7 +242,7 @@ class MyAdsDetailViewController: UIViewController, UITableViewDataSource, UITabl
             
             if (UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!)) {
                 UIApplication.shared.openURL(URL(string:
-                    "comgooglemaps://?saddr=&daddr=\(self.listing.adLat),\(self.listing.adLong)&directionsmode=driving")!)
+                    "comgooglemaps://?saddr=&daddr=\(String(describing: self.listing.adLat)),\(String(describing: self.listing.adLong))&directionsmode=driving")!)
             }
         })
         let cancelAction = UIAlertAction(title: "Abbrechen", style: .cancel, handler: nil)
