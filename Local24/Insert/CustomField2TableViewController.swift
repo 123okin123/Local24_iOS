@@ -12,16 +12,16 @@ class CustomField2TableViewController: UITableViewController {
 
     
     var catID :Int!
-    var entityType :String!
+    var entityType :AdClass!
     var independetField :(name: String, descriptiveString: String)!
     var independetFieldValue :String!
     
 
     var dependentField :(name: String, descriptiveString: String)! {get{
-        switch entityType {
-        case "AdCar": return ("Model", "Model")
-        case "AdApartment": return ("PriceTypeProperty", "Preisart")
-        case "AdHouse": return ("PriceTypeProperty", "Preisart")
+        switch entityType! {
+        case .AdCar: return ("Model", "Model")
+        case .AdApartment: return ("PriceTypeProperty", "Preisart")
+        case .AdHouse: return ("PriceTypeProperty", "Preisart")
         default: return nil
         }
         }}

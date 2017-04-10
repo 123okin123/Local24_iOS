@@ -198,8 +198,8 @@ public class NetworkManager  {
     
     // MARK: Forms
     
-    class func getValuesForDepending(field: String, independendField: String, value: String, entityType: String, completion: @escaping (_ values: [String]?, _ error: Error?) -> Void) {
-        Alamofire.request("https://cfw-api-11.azurewebsites.net/forms/\(entityType)/options", method: .get, parameters: ["name": entityType,"dependson": independendField, "value": value]).responseJSON(completionHandler: { response in
+    class func getValuesForDepending(field: String, independendField: String, value: String, entityType: AdClass, completion: @escaping (_ values: [String]?, _ error: Error?) -> Void) {
+        Alamofire.request("https://cfw-api-11.azurewebsites.net/forms/\(entityType.rawValue)/options", method: .get, parameters: ["name": entityType.rawValue,"dependson": independendField, "value": value]).responseJSON(completionHandler: { response in
             if response.result.isSuccess {
                 if let json = response.result.value as? [[AnyHashable: Any]] {
                

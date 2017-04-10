@@ -13,14 +13,14 @@ class SpecialFieldsManager {
     
     static let shared = SpecialFieldsManager()
     
-    func getSpecialFieldsFor(entityType :String) -> [SpecialField]? {
+    func getSpecialFieldsFor(entityType :AdClass) -> [SpecialField]? {
         var specialFields = [SpecialField]()
         guard let path = Bundle.main.path(forResource: "specialFields", ofType: "json") else {return nil}
             do {
                 let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .alwaysMapped)
                 let json = JSON(data: data)
                 guard json != JSON.null else {return nil}
-                guard let fields = json[entityType].dictionary else {return nil}
+                guard let fields = json[entityType.rawValue].dictionary else {return nil}
                 for field in fields {
                     let specialField = SpecialField(entityType: entityType, name: field.key)
                     specialFields.append(specialField)
@@ -34,14 +34,14 @@ class SpecialFieldsManager {
     
     
     
-    func getSpecialFieldsFor(entityType :String, withType type: SpecialFieldType, withExistingSearchIndexName searchIndexNameShouldExist: Bool) -> [SpecialField]? {
+    func getSpecialFieldsFor(entityType :AdClass, withType type: SpecialFieldType, withExistingSearchIndexName searchIndexNameShouldExist: Bool) -> [SpecialField]? {
         var specialFieldsRaw = [SpecialField]()
         guard let path = Bundle.main.path(forResource: "specialFields", ofType: "json") else {return nil}
         do {
             let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .alwaysMapped)
             let json = JSON(data: data)
             guard json != JSON.null else {return nil}
-            guard let fields = json[entityType].dictionary else {return nil}
+            guard let fields = json[entityType.rawValue].dictionary else {return nil}
             for field in fields {
                 let specialField = SpecialField(entityType: entityType, name: field.key)
                 specialFieldsRaw.append(specialField)
@@ -55,6 +55,14 @@ class SpecialFieldsManager {
         } catch let error {
             print(error.localizedDescription)
             return nil
+        }
+    }
+    
+    func entityTypHasSpecialFields(_ entityType: AdClass, inSearchIndex: Bool, withType type: SpecialFieldType) -> Bool {
+        if let _ = getSpecialFieldsFor(entityType: entityType, withType: type, withExistingSearchIndexName: inSearchIndex) {
+        return true
+        } else {
+        return false
         }
     }
 }

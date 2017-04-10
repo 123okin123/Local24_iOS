@@ -21,15 +21,15 @@ class SelectSubCategoryTableViewController: UITableViewController {
         self.title = parentCategoryName
         subCategories = CategoryManager.shared.subCategories.filter({
                 $0.idParentCategory == parentCategoryID &&
-                        $0.adclass != "AdTruck" &&
-                        $0.adclass != "AdCat" &&
-                        $0.adclass != "AdCommune" &&
-                        $0.adclass != "AdDating" &&
-                        $0.adclass != "AdDog" &&
-                        $0.adclass != "AdHorse" &&
-                        $0.adclass != "AdJob" &&
-                        $0.adclass != "AdMotorcycle" &&
-                        $0.adclass != "AdOtherProperty"
+                        $0.adclass != .AdTruck &&
+                        $0.adclass != .AdCat &&
+                        $0.adclass != .AdCommune &&
+                        $0.adclass != .AdDating &&
+                        $0.adclass != .AdDog &&
+                        $0.adclass != .AdHorse &&
+                        $0.adclass != .AdJob &&
+                        $0.adclass != .AdMotorcycle &&
+                        $0.adclass != .AdOtherProperty
                 })
   
     }
@@ -76,7 +76,7 @@ class SelectSubCategoryTableViewController: UITableViewController {
                 insertVC.categoryLabel.textColor = UIColor.black
                 insertVC.populateCustomFields()
                 
-                if subCategories[indexPath.row].adclass != "AdPlain" {
+                if subCategories[indexPath.row].adclass != .AdPlain {
                     let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
                     let customFieldVCID = storyboard.instantiateViewController(withIdentifier: "customFieldVCID") as! CustomFieldTableViewController
                     customFieldVCID.catID = subCategories[indexPath.row].id!

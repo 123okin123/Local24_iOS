@@ -8,8 +8,8 @@
 
 import Foundation
 
-
 public class Filter {
+    var isSpecial = false
     var name: filterName!
     var descriptiveString: String!
     var filterType: filterType!

@@ -71,14 +71,14 @@ class SpecialField {
 
     
     
-    init(entityType: String, name: String) {
+    init(entityType: AdClass, name: String) {
         self.name = name
         if let path = Bundle.main.path(forResource: "specialFields", ofType: "json") {
             do {
                 let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .alwaysMapped)
                 let json = JSON(data: data)
                 if json != JSON.null {
-                    if let fields = json[entityType].dictionary {
+                    if let fields = json[entityType.rawValue].dictionary {
                         if let field = fields[name]?.dictionary {
                             self.descriptiveString = field["descriptiveString"]?.string
                             self.possibleValues = field["possibleValues"]?.arrayObject as [Any]?

@@ -56,13 +56,21 @@ class FilterManager {
     func removefilterWithIndex(index :Int) {
             filters.remove(at: index)
             delegate?.filtersDidChange()
-        
     }
     
     func removefilterWithName(name: filterName) {
         if let index = filters.index(where: {$0.name == name}) {
             filters.remove(at: index)
             delegate?.filtersDidChange()
+        }
+    }
+    
+    func removeSpecialFilters() {
+        for index in 0...filters.count - 1 {
+            let filter = filters[index]
+            if filter.isSpecial {
+                filters.remove(at: index)
+            }
         }
     }
     

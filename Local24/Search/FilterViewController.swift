@@ -29,7 +29,7 @@ class FilterViewController: UITableViewController, UITextFieldDelegate {
             cell.rangeSlider.addTarget(self, action: #selector(rangeSliderValueChanged(_:)), for: .valueChanged)
             i += 1
         }
-        }}
+    }}
 
     
     // MARK: Variables
@@ -67,10 +67,7 @@ class FilterViewController: UITableViewController, UITextFieldDelegate {
             specialRangeCell.upperRangeLabel.text = "bis " + upperValueString
             specialRangeCell.lowerRangeLabel.text = "von " + lowerValueString
         }
-        guard let filterName = filterName(rawValue: specialRangeCell.searchIndexName) else {return}
-        let filter = Rangefilter(name: filterName, descriptiveString: specialRangeCell.descriptionLabel.text!, gte: Double(lowerValue), lte: Double(upperValue), unit: specialRangeCell.unit)
-        FilterManager.shared.setfilter(newfilter: filter)
-    }
+            }
     
     // MARK: - ViewController Lifecycle
     
@@ -92,16 +89,27 @@ class FilterViewController: UITableViewController, UITextFieldDelegate {
             "screen": "filter" as NSObject
             ])
         }
+        
 //        let tracker = GAI.sharedInstance().defaultTracker
 //        tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Search", action: "searchInfilter", label: searchQueryTextField.text!, value: 0).build() as NSDictionary as! [AnyHashable: Any])
 //
 
+        FilterManager.shared.removeSpecialFilters()
+        for specialRangeCell in specialRangeCells {
+            if specialRangeCell.used {
+                let upperValue = Int(round(specialRangeCell.rangeSlider.upperValue/1000)*1000)
+                let lowerValue = Int(round(specialRangeCell.rangeSlider.lowerValue/1000)*1000)
+                guard let filterName = filterName(rawValue: specialRangeCell.searchIndexName) else {return}
+                let filter = Rangefilter(name: filterName, descriptiveString: specialRangeCell.descriptionLabel.text!, gte: Double(lowerValue), lte: Double(upperValue), unit: specialRangeCell.unit)
+                FilterManager.shared.setfilter(newfilter: filter)
+            }
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         loadfilters()
-        checkForAdditionalfilters()
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -116,9 +124,13 @@ class FilterViewController: UITableViewController, UITextFieldDelegate {
     }
     
     
+    
     func loadfilters() {
+        //SearchQuery
         searchQueryTextField.text = FilterManager.shared.getValueOffilter(withName: .search_string, filterType: .search_string)
+        //Location
         locationLabel.text = FilterManager.shared.getValueOffilter(withName: .geo_distance, filterType: .geo_distance)
+        //PriceRange
         if let priceRange = FilterManager.shared.getValuesOfRangefilter(withName: .price) {
             if let lte =  priceRange.lte {
                 maxPriceTextField.text = String(describing: Int(lte))
@@ -127,17 +139,28 @@ class FilterViewController: UITableViewController, UITextFieldDelegate {
                 minPriceTextField.text = String(describing: Int(gte))
             }
         }
+        //Category
         if let category = FilterManager.shared.getValueOffilter(withName: .category, filterType: .term) {
             categoryLabel.text = category
         } else {
             categoryLabel.text = "Alle Anzeigen"
         }
+        //Sorting
         sortingLabel.text = FilterManager.shared.getValueOffilter(withName: .sorting, filterType: .sort)
+        //Source
         if let source = FilterManager.shared.getValueOffilter(withName: .sourceId, filterType: .term) {
             if source == "MPS" {
                 onlyLocalListingsSwitch.setOn(false, animated: false)
             } else {
                 onlyLocalListingsSwitch.setOn(true, animated: false)
+            }
+        }
+        //SpecialFields Range
+        if let subCatFilter = FilterManager.shared.getFilter(withName: .subcategory) as? Termfilter {
+            if let subCat = CategoryManager.shared.subCategories.first(where: {$0.name == subCatFilter.value}) {
+                if SpecialFieldsManager.shared.entityTypHasSpecialFields(subCat.adclass, inSearchIndex: true, withType: .int) {
+                    loadAdditionalfilters()
+                }
             }
         }
     }
@@ -171,8 +194,11 @@ class FilterViewController: UITableViewController, UITextFieldDelegate {
         }
 
     }
-    
-    func checkForAdditionalfilters() {
+    /**
+     Method checks if current subcategory of the FilterManager needs additional filter options. If this is the case it fills the specialFields prop of the VC with the help of the SpecialFieldsManager and configures the specialRange cells. When finished it reloads the tableView of the VC.
+     */
+    func loadAdditionalfilters() {
+        specialFields.removeAll()
         if let subCatFilter = FilterManager.shared.getFilter(withName: .subcategory) as? Termfilter {
             if let subCat = CategoryManager.shared.subCategories.first(where: {$0.name == subCatFilter.value}) {
                 if let specialFields = SpecialFieldsManager.shared.getSpecialFieldsFor(entityType: subCat.adclass, withType: .int, withExistingSearchIndexName: true) {
@@ -181,6 +207,7 @@ class FilterViewController: UITableViewController, UITextFieldDelegate {
                         for i in 0...self.specialFields.count - 1 {
                             let specialField = self.specialFields[i]
                             let specialFieldCell = self.specialRangeCells[i]
+                            specialFieldCell.used = true
                             specialFieldCell.descriptionLabel.text = specialField.descriptiveString
                             specialFieldCell.rangeSlider.minimumValue = Float((specialField.possibleValues as! [Int]).first!)
                             specialFieldCell.rangeSlider.maximumValue = Float((specialField.possibleValues as! [Int]).last!)
@@ -189,11 +216,10 @@ class FilterViewController: UITableViewController, UITextFieldDelegate {
                             specialFieldCell.searchIndexName = specialField.searchIndexName!
                         }
                     }
-                    self.tableView.reloadData()
                 }
             }
         }
-        
+        self.tableView.reloadData()
     }
     
 

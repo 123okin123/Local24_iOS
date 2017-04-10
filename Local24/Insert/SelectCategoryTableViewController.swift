@@ -20,15 +20,15 @@ class SelectCategoryTableViewController: UITableViewController {
                     $0.name != "Kontaktanzeigen" &&
                     $0.name != "Flirt & Abenteuer" &&
                     $0.name != "Job" &&
-                    $0.adclass != "AdTruck" &&
-                    $0.adclass != "AdCat" &&
-                    $0.adclass != "AdCommune" &&
-                    $0.adclass != "AdDating" &&
-                    $0.adclass != "AdDog" &&
-                    $0.adclass != "AdHorse" &&
-                    $0.adclass != "AdJob" &&
-                    $0.adclass != "AdMotorcycle" &&
-                    $0.adclass != "AdOtherProperty"
+                    $0.adclass != .AdTruck &&
+                    $0.adclass != .AdCat &&
+                    $0.adclass != .AdCommune &&
+                    $0.adclass != .AdDating &&
+                    $0.adclass != .AdDog &&
+                    $0.adclass != .AdHorse &&
+                    $0.adclass != .AdJob &&
+                    $0.adclass != .AdMotorcycle &&
+                    $0.adclass != .AdOtherProperty
                 }
             mainCategories.sort(by: {$0.name! < $1.name!})
     }

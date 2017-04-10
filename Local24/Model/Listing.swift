@@ -21,7 +21,7 @@ class Listing :NSObject {
     var adDescription :String?
     var specialFields :[SpecialField]?
     var adType :AdType?
-    var entityType :String?
+    var entityType :AdClass?
     var price :String?
     var priceType :String?
     var priceWithCurrency :String? {get {
@@ -94,7 +94,7 @@ class Listing :NSObject {
             self.adType = AdType(rawValue: adType)
         }
         if let entityType = value["EntityType"] as? String {
-            self.entityType = entityType
+            self.entityType = AdClass(rawValue: entityType)
         }
         if let url = value["DetailPageLink"] as? String {
             self.url = URL(string: url)
@@ -187,7 +187,7 @@ class Listing :NSObject {
                 let json = JSON(data: data)
                 if json != JSON.null {
                     guard let entityType = self.entityType else {return}
-                    if let fields = json[entityType].dictionary {
+                    if let fields = json[entityType.rawValue].dictionary {
                         for field in fields {
                             let specialField = SpecialField(entityType: entityType, name: field.key)
                             specialField.value = value[field.key]
@@ -313,13 +313,14 @@ class Listing :NSObject {
     
 }
 
-
+/// Possible values: Gesuch, Angebot
 enum AdType :String{
     case Angebot
     case Gesuch
     static let allValues = [Angebot : "Angebot", Gesuch : "Gesuch"]
 }
 
+/// Possible values: active, paused, expired, deletedByAdvertiser
 enum AdState :String {
     case active
     case paused

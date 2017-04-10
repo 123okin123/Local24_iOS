@@ -11,13 +11,13 @@ import UIKit
 class CustomFieldTableViewController: UITableViewController {
 
     var catID :Int!
-    var entityType :String!
+    var entityType :AdClass!
     
     var independetField :(name: String, descriptiveString: String)! {get{
-        switch entityType {
-        case "AdCar": return ("Make", "Marke")
-        case "AdApartment": return ("SellOrRent", "Verkauf oder Vermietung")
-        case "AdHouse": return ("SellOrRent", "Verkauf oder Vermietung")
+        switch entityType! {
+        case .AdCar : return ("Make", "Marke")
+        case .AdApartment : return ("SellOrRent", "Verkauf oder Vermietung")
+        case .AdHouse : return ("SellOrRent", "Verkauf oder Vermietung")
         default: return nil
         }
         }}
