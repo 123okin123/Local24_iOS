@@ -97,7 +97,7 @@ class filterMoreSelectTableViewController: UITableViewController {
             FilterManager.shared.removefilterWithName(name: .subcategory)
         default: break;
         }
-        let filterVC = self.navigationController?.viewControllers[0] as! FilterViewController
+        let filterVC = self.navigationController?.viewControllers[0] as! FilterViewController1
         filterVC.tableView.reloadData()
         _ = self.navigationController?.popToRootViewController(animated: true)
     }

@@ -36,12 +36,13 @@ class CustomFieldTableViewController: UITableViewController {
         indicator.color = UIColor.darkGray
         view.addSubview(indicator)
         indicator.startAnimating()
-        let specialField = SpecialField(entityType: entityType, name: independetField.name)
+        if let specialField = SpecialFieldsManager.shared.getSpecialFieldWith(entityType: entityType, name: independetField.name) {
         if let values = specialField.possibleStringValues {
             indicator.removeFromSuperview()
             independentFieldOptions = values
             tableView.reloadData()
-        }        
+        }
+    }
     }
 
     override func didReceiveMemoryWarning() {

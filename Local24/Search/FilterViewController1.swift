@@ -9,10 +9,10 @@
 import UIKit
 import FirebaseAnalytics
 
-class FilterViewController: UITableViewController, UITextFieldDelegate {
+class FilterViewController1: UITableViewController, UITextFieldDelegate {
 
     //MARK: IBOutlets
-    
+    /*
     @IBOutlet weak var searchQueryTextField: UITextField!
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var minPriceTextField: UITextField!
@@ -26,19 +26,15 @@ class FilterViewController: UITableViewController, UITextFieldDelegate {
         var i = 1
         for cell in specialRangeCells {
             cell.rangeSlider.tag = i
-            cell.rangeSlider.addTarget(self, action: #selector(rangeSliderValueChanged(_:)), for: .valueChanged)
+            //cell.rangeSlider.addTarget(self, action: #selector(rangeSliderValueChanged(_:)), for: .valueChanged)
             i += 1
         }
     }}
-
-    
-    // MARK: Variables
-    
-    var specialFields = [SpecialField]()
+*/
   
 
     // MARK: IBActions
-    
+    /*
     @IBAction func onlyLocalListingsSwitchChanged(_ sender: UISwitch) {
         if sender.isOn {
             FilterManager.shared.removefilterWithName(name: .sourceId)
@@ -46,28 +42,29 @@ class FilterViewController: UITableViewController, UITextFieldDelegate {
             FilterManager.shared.setfilter(newfilter: Termfilter(name: .sourceId, descriptiveString: "Nur Local24 Anzeigen", value: "MPS"))
         }
     }
+ */
 
-    func rangeSliderValueChanged(_ sender: NMRangeSlider) {
-        print("lower Value: \(sender.lowerValue)")
-        print("upper Value: \(sender.upperValue)")
-        let upperValue = Int(round(sender.upperValue/1000)*1000)
-        let lowerValue = Int(round(sender.lowerValue/1000)*1000)
-        print("tag: \(sender.tag)")
-        let formater = NumberFormatter()
-        formater.numberStyle = .decimal
-        guard let lowerValueString = formater.string(from: NSNumber(value: lowerValue)) else {return}
-        guard let upperValueString = formater.string(from: NSNumber(value: upperValue)) else {return}
-        
-        let rangeTag = sender.tag
-        guard let specialRangeCell = specialRangeCells.first(where: {$0.rangeSlider.tag == rangeTag}) else {return}
-        if let unit = specialRangeCell.unit {
-            specialRangeCell.upperRangeLabel.text = "bis " + upperValueString + " " + unit
-            specialRangeCell.lowerRangeLabel.text = "von " + lowerValueString + " " + unit
-        } else {
-            specialRangeCell.upperRangeLabel.text = "bis " + upperValueString
-            specialRangeCell.lowerRangeLabel.text = "von " + lowerValueString
-        }
-            }
+//    func rangeSliderValueChanged(_ sender: NMRangeSlider) {
+//        print("lower Value: \(sender.lowerValue)")
+//        print("upper Value: \(sender.upperValue)")
+//        let upperValue = Int(round(sender.upperValue/1000)*1000)
+//        let lowerValue = Int(round(sender.lowerValue/1000)*1000)
+//        print("tag: \(sender.tag)")
+//        let formater = NumberFormatter()
+//        formater.numberStyle = .decimal
+//        guard let lowerValueString = formater.string(from: NSNumber(value: lowerValue)) else {return}
+//        guard let upperValueString = formater.string(from: NSNumber(value: upperValue)) else {return}
+//        
+//        let rangeTag = sender.tag
+//        guard let specialRangeCell = specialRangeCells.first(where: {$0.rangeSlider.tag == rangeTag}) else {return}
+//        if let unit = specialRangeCell.unit {
+//            specialRangeCell.upperRangeLabel.text = "bis " + upperValueString + " " + unit
+//            specialRangeCell.lowerRangeLabel.text = "von " + lowerValueString + " " + unit
+//        } else {
+//            specialRangeCell.upperRangeLabel.text = "bis " + upperValueString
+//            specialRangeCell.lowerRangeLabel.text = "von " + lowerValueString
+//        }
+//            }
     
     // MARK: - ViewController Lifecycle
     
@@ -75,40 +72,20 @@ class FilterViewController: UITableViewController, UITextFieldDelegate {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
-        searchQueryTextField.delegate = self
-        maxPriceTextField.delegate = self
-        minPriceTextField.delegate = self
+//        searchQueryTextField.delegate = self
+//        maxPriceTextField.delegate = self
+//        minPriceTextField.delegate = self
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.view.endEditing(true)
-        if searchQueryTextField.text != "" {
-        FIRAnalytics.logEvent(withName: kFIREventSearch, parameters: [
-            kFIRParameterSearchTerm: searchQueryTextField.text! as NSObject,
-            "screen": "filter" as NSObject
-            ])
-        }
-        
-//        let tracker = GAI.sharedInstance().defaultTracker
-//        tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Search", action: "searchInfilter", label: searchQueryTextField.text!, value: 0).build() as NSDictionary as! [AnyHashable: Any])
-//
-
-        FilterManager.shared.removeSpecialFilters()
-        for specialRangeCell in specialRangeCells {
-            if specialRangeCell.used {
-                let upperValue = Int(round(specialRangeCell.rangeSlider.upperValue/1000)*1000)
-                let lowerValue = Int(round(specialRangeCell.rangeSlider.lowerValue/1000)*1000)
-                guard let filterName = filterName(rawValue: specialRangeCell.searchIndexName) else {return}
-                let filter = Rangefilter(name: filterName, descriptiveString: specialRangeCell.descriptionLabel.text!, gte: Double(lowerValue), lte: Double(upperValue), unit: specialRangeCell.unit)
-                FilterManager.shared.setfilter(newfilter: filter)
-            }
-        }
+       // saveFilters()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        loadfilters()
+       // loadFilters()
         
     }
     
@@ -124,8 +101,8 @@ class FilterViewController: UITableViewController, UITextFieldDelegate {
     }
     
     
-    
-    func loadfilters() {
+    /*
+    func loadFilters() {
         //SearchQuery
         searchQueryTextField.text = FilterManager.shared.getValueOffilter(withName: .search_string, filterType: .search_string)
         //Location
@@ -156,14 +133,64 @@ class FilterViewController: UITableViewController, UITextFieldDelegate {
             }
         }
         //SpecialFields Range
-        if let subCatFilter = FilterManager.shared.getFilter(withName: .subcategory) as? Termfilter {
-            if let subCat = CategoryManager.shared.subCategories.first(where: {$0.name == subCatFilter.value}) {
-                if SpecialFieldsManager.shared.entityTypHasSpecialFields(subCat.adclass, inSearchIndex: true, withType: .int) {
-                    loadAdditionalfilters()
+        if let subCat = FilterManager.shared.getCurrentSubCategory() {
+            if SpecialFieldsManager.shared.entityTypHasSpecialFields(subCat.adclass, mustBeInSearchIndex: true, withType: .int) {
+                loadAdditionalfilters()
+            }
+        }
+        
+        tableView.reloadData()
+    }
+    
+    func loadAdditionalfilters() {
+        guard let subCat = FilterManager.shared.getCurrentSubCategory() else {return}
+        guard let specialFields = SpecialFieldsManager.shared.getSpecialFieldsFor(entityType: subCat.adclass, mustBeInSearchIndex: true, withType: .int) else {return}
+        for i in 0...specialFields.count - 1 {
+            let specialField = specialFields[i]
+            let specialFieldCell = self.specialRangeCells[i]
+            specialFieldCell.used = true
+            specialFieldCell.descriptionLabel.text = specialField.descriptiveString
+            specialFieldCell.rangeSlider.minimumValue = Float((specialField.possibleValues as! [Int]).first!)
+            specialFieldCell.rangeSlider.maximumValue = Float((specialField.possibleValues as! [Int]).last!)
+            specialFieldCell.rangeSlider.stepValue = Float((specialField.possibleValues as! [Int]).first!.advanced(by: 1) - (specialField.possibleValues as! [Int]).first!)
+            specialFieldCell.unit = specialField.unit
+            specialFieldCell.searchIndexName = specialField.searchIndexName
+
+            
+        }
+    }
+    
+    func saveFilters() {
+        if searchQueryTextField.text != "" {
+            FIRAnalytics.logEvent(withName: kFIREventSearch, parameters: [
+                kFIRParameterSearchTerm: searchQueryTextField.text! as NSObject,
+                "screen": "filter" as NSObject
+                ])
+        }
+        
+        //        let tracker = GAI.sharedInstance().defaultTracker
+        //        tracker?.send(GAIDictionaryBuilder.createEvent(withCategory: "Search", action: "searchInfilter", label: searchQueryTextField.text!, value: 0).build() as NSDictionary as! [AnyHashable: Any])
+        //
+        
+        FilterManager.shared.removeSpecialFilters()
+        if let subCat = FilterManager.shared.getCurrentSubCategory() {
+            if SpecialFieldsManager.shared.entityTypHasSpecialFields(subCat.adclass, mustBeInSearchIndex: true, withType: .int) {
+                for specialRangeCell in specialRangeCells {
+                    if let searchIndexName = specialRangeCell.searchIndexName {
+                    let upperValue = Int(round(specialRangeCell.rangeSlider.upperValue/1000)*1000)
+                    let lowerValue = Int(round(specialRangeCell.rangeSlider.lowerValue/1000)*1000)
+                    if let filterName = filterName(rawValue: searchIndexName)  {
+                        let filter = Rangefilter(name: filterName, descriptiveString: specialRangeCell.descriptionLabel.text!, gte: Double(lowerValue), lte: Double(upperValue), unit: specialRangeCell.unit)
+                        filter.isSpecial = true
+                        FilterManager.shared.setfilter(newfilter: filter)
+                    }
+                    }
                 }
             }
         }
     }
+    
+    
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
@@ -194,38 +221,54 @@ class FilterViewController: UITableViewController, UITextFieldDelegate {
         }
 
     }
-    /**
-     Method checks if current subcategory of the FilterManager needs additional filter options. If this is the case it fills the specialFields prop of the VC with the help of the SpecialFieldsManager and configures the specialRange cells. When finished it reloads the tableView of the VC.
-     */
-    func loadAdditionalfilters() {
-        specialFields.removeAll()
-        if let subCatFilter = FilterManager.shared.getFilter(withName: .subcategory) as? Termfilter {
-            if let subCat = CategoryManager.shared.subCategories.first(where: {$0.name == subCatFilter.value}) {
-                if let specialFields = SpecialFieldsManager.shared.getSpecialFieldsFor(entityType: subCat.adclass, withType: .int, withExistingSearchIndexName: true) {
-                self.specialFields = specialFields
-                    if self.specialFields.count > 0 {
-                        for i in 0...self.specialFields.count - 1 {
-                            let specialField = self.specialFields[i]
-                            let specialFieldCell = self.specialRangeCells[i]
-                            specialFieldCell.used = true
-                            specialFieldCell.descriptionLabel.text = specialField.descriptiveString
-                            specialFieldCell.rangeSlider.minimumValue = Float((specialField.possibleValues as! [Int]).first!)
-                            specialFieldCell.rangeSlider.maximumValue = Float((specialField.possibleValues as! [Int]).last!)
-                            specialFieldCell.rangeSlider.stepValue = Float((specialField.possibleValues as! [Int]).first!.advanced(by: 1) - (specialField.possibleValues as! [Int]).first!)
-                            specialFieldCell.unit = specialField.unit
-                            specialFieldCell.searchIndexName = specialField.searchIndexName!
-                        }
-                    }
-                }
-            }
-        }
-        self.tableView.reloadData()
-    }
     
 
+    */
+
+    
+   
+    
     
 
     // MARK: - UITableViewDataSource
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        switch indexPath.section {
+        case 0:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "filterInputCellID") else {return UITableViewCell()}
+            cell.textLabel?.text = "Suchbegriff"
+            return cell
+        case 1:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "filterInputCellID") else {return UITableViewCell()}
+            return cell
+        case 2:
+            switch indexPath.row {
+            case 0:
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: "filterInputCellID") else {return UITableViewCell()}
+                return cell
+            case 1:
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: "filterInputCellID") else {return UITableViewCell()}
+                return cell
+            default: return UITableViewCell()
+            }
+        case 3:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "filterInputCellID") else {return UITableViewCell()}
+            return cell
+        case 4:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "filterInputCellID") else {return UITableViewCell()}
+            return cell
+        case 5:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "filterInputCellID") else {return UITableViewCell()}
+            return cell
+        case 6:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "filterInputCellID") else {return UITableViewCell()}
+            return cell
+        default: return UITableViewCell()
+        }
+    }
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 7
+    }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
@@ -233,7 +276,9 @@ class FilterViewController: UITableViewController, UITextFieldDelegate {
         case 1: return 1
         case 2: return 2
         case 3: return 1
-        case 4: return specialFields.filter({$0.type == .int}).count
+        case 4:
+            guard let subCat = FilterManager.shared.getCurrentSubCategory() else {return 0}
+            return SpecialFieldsManager.shared.numberOfSecialFieldsFor(subCat.adclass, mustBeInSearchIndex: true, withType: .int)
         case 5: return 1
         case 6: return 1
         default: return 0
@@ -307,8 +352,8 @@ class FilterViewController: UITableViewController, UITextFieldDelegate {
     func shouldHideSection(_ section: Int) -> Bool {
         switch section {
         case 4:
-            if specialFields.filter({$0.type == .int}).count != 0 { return false }
-            else { return true }
+            guard let subCat = FilterManager.shared.getCurrentSubCategory() else {return true}
+            return SpecialFieldsManager.shared.numberOfSecialFieldsFor(subCat.adclass, mustBeInSearchIndex: true, withType: .int) == 0
         default: return false
         }
 

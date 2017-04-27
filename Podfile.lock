@@ -6,6 +6,7 @@ PODS:
   - Bolts/AppLinks (1.8.4):
     - Bolts/Tasks
   - Bolts/Tasks (1.8.4)
+  - Eureka (2.0.1)
   - FBAudienceNetwork (4.20.2)
   - FBSDKCoreKit (4.20.2):
     - Bolts (~> 1.7)
@@ -73,6 +74,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (~> 4.0)
+  - Eureka (~> 2.0.0-beta.1)
   - FBAudienceNetwork
   - FBSDKCoreKit
   - FBSDKLoginKit
@@ -93,6 +95,7 @@ DEPENDENCIES:
 SPEC CHECKSUMS:
   Alamofire: dc44b1600b800eb63da6a19039a0083d62a6a62d
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
+  Eureka: ae837bb1dfae0c07bc1bda7aeef87876eeb537c2
   FBAudienceNetwork: 001b6d61faf987d2d232ae64611a846ddce73ff2
   FBSDKCoreKit: 82eac696eb6157da5f4266c3a241f00e9bd72471
   FBSDKLoginKit: 2211bede07c83391349eacc1fd86cf6d9289ce38
@@ -119,6 +122,6 @@ SPEC CHECKSUMS:
   Protobuf: 745f59e122e5de98d4d7ef291e264a0eef80f58e
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
 
-PODFILE CHECKSUM: ce41e228da1143119368d4b758efbbe33b21b1c4
+PODFILE CHECKSUM: d7fff2b8d9bc84435a2f9ba93f97efe5bd738301
 
 COCOAPODS: 1.2.0

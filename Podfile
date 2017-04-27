@@ -23,6 +23,7 @@ target 'Local24' do
   pod 'Firebase/RemoteConfig'
   pod 'Firebase/DynamicLinks'
   pod 'GoogleTagManager', '~> 5.0'
+  pod 'Eureka', '~> 2.0.0-beta.1'
 
   target 'Local24Tests' do
     inherit! :search_paths

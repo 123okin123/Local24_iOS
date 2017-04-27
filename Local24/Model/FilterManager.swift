@@ -11,15 +11,29 @@ import MapKit
 import SwiftyJSON
 
 
-class FilterManager {
+class FilterManager :NSObject {
 
     static let shared = FilterManager()
     
     var filters = [Filter]()
 
+    
+    
     weak var delegate:FilterManagerDelegate?
     
      func setfilter(newfilter :Filter) {
+        insertFilterInFilterArray(newfilter: newfilter)
+        delegate?.filtersDidChange()
+    }
+    
+    func setfilters(newfilters :[Filter]) {
+        for newfilter in newfilters {
+            insertFilterInFilterArray(newfilter: newfilter)
+        }
+        delegate?.filtersDidChange()
+    }
+  
+    private func insertFilterInFilterArray(newfilter: Filter) {
         if filters.contains(where: {$0.name == newfilter.name}) {
             if let index = filters.index(where: {$0.name == newfilter.name}) {
                 
@@ -39,13 +53,13 @@ class FilterManager {
                     (filters[index] as! Sortfilter).order = (newfilter as! Sortfilter).order
                     (filters[index] as! Sortfilter).criterium = (newfilter as! Sortfilter).criterium
                 }
-
+                
             }
         } else {
             filters.append(newfilter)
         }
-        delegate?.filtersDidChange()
     }
+    
     
     func removefilter(filterToRemove :Filter) {
         if let index = filters.index(where: {$0.name == filterToRemove.name}) {
@@ -66,12 +80,8 @@ class FilterManager {
     }
     
     func removeSpecialFilters() {
-        for index in 0...filters.count - 1 {
-            let filter = filters[index]
-            if filter.isSpecial {
-                filters.remove(at: index)
-            }
-        }
+        filters = filters.filter({$0.isSpecial == false})
+        delegate?.filtersDidChange()
     }
     
     func removeAllfilters() {
@@ -114,6 +124,11 @@ class FilterManager {
         }
     }
     
+    func getSpecialFilters() -> [Filter] {
+        return filters.filter({$0.isSpecial == true})
+        
+    }
+    
     func getValuesOfRangefilter(withName name :filterName) -> (gte: Double?,lte: Double?)? {
         if let filter = filters.first(where: {$0.name == name}) {
             return ((filter as! Rangefilter).gte, (filter as! Rangefilter).lte)
@@ -124,6 +139,12 @@ class FilterManager {
     
     func getFilter(withName name: filterName) -> Filter? {
         return filters.first(where: {$0.name == name})
+    }
+    
+    func getCurrentSubCategory() -> Category? {
+        guard let subCatFilter = getFilter(withName: .subcategory) as? Termfilter else {return nil}
+        guard let subCat = CategoryManager.shared.subCategories.first(where: {$0.name == subCatFilter.value}) else {return nil}
+        return subCat
     }
     
     func getJSONFromfilterArray(filterArray: [Filter], size: Int, from: Int) -> JSON {

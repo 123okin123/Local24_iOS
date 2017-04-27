@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class Filter {
+class Filter {
     var isSpecial = false
     var name: filterName!
     var descriptiveString: String!
@@ -22,8 +22,7 @@ public class Filter {
 }
 
 
-
-public class Termfilter :Filter {
+class Termfilter :Filter {
     var value: String!
     init(name: filterName, descriptiveString :String, value: String) {
         super.init(name: name, descriptiveString: descriptiveString, filterType: .term)
@@ -31,7 +30,7 @@ public class Termfilter :Filter {
     }
 }
 
-public class Sortfilter :Filter {
+class Sortfilter :Filter {
     var criterium: Criterium!
     var order: Order!
     init(criterium: Criterium, order :Order) {
@@ -41,7 +40,7 @@ public class Sortfilter :Filter {
     }
 }
 
-public class Geofilter: Filter {
+class Geofilter: Filter {
     var lat :Double!
     var lon :Double!
     var distance :Double!
@@ -55,7 +54,7 @@ public class Geofilter: Filter {
     }
 }
 
-public class Rangefilter :Filter {
+class Rangefilter :Filter {
     var unit :String?
     var gte :Double? //Lower value
     var lte :Double? //Upper Value
@@ -72,7 +71,7 @@ public class Rangefilter :Filter {
     }
 }
 
-public class Stringfilter :Filter {
+class Stringfilter :Filter {
     var queryString :String!
     init(value: String) {
         super.init(name: .search_string, descriptiveString: "Suchbegriff", filterType: .search_string)
@@ -80,13 +79,13 @@ public class Stringfilter :Filter {
     }
 }
 
-public var sortingOptions = [
+var sortingOptions = [
     Sorting(criterium: .createDate, order: .desc, descriptiveString: "Neuste zuerst"),
     Sorting(criterium: .price, order: .asc, descriptiveString: "Preis aufsteigend"),
     Sorting(criterium: .price, order: .desc, descriptiveString: "Preis absteigend"),
     Sorting(criterium: .distance, order: .asc, descriptiveString: "Entfernung"),
 ]
-public class Sorting {
+class Sorting {
     var criterium:Criterium!
     var order:Order!
     var descriptiveString:String!
@@ -100,18 +99,18 @@ public class Sorting {
     
     
 }
-public enum Criterium :String{
+enum Criterium :String{
     case createDate
     case price
     case distance
 }
-public enum Order :String{
+ enum Order :String{
     case desc
     case asc
 }
 
 
-public enum filterName :String {
+ enum filterName :String {
     case search_string
     case geo_distance
     case sorting
@@ -127,7 +126,7 @@ public enum filterName :String {
 
 
 
-public enum filterType :String {
+ enum filterType :String {
     case geo_distance
     case range
     case term

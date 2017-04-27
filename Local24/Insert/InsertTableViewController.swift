@@ -45,7 +45,7 @@ class InsertTableViewController: UITableViewController {
     
     var listingExists = false
     var imageArray = [UIImage]()
-    var imagePicker  = ImagePickerController()
+    let imagePicker  = ImagePickerController()
     var listing = Listing() {didSet {
         if let location = user?.placemark?.location {
             listing.adLat = location.coordinate.latitude
@@ -53,8 +53,8 @@ class InsertTableViewController: UITableViewController {
         }
         }}
     var customFields = [SpecialField]()
-    var pickerView = UIPickerView()
-    var toolBar = UIToolbar()
+    let pickerView = UIPickerView()
+    let toolBar = UIToolbar()
     var currentPickerArray = [String]()
     var currentTextField  = UITextField()
     
@@ -161,9 +161,9 @@ class InsertTableViewController: UITableViewController {
         adTypeTextField.text = listing.adType?.rawValue
         categoryLabel.textColor = UIColor.black
         
-        independentFieldLabel.text = listing.specialFields?.first(where: {$0.dependingField != nil})?.valueString
-        dependentFieldLabel.text = listing.specialFields?.first(where: {$0.dependsOn != nil})?.valueString
-        if let specialFields = listing.specialFields?.filter({$0.dependingField == nil && $0.dependsOn == nil}) {
+        independentFieldLabel.text = listing.specialFields?.first(where: {$0.dependentFieldName != nil})?.valueString
+        dependentFieldLabel.text = listing.specialFields?.first(where: {$0.isDependent != true})?.valueString
+        if let specialFields = listing.specialFields?.filter({$0.dependentFieldName == nil && $0.isDependent == true}) {
             if specialFields.count > 0 {
             customFields = specialFields
             for i in 0...customFields.count - 1 {
@@ -175,7 +175,7 @@ class InsertTableViewController: UITableViewController {
                         let json = JSON(data: data)
                         if json != JSON.null {
                             if let entityType = listing.entityType {
-                                if let fields = json[entityType].dictionary {
+                                if let fields = json[entityType.rawValue].dictionary {
                                     if let field = fields[customFields[i].name!] {
                                         if let possibleValues = field["possibleValues"].arrayObject as [Any]! {
                                         customFields[i].possibleValues = possibleValues
@@ -273,14 +273,14 @@ class InsertTableViewController: UITableViewController {
         var values = [
             "ID_Advertiser": user!.id!,
             "ID_Category" : listing.catID!,
-            "EntityType" : listing.entityType!,
+            "EntityType" : listing.entityType!.rawValue,
             "AdType": adTypeTextField.text!,
             "Title":titleTextField.text!,
             "Body": descriptionTextView.text!,
             "PriceType": priceTypeTextField.text!,
             "Price": priceTextField.text!,
             "City": cityLabel.text!,
-            "ZipCode": zipLabel.text!,
+            "ZipCode": zipLabel.text!
             ] as [String : Any]
         
         if listingExists {
@@ -308,14 +308,14 @@ class InsertTableViewController: UITableViewController {
         listing.specialFields?.append(contentsOf: customFields)
         
         switch listing.entityType! {
-        case "AdCar":
-            let independetField = SpecialField(name: "Make", descriptiveString: "Marke", value: independentFieldLabel.text, possibleValues: nil, type :nil)
-            let dependentField = SpecialField(name: "Model", descriptiveString: "Model", value: dependentFieldLabel.text, possibleValues: nil, type :nil)
+        case .AdCar:
+            let independetField = SpecialField(name: "Make", descriptiveString: "Marke",type: .string, value: independentFieldLabel.text)
+            let dependentField = SpecialField(name: "Model", descriptiveString: "Model",type: .string, value: dependentFieldLabel.text)
             listing.specialFields?.append(independetField)
             listing.specialFields?.append(dependentField)
-        case "AdApartment", "AdHouse":
-            let independetField = SpecialField(name: "SellOrRent", descriptiveString: "Verkauf oder Vermietung", value: independentFieldLabel.text, possibleValues: nil, type :nil)
-            let dependentField = SpecialField(name: "PriceTypeProperty", descriptiveString: "Preisart", value: dependentFieldLabel.text, possibleValues: nil, type :nil)
+        case .AdApartment, .AdHouse:
+            let independetField = SpecialField(name: "SellOrRent", descriptiveString: "Verkauf oder Vermietung",type: .string, value: independentFieldLabel.text)
+            let dependentField = SpecialField(name: "PriceTypeProperty", descriptiveString: "Preisart",type: .string, value: dependentFieldLabel.text)
             listing.specialFields?.append(independetField)
             listing.specialFields?.append(dependentField)
         default:
@@ -333,6 +333,7 @@ class InsertTableViewController: UITableViewController {
         }
         // End of Optional Values
         
+        print(values)
          NetworkManager.shared.insertAdWith(values: values, images: imageArray, existing: listingExists, userToken: userToken!, completion: { errorString in
             pendingAlertController.dismiss(animated: true, completion: {
             if errorString == nil {

@@ -110,7 +110,7 @@ class filterSelectTableViewController: UITableViewController {
     //MARK: UITableViewDelegate
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let filterVC = self.navigationController?.viewControllers[0] as! FilterViewController
+        let filterVC = self.navigationController?.viewControllers[0] as! FilterViewController1
         switch selectType! {
         case .categories:
             if indexPath.section == 0 {

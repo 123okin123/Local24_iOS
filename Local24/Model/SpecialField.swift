@@ -9,20 +9,25 @@
 import Foundation
 import SwiftyJSON
 
+///Used for Insertion and Search of Listings with AdClass(=entityType) other than AdPlain. A SpecialField has always a descriptiveString, which is used for UI purposes, a name and a type. Other properties depend on usage of the SpecialField (e.g. for Insertion or Search)
 class SpecialField {
     var name:String!
+    var descriptiveString :String!
+    var type :SpecialFieldType!
+    
     var searchIndexName :String?
-    var descriptiveString :String?
     var value :Any?
     var possibleValues :[Any]?
     var hasDependentField = false
-    var type :SpecialFieldType?
-    var isIndipendent = true
-    var isDependent = false
-    var dependsOn :SpecialField?
-    var dependingField :SpecialField?
-    var unit: String?
     
+    //var isIndipendent = true
+    var isDependent = false
+    var dependentFieldName :String?
+    var dependentField :SpecialField?
+    //var dependingField :SpecialField?
+    var unit: String?
+    var minimumValue :Int?
+    var maximumValue :Int?
     
     var valueString :String? {
         var string :String?
@@ -70,7 +75,7 @@ class SpecialField {
     
 
     
-    
+    /*
     init(entityType: AdClass, name: String) {
         self.name = name
         if let path = Bundle.main.path(forResource: "specialFields", ofType: "json") {
@@ -101,26 +106,15 @@ class SpecialField {
         }
         
     }
+ */
     
-    init(name: String?, descriptiveString :String?, value: Any?) {
+    init(name: String, descriptiveString: String, type: SpecialFieldType, value: Any? = nil) {
         self.name = name
         self.descriptiveString = descriptiveString
-        self.value = value
-    }
-    
-    init(name: String?, descriptiveString :String?, value: Any?, possibleValues: [Any]?) {
-        self.name = name
-        self.descriptiveString = descriptiveString
-        self.value = value
-        self.possibleValues = possibleValues
-    }
-    init(name: String?, descriptiveString :String?, value: Any?, possibleValues: [Any]?, type: SpecialFieldType?) {
-        self.name = name
-        self.descriptiveString = descriptiveString
-        self.value = value
-        self.possibleValues = possibleValues
         self.type = type
+        self.value = value
     }
+
 }
 
 
@@ -130,7 +124,12 @@ class SpecialField {
 
 
 
-
+/** 
+ Defines Type of SpecialField
+ Possible Values:
+ - string
+ - int
+*/
 enum SpecialFieldType :String {
     case string
     case int

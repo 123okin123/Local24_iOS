@@ -64,7 +64,7 @@ public class NetworkManager  {
                     if let ads = response.result.value as? [[AnyHashable:Any]] {
                         if ads.count > 0 {
                             for ad in ads {
-                                let listing = Listing(value: ad)
+                                let listing = Listing(apiValue: ad)
                                 listings.append(listing)
                             }
                         }
@@ -91,7 +91,7 @@ public class NetworkManager  {
                 completion(nil, error)
             case .success:
                 if let value = response.result.value as? [AnyHashable: Any] {
-                    let listing = Listing(value: value)
+                    let listing = Listing(apiValue: value)
                     completion(listing, nil)
                 }
             }

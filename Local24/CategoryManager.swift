@@ -33,7 +33,7 @@ class CategoryManager {
                         for i in 0...array.count - 1 {
                             let categoryModel = Category()
                             if let adclass = array[i]["AdClass"] as? String {
-                                categoryModel.adclass = adclass
+                                categoryModel.adclass = AdClass(rawValue: adclass)
                             }
                             if let id = array[i]["ID"] as? Int {
                                 categoryModel.id = id
@@ -92,6 +92,7 @@ class CategoryManager {
         "Flirt & Abenteuer"
         
     ]
+
     let cats = [
         ["Alles in Autos, Fahrzeuge", "Auto", "Motorrad", "Reifen", "LKW"],
         ["Alles in Immobilien", "Wohnung", "Haus", "Ferienwohnungen"],
@@ -115,7 +116,7 @@ class CategoryManager {
     
     
     func getURLFromMainCatID(_ id :Int?) -> String {
-        
+
         var url = ""
         if id != nil {
             switch id! {

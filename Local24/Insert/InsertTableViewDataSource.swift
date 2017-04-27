@@ -26,11 +26,11 @@ extension InsertTableViewController: InsertImageCellDelegate {
                 self.customFields.append(specialField)
             }
             
-            if entityType == "AdApartment" && self.independentFieldLabel.text == "Verkauf"{
+            if entityType == .AdApartment && self.independentFieldLabel.text == "Verkauf"{
                 if let index = self.customFields.index(where: {$0.name == "AdditionalCosts"}) {self.customFields.remove(at: index)}
                 if let index = self.customFields.index(where: {$0.name == "DepositAmount"}) {self.customFields.remove(at: index)}
             }
-            if entityType == "AdHouse" && self.independentFieldLabel.text == "Verkauf"{
+            if entityType == .AdHouse && self.independentFieldLabel.text == "Verkauf"{
                 if let index = self.customFields.index(where: {$0.name == "AdditionalCosts"}) {self.customFields.remove(at: index)}
                 if let index = self.customFields.index(where: {$0.name == "DepositAmount"}) {self.customFields.remove(at: index)}
             }
@@ -121,7 +121,7 @@ extension InsertTableViewController: InsertImageCellDelegate {
     func shouldHideSection(_ section: Int) -> Bool {
         switch section {
         case 2: 
-            if listing.entityType == "AdPlain" || listing.entityType == nil {
+            if listing.entityType == .AdPlain || listing.entityType == nil {
                 return true
             } else {
                 return false
@@ -132,7 +132,7 @@ extension InsertTableViewController: InsertImageCellDelegate {
     }
     func shouldHideCell(atIndexPath indexPath: IndexPath) -> Bool {
         if indexPath == IndexPath(row: 1, section: 4) {
-            if listing.entityType == "AdApartment" || listing.entityType == "AdHouse" {
+            if listing.entityType == .AdApartment || listing.entityType == .AdHouse {
             return true
             } else {return false}
         } else {return false}

@@ -16,7 +16,7 @@ class SpecialRangeCell: UITableViewCell {
     var lowerRangeLabel = UILabel()
     var descriptionLabel = UILabel()
     var unit :String?
-    var searchIndexName :String!
+    var searchIndexName :String?
     var used = false
     
     override func awakeFromNib() {

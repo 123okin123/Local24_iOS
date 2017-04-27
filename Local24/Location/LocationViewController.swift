@@ -8,11 +8,11 @@
 
 import UIKit
 import MapKit
-
+import Eureka
 
 public var viewedRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 51.321304218518435, longitude: 10.26933636230746), span: MKCoordinateSpan(latitudeDelta: 13.912692064754779, longitudeDelta: 14.115745522013924))
 
-class LocationViewController: UIViewController, UISearchBarDelegate, UISearchResultsUpdating, UISearchControllerDelegate, MKMapViewDelegate , UIGestureRecognizerDelegate, CLLocationManagerDelegate {
+class LocationViewController: UIViewController, UISearchBarDelegate, UISearchResultsUpdating, UISearchControllerDelegate, MKMapViewDelegate , UIGestureRecognizerDelegate, CLLocationManagerDelegate  {
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var radiusLabel: UILabel!
@@ -36,6 +36,8 @@ class LocationViewController: UIViewController, UISearchBarDelegate, UISearchRes
             
         }
     }
+    
+   
     
     // MARK: - ViewController Lifecycle
     
@@ -178,7 +180,7 @@ class LocationViewController: UIViewController, UISearchBarDelegate, UISearchRes
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-
+   
     }
 
     

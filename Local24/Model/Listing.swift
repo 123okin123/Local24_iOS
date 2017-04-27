@@ -66,14 +66,19 @@ class Listing :NSObject {
     var url :URL?
     var containsAdultContent = false
     
+    
+    var component :AdComponent?
+    
+    
     override init() {
         super.init()
     }
     
     
-    init(value: [AnyHashable:Any]) {
+    init(apiValue value: [AnyHashable:Any]) {
         super.init()
-        
+        let json = JSON(value)
+        guard json != JSON.null else {return}
         specialFields = [SpecialField]()
 
         self.source = "MPS"
@@ -95,6 +100,10 @@ class Listing :NSObject {
         }
         if let entityType = value["EntityType"] as? String {
             self.entityType = AdClass(rawValue: entityType)
+            switch self.entityType! {
+            case .AdCar: self.component = AdCarComponent(value: value)
+            default: break
+            }
         }
         if let url = value["DetailPageLink"] as? String {
             self.url = URL(string: url)
@@ -169,13 +178,22 @@ class Listing :NSObject {
         
         
 
-        if let model = value["Model"] as? String {
-            let spicalField = SpecialField(name: "Model", descriptiveString: "Model", value: model, possibleValues: nil, type: .string)
-            spicalField.dependsOn = SpecialField(name: "Make", descriptiveString: "Marke", value: nil, possibleValues: nil, type: .string)
-            self.specialFields?.append(spicalField)
+        if let model = json["Model"].string {
+             let modelField = SpecialField(name: "Model", descriptiveString: "Model", type: .string)
+            modelField.value = model
+            self.specialFields?.append(modelField)
         }
-
+        if let make = json["Make"].string {
+            let makeField = SpecialField(name: "Make", descriptiveString: "Marke", type: .string)
+            makeField.value = make
+        }
+/*
         if let priceTypeProperty = value["PriceTypeProperty"] as? String {
+            if let specialField = SpecialFieldsManager.shared.getSpecialFieldWith(entityType: .AdApartment, name: "PriceTypeProperty") {
+                specialField.value = priceTypeProperty
+                //specialField.dependsOn = SpecialFieldsManager.shared.getSpecialFieldWith(entityType: .AdApartment, name: "SellOrRent")
+                self.specialFields?.append(specialField)
+            }
             let spicalField = SpecialField(name: "PriceTypeProperty", descriptiveString: "Preisart", value: priceTypeProperty, possibleValues: nil, type: .string)
             spicalField.dependsOn = SpecialField(name: "SellOrRent", descriptiveString: "Verkauf oder Vermietung", value: nil, possibleValues: nil, type: .string)
             self.specialFields?.append(spicalField)
@@ -219,7 +237,7 @@ class Listing :NSObject {
                 print(error.localizedDescription)
             }
         }
-
+*/
         
     }
     

@@ -269,6 +269,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         UISegmentedControl.appearance().setTitleTextAttributes([NSFontAttributeName: segControllFont], for: UIControlState.selected)
         UISegmentedControl.appearance().setTitleTextAttributes([NSFontAttributeName: segControllFont], for: UIControlState())
         UIApplication.shared.statusBarStyle = .lightContent
+        
     }
     
 
