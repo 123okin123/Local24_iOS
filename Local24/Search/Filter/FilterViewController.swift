@@ -12,6 +12,10 @@ import Eureka
 class FilterViewController: FormViewController {
 
 
+    @IBAction func removeAllFilters(_ sender: UIBarButtonItem) {
+        FilterManager.shared.removeAllfilters()
+        self.performSegue(withIdentifier: "backfromfilterSegueID", sender: self)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,7 +24,7 @@ class FilterViewController: FormViewController {
         SwitchRow.defaultCellUpdate = { cell, row in cell.switchControl?.onTintColor = greencolor }
         tableView?.backgroundColor = local24grey
         tableView?.separatorColor = local24grey
-        
+        navigationAccessoryView.tintColor = greencolor
         
         form
             // Search Query
@@ -174,7 +178,10 @@ class FilterViewController: FormViewController {
     }
 
     
-    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        trackScreen("Filter")
+    }
         
     
     

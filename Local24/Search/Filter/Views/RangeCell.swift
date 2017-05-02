@@ -35,7 +35,7 @@ class RangeCell: Cell<FilterRange>, CellType, UIPickerViewDataSource, UIPickerVi
         title.text = rangeRow.title
         picker.delegate = self
         picker.dataSource = self
-        inputAccessoryView?.tintColor = greencolor
+        
         titles = rangeRow.options.map({
             var option = String(describing: $0)
             if let unit = rangeRow.unit {
@@ -73,8 +73,9 @@ class RangeCell: Cell<FilterRange>, CellType, UIPickerViewDataSource, UIPickerVi
     
     override var inputView: UIView? {
         return picker
-    
     }
+
+    
     open override func didSelect() {
         super.didSelect()
         row.deselect()
@@ -86,8 +87,13 @@ class RangeCell: Cell<FilterRange>, CellType, UIPickerViewDataSource, UIPickerVi
     override open var canBecomeFirstResponder: Bool {
         return !rangeRow!.isDisabled
     }
+    override func cellBecomeFirstResponder(withDirection: Direction) -> Bool {
+        title?.textColor = greencolor
+        return super.cellBecomeFirstResponder(withDirection: withDirection)
+    }
     
     override func resignFirstResponder() -> Bool {
+        title?.textColor = UIColor.black
         rangeRow.value = FilterRange(upperBound: upperValue, lowerBound: lowerValue)
         return super.resignFirstResponder()
     }
@@ -114,6 +120,14 @@ class RangeCell: Cell<FilterRange>, CellType, UIPickerViewDataSource, UIPickerVi
             upperValue = rangeRow.options[rowNumber]
         default:
             break
+        }
+        if upperValue != nil && lowerValue != nil {
+            if upperValue! <= lowerValue! {
+                let index = rangeRow.options.index(of: upperValue!)! - 1
+                picker.selectRow(index, inComponent: 0, animated: true)
+                lowerValue = rangeRow.options[index]
+                lowerLabel.text = titles[index]
+            }
         }
         rangeRow?.updateCell()
     }
