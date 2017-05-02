@@ -35,7 +35,7 @@ class RangeCell: Cell<FilterRange>, CellType, UIPickerViewDataSource, UIPickerVi
         title.text = rangeRow.title
         picker.delegate = self
         picker.dataSource = self
-        
+
         titles = rangeRow.options.map({
             var option = String(describing: $0)
             if let unit = rangeRow.unit {
@@ -43,27 +43,36 @@ class RangeCell: Cell<FilterRange>, CellType, UIPickerViewDataSource, UIPickerVi
             }
             return option
         })
+        if let lowerBound = rangeRow.value?.lowerBound {
+            if let lowerIndex = rangeRow.options.index(of: lowerBound) {
+                picker.selectRow(lowerIndex, inComponent: 0, animated: true)
+            }
+        }
+        if let upperBound = rangeRow.value?.upperBound {
+            if let upperIndex = rangeRow.options.index(of: upperBound) {
+                picker.selectRow(upperIndex, inComponent: 1, animated: true)
+            }
+        }
         
     }
   
     
     public override func update() {
         super.update()
-        if let lowerBound = rangeRow.value?.lowerBound {
-            var lowerBoundString = String(describing: lowerBound)
+        if lowerValue != nil {
+            var lowerBoundString = String(describing: lowerValue)
             if let unit = rangeRow.unit {
                 lowerBoundString += unit
             }
             lowerLabel.text = lowerBoundString
         }
-        if let upperBound = rangeRow.value?.upperBound {
-            var upperBoundString = String(describing: upperBound)
+        if upperValue != nil {
+            var upperBoundString = String(describing: upperValue)
             if let unit = rangeRow.unit {
                 upperBoundString += unit
             }
             upperLabel.text = upperBoundString
         }
-
     }
     
     deinit {
@@ -124,9 +133,11 @@ class RangeCell: Cell<FilterRange>, CellType, UIPickerViewDataSource, UIPickerVi
         if upperValue != nil && lowerValue != nil {
             if upperValue! <= lowerValue! {
                 let index = rangeRow.options.index(of: upperValue!)! - 1
+                if index > 0 {
                 picker.selectRow(index, inComponent: 0, animated: true)
                 lowerValue = rangeRow.options[index]
                 lowerLabel.text = titles[index]
+                }
             }
         }
         rangeRow?.updateCell()

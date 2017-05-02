@@ -66,7 +66,7 @@ class FilterViewController: FormViewController {
                 }.onChange {
                     guard let value = $0.value else {return}
                     let currentPriceRangeFilter = FilterManager.shared.getFilter(withName: .price) as? Rangefilter
-                    let priceRangeFilter = Rangefilter(name: .price, descriptiveString: "Preis", gte: Int(value), lte: currentPriceRangeFilter?.lte)
+                    let priceRangeFilter = Rangefilter(name: .price, descriptiveString: "Preis", gte: Int(value), lte: currentPriceRangeFilter?.lte, unit: "€")
                     FilterManager.shared.setfilter(newfilter: priceRangeFilter)
 
             }
@@ -80,7 +80,7 @@ class FilterViewController: FormViewController {
                 }.onChange {
                     guard let value = $0.value else {return}
                     let currentPriceRangeFilter = FilterManager.shared.getFilter(withName: .price) as? Rangefilter
-                    let priceRangeFilter = Rangefilter(name: .price, descriptiveString: "Preis", gte: currentPriceRangeFilter?.gte, lte: Int(value))
+                    let priceRangeFilter = Rangefilter(name: .price, descriptiveString: "Preis", gte: currentPriceRangeFilter?.gte, lte: Int(value), unit: "€")
                     FilterManager.shared.setfilter(newfilter: priceRangeFilter)
             }
             

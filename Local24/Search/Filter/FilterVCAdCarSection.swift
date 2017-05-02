@@ -14,7 +14,7 @@ extension FilterViewController {
     
     func sectionForAdCar() -> Section {
         let section = Section("adCarSection") {
-            $0.header?.title = "Filter für Autos"
+            $0.header?.title = nil
             $0.hidden = Condition.function(["subCatTag"], {form in
                 if form.rowBy(tag: "subCatTag")?.value != "Auto" {
                     FilterManager.shared.removeFiltersForAdClass(adClass: .AdCar)
@@ -34,7 +34,11 @@ extension FilterViewController {
                 FilterManager.shared.removefilterWithName(.makeName)
                 guard let value = $0.value else {return}
                 guard value != "Alle Marken" else {return}
-                let filter = Termfilter(name: .makeName, descriptiveString: "Marke", value: value)
+                //VW FIX:
+                var filter = Termfilter(name: .makeName, descriptiveString: "Marke", value: value)
+                if value == "Volkswage" {
+                    filter = Termfilter(name: .makeName, descriptiveString: "Marke", value: "VW")
+                }
                 FilterManager.shared.setfilter(newfilter: filter)
             }.onPresent { from, to in
                 self.applyCustomStyleOnSelectorVC(to)

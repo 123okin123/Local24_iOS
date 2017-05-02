@@ -35,8 +35,8 @@ public let local24grey = UIColor(red: 240/255, green: 240/255, blue: 240/255, al
 
 public func trackScreen(_ screenName :String) {
     FIRAnalytics.logEvent(withName: kFIREventViewItem, parameters: [
-        kFIRParameterItemName: screenName as NSObject
-        ])
+    kFIRParameterItemName: screenName as NSObject
+    ])
 }
 
 

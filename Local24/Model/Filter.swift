@@ -120,12 +120,14 @@ enum FilterName :String {
     case modelName
     // AdHouse
     case totalRooms
+    case landarea
+    case size
     
     
 }
 
 let adCarFilterNames:[FilterName] = [.mileage, .powerPS, .makeName, .modelName]
-let adHouseFilterNames:[FilterName] = [.totalRooms]
+let adHouseFilterNames:[FilterName] = [.totalRooms, .landarea, .size]
 
 
  enum filterType :String {
