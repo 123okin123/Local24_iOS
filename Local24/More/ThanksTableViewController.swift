@@ -14,11 +14,12 @@ class ThanksTableViewController: UITableViewController {
     
     let thanks = ["Alamofire",
                   "Bolts",
+                  "Eureka",
                   "Facebook-iOS-SDK",
+                  "ImagePicker",
                   "MapleBacon",
                   "MZFormSheetPresentationController",
-                  "SwiftyJSON",
-                  "ImagePicker"
+                  "SwiftyJSON"
     ]
     
     

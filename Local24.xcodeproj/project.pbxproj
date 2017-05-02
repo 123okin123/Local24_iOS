@@ -10,6 +10,7 @@
 		1045F3451EB88B3A00FB0206 /* FilterVCAdCarSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1045F3441EB88B3A00FB0206 /* FilterVCAdCarSection.swift */; };
 		1045F3471EB88D4200FB0206 /* FilterVCAdHouseSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1045F3461EB88D4200FB0206 /* FilterVCAdHouseSection.swift */; };
 		1045F3491EB8A6B600FB0206 /* AdHouseComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1045F3481EB8A6B600FB0206 /* AdHouseComponent.swift */; };
+		1045F34B1EB8ABAD00FB0206 /* Eureka.txt in Resources */ = {isa = PBXBuildFile; fileRef = 1045F34A1EB8ABAD00FB0206 /* Eureka.txt */; };
 		105A2DB01E61848B00BF0CC7 /* InsertListingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105A2DAF1E61848B00BF0CC7 /* InsertListingCell.swift */; };
 		106E297C1EAF51880087F957 /* AdCarComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106E297B1EAF51880087F957 /* AdCarComponent.swift */; };
 		107AD5B81E54D10800095A0C /* FilterCollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107AD5B71E54D10800095A0C /* FilterCollectionViewDelegate.swift */; };
@@ -138,9 +139,10 @@
 
 /* Begin PBXFileReference section */
 		05704309B0C663E0ECE2D2B2 /* Pods-Local24.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Local24.release.xcconfig"; path = "Pods/Target Support Files/Pods-Local24/Pods-Local24.release.xcconfig"; sourceTree = "<group>"; };
-		1045F3441EB88B3A00FB0206 /* FilterVCAdCarSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterVCAdCarSection.swift; sourceTree = "<group>"; };
+		1045F3441EB88B3A00FB0206 /* FilterVCAdCarSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterVCAdCarSection.swift; path = Search/Filter/FilterVCAdCarSection.swift; sourceTree = "<group>"; };
 		1045F3461EB88D4200FB0206 /* FilterVCAdHouseSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterVCAdHouseSection.swift; path = Search/Filter/FilterVCAdHouseSection.swift; sourceTree = "<group>"; };
 		1045F3481EB8A6B600FB0206 /* AdHouseComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AdHouseComponent.swift; path = Model/AdHouseComponent.swift; sourceTree = "<group>"; };
+		1045F34A1EB8ABAD00FB0206 /* Eureka.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Eureka.txt; path = SupportingFiles/Licences/Eureka.txt; sourceTree = "<group>"; };
 		105A2DAF1E61848B00BF0CC7 /* InsertListingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InsertListingCell.swift; path = Account/InsertListingCell.swift; sourceTree = "<group>"; };
 		106E297B1EAF51880087F957 /* AdCarComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AdCarComponent.swift; path = Model/AdCarComponent.swift; sourceTree = "<group>"; };
 		107AD5B71E54D10800095A0C /* FilterCollectionViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterCollectionViewDelegate.swift; path = Search/FilterCollectionViewDelegate.swift; sourceTree = "<group>"; };
@@ -205,7 +207,7 @@
 		CD6A262A1E08047A00CD22EB /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = RegisterViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		CD7754201C71C0E200253B7B /* CenterLocationButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CenterLocationButton.swift; path = Location/CenterLocationButton.swift; sourceTree = "<group>"; };
 		CD7DD3571E76A7E400F56B3F /* SwiftyJSON.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = SwiftyJSON.txt; path = SupportingFiles/Licences/SwiftyJSON.txt; sourceTree = "<group>"; };
-		CD7DD3591E76A9C600F56B3F /* ImagePicker.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ImagePicker.txt; sourceTree = "<group>"; };
+		CD7DD3591E76A9C600F56B3F /* ImagePicker.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = ImagePicker.txt; path = SupportingFiles/Licences/ImagePicker.txt; sourceTree = "<group>"; };
 		CD7DD35B1E76BA2F00F56B3F /* SpecialFieldsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpecialFieldsManager.swift; sourceTree = "<group>"; };
 		CD7DD35D1E76BC9A00F56B3F /* SpecialField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SpecialField.swift; path = Model/SpecialField.swift; sourceTree = "<group>"; };
 		CD7DD3601E76C1C300F56B3F /* CategoryManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryManager.swift; sourceTree = "<group>"; };
@@ -567,6 +569,7 @@
 			isa = PBXGroup;
 			children = (
 				CDCF31871E09735600379468 /* Facebook-iOS-SDK.txt */,
+				1045F34A1EB8ABAD00FB0206 /* Eureka.txt */,
 				CD7DD3571E76A7E400F56B3F /* SwiftyJSON.txt */,
 				CDCF31851E0972C500379468 /* MZFormSheetPresentationController.txt */,
 				CDCF31831E0972AC00379468 /* MapleBacon.txt */,
@@ -783,6 +786,7 @@
 				CDE4D9FE1C0DEA3400FE7611 /* OpenSans-Light.ttf in Resources */,
 				CDE4DA001C0DEA3400FE7611 /* OpenSans-Regular.ttf in Resources */,
 				CD7DD3581E76A7E400F56B3F /* SwiftyJSON.txt in Resources */,
+				1045F34B1EB8ABAD00FB0206 /* Eureka.txt in Resources */,
 				CD4F7C691E362C4D001E0730 /* RemoteConfigDefaults.plist in Resources */,
 				CDE4D9FC1C0DEA3400FE7611 /* OpenSans-ExtraBoldItalic.ttf in Resources */,
 			);

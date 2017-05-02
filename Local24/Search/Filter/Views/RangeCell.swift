@@ -35,6 +35,7 @@ class RangeCell: Cell<FilterRange>, CellType, UIPickerViewDataSource, UIPickerVi
         title.text = rangeRow.title
         picker.delegate = self
         picker.dataSource = self
+        inputAccessoryView?.tintColor = greencolor
         titles = rangeRow.options.map({
             var option = String(describing: $0)
             if let unit = rangeRow.unit {

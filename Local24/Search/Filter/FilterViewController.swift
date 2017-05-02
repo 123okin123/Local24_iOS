@@ -181,6 +181,7 @@ class FilterViewController: FormViewController {
     func applyCustomStyleOnSelectorVC(_ to: SelectorViewController<String>) {
         to.selectableRowCellUpdate = {cell, row in
             cell.textLabel?.font = UIFont(name: "OpenSans", size: 17.0)
+            cell.tintColor = greencolor
             to.tableView?.backgroundColor = local24grey
             to.tableView?.separatorColor = local24grey
         }
