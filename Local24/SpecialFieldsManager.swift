@@ -75,29 +75,6 @@ class SpecialFieldsManager {
         return specialFields.first(where: {$0.name == name})
     }
     
-    
-    /*
-    func getSpecialFieldsFor(entityType :AdClass) -> [SpecialField]? {
-        var specialFields = [SpecialField]()
-        guard let path = Bundle.main.path(forResource: "specialFields", ofType: "json") else {return nil}
-            do {
-                let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .alwaysMapped)
-                let json = JSON(data: data)
-                guard json != JSON.null else {return nil}
-                guard let fields = json[entityType.rawValue].dictionary else {return nil}
-                for field in fields {
-                    let specialField = SpecialField(entityType: entityType, name: field.key)
-                    specialFields.append(specialField)
-                }
-                return specialFields
-            } catch let error {
-                print(error.localizedDescription)
-                return nil
-            }
-    }
-    */
-    
- 
 
     
     func entityTypHasSpecialFields(_ entityType: AdClass, mustBeInSearchIndex: Bool = false, withType type: SpecialFieldType? = nil) -> Bool {

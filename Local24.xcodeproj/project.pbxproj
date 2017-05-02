@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1045F3451EB88B3A00FB0206 /* FilterVCAdCarSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1045F3441EB88B3A00FB0206 /* FilterVCAdCarSection.swift */; };
+		1045F3471EB88D4200FB0206 /* FilterVCAdHouseSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1045F3461EB88D4200FB0206 /* FilterVCAdHouseSection.swift */; };
+		1045F3491EB8A6B600FB0206 /* AdHouseComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1045F3481EB8A6B600FB0206 /* AdHouseComponent.swift */; };
 		105A2DB01E61848B00BF0CC7 /* InsertListingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105A2DAF1E61848B00BF0CC7 /* InsertListingCell.swift */; };
 		106E297C1EAF51880087F957 /* AdCarComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106E297B1EAF51880087F957 /* AdCarComponent.swift */; };
 		107AD5B81E54D10800095A0C /* FilterCollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107AD5B71E54D10800095A0C /* FilterCollectionViewDelegate.swift */; };
@@ -34,8 +37,6 @@
 		CD0E3F821CE0BFA9005AA575 /* Listing.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD0E3F811CE0BFA9005AA575 /* Listing.swift */; };
 		CD10748A1E27B7A400225BCA /* Local24.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 10D00FCD1E1FE3E6006199E8 /* Local24.entitlements */; };
 		CD1D88821DF072A100DF2688 /* AddImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD1D88811DF072A100DF2688 /* AddImageCollectionViewCell.swift */; };
-		CD286E461CCE383B004675A9 /* FilterSelectTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD286E451CCE383B004675A9 /* FilterSelectTableViewController.swift */; };
-		CD286E481CCE455C004675A9 /* FilterMoreSelectTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD286E471CCE455C004675A9 /* FilterMoreSelectTableViewController.swift */; };
 		CD358E801E0C105C00C63020 /* CustomFieldTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD358E7F1E0C105C00C63020 /* CustomFieldTableViewController.swift */; };
 		CD3E16051DF07C7700D0C300 /* InsertImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD3E16041DF07C7700D0C300 /* InsertImageCollectionViewCell.swift */; };
 		CD44E3081E40942200476C88 /* FilterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD44E3071E40942200476C88 /* FilterCollectionViewCell.swift */; };
@@ -56,7 +57,6 @@
 		CD5D16EE1C903F7F00ACE365 /* DescriptionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5D16ED1C903F7F00ACE365 /* DescriptionTableViewCell.swift */; };
 		CD5D16F01C9054F200ACE365 /* LocationMapTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5D16EF1C9054F200ACE365 /* LocationMapTableViewCell.swift */; };
 		CD5D16F21C90673600ACE365 /* DetailImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5D16F11C90673600ACE365 /* DetailImageViewController.swift */; };
-		CD5D16F41C917A6300ACE365 /* FilterViewController1.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5D16F31C917A6300ACE365 /* FilterViewController1.swift */; };
 		CD62AF631DE3412700AD06EF /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD62AF621DE3412700AD06EF /* LoginViewController.swift */; };
 		CD65D24F1C60DC3000AD89DF /* LocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD65D24E1C60DC3000AD89DF /* LocationViewController.swift */; };
 		CD65D2511C60E5EF00AD89DF /* LocationResultsTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD65D2501C60E5EF00AD89DF /* LocationResultsTableController.swift */; };
@@ -68,7 +68,6 @@
 		CD7DD35C1E76BA2F00F56B3F /* SpecialFieldsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7DD35B1E76BA2F00F56B3F /* SpecialFieldsManager.swift */; };
 		CD7DD35E1E76BC9A00F56B3F /* SpecialField.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7DD35D1E76BC9A00F56B3F /* SpecialField.swift */; };
 		CD7DD3611E76C1C300F56B3F /* CategoryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7DD3601E76C1C300F56B3F /* CategoryManager.swift */; };
-		CD7DD3631E76D2FB00F56B3F /* SpecialRangeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7DD3621E76D2FB00F56B3F /* SpecialRangeCell.swift */; };
 		CD84C5921C88844400A6E8A4 /* LocalDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD84C5911C88844400A6E8A4 /* LocalDetailTableViewController.swift */; };
 		CD8B74FB1E719356007ADB76 /* InitialSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8B74FA1E719356007ADB76 /* InitialSegue.swift */; };
 		CD993E091DF9AFAF00F686C7 /* MyAdsDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD993E081DF9AFAF00F686C7 /* MyAdsDetailViewController.swift */; };
@@ -85,15 +84,6 @@
 		CDB04AD01DD3259100034C1F /* AccountCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB04ACF1DD3259100034C1F /* AccountCollectionViewController.swift */; };
 		CDB04AD41DD36A3500034C1F /* MyAdsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB04AD31DD36A3500034C1F /* MyAdsCollectionViewCell.swift */; };
 		CDB3AFE21D2BEF2200C2F254 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDB3AFE11D2BEF2200C2F254 /* CoreGraphics.framework */; };
-		CDB3AFEA1D2BF00A00C2F254 /* NMRangeSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = CDB3AFE91D2BF00A00C2F254 /* NMRangeSlider.m */; };
-		CDB3AFF51D2BF0B800C2F254 /* slider-default7-trackBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = CDB3AFED1D2BF0B800C2F254 /* slider-default7-trackBackground.png */; };
-		CDB3AFF61D2BF0B800C2F254 /* slider-default7-trackBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CDB3AFEE1D2BF0B800C2F254 /* slider-default7-trackBackground@2x.png */; };
-		CDB3AFF71D2BF0B800C2F254 /* slider-default7-trackCrossedOver.png in Resources */ = {isa = PBXBuildFile; fileRef = CDB3AFEF1D2BF0B800C2F254 /* slider-default7-trackCrossedOver.png */; };
-		CDB3AFF81D2BF0B800C2F254 /* slider-default7-trackCrossedOver@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CDB3AFF01D2BF0B800C2F254 /* slider-default7-trackCrossedOver@2x.png */; };
-		CDB3AFF91D2BF0B800C2F254 /* slider-default7-track.png in Resources */ = {isa = PBXBuildFile; fileRef = CDB3AFF11D2BF0B800C2F254 /* slider-default7-track.png */; };
-		CDB3AFFA1D2BF0B800C2F254 /* slider-default7-track@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CDB3AFF21D2BF0B800C2F254 /* slider-default7-track@2x.png */; };
-		CDB3AFFB1D2BF0B800C2F254 /* slider-default7-handle.png in Resources */ = {isa = PBXBuildFile; fileRef = CDB3AFF31D2BF0B800C2F254 /* slider-default7-handle.png */; };
-		CDB3AFFC1D2BF0B800C2F254 /* slider-default7-handle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CDB3AFF41D2BF0B800C2F254 /* slider-default7-handle@2x.png */; };
 		CDB594DE1DE595130056B405 /* InsertTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB594DD1DE595130056B405 /* InsertTableViewController.swift */; };
 		CDB594E11DE596850056B405 /* SelectCategoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB594E01DE596850056B405 /* SelectCategoryTableViewController.swift */; };
 		CDB594E31DE5A3080056B405 /* SelectSubCategoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB594E21DE5A3080056B405 /* SelectSubCategoryTableViewController.swift */; };
@@ -148,6 +138,9 @@
 
 /* Begin PBXFileReference section */
 		05704309B0C663E0ECE2D2B2 /* Pods-Local24.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Local24.release.xcconfig"; path = "Pods/Target Support Files/Pods-Local24/Pods-Local24.release.xcconfig"; sourceTree = "<group>"; };
+		1045F3441EB88B3A00FB0206 /* FilterVCAdCarSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterVCAdCarSection.swift; sourceTree = "<group>"; };
+		1045F3461EB88D4200FB0206 /* FilterVCAdHouseSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterVCAdHouseSection.swift; path = Search/Filter/FilterVCAdHouseSection.swift; sourceTree = "<group>"; };
+		1045F3481EB8A6B600FB0206 /* AdHouseComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AdHouseComponent.swift; path = Model/AdHouseComponent.swift; sourceTree = "<group>"; };
 		105A2DAF1E61848B00BF0CC7 /* InsertListingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InsertListingCell.swift; path = Account/InsertListingCell.swift; sourceTree = "<group>"; };
 		106E297B1EAF51880087F957 /* AdCarComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AdCarComponent.swift; path = Model/AdCarComponent.swift; sourceTree = "<group>"; };
 		107AD5B71E54D10800095A0C /* FilterCollectionViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterCollectionViewDelegate.swift; path = Search/FilterCollectionViewDelegate.swift; sourceTree = "<group>"; };
@@ -184,8 +177,6 @@
 		CD0E3F7F1CE0A06C005AA575 /* CollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CollectionViewCell.swift; path = Search/CollectionViewCell.swift; sourceTree = "<group>"; };
 		CD0E3F811CE0BFA9005AA575 /* Listing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Listing.swift; path = Model/Listing.swift; sourceTree = "<group>"; };
 		CD1D88811DF072A100DF2688 /* AddImageCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddImageCollectionViewCell.swift; path = Insert/AddImageCollectionViewCell.swift; sourceTree = "<group>"; };
-		CD286E451CCE383B004675A9 /* FilterSelectTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterSelectTableViewController.swift; path = Search/FilterSelectTableViewController.swift; sourceTree = "<group>"; };
-		CD286E471CCE455C004675A9 /* FilterMoreSelectTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterMoreSelectTableViewController.swift; path = Search/FilterMoreSelectTableViewController.swift; sourceTree = "<group>"; };
 		CD358E7F1E0C105C00C63020 /* CustomFieldTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomFieldTableViewController.swift; path = Insert/CustomFieldTableViewController.swift; sourceTree = "<group>"; };
 		CD3E16041DF07C7700D0C300 /* InsertImageCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InsertImageCollectionViewCell.swift; path = Insert/InsertImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		CD4432C71CD0D19500295EC0 /* Local24-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Local24-Bridging-Header.h"; path = "SupportingFiles/Local24-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -207,7 +198,6 @@
 		CD5D16ED1C903F7F00ACE365 /* DescriptionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DescriptionTableViewCell.swift; path = Detail/DescriptionTableViewCell.swift; sourceTree = "<group>"; };
 		CD5D16EF1C9054F200ACE365 /* LocationMapTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocationMapTableViewCell.swift; path = Detail/LocationMapTableViewCell.swift; sourceTree = "<group>"; };
 		CD5D16F11C90673600ACE365 /* DetailImageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DetailImageViewController.swift; path = Detail/DetailImageViewController.swift; sourceTree = "<group>"; };
-		CD5D16F31C917A6300ACE365 /* FilterViewController1.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterViewController1.swift; path = Search/FilterViewController1.swift; sourceTree = "<group>"; };
 		CD62AF621DE3412700AD06EF /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		CD65D24E1C60DC3000AD89DF /* LocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocationViewController.swift; path = Location/LocationViewController.swift; sourceTree = "<group>"; };
 		CD65D2501C60E5EF00AD89DF /* LocationResultsTableController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocationResultsTableController.swift; path = Location/LocationResultsTableController.swift; sourceTree = "<group>"; };
@@ -219,7 +209,6 @@
 		CD7DD35B1E76BA2F00F56B3F /* SpecialFieldsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpecialFieldsManager.swift; sourceTree = "<group>"; };
 		CD7DD35D1E76BC9A00F56B3F /* SpecialField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SpecialField.swift; path = Model/SpecialField.swift; sourceTree = "<group>"; };
 		CD7DD3601E76C1C300F56B3F /* CategoryManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryManager.swift; sourceTree = "<group>"; };
-		CD7DD3621E76D2FB00F56B3F /* SpecialRangeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SpecialRangeCell.swift; path = Search/SpecialRangeCell.swift; sourceTree = "<group>"; };
 		CD84C5911C88844400A6E8A4 /* LocalDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocalDetailTableViewController.swift; path = Detail/LocalDetailTableViewController.swift; sourceTree = "<group>"; };
 		CD8B74FA1E719356007ADB76 /* InitialSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitialSegue.swift; sourceTree = "<group>"; };
 		CD993E081DF9AFAF00F686C7 /* MyAdsDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MyAdsDetailViewController.swift; path = Account/MyAdsDetailViewController.swift; sourceTree = "<group>"; };
@@ -238,16 +227,6 @@
 		CDB04ACF1DD3259100034C1F /* AccountCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; name = AccountCollectionViewController.swift; path = Account/AccountCollectionViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		CDB04AD31DD36A3500034C1F /* MyAdsCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MyAdsCollectionViewCell.swift; path = Account/MyAdsCollectionViewCell.swift; sourceTree = "<group>"; };
 		CDB3AFE11D2BEF2200C2F254 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		CDB3AFE81D2BF00A00C2F254 /* NMRangeSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NMRangeSlider.h; sourceTree = "<group>"; };
-		CDB3AFE91D2BF00A00C2F254 /* NMRangeSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NMRangeSlider.m; sourceTree = "<group>"; };
-		CDB3AFED1D2BF0B800C2F254 /* slider-default7-trackBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-default7-trackBackground.png"; sourceTree = "<group>"; };
-		CDB3AFEE1D2BF0B800C2F254 /* slider-default7-trackBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-default7-trackBackground@2x.png"; sourceTree = "<group>"; };
-		CDB3AFEF1D2BF0B800C2F254 /* slider-default7-trackCrossedOver.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-default7-trackCrossedOver.png"; sourceTree = "<group>"; };
-		CDB3AFF01D2BF0B800C2F254 /* slider-default7-trackCrossedOver@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-default7-trackCrossedOver@2x.png"; sourceTree = "<group>"; };
-		CDB3AFF11D2BF0B800C2F254 /* slider-default7-track.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-default7-track.png"; sourceTree = "<group>"; };
-		CDB3AFF21D2BF0B800C2F254 /* slider-default7-track@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-default7-track@2x.png"; sourceTree = "<group>"; };
-		CDB3AFF31D2BF0B800C2F254 /* slider-default7-handle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-default7-handle.png"; sourceTree = "<group>"; };
-		CDB3AFF41D2BF0B800C2F254 /* slider-default7-handle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-default7-handle@2x.png"; sourceTree = "<group>"; };
 		CDB594DD1DE595130056B405 /* InsertTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; name = InsertTableViewController.swift; path = Insert/InsertTableViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		CDB594E01DE596850056B405 /* SelectCategoryTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SelectCategoryTableViewController.swift; path = Insert/SelectCategoryTableViewController.swift; sourceTree = "<group>"; };
 		CDB594E21DE5A3080056B405 /* SelectSubCategoryTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SelectSubCategoryTableViewController.swift; path = Insert/SelectSubCategoryTableViewController.swift; sourceTree = "<group>"; };
@@ -422,6 +401,7 @@
 				CDCA848E1DE324AA00F71A42 /* User.swift */,
 				CD0E3F811CE0BFA9005AA575 /* Listing.swift */,
 				106E297B1EAF51880087F957 /* AdCarComponent.swift */,
+				1045F3481EB8A6B600FB0206 /* AdHouseComponent.swift */,
 				CD7DD35D1E76BC9A00F56B3F /* SpecialField.swift */,
 				CD5109851C58C0CF00BA2CB8 /* Category.swift */,
 				CD65D2541C60FD6400AD89DF /* ZipGeo.swift */,
@@ -504,7 +484,6 @@
 				10D00FCD1E1FE3E6006199E8 /* Local24.entitlements */,
 				1081F2E61BB02A7600688F3B /* LaunchScreen.storyboard */,
 				CDA418CD1E0D1B3B00CFDD20 /* Assets.xcassets */,
-				CDB3AFEB1D2BF08600C2F254 /* NMRangeSlider */,
 			);
 			name = SupportingFiles;
 			sourceTree = "<group>";
@@ -552,12 +531,10 @@
 		CD964C051CFC478F0002A675 /* Filter */ = {
 			isa = PBXGroup;
 			children = (
-				CD5D16F31C917A6300ACE365 /* FilterViewController1.swift */,
 				108D72C01EB0A04300F48203 /* FilterViewController.swift */,
+				1045F3441EB88B3A00FB0206 /* FilterVCAdCarSection.swift */,
+				1045F3461EB88D4200FB0206 /* FilterVCAdHouseSection.swift */,
 				108D72BF1EB0989B00F48203 /* Views */,
-				CD286E451CCE383B004675A9 /* FilterSelectTableViewController.swift */,
-				CD286E471CCE455C004675A9 /* FilterMoreSelectTableViewController.swift */,
-				CD7DD3621E76D2FB00F56B3F /* SpecialRangeCell.swift */,
 			);
 			name = Filter;
 			sourceTree = "<group>";
@@ -570,32 +547,6 @@
 				CD9CD42E1CE21A930080CF67 /* SearchCollectionViewAdCell.swift */,
 			);
 			name = Ads;
-			sourceTree = "<group>";
-		};
-		CDB3AFEB1D2BF08600C2F254 /* NMRangeSlider */ = {
-			isa = PBXGroup;
-			children = (
-				CDB3AFE81D2BF00A00C2F254 /* NMRangeSlider.h */,
-				CDB3AFEC1D2BF0AA00C2F254 /* DefaultTheme7 */,
-				CDB3AFE91D2BF00A00C2F254 /* NMRangeSlider.m */,
-			);
-			name = NMRangeSlider;
-			path = SupportingFiles/NMRangeSlider;
-			sourceTree = "<group>";
-		};
-		CDB3AFEC1D2BF0AA00C2F254 /* DefaultTheme7 */ = {
-			isa = PBXGroup;
-			children = (
-				CDB3AFED1D2BF0B800C2F254 /* slider-default7-trackBackground.png */,
-				CDB3AFEE1D2BF0B800C2F254 /* slider-default7-trackBackground@2x.png */,
-				CDB3AFEF1D2BF0B800C2F254 /* slider-default7-trackCrossedOver.png */,
-				CDB3AFF01D2BF0B800C2F254 /* slider-default7-trackCrossedOver@2x.png */,
-				CDB3AFF11D2BF0B800C2F254 /* slider-default7-track.png */,
-				CDB3AFF21D2BF0B800C2F254 /* slider-default7-track@2x.png */,
-				CDB3AFF31D2BF0B800C2F254 /* slider-default7-handle.png */,
-				CDB3AFF41D2BF0B800C2F254 /* slider-default7-handle@2x.png */,
-			);
-			name = DefaultTheme7;
 			sourceTree = "<group>";
 		};
 		CDB594DF1DE5951A0056B405 /* Insert */ = {
@@ -812,11 +763,7 @@
 				CDE4D9FD1C0DEA3400FE7611 /* OpenSans-Italic.ttf in Resources */,
 				CDE4D9FA1C0DEA3400FE7611 /* OpenSans-BoldItalic.ttf in Resources */,
 				CDCF31841E0972AC00379468 /* MapleBacon.txt in Resources */,
-				CDB3AFF91D2BF0B800C2F254 /* slider-default7-track.png in Resources */,
 				1081F3101BB04E6200688F3B /* iosApp.css in Resources */,
-				CDB3AFF51D2BF0B800C2F254 /* slider-default7-trackBackground.png in Resources */,
-				CDB3AFFB1D2BF0B800C2F254 /* slider-default7-handle.png in Resources */,
-				CDB3AFFC1D2BF0B800C2F254 /* slider-default7-handle@2x.png in Resources */,
 				CDA32CB31E096F3A004969E7 /* Bolts.txt in Resources */,
 				CDCF31881E09735600379468 /* Facebook-iOS-SDK.txt in Resources */,
 				CDCF317F1E09710D00379468 /* Alamofire.txt in Resources */,
@@ -828,10 +775,8 @@
 				CDE4D9FF1C0DEA3400FE7611 /* OpenSans-LightItalic.ttf in Resources */,
 				CDCF31861E0972C500379468 /* MZFormSheetPresentationController.txt in Resources */,
 				CDFC107C1E2D29100006DA8F /* GoogleService-Info.plist in Resources */,
-				CDB3AFF81D2BF0B800C2F254 /* slider-default7-trackCrossedOver@2x.png in Resources */,
 				CDA418CE1E0D1B3B00CFDD20 /* Assets.xcassets in Resources */,
 				CDFC107A1E2CF7010006DA8F /* specialFields.json in Resources */,
-				CDB3AFF61D2BF0B800C2F254 /* slider-default7-trackBackground@2x.png in Resources */,
 				CDE4D9F91C0DEA3400FE7611 /* OpenSans-Bold.ttf in Resources */,
 				1081F2E31BB02A7600688F3B /* Main.storyboard in Resources */,
 				CDE4DA021C0DEA3400FE7611 /* OpenSans-SemiboldItalic.ttf in Resources */,
@@ -839,8 +784,6 @@
 				CDE4DA001C0DEA3400FE7611 /* OpenSans-Regular.ttf in Resources */,
 				CD7DD3581E76A7E400F56B3F /* SwiftyJSON.txt in Resources */,
 				CD4F7C691E362C4D001E0730 /* RemoteConfigDefaults.plist in Resources */,
-				CDB3AFFA1D2BF0B800C2F254 /* slider-default7-track@2x.png in Resources */,
-				CDB3AFF71D2BF0B800C2F254 /* slider-default7-trackCrossedOver.png in Resources */,
 				CDE4D9FC1C0DEA3400FE7611 /* OpenSans-ExtraBoldItalic.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1007,6 +950,7 @@
 				CD0E3F7E1CE09C6C005AA575 /* SearchViewController.swift in Sources */,
 				10F001D11E538B0100E91E70 /* Filter.swift in Sources */,
 				CD65D2551C60FD6400AD89DF /* ZipGeo.swift in Sources */,
+				1045F3491EB8A6B600FB0206 /* AdHouseComponent.swift in Sources */,
 				CDD729011E12BA5A009F0B99 /* InsertImageCollection.swift in Sources */,
 				CD44E3081E40942200476C88 /* FilterCollectionViewCell.swift in Sources */,
 				CD4F7C6D1E364B81001E0730 /* HomeCatCell.swift in Sources */,
@@ -1015,7 +959,6 @@
 				CDCA848D1DE30CA800F71A42 /* AccountHeaderView.swift in Sources */,
 				CD1D88821DF072A100DF2688 /* AddImageCollectionViewCell.swift in Sources */,
 				CD7DD35E1E76BC9A00F56B3F /* SpecialField.swift in Sources */,
-				CD7DD3631E76D2FB00F56B3F /* SpecialRangeCell.swift in Sources */,
 				CDA9CCDA1C073236005ED562 /* MoreViewController.swift in Sources */,
 				CD5911A71E5DC17C00C6DA99 /* CollectionViewDataSource.swift in Sources */,
 				CDD729051E130051009F0B99 /* InsertTextFieldPicker.swift in Sources */,
@@ -1033,6 +976,7 @@
 				CDD729031E12FE68009F0B99 /* InsertTableViewDataSource.swift in Sources */,
 				CDFD0BAB1CF5AE0E00B56BF6 /* FilterManager.swift in Sources */,
 				CDD729071E13037C009F0B99 /* InsertCustomFieldCell.swift in Sources */,
+				1045F3471EB88D4200FB0206 /* FilterVCAdHouseSection.swift in Sources */,
 				CDFD59EF1DFEF4920098010B /* ChooseLocationViewController.swift in Sources */,
 				CDB594E51DE5E6230056B405 /* TabBarController.swift in Sources */,
 				CDA9CCCC1C070793005ED562 /* PublicSettings.swift in Sources */,
@@ -1043,7 +987,6 @@
 				CD358E801E0C105C00C63020 /* CustomFieldTableViewController.swift in Sources */,
 				CDCA848F1DE324AA00F71A42 /* User.swift in Sources */,
 				CD4F7C6B1E364B24001E0730 /* HomeViewController.swift in Sources */,
-				CD286E461CCE383B004675A9 /* FilterSelectTableViewController.swift in Sources */,
 				10AD2A041E486EB000CE9152 /* LoadingCell.swift in Sources */,
 				CDB594E31DE5A3080056B405 /* SelectSubCategoryTableViewController.swift in Sources */,
 				CD56FD531E0966CB001164F0 /* ThanksTableViewController.swift in Sources */,
@@ -1060,11 +1003,11 @@
 				CD5D16EC1C903AF900ACE365 /* TitleTableViewCell.swift in Sources */,
 				107AD5B81E54D10800095A0C /* FilterCollectionViewDelegate.swift in Sources */,
 				CD5109861C58C0CF00BA2CB8 /* Category.swift in Sources */,
+				1045F3451EB88B3A00FB0206 /* FilterVCAdCarSection.swift in Sources */,
 				106E297C1EAF51880087F957 /* AdCarComponent.swift in Sources */,
 				CD62AF631DE3412700AD06EF /* LoginViewController.swift in Sources */,
 				1081F2DE1BB02A7600688F3B /* AppDelegate.swift in Sources */,
 				10B765D61E5628D000EE3CF3 /* FilterCollectionViewDataSource.swift in Sources */,
-				CD5D16F41C917A6300ACE365 /* FilterViewController1.swift in Sources */,
 				CD65D2511C60E5EF00AD89DF /* LocationResultsTableController.swift in Sources */,
 				108D72C11EB0A04300F48203 /* FilterViewController.swift in Sources */,
 				CD56FD511E09664C001164F0 /* ThanksViewController.swift in Sources */,
@@ -1077,8 +1020,6 @@
 				CD7DD3611E76C1C300F56B3F /* CategoryManager.swift in Sources */,
 				CDDEF3E61E01393300CF737E /* ChooseLocationTableViewCell.swift in Sources */,
 				CD993E091DF9AFAF00F686C7 /* MyAdsDetailViewController.swift in Sources */,
-				CD286E481CCE455C004675A9 /* FilterMoreSelectTableViewController.swift in Sources */,
-				CDB3AFEA1D2BF00A00C2F254 /* NMRangeSlider.m in Sources */,
 				CD5D16F21C90673600ACE365 /* DetailImageViewController.swift in Sources */,
 				105A2DB01E61848B00BF0CC7 /* InsertListingCell.swift in Sources */,
 			);

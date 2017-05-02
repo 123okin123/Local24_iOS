@@ -12,7 +12,7 @@ import UIKit
 
 // Custom Cell with value type: Bool
 // The cell is defined using a .xib, so we can set outlets :)
-class RangeCell: Cell<Range<Double>>, CellType, UIPickerViewDataSource, UIPickerViewDelegate  {
+class RangeCell: Cell<FilterRange>, CellType, UIPickerViewDataSource, UIPickerViewDelegate  {
    
     @IBOutlet weak var lowerLabel: UILabel!
     @IBOutlet weak var upperLabel: UILabel!
@@ -24,22 +24,44 @@ class RangeCell: Cell<Range<Double>>, CellType, UIPickerViewDataSource, UIPicker
         return picker
     }()
     
-    private var rangeRow: RangeRow<Double>! { return row as! RangeRow<Double> }
+    private var rangeRow: RangeRow<Int>! { return row as! RangeRow<Int> }
     private var titles = [String]()
-    
+    var lowerValue:Int?
+    var upperValue:Int?
     
     public override func setup() {
         super.setup()
-        height = {return 90}
+        height = {return 75}
         title.text = rangeRow.title
         picker.delegate = self
         picker.dataSource = self
-        titles = rangeRow.options.map({String(describing: Int($0)) + rangeRow.unit!})
+        titles = rangeRow.options.map({
+            var option = String(describing: $0)
+            if let unit = rangeRow.unit {
+            option += unit
+            }
+            return option
+        })
+        
     }
   
     
     public override func update() {
         super.update()
+        if let lowerBound = rangeRow.value?.lowerBound {
+            var lowerBoundString = String(describing: lowerBound)
+            if let unit = rangeRow.unit {
+                lowerBoundString += unit
+            }
+            lowerLabel.text = lowerBoundString
+        }
+        if let upperBound = rangeRow.value?.upperBound {
+            var upperBoundString = String(describing: upperBound)
+            if let unit = rangeRow.unit {
+                upperBoundString += unit
+            }
+            upperLabel.text = upperBoundString
+        }
 
     }
     
@@ -65,7 +87,7 @@ class RangeCell: Cell<Range<Double>>, CellType, UIPickerViewDataSource, UIPicker
     }
     
     override func resignFirstResponder() -> Bool {
-        rangeRow.value = Range(uncheckedBounds: (lower: 1, upper: 2))
+        rangeRow.value = FilterRange(upperBound: upperValue, lowerBound: lowerValue)
         return super.resignFirstResponder()
     }
     
@@ -85,8 +107,10 @@ class RangeCell: Cell<Range<Double>>, CellType, UIPickerViewDataSource, UIPicker
         switch component {
         case 0:
             lowerLabel.text = titles[rowNumber]
+            lowerValue = rangeRow.options[rowNumber]
         case 1:
             upperLabel.text = titles[rowNumber]
+            upperValue = rangeRow.options[rowNumber]
         default:
             break
         }
@@ -97,15 +121,25 @@ class RangeCell: Cell<Range<Double>>, CellType, UIPickerViewDataSource, UIPicker
 // The custom Row also has the cell: CustomCell and its correspond value
 final class RangeRow<T:Equatable>: Row<RangeCell>, RowType  {
     
-    
-    
     var unit:String?
     var options = [T]()
-   
-    
+
     required public init(tag: String?) {
         super.init(tag: tag)
         // We set the cellProvider to load the .xib corresponding to our cell
         cellProvider = CellProvider<RangeCell>(nibName: "RangeCell")
     }
 }
+
+
+
+struct FilterRange:Equatable {
+    var upperBound:Int?
+    var lowerBound:Int?
+    static func == (lhs: FilterRange, rhs: FilterRange) -> Bool {
+        return
+            lhs.upperBound == rhs.upperBound &&
+            lhs.lowerBound == rhs.lowerBound
+    }
+}
+

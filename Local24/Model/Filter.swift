@@ -9,12 +9,10 @@
 import Foundation
 
 class Filter {
-    var isSpecial = false
-    var name: filterName!
+    var name: FilterName!
     var descriptiveString: String!
     var filterType: filterType!
-    
-    init(name: filterName, descriptiveString :String, filterType :filterType) {
+    init(name: FilterName, descriptiveString :String, filterType :filterType) {
         self.name = name
         self.descriptiveString = descriptiveString
         self.filterType = filterType
@@ -24,7 +22,7 @@ class Filter {
 
 class Termfilter :Filter {
     var value: String!
-    init(name: filterName, descriptiveString :String, value: String) {
+    init(name: FilterName, descriptiveString :String, value: String) {
         super.init(name: name, descriptiveString: descriptiveString, filterType: .term)
         self.value = value
     }
@@ -56,14 +54,9 @@ class Geofilter: Filter {
 
 class Rangefilter :Filter {
     var unit :String?
-    var gte :Double? //Lower value
-    var lte :Double? //Upper Value
-    init(name: filterName, descriptiveString :String, gte: Double?, lte: Double?) {
-        super.init(name: name, descriptiveString: descriptiveString, filterType: .range)
-        self.gte = gte
-        self.lte = lte
-    }
-    init(name: filterName, descriptiveString :String, gte: Double?, lte: Double?, unit: String?) {
+    var gte :Int? //Lower value
+    var lte :Int? //Upper Value
+    init(name: FilterName, descriptiveString :String, gte: Int?, lte: Int?, unit :String? = nil) {
         super.init(name: name, descriptiveString: descriptiveString, filterType: .range)
         self.gte = gte
         self.lte = lte
@@ -79,13 +72,8 @@ class Stringfilter :Filter {
     }
 }
 
-var sortingOptions = [
-    Sorting(criterium: .createDate, order: .desc, descriptiveString: "Neuste zuerst"),
-    Sorting(criterium: .price, order: .asc, descriptiveString: "Preis aufsteigend"),
-    Sorting(criterium: .price, order: .desc, descriptiveString: "Preis absteigend"),
-    Sorting(criterium: .distance, order: .asc, descriptiveString: "Entfernung"),
-]
-class Sorting {
+
+struct Sorting {
     var criterium:Criterium!
     var order:Order!
     var descriptiveString:String!
@@ -95,22 +83,28 @@ class Sorting {
         self.order = order
         self.descriptiveString = descriptiveString
     }
-    
-    
-    
 }
+
+var sortingOptions = [
+    Sorting(criterium: .createDate, order: .desc, descriptiveString: "Neuste zuerst"),
+    Sorting(criterium: .price, order: .asc, descriptiveString: "Preis aufsteigend"),
+    Sorting(criterium: .price, order: .desc, descriptiveString: "Preis absteigend"),
+    Sorting(criterium: .distance, order: .asc, descriptiveString: "Entfernung"),
+]
+
 enum Criterium :String{
     case createDate
     case price
     case distance
 }
+
  enum Order :String{
     case desc
     case asc
 }
 
 
- enum filterName :String {
+enum FilterName :String {
     case search_string
     case geo_distance
     case sorting
@@ -118,12 +112,20 @@ enum Criterium :String{
     case category
     case subcategory
     case sourceId
-    //Special Fields
+    
     // Adcar
     case mileage
     case powerPS
+    case makeName
+    case modelName
+    // AdHouse
+    case totalRooms
+    
+    
 }
 
+let adCarFilterNames:[FilterName] = [.mileage, .powerPS, .makeName, .modelName]
+let adHouseFilterNames:[FilterName] = [.totalRooms]
 
 
  enum filterType :String {

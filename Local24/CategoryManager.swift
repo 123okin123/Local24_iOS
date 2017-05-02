@@ -70,51 +70,7 @@ class CategoryManager {
         
     }
     
-    
-    
-    
-    let mainCatsStrings = [
-        "Autos, Fahrzeuge",
-        "Immobilien",
-        "Tiere",
-        "Haushalt, Möbel",
-        "Jobs, Stellenangebote",
-        "Dienstleistungen, Service",
-        "Baby, Kind",
-        "Kontaktanzeigen",
-        "Sport, Freizeit, Hobby",
-        "Fahrrad",
-        "Bauen, Renovieren",
-        "Gewerbe",
-        "Musik, Film, Bücher",
-        "Garten, Pflanzen",
-        "Antiquitäten, Kunst",
-        "Flirt & Abenteuer"
-        
-    ]
 
-    let cats = [
-        ["Alles in Autos, Fahrzeuge", "Auto", "Motorrad", "Reifen", "LKW"],
-        ["Alles in Immobilien", "Wohnung", "Haus", "Ferienwohnungen"],
-        ["Alles in Tiere", "Tierzubehör", "Hunde", "Katzen", "Pferde", "Reitbeteiligung & Pferdebox", "Fische"],
-        ["Alles in Haushalt, Möbel", "Haushaltsgeräte", "Sofas, Sessel, Couch", "Möbel", "Schrank", "Lampen & Licht", "Wohnzimmer", "Schlafzimmer", "Küchenmöbel"],
-        ["Alles in Jobs, Stellenangebote", "Bau", "Haushaltshilfe", "Selbstständige", "Informationstechnologie", "Gesundheit & Medizin"],
-        ["Alles in Dienstleistungen, Service", "Haushaltsauflösung", "Alles Mögliche"],
-        ["Alles in Baby, Kind", "Kinderwagen", "Babykleidung", "Spielzeug"],
-        ["Alle Kontaktanzeigen", "Er sucht sie", "Sie sucht ihn", "Sie sucht sie", "Er sucht ihn", "Freundschaft"],
-        ["Alles in Sport, Freizeit, Hobby", "Modellbau","Wintersport","Gesellschaftsspiele","Fitnessgeräte","Inliner & Rollschuhe","Angeln"],
-        ["Alles in Fahrrad", "Mountainbike", "Kinderfahrrad", "Fahrradzubehör", "Damenfahrrad"],
-        ["Alles in Bauen, Renovieren", "Werkzeug", "Baumaschinen"],
-        ["Alles in Gewerbe", "Restposten", "Gastronomiebedarf"],
-        ["Alles in Musik, Film, Bücher", "Musikinstrumente", "Sachbücher, Fachbücher", "Belletristik, Literatur", "Kinderbücher, Jugenbücher", "Zeitschriften, Magazine", "Diverses"],
-        ["Alles in Garten, Pflanzen", "Diverses", "Gartengeräte", "Blumen, Samen, Pflanzen", "Gartenmöbel", "Grill, Barbecue", "Blumentopf, Blumenkübel"],
-        ["Alles in Antiquitätem", "Diverses", "Glas, Porzellan", "Antike Möbel", "Bilder, Gemälde"],
-        ["Alles in Flirt & Abenteuer", "Fetisch und Lust", "Paare und Mehr", "Er sucht sie Erotik", "Sie sucht ihn Erotik", "Er sucht ihn Erotik", "Sie sucht sie Erotik"]
-        
-    ]
-    
-    
-    
     func getURLFromMainCatID(_ id :Int?) -> String {
 
         var url = ""

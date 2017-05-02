@@ -30,7 +30,7 @@ class FilterCollectionViewDelegate :NSObject, UICollectionViewDelegate, UICollec
             if filter.name == .category {
                 if let subCatFilterIndex = FilterManager.shared.filters.index(where: {$0.name == .subcategory}) {
                     let indexPath = IndexPath(item: subCatFilterIndex, section: 0)
-                    FilterManager.shared.removefilterWithName(name: .subcategory)
+                    FilterManager.shared.removefilterWithName(.subcategory)
                     collectionView.deleteItems(at: [indexPath])
                 }
             }

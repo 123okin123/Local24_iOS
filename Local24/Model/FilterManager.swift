@@ -16,16 +16,16 @@ class FilterManager :NSObject {
     static let shared = FilterManager()
     
     var filters = [Filter]()
-
-    
-    
+   
     weak var delegate:FilterManagerDelegate?
     
+    /// Adds a new filterobject to the filterarray of the FilterManager. If a filter object with the name of the added filter already exists, it gets removed by the new filter object.
      func setfilter(newfilter :Filter) {
         insertFilterInFilterArray(newfilter: newfilter)
         delegate?.filtersDidChange()
     }
     
+    /// Adds an array of new filterobjects to the filterarray of the FilterManager. If a filter object with the name of the added filters already exist, it gets removed by the new filter object.
     func setfilters(newfilters :[Filter]) {
         for newfilter in newfilters {
             insertFilterInFilterArray(newfilter: newfilter)
@@ -61,27 +61,41 @@ class FilterManager :NSObject {
     }
     
     
-    func removefilter(filterToRemove :Filter) {
-        if let index = filters.index(where: {$0.name == filterToRemove.name}) {
-            filters.remove(at: index)
-            delegate?.filtersDidChange()
-        }
-    }
+//    func removefilter(filterToRemove :Filter) {
+//        if let index = filters.index(where: {$0.name == filterToRemove.name}) {
+//            filters.remove(at: index)
+//            delegate?.filtersDidChange()
+//        }
+//    }
     func removefilterWithIndex(index :Int) {
             filters.remove(at: index)
             delegate?.filtersDidChange()
     }
     
-    func removefilterWithName(name: filterName) {
+    func removefilterWithName(_ name: FilterName) {
         if let index = filters.index(where: {$0.name == name}) {
             filters.remove(at: index)
             delegate?.filtersDidChange()
         }
     }
     
-    func removeSpecialFilters() {
-        filters = filters.filter({$0.isSpecial == false})
+    func removeFiltersWithNames(_ names: [FilterName]) {
+        for name in names {
+            if let index = filters.index(where: {$0.name == name}) {
+                filters.remove(at: index)
+            }
+        }
         delegate?.filtersDidChange()
+    }
+
+    func removeFiltersForAdClass(adClass: AdClass) {
+        var filterNames = [FilterName]()
+        switch adClass {
+        case .AdCar:
+            filterNames = adCarFilterNames
+        default: return
+        }
+        removeFiltersWithNames(filterNames)
     }
     
     func removeAllfilters() {
@@ -97,7 +111,7 @@ class FilterManager :NSObject {
         
     }
     
-    func getValueOffilter(withName name :filterName, filterType :filterType) -> String? {
+    func getValueOffilter(withName name :FilterName, filterType :filterType) -> String? {
         if let filter = filters.first(where: {$0.name == name}) {
             switch filter.filterType! {
             case .geo_distance:
@@ -124,12 +138,8 @@ class FilterManager :NSObject {
         }
     }
     
-    func getSpecialFilters() -> [Filter] {
-        return filters.filter({$0.isSpecial == true})
-        
-    }
-    
-    func getValuesOfRangefilter(withName name :filterName) -> (gte: Double?,lte: Double?)? {
+
+    func getValuesOfRangefilter(withName name :FilterName) -> (gte: Int?,lte: Int?)? {
         if let filter = filters.first(where: {$0.name == name}) {
             return ((filter as! Rangefilter).gte, (filter as! Rangefilter).lte)
         } else {
@@ -137,7 +147,7 @@ class FilterManager :NSObject {
         }
     }
     
-    func getFilter(withName name: filterName) -> Filter? {
+    func getFilter(withName name: FilterName) -> Filter? {
         return filters.first(where: {$0.name == name})
     }
     
@@ -159,10 +169,10 @@ class FilterManager :NSObject {
                 let rangefilter = filter as! Rangefilter
                 var range = [String:Any]()
                 if let gte = rangefilter.gte {
-                range["gte"] = gte
+                    range["gte"] = Double(gte)
                 }
                 if let lte = rangefilter.lte {
-                    range["lte"] = lte
+                    range["lte"] = Double(lte)
                 }
                 let rangeJson = [
                     "range": [

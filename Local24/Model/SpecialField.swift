@@ -75,39 +75,6 @@ class SpecialField {
     
 
     
-    /*
-    init(entityType: AdClass, name: String) {
-        self.name = name
-        if let path = Bundle.main.path(forResource: "specialFields", ofType: "json") {
-            do {
-                let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .alwaysMapped)
-                let json = JSON(data: data)
-                if json != JSON.null {
-                    if let fields = json[entityType.rawValue].dictionary {
-                        if let field = fields[name]?.dictionary {
-                            self.descriptiveString = field["descriptiveString"]?.string
-                            self.possibleValues = field["possibleValues"]?.arrayObject as [Any]?
-                            self.unit = field["unit"]?.string
-                            if let hasDependentField = field["hasDependentField"]?.bool {
-                                self.hasDependentField = hasDependentField
-                            }
-                            if let type = field["type"]?.string {
-                                self.type = SpecialFieldType.init(rawValue: type)
-                            }
-                            self.searchIndexName = field["searchIndexName"]?.string
-                        }
-                    }
-                } else {
-                    print("Could not get json from file, make sure that file contains valid json.")
-                }
-            } catch let error {
-                print(error.localizedDescription)
-            }
-        }
-        
-    }
- */
-    
     init(name: String, descriptiveString: String, type: SpecialFieldType, value: Any? = nil) {
         self.name = name
         self.descriptiveString = descriptiveString

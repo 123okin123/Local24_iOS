@@ -16,9 +16,10 @@ class FilterViewController: FormViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        TextRow.defaultCellUpdate = { cell, row in cell.textLabel?.font = UIFont(name: "OpenSans", size: 15.0) }
-        
-        
+        TextRow.defaultCellUpdate = { cell, row in cell.textLabel?.font = UIFont(name: "OpenSans", size: 17.0) }
+        SwitchRow.defaultCellUpdate = { cell, row in cell.switchControl?.onTintColor = greencolor }
+        tableView?.backgroundColor = local24grey
+        tableView?.separatorColor = local24grey
         
         
         form
@@ -30,7 +31,7 @@ class FilterViewController: FormViewController {
                 }.onChange {
                     guard let value = $0.value else {return}
                     if value == "" {
-                        FilterManager.shared.removefilterWithName(name: .search_string)
+                        FilterManager.shared.removefilterWithName(.search_string)
                     } else {
                         FilterManager.shared.setfilter(newfilter: Stringfilter(value: value))
                     }
@@ -60,6 +61,9 @@ class FilterViewController: FormViewController {
                 $0.formatter = formatter
                 }.onChange {
                     guard let value = $0.value else {return}
+                    let currentPriceRangeFilter = FilterManager.shared.getFilter(withName: .price) as? Rangefilter
+                    let priceRangeFilter = Rangefilter(name: .price, descriptiveString: "Preis", gte: Int(value), lte: currentPriceRangeFilter?.lte)
+                    FilterManager.shared.setfilter(newfilter: priceRangeFilter)
 
             }
             <<< DecimalRow(){
@@ -71,7 +75,9 @@ class FilterViewController: FormViewController {
                 $0.formatter = formatter
                 }.onChange {
                     guard let value = $0.value else {return}
- 
+                    let currentPriceRangeFilter = FilterManager.shared.getFilter(withName: .price) as? Rangefilter
+                    let priceRangeFilter = Rangefilter(name: .price, descriptiveString: "Preis", gte: currentPriceRangeFilter?.gte, lte: Int(value))
+                    FilterManager.shared.setfilter(newfilter: priceRangeFilter)
             }
             
             
@@ -82,13 +88,16 @@ class FilterViewController: FormViewController {
             <<< PushRow<String>("mainCatTag") {
                 $0.title = "Kategorie"
                 $0.options = ["Alle Anzeigen"] + CategoryManager.shared.mainCategories.map({$0.name})
-                $0.value = (FilterManager.shared.getFilter(withName: .category) as? Termfilter)?.value
+                $0.value = (FilterManager.shared.getFilter(withName: .category) as? Termfilter)?.value ?? "Alle Anzeigen"
                 $0.selectorTitle = "Kategorie"
                 }.onChange {
-                    guard let value = $0.value else {return}
-                    let filter = Termfilter(name: .category, descriptiveString: "Kategorie", value: value)
+                    FilterManager.shared.removefilterWithName(.subcategory)
+                    guard ($0.value != nil) && $0.value != "Alle Anzeigen" else {return}
+                    let filter = Termfilter(name: .category, descriptiveString: "Kategorie", value: $0.value!)
                     FilterManager.shared.setfilter(newfilter: filter)
                 }.onPresent { from, to in
+                    self.applyCustomStyleOnSelectorVC(to)
+                    to.enableDeselection = false
                     to.sectionKeyForValue = { option in
                         switch option {
                         case "Alle Anzeigen": return ""
@@ -98,23 +107,29 @@ class FilterViewController: FormViewController {
             }
             <<< PushRow<String>("subCatTag") {
                 $0.hidden = Condition.function(["mainCatTag"], {form in
+                    form.rowBy(tag: "subCatTag")?.updateCell()
                     return (form.rowBy(tag: "mainCatTag")?.value == "Alle Anzeigen")
                 })
                 $0.title = "Unterkategorie"
                 $0.options = ["Alle Anzeigen"]
-                $0.value = (FilterManager.shared.getFilter(withName: .subcategory) as? Termfilter)?.value
+                $0.value = (FilterManager.shared.getFilter(withName: .subcategory) as? Termfilter)?.value ?? "Alle Anzeigen"
                 $0.selectorTitle = "Unterkategorie"
                 }.cellUpdate { cell, row in
+                    row.value = (FilterManager.shared.getFilter(withName: .subcategory) as? Termfilter)?.value ?? "Alle Anzeigen"
+                    cell.detailTextLabel?.text = row.value
                     guard let currentMainCatName = (FilterManager.shared.getFilter(withName: .category) as? Termfilter)?.value else {return}
                     guard let currentMainCatID = CategoryManager.shared.mainCategories.first(where: {$0.name == currentMainCatName})?.id else {return}
                     let subCats = CategoryManager.shared.subCategories.filter({$0.idParentCategory == currentMainCatID})
                     row.options = ["Alle Anzeigen"] + subCats.map({$0.name})
                 }.onChange {
+                    FilterManager.shared.removefilterWithName(.subcategory)
                     guard let value = $0.value else {return}
                     guard value != "Alle Anzeigen" else {return}
                     let filter = Termfilter(name: .subcategory, descriptiveString: "Unterkategorie", value: value)
                     FilterManager.shared.setfilter(newfilter: filter)
                 }.onPresent { from, to in
+                    self.applyCustomStyleOnSelectorVC(to)
+                    to.enableDeselection = false
                     to.sectionKeyForValue = { option in
                         switch option {
                         case "Alle Anzeigen": return ""
@@ -123,28 +138,9 @@ class FilterViewController: FormViewController {
                     }
             }
             
-            
-            
-            
-            
-            
-            // Special Filter
-            +++ Section() {
-                $0.hidden = Condition.function(["subCatTag"], {form in
-                    return (form.rowBy(tag: "subCatTag")?.value != "Auto")
-                })
-            }
-            <<< RangeRow<Double>() {
-                $0.options = [1,2,3]
-                $0.value = nil
-                $0.title = "Laufleistung"
-                $0.unit = "km"
-                }.onChange {
-                    let rangeFilter = Rangefilter(name: .mileage, descriptiveString: "Laufleistung", gte: $0.value?.lowerBound, lte: $0.value?.upperBound, unit: "km")
-                    FilterManager.shared.setfilter(newfilter: rangeFilter)
-            }
-            
-                    
+            +++ sectionForAdCar()
+            +++ sectionForAdHouse()
+    
             
             // Sorting
             +++ Section()
@@ -158,6 +154,7 @@ class FilterViewController: FormViewController {
                     guard let sorting = sortingOptions.first(where: {$0.descriptiveString == value}) else {return}
                     FilterManager.shared.setfilter(newfilter: Sortfilter(criterium: sorting.criterium, order: sorting.order))
             }
+
             
             
             
@@ -169,13 +166,37 @@ class FilterViewController: FormViewController {
                 }.onChange {
                     guard let value = $0.value else {return}
                     if value {
-                        FilterManager.shared.removefilterWithName(name: .sourceId)
+                        FilterManager.shared.removefilterWithName(.sourceId)
                     } else {
                         FilterManager.shared.setfilter(newfilter: Termfilter(name: .sourceId, descriptiveString: "Nur Local24 Anzeigen", value: "MPS"))
                     }
             }
     }
 
-
+    
+    
+        
+    
+    
+    func applyCustomStyleOnSelectorVC(_ to: SelectorViewController<String>) {
+        to.selectableRowCellUpdate = {cell, row in
+            cell.textLabel?.font = UIFont(name: "OpenSans", size: 17.0)
+            to.tableView?.backgroundColor = local24grey
+            to.tableView?.separatorColor = local24grey
+        }
+    }
+    
+    
+    
+    
+    
+    
+    func arrayFrom(_ from: Int, to: Int, stepValue: Int) -> [Int]{
+        var array = [Int]()
+        for i in from..<(to/stepValue) {
+            array.append(i*stepValue)
+        }
+        return array
+    }
 
 }

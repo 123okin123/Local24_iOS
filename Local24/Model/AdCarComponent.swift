@@ -22,8 +22,3 @@ class AdCarComponent: AdComponent {
     }
 }
 
-class AdHouseComponent:AdComponent {
-    
-    var size: Int?
-    
-}
