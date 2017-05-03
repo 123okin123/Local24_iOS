@@ -72,7 +72,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                            greencolor.cgColor]
         view.layer.insertSublayer(gradient, at: 0)
         print("loginvc viewWillAppear")
-        print("token: \(userToken)")
+        print("token: \(userToken ?? "")")
         print("tokenValid: \(tokenValid)")
         
         if userToken != nil && tokenValid {
