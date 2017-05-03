@@ -98,6 +98,7 @@ class FilterManager :NSObject {
         removeFiltersWithNames(filterNames)
     }
     
+    /// Removes all filterobjects from the filterarray of the Filtermanager, except of the geoFilter (if there was one before), and sets the Sortfilter to createDate desc.
     func removeAllfilters() {
         if let geoFilter = filters.first(where: {$0.name == .geo_distance}) {
             filters.removeAll()

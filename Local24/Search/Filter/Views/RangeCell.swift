@@ -25,9 +25,18 @@ class RangeCell: Cell<FilterRange>, CellType, UIPickerViewDataSource, UIPickerVi
     }()
     
     private var rangeRow: RangeRow<Int>! { return row as! RangeRow<Int> }
-    private var titles = [String]()
-    var lowerValue:Int?
-    var upperValue:Int?
+    private var titles : [String] {
+       return rangeRow.options.map({
+            var option = String(describing: $0)
+            if let unit = rangeRow.unit {
+                option += unit
+            }
+            return option
+        })
+    }
+    private var lowerValue:Int?
+    private var upperValue:Int?
+    
     
     public override func setup() {
         super.setup()
@@ -36,21 +45,19 @@ class RangeCell: Cell<FilterRange>, CellType, UIPickerViewDataSource, UIPickerVi
         picker.delegate = self
         picker.dataSource = self
 
-        titles = rangeRow.options.map({
-            var option = String(describing: $0)
-            if let unit = rangeRow.unit {
-            option += unit
-            }
-            return option
-        })
+        
         if let lowerBound = rangeRow.value?.lowerBound {
             if let lowerIndex = rangeRow.options.index(of: lowerBound) {
                 picker.selectRow(lowerIndex, inComponent: 0, animated: true)
+                lowerValue = lowerBound
+                lowerLabel.text = titles[lowerIndex]
             }
         }
         if let upperBound = rangeRow.value?.upperBound {
             if let upperIndex = rangeRow.options.index(of: upperBound) {
                 picker.selectRow(upperIndex, inComponent: 1, animated: true)
+                upperValue = upperBound
+                upperLabel.text = titles[upperIndex]
             }
         }
         
@@ -60,14 +67,14 @@ class RangeCell: Cell<FilterRange>, CellType, UIPickerViewDataSource, UIPickerVi
     public override func update() {
         super.update()
         if lowerValue != nil {
-            var lowerBoundString = String(describing: lowerValue)
+            var lowerBoundString = String(describing: lowerValue!)
             if let unit = rangeRow.unit {
                 lowerBoundString += unit
             }
             lowerLabel.text = lowerBoundString
         }
         if upperValue != nil {
-            var upperBoundString = String(describing: upperValue)
+            var upperBoundString = String(describing: upperValue!)
             if let unit = rangeRow.unit {
                 upperBoundString += unit
             }
@@ -94,7 +101,7 @@ class RangeCell: Cell<FilterRange>, CellType, UIPickerViewDataSource, UIPickerVi
     }
     
     override open var canBecomeFirstResponder: Bool {
-        return !rangeRow!.isDisabled
+        return !rangeRow.isDisabled
     }
     override func cellBecomeFirstResponder(withDirection: Direction) -> Bool {
         title?.textColor = greencolor
@@ -122,10 +129,8 @@ class RangeCell: Cell<FilterRange>, CellType, UIPickerViewDataSource, UIPickerVi
     func pickerView(_ pickerView: UIPickerView, didSelectRow rowNumber: Int, inComponent component: Int) {
         switch component {
         case 0:
-            lowerLabel.text = titles[rowNumber]
             lowerValue = rangeRow.options[rowNumber]
         case 1:
-            upperLabel.text = titles[rowNumber]
             upperValue = rangeRow.options[rowNumber]
         default:
             break
@@ -134,9 +139,11 @@ class RangeCell: Cell<FilterRange>, CellType, UIPickerViewDataSource, UIPickerVi
             if upperValue! <= lowerValue! {
                 let index = rangeRow.options.index(of: upperValue!)! - 1
                 if index > 0 {
-                picker.selectRow(index, inComponent: 0, animated: true)
-                lowerValue = rangeRow.options[index]
-                lowerLabel.text = titles[index]
+                    picker.selectRow(index, inComponent: 0, animated: true)
+                    lowerValue = rangeRow.options[index]
+                } else {
+                    picker.selectRow(0, inComponent: 0, animated: true)
+                    lowerValue = rangeRow.options[0]
                 }
             }
         }
@@ -147,8 +154,8 @@ class RangeCell: Cell<FilterRange>, CellType, UIPickerViewDataSource, UIPickerVi
 // The custom Row also has the cell: CustomCell and its correspond value
 final class RangeRow<T:Equatable>: Row<RangeCell>, RowType  {
     
-    var unit:String?
-    var options = [T]()
+    open var unit:String?
+    open var options = [T]()
 
     required public init(tag: String?) {
         super.init(tag: tag)

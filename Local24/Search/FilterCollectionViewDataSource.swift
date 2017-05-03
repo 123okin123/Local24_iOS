@@ -33,7 +33,7 @@ class FilterCollectionViewDataSource :NSObject, UICollectionViewDataSource {
         switch filter.filterType! {
         case .sort:
             let sortFilter = filter as! Sortfilter
-            cell.filtervalue.text = sortingOptions.first(where: {$0.order == sortFilter.order && $0.criterium == sortFilter.criterium})?.descriptiveString
+            cell.filtervalue.text = sortFilter.value
             cell.imageViewWidthConstraint.constant = 0
         case .term:
             let termFilter = filter as! Termfilter

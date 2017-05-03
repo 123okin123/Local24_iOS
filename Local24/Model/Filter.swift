@@ -31,6 +31,9 @@ class Termfilter :Filter {
 class Sortfilter :Filter {
     var criterium: Criterium!
     var order: Order!
+    var value :String! {
+        return sortingOptions.first(where: {$0.order == self.order && $0.criterium == self.criterium})!.descriptiveString
+    }
     init(criterium: Criterium, order :Order) {
         super.init(name: .sorting, descriptiveString: "Sortierung", filterType: .sort)
         self.criterium = criterium

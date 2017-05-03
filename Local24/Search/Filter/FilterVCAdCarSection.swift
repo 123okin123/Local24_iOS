@@ -34,12 +34,11 @@ extension FilterViewController {
                 FilterManager.shared.removefilterWithName(.makeName)
                 guard let value = $0.value else {return}
                 guard value != "Alle Marken" else {return}
-                //VW FIX:
-                var filter = Termfilter(name: .makeName, descriptiveString: "Marke", value: value)
-                if value == "Volkswage" {
-                    filter = Termfilter(name: .makeName, descriptiveString: "Marke", value: "VW")
-                }
-                FilterManager.shared.setfilter(newfilter: filter)
+                //FIX notwendig für VW <-> Volkswagen Bug
+                FilterManager.shared.setfilter(newfilter: Termfilter(name: .makeName, descriptiveString: "Marke", value: value))
+//                if value == "Volkswagen" {
+//                    FilterManager.shared.setfilter(newfilter: Termfilter(name: .makeName, descriptiveString: "Marke", value: "VW"))
+//                }
             }.onPresent { from, to in
                 self.applyCustomStyleOnSelectorVC(to)
                 to.enableDeselection = false
@@ -100,11 +99,7 @@ extension FilterViewController {
             }.onChange {
                 let rangeFilter = Rangefilter(name: .mileage, descriptiveString: "Laufleistung", gte: $0.value?.lowerBound, lte: $0.value?.upperBound, unit: "km")
                 FilterManager.shared.setfilter(newfilter: rangeFilter)
-            }.cellUpdate {cell, row in
-                let range = FilterRange(upperBound: (FilterManager.shared.getFilter(withName: .mileage) as? Rangefilter)?.lte, lowerBound: (FilterManager.shared.getFilter(withName: .mileage) as? Rangefilter)?.gte)
-                row.value = range
-        }
-        
+            }
         
         
         

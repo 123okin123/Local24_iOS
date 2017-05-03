@@ -8,6 +8,7 @@
 
 import UIKit
 import Eureka
+import FirebaseAnalytics
 
 class FilterViewController: FormViewController {
 
@@ -29,16 +30,27 @@ class FilterViewController: FormViewController {
         form
             // Search Query
             +++ Section()
-            <<< TextRow(){ row in
-                row.title = "Suchbegriff"
-                row.placeholder = "z.B. Fahrrad"
+            <<< TextRow(){
+                $0.title = "Suchbegriff"
+                $0.value = (FilterManager.shared.getFilter(withName: .search_string) as? Stringfilter)?.queryString
+                $0.placeholder = "z.B. Fahrrad"
+                }.cellUpdate { cell, row in
+                    row.value = (FilterManager.shared.getFilter(withName: .search_string) as? Stringfilter)?.queryString
                 }.onChange {
-                    guard let value = $0.value else {return}
+                    guard let value = $0.value else {
+                        FilterManager.shared.removefilterWithName(.search_string)
+                        return}
                     if value == "" {
                         FilterManager.shared.removefilterWithName(.search_string)
                     } else {
                         FilterManager.shared.setfilter(newfilter: Stringfilter(value: value))
                     }
+                }.onCellSelection {cell, row in
+                    guard let value = row.value else {return}
+                    FIRAnalytics.logEvent(withName: kFIREventSearch, parameters: [
+                        kFIRParameterSearchTerm: value as NSObject,
+                        "screen": "filter" as NSObject
+                        ])
             }
             
             
@@ -59,12 +71,20 @@ class FilterViewController: FormViewController {
             <<< DecimalRow(){
                 $0.useFormatterDuringInput = true
                 $0.title = "Preis von"
+                if let intGtePrice = (FilterManager.shared.getFilter(withName: .price) as? Rangefilter)?.gte {
+                    $0.value = Double(intGtePrice)
+                } else {$0.value = nil}
                 let formatter = CurrencyFormatter()
                 formatter.locale = .current
                 formatter.numberStyle = .currency
                 $0.formatter = formatter
+                }.cellUpdate { cell, row in
+                    if let intGtePrice = (FilterManager.shared.getFilter(withName: .price) as? Rangefilter)?.gte {
+                        row.value = Double(intGtePrice)
+                    } else {row.value = nil}
                 }.onChange {
                     guard let value = $0.value else {return}
+                    guard value != 0 else {return}
                     let currentPriceRangeFilter = FilterManager.shared.getFilter(withName: .price) as? Rangefilter
                     let priceRangeFilter = Rangefilter(name: .price, descriptiveString: "Preis", gte: Int(value), lte: currentPriceRangeFilter?.lte, unit: "€")
                     FilterManager.shared.setfilter(newfilter: priceRangeFilter)
@@ -73,12 +93,20 @@ class FilterViewController: FormViewController {
             <<< DecimalRow(){
                 $0.useFormatterDuringInput = true
                 $0.title = "Preis bis"
+                if let intLtePrice = (FilterManager.shared.getFilter(withName: .price) as? Rangefilter)?.lte {
+                    $0.value = Double(intLtePrice)
+                } else {$0.value = nil}
                 let formatter = CurrencyFormatter()
                 formatter.locale = .current
                 formatter.numberStyle = .currency
                 $0.formatter = formatter
+                }.cellUpdate {cell, row in
+                    if let intLtePrice = (FilterManager.shared.getFilter(withName: .price) as? Rangefilter)?.lte {
+                        row.value = Double(intLtePrice)
+                    } else {row.value = nil}
                 }.onChange {
                     guard let value = $0.value else {return}
+                    guard value != 0 else {return}
                     let currentPriceRangeFilter = FilterManager.shared.getFilter(withName: .price) as? Rangefilter
                     let priceRangeFilter = Rangefilter(name: .price, descriptiveString: "Preis", gte: currentPriceRangeFilter?.gte, lte: Int(value), unit: "€")
                     FilterManager.shared.setfilter(newfilter: priceRangeFilter)
@@ -95,7 +123,8 @@ class FilterViewController: FormViewController {
                 $0.value = (FilterManager.shared.getFilter(withName: .category) as? Termfilter)?.value ?? "Alle Anzeigen"
                 $0.selectorTitle = "Kategorie"
                 }.onChange {
-                    FilterManager.shared.removefilterWithName(.subcategory)
+                    FilterManager.shared.removeAllfilters()
+                    _ = self.form.allRows.map({$0.updateCell(); $0.reload()})
                     guard ($0.value != nil) && $0.value != "Alle Anzeigen" else {return}
                     let filter = Termfilter(name: .category, descriptiveString: "Kategorie", value: $0.value!)
                     FilterManager.shared.setfilter(newfilter: filter)
@@ -151,12 +180,17 @@ class FilterViewController: FormViewController {
             <<< PushRow<String>() {
                 $0.title = "Sortierung"
                 $0.options = sortingOptions.map({$0.descriptiveString})
-                $0.value = "Neuste zuerst"
+                $0.value = (FilterManager.shared.getFilter(withName: .sorting) as? Sortfilter)?.value
                 $0.selectorTitle = "Sortierung"
+                }.cellUpdate {cell, row in
+                row.value = (FilterManager.shared.getFilter(withName: .sorting) as? Sortfilter)?.value
                 }.onChange {
                     guard let value = $0.value else {return}
                     guard let sorting = sortingOptions.first(where: {$0.descriptiveString == value}) else {return}
                     FilterManager.shared.setfilter(newfilter: Sortfilter(criterium: sorting.criterium, order: sorting.order))
+                }.onPresent { from, to in
+                    self.applyCustomStyleOnSelectorVC(to)
+                    to.enableDeselection = false
             }
 
             
@@ -166,7 +200,7 @@ class FilterViewController: FormViewController {
             +++ Section()
             <<< SwitchRow() {
                 $0.title = "Partnerportale durchsuchen"
-                $0.value = true
+                $0.value = (FilterManager.shared.getFilter(withName: .sourceId) as? Termfilter)?.value == "MPS" ? false : true
                 }.onChange {
                     guard let value = $0.value else {return}
                     if value {
