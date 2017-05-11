@@ -76,36 +76,6 @@ class Stringfilter :Filter {
 }
 
 
-struct Sorting {
-    var criterium:Criterium!
-    var order:Order!
-    var descriptiveString:String!
-    
-    init(criterium :Criterium, order :Order,descriptiveString :String ) {
-        self.criterium = criterium
-        self.order = order
-        self.descriptiveString = descriptiveString
-    }
-}
-
-var sortingOptions = [
-    Sorting(criterium: .createDate, order: .desc, descriptiveString: "Neuste zuerst"),
-    Sorting(criterium: .price, order: .asc, descriptiveString: "Preis aufsteigend"),
-    Sorting(criterium: .price, order: .desc, descriptiveString: "Preis absteigend"),
-    Sorting(criterium: .distance, order: .asc, descriptiveString: "Entfernung"),
-]
-
-enum Criterium :String{
-    case createDate
-    case price
-    case distance
-}
-
- enum Order :String{
-    case desc
-    case asc
-}
-
 
 enum FilterName :String {
     case search_string
@@ -115,7 +85,6 @@ enum FilterName :String {
     case category
     case subcategory
     case sourceId
-    
     // Adcar
     case mileage
     case powerPS
@@ -125,7 +94,6 @@ enum FilterName :String {
     case totalRooms
     case landarea
     case size
-    
     
 }
 

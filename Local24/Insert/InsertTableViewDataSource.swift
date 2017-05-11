@@ -11,7 +11,7 @@ import SwiftyJSON
 
 //InsertTableViewDataSource
 
-extension InsertTableViewController: InsertImageCellDelegate {
+extension InsertTableViewController {
 
     //MARK: CustomFields
     

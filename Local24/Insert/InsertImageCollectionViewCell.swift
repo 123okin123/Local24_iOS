@@ -13,10 +13,10 @@ class InsertImageCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var deleteImageButton: UIButton! {didSet {deleteImageButton.imageEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)}}
     
-    var delegate: InsertImageCellDelegate?
+    //var delegate: InsertImageCellDelegate?
     
     @IBAction func deleteImageButtonTapped(_ sender: UIButton) {
-    self.delegate?.buttonTapped(cell: self)
+    //self.delegate?.buttonTapped(cell: self)
     }
     
 
@@ -28,11 +28,11 @@ class InsertImageCollectionViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         imageView.image = nil
-        self.delegate = nil
+        //self.delegate = nil
     }
 }
 
 
-protocol InsertImageCellDelegate: class {
-    func buttonTapped(cell: InsertImageCollectionViewCell)
-}
+//protocol InsertImageCellDelegate: class {
+//    func buttonTapped(cell: InsertImageCollectionViewCell)
+//}

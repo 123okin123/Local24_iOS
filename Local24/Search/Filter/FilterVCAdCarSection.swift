@@ -34,11 +34,7 @@ extension FilterViewController {
                 FilterManager.shared.removefilterWithName(.makeName)
                 guard let value = $0.value else {return}
                 guard value != "Alle Marken" else {return}
-                //FIX notwendig für VW <-> Volkswagen Bug
                 FilterManager.shared.setfilter(newfilter: Termfilter(name: .makeName, descriptiveString: "Marke", value: value))
-//                if value == "Volkswagen" {
-//                    FilterManager.shared.setfilter(newfilter: Termfilter(name: .makeName, descriptiveString: "Marke", value: "VW"))
-//                }
             }.onPresent { from, to in
                 self.applyCustomStyleOnSelectorVC(to)
                 to.enableDeselection = false
@@ -62,7 +58,6 @@ extension FilterViewController {
             }.cellUpdate {cell, row in
                 row.value = (FilterManager.shared.getFilter(withName: .modelName) as? Termfilter)?.value ?? "Alle Modelle"
                 cell.detailTextLabel?.text = row.value
-                //row.options = ["Alle Modelle"]
             }.onChange {
                 FilterManager.shared.removefilterWithName(.modelName)
                 guard let value = $0.value else {return}
