@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		101A7D2A1ECDCDA600E168C0 /* MutiplePushRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 101A7D291ECDCDA600E168C0 /* MutiplePushRow.swift */; };
+		101A7D2C1ECDCF1500E168C0 /* MutiStepSelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 101A7D2B1ECDCF1500E168C0 /* MutiStepSelectorViewController.swift */; };
 		10311D1B1EC4433C007A9946 /* Sorting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10311D1A1EC4433C007A9946 /* Sorting.swift */; };
 		10311D231EC44BB9007A9946 /* InsertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10311D221EC44BB9007A9946 /* InsertViewController.swift */; };
 		10311D251EC45DCA007A9946 /* ImageSelectorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10311D241EC45DCA007A9946 /* ImageSelectorCell.swift */; };
@@ -34,6 +36,7 @@
 		10B765D41E5627DC00EE3CF3 /* SearchVCAdExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B765D31E5627DC00EE3CF3 /* SearchVCAdExtension.swift */; };
 		10B765D61E5628D000EE3CF3 /* FilterCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B765D51E5628D000EE3CF3 /* FilterCollectionViewDataSource.swift */; };
 		10BE7FCC1E6DB780005CD764 /* FeaturedListingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10BE7FCB1E6DB780005CD764 /* FeaturedListingsCell.swift */; };
+		10D73ECF1ECD9B33004BFFD1 /* AddImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10D73ECE1ECD9B33004BFFD1 /* AddImageCell.xib */; };
 		10F001D11E538B0100E91E70 /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10F001D01E538B0100E91E70 /* Filter.swift */; };
 		622AED0118902B345F72C845 /* Pods_Local24UITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFF4E34FAF766CF6AAB81F90 /* Pods_Local24UITests.framework */; };
 		946AE2445CFC457A49DFDAEF /* Pods_Local24.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAE5DB9518CCC4A7488A2757 /* Pods_Local24.framework */; };
@@ -145,6 +148,8 @@
 
 /* Begin PBXFileReference section */
 		05704309B0C663E0ECE2D2B2 /* Pods-Local24.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Local24.release.xcconfig"; path = "Pods/Target Support Files/Pods-Local24/Pods-Local24.release.xcconfig"; sourceTree = "<group>"; };
+		101A7D291ECDCDA600E168C0 /* MutiplePushRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MutiplePushRow.swift; path = Insert/MutiplePushRow.swift; sourceTree = "<group>"; };
+		101A7D2B1ECDCF1500E168C0 /* MutiStepSelectorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MutiStepSelectorViewController.swift; path = Insert/MutiStepSelectorViewController.swift; sourceTree = "<group>"; };
 		10311D1A1EC4433C007A9946 /* Sorting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Sorting.swift; path = Model/Sorting.swift; sourceTree = "<group>"; };
 		10311D221EC44BB9007A9946 /* InsertViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InsertViewController.swift; path = Insert/InsertViewController.swift; sourceTree = "<group>"; };
 		10311D241EC45DCA007A9946 /* ImageSelectorCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageSelectorCell.swift; path = Insert/ImageSelectorCell.swift; sourceTree = "<group>"; };
@@ -179,6 +184,7 @@
 		10B765D51E5628D000EE3CF3 /* FilterCollectionViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterCollectionViewDataSource.swift; path = Search/FilterCollectionViewDataSource.swift; sourceTree = "<group>"; };
 		10BE7FCB1E6DB780005CD764 /* FeaturedListingsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeaturedListingsCell.swift; path = Home/Views/FeaturedListingsCell.swift; sourceTree = "<group>"; };
 		10D00FCD1E1FE3E6006199E8 /* Local24.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Local24.entitlements; path = SupportingFiles/Local24.entitlements; sourceTree = "<group>"; };
+		10D73ECE1ECD9B33004BFFD1 /* AddImageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddImageCell.xib; path = Insert/AddImageCell.xib; sourceTree = "<group>"; };
 		10F001D01E538B0100E91E70 /* Filter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Filter.swift; path = Model/Filter.swift; sourceTree = "<group>"; };
 		3F30DDA7EF437ED36AD0AEDE /* Pods-Local24UITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Local24UITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Local24UITests/Pods-Local24UITests.release.xcconfig"; sourceTree = "<group>"; };
 		43DD49A8287E5B1D5DEA9BC8 /* Pods_Local24Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Local24Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -309,6 +315,33 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		101A7D271ECDCAAA00E168C0 /* old */ = {
+			isa = PBXGroup;
+			children = (
+				CDB594DD1DE595130056B405 /* InsertTableViewController.swift */,
+				CDD729021E12FE68009F0B99 /* InsertTableViewDataSource.swift */,
+				CDD729041E130051009F0B99 /* InsertTextFieldPicker.swift */,
+				CDD729061E13037C009F0B99 /* InsertCustomFieldCell.swift */,
+				CDD7290A1E13C730009F0B99 /* LocationPicker */,
+				CDD729091E13C6DC009F0B99 /* CategoryPicker */,
+				CDD729081E13C6BA009F0B99 /* ImagePicker */,
+			);
+			name = old;
+			sourceTree = "<group>";
+		};
+		101A7D281ECDCACB00E168C0 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				101A7D291ECDCDA600E168C0 /* MutiplePushRow.swift */,
+				10311D241EC45DCA007A9946 /* ImageSelectorCell.swift */,
+				10311D261EC469DC007A9946 /* ImageSelectorCell.xib */,
+				CD3E16041DF07C7700D0C300 /* InsertImageCollectionViewCell.swift */,
+				10311D2A1EC48AA2007A9946 /* ImageCell.xib */,
+				10D73ECE1ECD9B33004BFFD1 /* AddImageCell.xib */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
 		10311D1C1EC44468007A9946 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -609,16 +642,9 @@
 			children = (
 				10311D221EC44BB9007A9946 /* InsertViewController.swift */,
 				10311D281EC47A38007A9946 /* LocalImagePickerController.swift */,
-				10311D241EC45DCA007A9946 /* ImageSelectorCell.swift */,
-				10311D261EC469DC007A9946 /* ImageSelectorCell.xib */,
-				10311D2A1EC48AA2007A9946 /* ImageCell.xib */,
-				CDB594DD1DE595130056B405 /* InsertTableViewController.swift */,
-				CDD729021E12FE68009F0B99 /* InsertTableViewDataSource.swift */,
-				CDD729041E130051009F0B99 /* InsertTextFieldPicker.swift */,
-				CDD729061E13037C009F0B99 /* InsertCustomFieldCell.swift */,
-				CDD7290A1E13C730009F0B99 /* LocationPicker */,
-				CDD729091E13C6DC009F0B99 /* CategoryPicker */,
-				CDD729081E13C6BA009F0B99 /* ImagePicker */,
+				101A7D2B1ECDCF1500E168C0 /* MutiStepSelectorViewController.swift */,
+				101A7D281ECDCACB00E168C0 /* Views */,
+				101A7D271ECDCAAA00E168C0 /* old */,
 			);
 			name = Insert;
 			sourceTree = "<group>";
@@ -642,7 +668,6 @@
 			isa = PBXGroup;
 			children = (
 				CDD729001E12BA5A009F0B99 /* InsertImageCollection.swift */,
-				CD3E16041DF07C7700D0C300 /* InsertImageCollectionViewCell.swift */,
 				CD1D88811DF072A100DF2688 /* AddImageCollectionViewCell.swift */,
 			);
 			name = ImagePicker;
@@ -830,6 +855,7 @@
 				CDCF31881E09735600379468 /* Facebook-iOS-SDK.txt in Resources */,
 				CDCF317F1E09710D00379468 /* Alamofire.txt in Resources */,
 				CDE5EF9E1E65C56500AA62C0 /* container in Resources */,
+				10D73ECF1ECD9B33004BFFD1 /* AddImageCell.xib in Resources */,
 				10311D271EC469DC007A9946 /* ImageSelectorCell.xib in Resources */,
 				CDE4DA011C0DEA3400FE7611 /* OpenSans-Semibold.ttf in Resources */,
 				CDE4D9FB1C0DEA3400FE7611 /* OpenSans-ExtraBold.ttf in Resources */,
@@ -1018,6 +1044,7 @@
 				10311D291EC47A38007A9946 /* LocalImagePickerController.swift in Sources */,
 				CDD729011E12BA5A009F0B99 /* InsertImageCollection.swift in Sources */,
 				CD44E3081E40942200476C88 /* FilterCollectionViewCell.swift in Sources */,
+				101A7D2A1ECDCDA600E168C0 /* MutiplePushRow.swift in Sources */,
 				CD4F7C6D1E364B81001E0730 /* HomeCatCell.swift in Sources */,
 				CD9A1F251E376F67003574BC /* HomeHeaderCollectionReusableView.swift in Sources */,
 				CD0E3F801CE0A06C005AA575 /* CollectionViewCell.swift in Sources */,
@@ -1035,6 +1062,7 @@
 				10311D251EC45DCA007A9946 /* ImageSelectorCell.swift in Sources */,
 				CDA9CCD81C0715B3005ED562 /* MoreTableViewController.swift in Sources */,
 				CD5D16E51C8F11B200ACE365 /* ContactTableViewController.swift in Sources */,
+				101A7D2C1ECDCF1500E168C0 /* MutiStepSelectorViewController.swift in Sources */,
 				CD7754211C71C0E200253B7B /* CenterLocationButton.swift in Sources */,
 				CD84C5921C88844400A6E8A4 /* LocalDetailTableViewController.swift in Sources */,
 				CD5C2B9B1E6EEEBB0037C3F7 /* FeaturedListingsLoadingCell.swift in Sources */,

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="UICollectionViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dottedLine" translatesAutoresizingMaskIntoConstraints="NO" id="fLn-RW-lLd">
+                    <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="150" id="6GO-i4-3eo"/>
+                        <constraint firstAttribute="height" constant="150" id="Nqi-zI-can"/>
+                    </constraints>
+                </imageView>
+            </subviews>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="fLn-RW-lLd" secondAttribute="trailing" id="aOu-nB-C6e"/>
+                <constraint firstItem="fLn-RW-lLd" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="eQC-in-qJ3"/>
+                <constraint firstAttribute="bottom" secondItem="fLn-RW-lLd" secondAttribute="bottom" id="jkp-B4-gkV"/>
+                <constraint firstItem="fLn-RW-lLd" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="jzp-UU-mFL"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <nil key="simulatedTopBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="-79" y="-205"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="dottedLine" width="16" height="16"/>
+    </resources>
+</document>

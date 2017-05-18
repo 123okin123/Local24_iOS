@@ -46,7 +46,6 @@ extension InsertTableViewController: UICollectionViewDelegate, UICollectionViewD
         return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(indexPath)
         present(imagePicker, animated: true, completion: nil)
         
     }

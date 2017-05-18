@@ -9,18 +9,43 @@
 import UIKit
 import Eureka
 import FirebaseAnalytics
+import EquatableArray
 
 class InsertViewController: FormViewController {
 
+    var listingExists = false
+    var listing = Listing()
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if listingExists {
+            navigationItem.setHidesBackButton(false, animated: false)
+        } else {
+            navigationItem.setHidesBackButton(true, animated: false)
+        }
+        navigationController?.setNavigationBarHidden(false, animated: false)
+        NetworkManager.shared.getUserProfile(userToken: userToken!, completion: {(fetchedUser, statusCode) in
+            user = fetchedUser
+        })
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        TextRow.defaultCellUpdate = { cell, row in cell.textLabel?.font = UIFont(name: "OpenSans", size: 17.0) }
+        SwitchRow.defaultCellUpdate = { cell, row in cell.switchControl?.onTintColor = greencolor }
+        tableView?.backgroundColor = local24grey
+        tableView?.separatorColor = local24grey
+        navigationAccessoryView.tintColor = greencolor
       
         
         form
             +++ Section()
             <<< ImageSelectorRow() {
-            $0.images = [UIImage(),UIImage()]
+                if let images = listing.images {
+                $0.value = EquatableArray(images)
+                }
             }
             +++ Section()
             <<< SegmentedRow<String>() {
@@ -30,7 +55,7 @@ class InsertViewController: FormViewController {
             <<< TextRow() {
                 $0.placeholder = "Titel"
             }
-            <<< PushRow<String>() {
+            <<< MutiplePushRow<String>() {
                 $0.title = "Kategorie"
             }
             +++ Section("Beschreibung")

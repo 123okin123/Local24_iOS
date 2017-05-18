@@ -9,11 +9,11 @@
 import Foundation
 import ImagePicker
 import Eureka
-
+import EquatableArray
 
 class LocalImagePickerController :ImagePickerController, TypedRowControllerType  {
     /// The row that pushed or presented this controller
-    public var row: RowOf<EquatableImageArray>!
+    public var row: RowOf<EquatableArray<UIImage>>!
     
     /// A closure to be called when the controller disappears.
     public var onDismissCallback : ((UIViewController) -> ())?
