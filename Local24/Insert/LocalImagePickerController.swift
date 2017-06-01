@@ -17,4 +17,7 @@ class LocalImagePickerController :ImagePickerController, TypedRowControllerType 
     
     /// A closure to be called when the controller disappears.
     public var onDismissCallback : ((UIViewController) -> ())?
+    
+    
+
 }

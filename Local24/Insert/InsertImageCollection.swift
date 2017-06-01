@@ -23,7 +23,7 @@ extension InsertTableViewController: UICollectionViewDelegate, UICollectionViewD
             return cell
         } else {
             let image = imageArray[indexPath.row]
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "insertImageCellID", for: indexPath) as! InsertImageCollectionViewCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "insertImageCellID", for: indexPath) as! ImageCell
             cell.tag = indexPath.row
             cell.imageView.image = image
             //cell.delegate = self

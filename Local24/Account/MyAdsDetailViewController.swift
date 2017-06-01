@@ -372,10 +372,9 @@ class MyAdsDetailViewController: UIViewController, UITableViewDataSource, UITabl
             }
         }
         if segue.identifier == "editAdSegueID" {
-            if let editVC = segue.destination as? InsertTableViewController {
+            if let editVC = segue.destination as? InsertViewController {
             editVC.listingExists = true
             editVC.listing = listing
-            editVC.imageArray = images
             }
         }
     }

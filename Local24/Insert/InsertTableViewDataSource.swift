@@ -141,7 +141,7 @@ extension InsertTableViewController {
     
     //  MARK: CellSubclassDelegate
     
-    func buttonTapped(cell: InsertImageCollectionViewCell) {
+    func buttonTapped(cell: ImageCell) {
         guard let indexPath = self.imageCollectionView.indexPath(for: cell) else {return}
         print("Button tapped on item \(indexPath.row)")
         

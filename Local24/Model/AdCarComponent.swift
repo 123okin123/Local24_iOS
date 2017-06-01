@@ -9,7 +9,10 @@
 import Foundation
 import SwiftyJSON
 
-class AdComponent {}
+class AdComponent {
+
+    
+}
 
 class AdCarComponent: AdComponent {
 

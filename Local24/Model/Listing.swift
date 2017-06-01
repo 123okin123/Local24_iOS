@@ -20,9 +20,12 @@ class Listing :NSObject {
     var title :String?
     var adDescription :String?
     var specialFields :[SpecialField]?
+    /// Type of the listing. Can be "Gesuch" or "Angebot"
     var adType :AdType?
+    /// AdClass of the listing. Can be: AdTruck, AdCat, AdCommune, AdDating, AdDog, AdHorse, AdJob, AdMotorcycle, AdOtherProperty, AdCar, AdHouse, AdApartment, AdPlain
     var entityType :AdClass?
     var price :String?
+    /// Possible values: Zu verschenken, VHB, Festpreis, keine Angabe
     var priceType :String?
     var priceWithCurrency :String? {get {
         if price != nil {
@@ -47,7 +50,8 @@ class Listing :NSObject {
             return round(location.distance(from:  CLLocation(latitude: geofilter.lat, longitude: geofilter.lon))/1000)
         } else {return nil}
     }
- 
+    
+
     var city :String?
     var zipcode: String?
     var street: String?
@@ -174,7 +178,7 @@ class Listing :NSObject {
         if let zipcode = value["ZipCode"] as? String {
             self.zipcode = zipcode
         }
-        
+   
         
         
 
@@ -345,7 +349,7 @@ enum AdState :String {
     case expired
     case deletedByAdvertiser
 }
-
+/// Possible values: Zu verschenken, VHB, Festpreis, keine Angabe
 enum PriceType :String {
     case zuVerschenken = "Zu verschenken"
     case vhb  = "VHB"

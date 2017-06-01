@@ -9,8 +9,9 @@
 import UIKit
 import MapKit
 import CoreLocation
+import Eureka
 
-class ChooseLocationViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UINavigationControllerDelegate, MKMapViewDelegate {
+class ChooseLocationViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UINavigationControllerDelegate, MKMapViewDelegate, TypedRowControllerType {
 
     // MARK: - IBOutlets
 
@@ -24,12 +25,21 @@ class ChooseLocationViewController: UIViewController, UITableViewDelegate, UITab
     
     // MARK: - Variables
     
+    /// Array of possible addresses based on user location, searchField and saved location
     var addresses = [CLPlacemark]()
-    let geocoder = CLGeocoder()
-    var locationManager = CLLocationManager()
-    var selectedIndex :Int?
+    /// The row that pushed or presented this controller. Is of type RowOf<Bool>, where Bool represents the changed placemark.
+    var row: RowOf<Bool>!
+    /// A closure to be called when the controller disappears.
+    var onDismissCallback : ((UIViewController) -> ())?
+    /// currently set placemark for listing
     var currentLocationPlacemark :CLPlacemark?
-    var mapViewInitiallyCentered = false
+    
+    private var mapViewInitiallyCentered = false
+    private let geocoder = CLGeocoder()
+    private var locationManager = CLLocationManager()
+    private var selectedIndex :Int?
+    
+
     
     // MARK: - IBActions
 
@@ -100,7 +110,7 @@ class ChooseLocationViewController: UIViewController, UITableViewDelegate, UITab
     }
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
- 
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -273,8 +283,10 @@ class ChooseLocationViewController: UIViewController, UITableViewDelegate, UITab
         guard (cell.streetLabel != nil && cell.streetLabel.text != "") else {return}
         guard (cell.zipCodeLabel != nil && cell.zipCodeLabel.text != "") else {return}
         selectedIndex = indexPath.row
-        if let selectedLocation = addresses[selectedIndex!].location {
-            centerMapViewOnCoordinate(coordinate: selectedLocation.coordinate)
+        let selectedLocation = addresses[selectedIndex!]
+            currentLocationPlacemark = selectedLocation
+        if let location = selectedLocation.location {
+            centerMapViewOnCoordinate(coordinate: location.coordinate)
         }
         view.endEditing(true)
         tableView.reloadData()
@@ -300,24 +312,26 @@ class ChooseLocationViewController: UIViewController, UITableViewDelegate, UITab
     // MARK: - Navigation
 
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
-        if let insertVC = viewController as? InsertTableViewController {
-            if selectedIndex != nil {
-                let cell = tableView.cellForRow(at: IndexPath(row: selectedIndex!, section: 0)) as! ChooseLocationTableViewCell
-                    insertVC.houseNumberLabel.text = cell.houseNumberLabel.text
-                    insertVC.cityLabel.text = cell.cityLabel.text
-                    insertVC.zipLabel.text = cell.zipCodeLabel.text
-                    insertVC.streetLabel.text = cell.streetLabel.text
-                if let location = addresses[selectedIndex!].location {
-                    insertVC.listing.adLat = location.coordinate.latitude
-                    insertVC.listing.adLong = location.coordinate.longitude
-                }
-                insertVC.zipLabel.textColor = UIColor.darkGray
-                insertVC.cityLabel.textColor = UIColor.darkGray
-                insertVC.houseNumberLabel.textColor = UIColor.darkGray
-                insertVC.streetLabel.textColor = UIColor.darkGray
-            }
-
-        }
+        onDismissCallback!(self)
+        
+//        if let insertVC = viewController as? InsertTableViewController {
+//            if selectedIndex != nil {
+//                let cell = tableView.cellForRow(at: IndexPath(row: selectedIndex!, section: 0)) as! ChooseLocationTableViewCell
+//                    insertVC.houseNumberLabel.text = cell.houseNumberLabel.text
+//                    insertVC.cityLabel.text = cell.cityLabel.text
+//                    insertVC.zipLabel.text = cell.zipCodeLabel.text
+//                    insertVC.streetLabel.text = cell.streetLabel.text
+//                if let location = addresses[selectedIndex!].location {
+//                    insertVC.listing.adLat = location.coordinate.latitude
+//                    insertVC.listing.adLong = location.coordinate.longitude
+//                }
+//                insertVC.zipLabel.textColor = UIColor.darkGray
+//                insertVC.cityLabel.textColor = UIColor.darkGray
+//                insertVC.houseNumberLabel.textColor = UIColor.darkGray
+//                insertVC.streetLabel.textColor = UIColor.darkGray
+//            }
+//
+//        }
     }
 
     
