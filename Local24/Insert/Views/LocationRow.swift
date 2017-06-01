@@ -33,15 +33,7 @@ public class LocationCell: Cell<Bool>, CellType {
     
     public override func update() {
         super.update()
-//        if locationRow.placemark != nil {
-//            cityLabel.text = locationRow.placemark?.addressDictionary?["City"] as? String
-//            streetLabel.text = locationRow.placemark?.addressDictionary?["Thoroughfare"] as? String
-//            houseNumberLabel.text = locationRow.placemark?.addressDictionary?["SubThoroughfare"] as? String
-//            zipCodeLabel.text = locationRow.placemark?.postalCode
-//        } else {
-//            streetLabel.text = "Artikelstandort wählen..."
-//        }
-        
+
         if locationRow.location != nil {
             cityLabel.text = locationRow.city
             streetLabel.text = locationRow.street
@@ -66,11 +58,17 @@ final class LocationRow: SelectorRow<LocationCell, ChooseLocationViewController>
     
     public required init(tag: String?) {
         super.init(tag: tag)
+        
         presentationMode = .show(controllerProvider: ControllerProvider.storyBoard(storyboardId: "ChooseLocationViewControllerID", storyboardName: "Main", bundle: nil), onDismiss: { vc in
             guard let vc = vc as? ChooseLocationViewController else {return}
       
             guard let placemark = vc.currentLocationPlacemark else {
                 self.value = nil
+                self.location = nil
+                self.city = nil
+                self.street = nil
+                self.houseNumber = nil
+                self.zipCode = nil
                 return
             }
             self.location = placemark.location
@@ -85,7 +83,7 @@ final class LocationRow: SelectorRow<LocationCell, ChooseLocationViewController>
                 self.value = true
             }
             self.updateCell()
-        })
+            })
         cellProvider = CellProvider<LocationCell>(nibName: "LocationCell")
     }
 

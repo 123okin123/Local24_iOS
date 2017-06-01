@@ -37,7 +37,7 @@ class ChooseLocationViewController: UIViewController, UITableViewDelegate, UITab
     private var mapViewInitiallyCentered = false
     private let geocoder = CLGeocoder()
     private var locationManager = CLLocationManager()
-    private var selectedIndex :Int?
+    
     
 
     
@@ -65,6 +65,7 @@ class ChooseLocationViewController: UIViewController, UITableViewDelegate, UITab
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         checkLocationAuthorizationStatus()
+        
         if let userPlacemark = user?.placemark {
             addresses.append(userPlacemark)
         }
@@ -74,7 +75,6 @@ class ChooseLocationViewController: UIViewController, UITableViewDelegate, UITab
         if !(self.addresses.isEmpty) {
             if let location = self.addresses[0].location {
                 self.centerMapViewOnCoordinate(coordinate: location.coordinate)
-                self.selectedIndex = 0
                 currentLocationPlacemark = self.addresses[0]
                 tableView.reloadData()
             }
@@ -133,38 +133,14 @@ class ChooseLocationViewController: UIViewController, UITableViewDelegate, UITab
     
     func searchForAddressString(string :String) {
         activityIndicator.startAnimating()
-            selectedIndex = nil
-            let center = CLLocationCoordinate2D(latitude: 50.428453, longitude: 10.256778)
-            let region = CLCircularRegion(center: center, radius: 600000, identifier: "searchRegion")
-            geocoder.geocodeAddressString(string, in: region, completionHandler: {(placemarks, error) in
-                self.activityIndicator.stopAnimating()
-                if error == nil && placemarks != nil {
-                    self.addresses.removeAll()
-                    for placemark in placemarks! {
-                        if placemark.addressDictionary?["City"] != nil {
-                        if placemark.addressDictionary?["Thoroughfare"] != nil &&
-                            placemark.addressDictionary?["SubThoroughfare"] != nil &&
-                            placemark.postalCode != nil
-                            {
-                                self.addresses.append(placemark)
-                                if !(self.addresses.isEmpty) {
-                                    if let location = self.addresses[0].location {
-                                        self.centerMapViewOnCoordinate(coordinate: location.coordinate)
-                                    }
-                                }
-                        }
-                        }
-                    }
-                    if let userPlacemark = user?.placemark {
-                        self.addresses.append(userPlacemark)
-                    }
-                    if self.currentLocationPlacemark != nil {
-                        self.addresses.append(self.currentLocationPlacemark!)
-                    }
-
-                    self.tableView.reloadData()
-                }
-            })
+        let center = CLLocationCoordinate2D(latitude: 50.428453, longitude: 10.256778)
+        let region = CLCircularRegion(center: center, radius: 600000, identifier: "searchRegion")
+        geocoder.geocodeAddressString(string, in: region, completionHandler: {(placemarks, error) in
+            self.activityIndicator.stopAnimating()
+            if error == nil && placemarks != nil {
+                self.updateAddressesWhith(placemarks!)
+            }
+        })
     }
     
 
@@ -178,21 +154,11 @@ class ChooseLocationViewController: UIViewController, UITableViewDelegate, UITab
     func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
         if let location = mapView.userLocation.location {
             geocoder.reverseGeocodeLocation(location, completionHandler: { (placemarks, error) in
-                if let placemark = placemarks?[0] {
-                    if placemark.addressDictionary?["City"] != nil &&
-                        placemark.addressDictionary?["Thoroughfare"] != nil &&
-                        placemark.addressDictionary?["SubThoroughfare"] != nil &&
-                        placemark.postalCode != nil {
-                    self.currentLocationPlacemark = placemark
-                    if  !self.mapViewInitiallyCentered && self.addresses.isEmpty {
-                        if let location = self.currentLocationPlacemark?.location {
-                            self.addresses.append(self.currentLocationPlacemark!)
-                            self.centerMapViewOnCoordinate(coordinate: location.coordinate)
-                            self.mapViewInitiallyCentered = true
-                            self.tableView.reloadData()
-                        }
+                if error == nil && placemarks != nil {
+                    if !self.addresses.contains(placemarks![0]) {
+                        self.updateAddressesWhith(placemarks!)
                     }
-                    }
+                    
                 }
             })
         }
@@ -203,47 +169,37 @@ class ChooseLocationViewController: UIViewController, UITableViewDelegate, UITab
     
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         if mapViewRegionDidChangeFromUserInteraction() {
-        selectedIndex = nil
-        geocoder.reverseGeocodeLocation(CLLocation(latitude: mapView.centerCoordinate.latitude, longitude: mapView.centerCoordinate.longitude), completionHandler: { (placemarks, error) in
-            if error == nil && placemarks != nil {
-                self.addresses.removeAll()
-                for placemark in placemarks! {
-                    if placemark.addressDictionary?["City"] != nil &&
-                        placemark.addressDictionary?["Thoroughfare"] != nil &&
-                        placemark.addressDictionary?["SubThoroughfare"] != nil &&
-                        placemark.postalCode != nil {
-                        
-                            self.addresses.append(placemark)
-                        
-                    }
+            activityIndicator.startAnimating()
+            geocoder.reverseGeocodeLocation(CLLocation(latitude: mapView.centerCoordinate.latitude, longitude: mapView.centerCoordinate.longitude), completionHandler: { (placemarks, error) in
+                self.activityIndicator.stopAnimating()
+                if error == nil && placemarks != nil {
+                    self.updateAddressesWhith(placemarks!)
                 }
-                if !(self.addresses.isEmpty) {
-                    if let location = self.addresses[0].location {
-                        self.mapView.setCenter(location.coordinate, animated: true)
-                    }
-                }
-                if let userPlacemark = user?.placemark {
-                    self.addresses.append(userPlacemark)
-                }
-                if self.currentLocationPlacemark != nil {
-                    self.addresses.append(self.currentLocationPlacemark!)
-                }
-
-                self.tableView.reloadData()
-            }
-        })
+            })
     }
     }
     
-    func updateAddressesWhith(_ address: CLPlacemark) {
-        addresses.removeAll()
+    func updateAddressesWhith(_ newAddresses: [CLPlacemark]) {
+        addresses = newAddresses.filter {placemark in
+            if  placemark.addressDictionary?["City"] != nil &&
+                placemark.addressDictionary?["Thoroughfare"] != nil &&
+                placemark.addressDictionary?["SubThoroughfare"] != nil &&
+                placemark.postalCode != nil {
+                return true
+            } else {
+                return false
+            }
+            
+        }
+        currentLocationPlacemark = nil
         if let userPlacemark = user?.placemark {
             addresses.append(userPlacemark)
         }
-        if currentLocationPlacemark != nil {
-            addresses.append(currentLocationPlacemark!)
+        if !(addresses.isEmpty) {
+            if let location = self.addresses[0].location {
+                mapView.setCenter(location.coordinate, animated: true)
+            }
         }
-        addresses.append(address)
         tableView.reloadData()
     }
 
@@ -273,12 +229,14 @@ class ChooseLocationViewController: UIViewController, UITableViewDelegate, UITab
             cell.streetLabel.text = addresses[indexPath.row].addressDictionary?["Thoroughfare"] as? String
             cell.houseNumberLabel.text = addresses[indexPath.row].addressDictionary?["SubThoroughfare"] as? String
             cell.zipCodeLabel.text = addresses[indexPath.row].postalCode
-        
-        if indexPath.row == selectedIndex {
-        cell.accessoryType = .checkmark
-        } else {
-        cell.accessoryType = .none
-        }
+        if currentLocationPlacemark != nil {
+            let index = addresses.index(of: currentLocationPlacemark!)
+            if indexPath.row == index {
+                cell.accessoryType = .checkmark
+            } else {
+                cell.accessoryType = .none
+            }
+        } else {cell.accessoryType = .none}
         return cell
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -294,10 +252,9 @@ class ChooseLocationViewController: UIViewController, UITableViewDelegate, UITab
         guard (cell.houseNumberLabel != nil && cell.houseNumberLabel.text != "") else {return}
         guard (cell.streetLabel != nil && cell.streetLabel.text != "") else {return}
         guard (cell.zipCodeLabel != nil && cell.zipCodeLabel.text != "") else {return}
-        selectedIndex = indexPath.row
-        let selectedLocation = addresses[selectedIndex!]
-            currentLocationPlacemark = selectedLocation
-        if let location = selectedLocation.location {
+        
+        currentLocationPlacemark = addresses[indexPath.row]
+        if let location = currentLocationPlacemark?.location {
             centerMapViewOnCoordinate(coordinate: location.coordinate)
         }
         view.endEditing(true)

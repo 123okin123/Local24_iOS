@@ -89,7 +89,12 @@ class InsertViewController: FormViewController {
                     let category = CategoryManager.shared.subCategories.first(where: {$0.name == row.value})
                     self.listing.entityType = category?.adclass
                     self.listing.catID = category?.id
-                }
+                }.onPresent { from, to in
+                    to.multiStepCellUpdate = {(cell, row, step) in
+                        cell.textLabel?.font = UIFont(name: "OpenSans", size: 17.0)
+                        cell.tintColor = greencolor
+                    }
+            }
             
             
             
@@ -300,14 +305,5 @@ class InsertViewController: FormViewController {
 
     }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

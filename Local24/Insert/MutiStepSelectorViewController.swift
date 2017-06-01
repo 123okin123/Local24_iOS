@@ -20,7 +20,7 @@ class MutiStepSelectorViewController: FormViewController, TypedRowControllerType
     /// The row presenting this VC
     var mutiplePushRow :MutiplePushRow {return row as! MutiplePushRow}
     
-  
+    var multiStepCellUpdate: ((_ cell: BaseCell, _ row: BaseRow, _ step: Int) -> Void)?
     
     var viewControllerForStep :Int {return mutiplePushRow.numberOfSteps - 1}
     
@@ -29,6 +29,9 @@ class MutiStepSelectorViewController: FormViewController, TypedRowControllerType
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        tableView?.backgroundColor = local24grey
+        tableView?.separatorColor = local24grey
+        
         let section = Section()
         for option in(row as! MutiplePushRow).options {
             if viewControllerForStep == 0 {
@@ -39,6 +42,8 @@ class MutiStepSelectorViewController: FormViewController, TypedRowControllerType
                         self.mutiplePushRow.value = row.title
                         self.mutiplePushRow.selectedValues.append(row.title!)
                         self.onDismissCallback!(self)
+                    }.cellUpdate {cell, row in
+                        self.multiStepCellUpdate?(cell, row, self.viewControllerForStep)
                 }
             } else {
                 section
@@ -50,9 +55,17 @@ class MutiStepSelectorViewController: FormViewController, TypedRowControllerType
                     $0.options = mutiplePushRow.optionsForOption!(option, viewControllerForStep)
                     $0.optionsForOption = {(option, step) in
                         return self.mutiplePushRow.optionsForOption!(option, self.viewControllerForStep)
-                    }}.onCellSelection {(cell, row) in
-                        row.selectedValues.append(row.title!)
                     }
+                    
+                    }.onCellSelection {(cell, row) in
+                        row.selectedValues.append(row.title!)
+                    }.cellUpdate {cell, row in
+                        self.multiStepCellUpdate?(cell, row, self.viewControllerForStep)
+                    }.onPresent {from, to in
+                        to.multiStepCellUpdate = {(cell, row, step) in
+                            self.multiStepCellUpdate?(cell, row, step)
+                        }
+                }
             }
         }
         form

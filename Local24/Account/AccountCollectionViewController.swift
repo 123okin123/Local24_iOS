@@ -74,11 +74,9 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
             optionMenu.addAction(activeAction)
         }
         let editAction = UIAlertAction(title: "Anzeige bearbeiten", style: .default, handler: {alert in
-            let editVC = self.storyboard?.instantiateViewController(withIdentifier: "insertViewControllerID") as! InsertTableViewController
+            let editVC = self.storyboard?.instantiateViewController(withIdentifier: "insertViewControllerID") as! InsertViewController
             editVC.listing = listing
-            if let images = listing.images {
-                editVC.imageArray = images
-            }
+
             
             editVC.listingExists = true
             self.navigationController?.pushViewController(editVC, animated: true)

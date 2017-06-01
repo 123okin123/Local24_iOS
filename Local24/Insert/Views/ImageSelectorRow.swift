@@ -1,5 +1,5 @@
 //
-//  ImageSelectorCell.swift
+//  ImageSelectorRow.swift
 //  Local24
 //
 //  Created by Nikolai Kratz on 11.05.17.
