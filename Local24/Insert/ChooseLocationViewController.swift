@@ -60,14 +60,10 @@ class ChooseLocationViewController: UIViewController, UITableViewDelegate, UITab
         searchBar.delegate = self
         mapView.delegate = self
         navigationController?.delegate = self
-        
-
-
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //gaUserTracking("Insert/ChooseLocation")
         checkLocationAuthorizationStatus()
         if let userPlacemark = user?.placemark {
             addresses.append(userPlacemark)
@@ -75,18 +71,20 @@ class ChooseLocationViewController: UIViewController, UITableViewDelegate, UITab
         if currentLocationPlacemark != nil {
             addresses.append(currentLocationPlacemark!)
         }
+        if !(self.addresses.isEmpty) {
+            if let location = self.addresses[0].location {
+                self.centerMapViewOnCoordinate(coordinate: location.coordinate)
+                self.selectedIndex = 0
+                currentLocationPlacemark = self.addresses[0]
+                tableView.reloadData()
+            }
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         trackScreen("Insert/ChooseLocation")
-        if !(self.addresses.isEmpty) {
-            if let location = self.addresses[0].location {
-                self.centerMapViewOnCoordinate(coordinate: location.coordinate)
-                self.selectedIndex = 0
-                tableView.reloadData()
-            }
-        }
+        
         
     }
 
@@ -237,6 +235,20 @@ class ChooseLocationViewController: UIViewController, UITableViewDelegate, UITab
     }
     }
     
+    func updateAddressesWhith(_ address: CLPlacemark) {
+        addresses.removeAll()
+        if let userPlacemark = user?.placemark {
+            addresses.append(userPlacemark)
+        }
+        if currentLocationPlacemark != nil {
+            addresses.append(currentLocationPlacemark!)
+        }
+        addresses.append(address)
+        tableView.reloadData()
+    }
+
+    
+    
     private func mapViewRegionDidChangeFromUserInteraction() -> Bool {
         let view = self.mapView.subviews[0]
         //  Look through gesture recognizers to determine whether this region change is from user interaction
@@ -313,25 +325,6 @@ class ChooseLocationViewController: UIViewController, UITableViewDelegate, UITab
 
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
         onDismissCallback!(self)
-        
-//        if let insertVC = viewController as? InsertTableViewController {
-//            if selectedIndex != nil {
-//                let cell = tableView.cellForRow(at: IndexPath(row: selectedIndex!, section: 0)) as! ChooseLocationTableViewCell
-//                    insertVC.houseNumberLabel.text = cell.houseNumberLabel.text
-//                    insertVC.cityLabel.text = cell.cityLabel.text
-//                    insertVC.zipLabel.text = cell.zipCodeLabel.text
-//                    insertVC.streetLabel.text = cell.streetLabel.text
-//                if let location = addresses[selectedIndex!].location {
-//                    insertVC.listing.adLat = location.coordinate.latitude
-//                    insertVC.listing.adLong = location.coordinate.longitude
-//                }
-//                insertVC.zipLabel.textColor = UIColor.darkGray
-//                insertVC.cityLabel.textColor = UIColor.darkGray
-//                insertVC.houseNumberLabel.textColor = UIColor.darkGray
-//                insertVC.streetLabel.textColor = UIColor.darkGray
-//            }
-//
-//        }
     }
 
     

@@ -15,7 +15,7 @@ import Photos
 
 // Custom Cell with value type: Bool
 // The cell is defined using a .xib, so we can set outlets :)
-class ImageSelectorCell: Cell<EquatableArray<UIImage>>, CellType, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, ImageCellDelegate {
+class ImageSelectorCell: Cell<EquatableArray<UIImage>>, CellType, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate {
 
 
     @IBOutlet weak var collectionView: UICollectionView!
@@ -55,7 +55,12 @@ class ImageSelectorCell: Cell<EquatableArray<UIImage>>, CellType, UICollectionVi
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageCellID", for: indexPath) as! ImageCell
             cell.tag = indexPath.row
             cell.imageView.image = image
-            cell.delegate = self
+            let deleteButton = UIButton(frame: CGRect(origin: CGPoint(x:cell.bounds.width - 40,y:0), size: CGSize(width: 40, height: 40)))
+            deleteButton.addTarget(self, action: #selector(deleteButtonPressed(_:)), for: .touchUpInside)
+            deleteButton.imageEdgeInsets = UIEdgeInsets(top: 10, left: 20, bottom: 20, right: 10)
+            deleteButton.setImage(UIImage(named: "close"), for: .normal)
+            deleteButton.imageView?.contentMode = .scaleAspectFit
+            cell.addSubview(deleteButton)
             return cell
         }
     }
@@ -75,18 +80,23 @@ class ImageSelectorCell: Cell<EquatableArray<UIImage>>, CellType, UICollectionVi
         return UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(indexPath)
-        imageRow.didSelectItemAt(indexPath)
+       if (indexPath.row == equatableImageArray?.count || equatableImageArray == nil) {
+            imageRow.didSelectItemAt(indexPath)
+        }
     }
     
-    // MARK: - ImageCellDelegate
-    func deleteButtonTapped(cell: ImageCell) {
-        guard let indexPath = collectionView.indexPath(for: cell) else {return}
-        imageRow.value?.remove(at: indexPath.item)
-        imageRow.assetStack.remove(at: indexPath.item)
-        collectionView.deleteItems(at: [indexPath])
-    }
     
+  
+    func deleteButtonPressed(_ sender: UIButton) {
+        if let cell = sender.superview as? ImageCell {
+            guard let indexPath = collectionView.indexPath(for: cell) else {return}
+            imageRow.value?.remove(at: indexPath.item)
+            if imageRow.assetStack.count > indexPath.item {
+                imageRow.assetStack.remove(at: indexPath.item)
+            }
+            collectionView.deleteItems(at: [indexPath])
+        }
+    }
 }
 
 
@@ -104,7 +114,7 @@ final class ImageSelectorRow: SelectorRow<ImageSelectorCell, LocalImagePickerCon
             }, onDismiss: { vc in
                 _ = vc.navigationController?.popViewController(animated: true)
         })
-    
+        
         // We set the cellProvider to load the .xib corresponding to our cell
         cellProvider = CellProvider<ImageSelectorCell>(nibName: "ImageSelectorCell")
     }

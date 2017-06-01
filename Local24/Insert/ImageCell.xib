@@ -8,7 +8,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ImageSelectorCell" customModule="Local24" customModuleProvider="target"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view clipsSubviews="YES" contentMode="scaleToFill" id="iN0-l3-epB" customClass="ImageCell" customModule="Local24" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
@@ -17,36 +17,22 @@
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="SNE-yj-FYS">
                     <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
                 </imageView>
-                <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BfD-Ua-STe">
-                    <rect key="frame" x="110" y="0.0" width="40" height="40"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="40" id="jNj-k2-SPg"/>
-                        <constraint firstAttribute="width" constant="40" id="jPg-mc-XR8"/>
-                    </constraints>
-                    <state key="normal" image="close"/>
-                </button>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="BfD-Ua-STe" secondAttribute="trailing" id="3gZ-4N-uOw"/>
-                <constraint firstItem="SNE-yj-FYS" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="5Yi-kf-cCf"/>
-                <constraint firstItem="SNE-yj-FYS" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="68y-Ox-0GK"/>
-                <constraint firstAttribute="trailing" secondItem="SNE-yj-FYS" secondAttribute="trailing" id="VTI-ME-g8y"/>
-                <constraint firstItem="BfD-Ua-STe" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="pYu-cd-LZm"/>
-                <constraint firstAttribute="bottom" secondItem="SNE-yj-FYS" secondAttribute="bottom" id="sg0-cQ-xEZ"/>
+                <constraint firstItem="SNE-yj-FYS" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Jjg-vI-Wd5"/>
+                <constraint firstItem="SNE-yj-FYS" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="OkN-OZ-UZX"/>
+                <constraint firstAttribute="trailing" secondItem="SNE-yj-FYS" secondAttribute="trailing" id="c0M-3w-X4t"/>
+                <constraint firstAttribute="bottom" secondItem="SNE-yj-FYS" secondAttribute="bottom" id="mEP-BJ-8aE"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <nil key="simulatedTopBarMetrics"/>
             <nil key="simulatedBottomBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
-                <outlet property="deleteImageButton" destination="BfD-Ua-STe" id="Fr2-Cj-iQs"/>
                 <outlet property="imageView" destination="SNE-yj-FYS" id="yhf-A9-Wsf"/>
             </connections>
             <point key="canvasLocation" x="-118" y="-206"/>
         </view>
     </objects>
-    <resources>
-        <image name="close" width="16" height="16"/>
-    </resources>
 </document>

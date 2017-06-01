@@ -178,7 +178,6 @@ class InsertViewController: FormViewController {
         
             +++ Section()
             <<< BasicButtonRow() {
-                $0.title = "Anzeige aufgeben"
                 $0.buttonPressedCallback = {cell, row in
                     if self.form.validate().isEmpty {
                         self.insertListing()
