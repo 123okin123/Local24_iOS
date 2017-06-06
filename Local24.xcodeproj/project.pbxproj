@@ -19,6 +19,9 @@
 		1045F3491EB8A6B600FB0206 /* AdHouseComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1045F3481EB8A6B600FB0206 /* AdHouseComponent.swift */; };
 		1045F34B1EB8ABAD00FB0206 /* Eureka.txt in Resources */ = {isa = PBXBuildFile; fileRef = 1045F34A1EB8ABAD00FB0206 /* Eureka.txt */; };
 		1045F34D1EB8B6E100FB0206 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1045F34C1EB8B6E100FB0206 /* FilterViewController.swift */; };
+		1056FBE71EE69255009B882B /* AdClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1056FBE61EE69255009B882B /* AdClass.swift */; };
+		1056FBE91EE6A401009B882B /* AdComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1056FBE81EE6A401009B882B /* AdComponent.swift */; };
+		1056FBEB1EE6A9F0009B882B /* InsertVCAdCarSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1056FBEA1EE6A9F0009B882B /* InsertVCAdCarSection.swift */; };
 		105A2DB01E61848B00BF0CC7 /* InsertListingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105A2DAF1E61848B00BF0CC7 /* InsertListingCell.swift */; };
 		10648FDD1ED4571E007468C9 /* LocationRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10648FDC1ED4571E007468C9 /* LocationRow.swift */; };
 		10648FDF1ED45797007468C9 /* LocationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10648FDE1ED45797007468C9 /* LocationCell.xib */; };
@@ -78,8 +81,6 @@
 		CD7754211C71C0E200253B7B /* CenterLocationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7754201C71C0E200253B7B /* CenterLocationButton.swift */; };
 		CD7DD3581E76A7E400F56B3F /* SwiftyJSON.txt in Resources */ = {isa = PBXBuildFile; fileRef = CD7DD3571E76A7E400F56B3F /* SwiftyJSON.txt */; };
 		CD7DD35A1E76A9C600F56B3F /* ImagePicker.txt in Resources */ = {isa = PBXBuildFile; fileRef = CD7DD3591E76A9C600F56B3F /* ImagePicker.txt */; };
-		CD7DD35C1E76BA2F00F56B3F /* SpecialFieldsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7DD35B1E76BA2F00F56B3F /* SpecialFieldsManager.swift */; };
-		CD7DD35E1E76BC9A00F56B3F /* SpecialField.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7DD35D1E76BC9A00F56B3F /* SpecialField.swift */; };
 		CD7DD3611E76C1C300F56B3F /* CategoryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7DD3601E76C1C300F56B3F /* CategoryManager.swift */; };
 		CD84C5921C88844400A6E8A4 /* LocalDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD84C5911C88844400A6E8A4 /* LocalDetailTableViewController.swift */; };
 		CD8B74FB1E719356007ADB76 /* InitialSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8B74FA1E719356007ADB76 /* InitialSegue.swift */; };
@@ -117,7 +118,6 @@
 		CDE5EF9E1E65C56500AA62C0 /* container in Resources */ = {isa = PBXBuildFile; fileRef = CDE5EF9D1E65C56500AA62C0 /* container */; };
 		CDEE24AB1CC78B8100F08D4E /* AbuseReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDEE24AA1CC78B8100F08D4E /* AbuseReportViewController.swift */; };
 		CDF6184D1CD8F3CA00041885 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDF6184C1CD8F3CA00041885 /* AdSupport.framework */; };
-		CDFC107A1E2CF7010006DA8F /* specialFields.json in Resources */ = {isa = PBXBuildFile; fileRef = CDFC10791E2CF7010006DA8F /* specialFields.json */; };
 		CDFC107C1E2D29100006DA8F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CDFC107B1E2D29100006DA8F /* GoogleService-Info.plist */; };
 		CDFD0BAB1CF5AE0E00B56BF6 /* FilterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDFD0BAA1CF5AE0E00B56BF6 /* FilterManager.swift */; };
 		CDFD59EF1DFEF4920098010B /* ChooseLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDFD59EE1DFEF4920098010B /* ChooseLocationViewController.swift */; };
@@ -154,6 +154,9 @@
 		1045F3481EB8A6B600FB0206 /* AdHouseComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AdHouseComponent.swift; path = Model/AdHouseComponent.swift; sourceTree = "<group>"; };
 		1045F34A1EB8ABAD00FB0206 /* Eureka.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Eureka.txt; path = SupportingFiles/Licences/Eureka.txt; sourceTree = "<group>"; };
 		1045F34C1EB8B6E100FB0206 /* FilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterViewController.swift; path = Search/Filter/FilterViewController.swift; sourceTree = "<group>"; };
+		1056FBE61EE69255009B882B /* AdClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AdClass.swift; path = Model/AdClass.swift; sourceTree = "<group>"; };
+		1056FBE81EE6A401009B882B /* AdComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AdComponent.swift; path = Model/AdComponent.swift; sourceTree = "<group>"; };
+		1056FBEA1EE6A9F0009B882B /* InsertVCAdCarSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InsertVCAdCarSection.swift; path = Insert/InsertVCAdCarSection.swift; sourceTree = "<group>"; };
 		105A2DAF1E61848B00BF0CC7 /* InsertListingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InsertListingCell.swift; path = Account/Views/InsertListingCell.swift; sourceTree = "<group>"; };
 		10648FDC1ED4571E007468C9 /* LocationRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocationRow.swift; path = Insert/Views/LocationRow.swift; sourceTree = "<group>"; };
 		10648FDE1ED45797007468C9 /* LocationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LocationCell.xib; path = Insert/Views/LocationCell.xib; sourceTree = "<group>"; };
@@ -223,8 +226,6 @@
 		CD7754201C71C0E200253B7B /* CenterLocationButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CenterLocationButton.swift; path = Location/Views/CenterLocationButton.swift; sourceTree = "<group>"; };
 		CD7DD3571E76A7E400F56B3F /* SwiftyJSON.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = SwiftyJSON.txt; path = SupportingFiles/Licences/SwiftyJSON.txt; sourceTree = "<group>"; };
 		CD7DD3591E76A9C600F56B3F /* ImagePicker.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = ImagePicker.txt; path = SupportingFiles/Licences/ImagePicker.txt; sourceTree = "<group>"; };
-		CD7DD35B1E76BA2F00F56B3F /* SpecialFieldsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SpecialFieldsManager.swift; path = Manager/SpecialFieldsManager.swift; sourceTree = "<group>"; };
-		CD7DD35D1E76BC9A00F56B3F /* SpecialField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SpecialField.swift; path = Model/SpecialField.swift; sourceTree = "<group>"; };
 		CD7DD3601E76C1C300F56B3F /* CategoryManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CategoryManager.swift; path = Manager/CategoryManager.swift; sourceTree = "<group>"; };
 		CD84C5911C88844400A6E8A4 /* LocalDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocalDetailTableViewController.swift; path = Detail/LocalDetailTableViewController.swift; sourceTree = "<group>"; };
 		CD8B74FA1E719356007ADB76 /* InitialSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitialSegue.swift; sourceTree = "<group>"; };
@@ -264,7 +265,6 @@
 		CDE5EF9D1E65C56500AA62C0 /* container */ = {isa = PBXFileReference; lastKnownFileType = folder; name = container; path = SupportingFiles/container; sourceTree = "<group>"; };
 		CDEE24AA1CC78B8100F08D4E /* AbuseReportViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AbuseReportViewController.swift; path = Detail/AbuseReportViewController.swift; sourceTree = "<group>"; };
 		CDF6184C1CD8F3CA00041885 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
-		CDFC10791E2CF7010006DA8F /* specialFields.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = specialFields.json; path = SupportingFiles/specialFields.json; sourceTree = "<group>"; };
 		CDFC107B1E2D29100006DA8F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "SupportingFiles/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CDFD0BAA1CF5AE0E00B56BF6 /* FilterManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FilterManager.swift; path = Manager/FilterManager.swift; sourceTree = "<group>"; };
 		CDFD59EE1DFEF4920098010B /* ChooseLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChooseLocationViewController.swift; path = Insert/ChooseLocationViewController.swift; sourceTree = "<group>"; };
@@ -486,10 +486,11 @@
 			children = (
 				CDCA848E1DE324AA00F71A42 /* User.swift */,
 				CD0E3F811CE0BFA9005AA575 /* Listing.swift */,
+				1056FBE81EE6A401009B882B /* AdComponent.swift */,
 				106E297B1EAF51880087F957 /* AdCarComponent.swift */,
 				1045F3481EB8A6B600FB0206 /* AdHouseComponent.swift */,
-				CD7DD35D1E76BC9A00F56B3F /* SpecialField.swift */,
 				CD5109851C58C0CF00BA2CB8 /* Category.swift */,
+				1056FBE61EE69255009B882B /* AdClass.swift */,
 				CD65D2541C60FD6400AD89DF /* ZipGeo.swift */,
 				10F001D01E538B0100E91E70 /* Filter.swift */,
 				10311D1A1EC4433C007A9946 /* Sorting.swift */,
@@ -534,7 +535,6 @@
 			children = (
 				CD7DD3601E76C1C300F56B3F /* CategoryManager.swift */,
 				CDFD0BAA1CF5AE0E00B56BF6 /* FilterManager.swift */,
-				CD7DD35B1E76BA2F00F56B3F /* SpecialFieldsManager.swift */,
 				CD993E0C1DF9BD4300F686C7 /* NetworkManager.swift */,
 			);
 			name = Manager;
@@ -548,7 +548,6 @@
 				CDE4DA031C0DEA3E00FE7611 /* Font */,
 				CDCF31801E09725900379468 /* Licences */,
 				1081F30F1BB04E6200688F3B /* iosApp.css */,
-				CDFC10791E2CF7010006DA8F /* specialFields.json */,
 				CD4432C71CD0D19500295EC0 /* Local24-Bridging-Header.h */,
 				CD4F7C681E362C4D001E0730 /* RemoteConfigDefaults.plist */,
 				1081F2E91BB02A7600688F3B /* Info.plist */,
@@ -620,6 +619,7 @@
 			isa = PBXGroup;
 			children = (
 				10311D221EC44BB9007A9946 /* InsertViewController.swift */,
+				1056FBEA1EE6A9F0009B882B /* InsertVCAdCarSection.swift */,
 				10311D281EC47A38007A9946 /* LocalImagePickerController.swift */,
 				101A7D2B1ECDCF1500E168C0 /* MutiStepSelectorViewController.swift */,
 				CDFD59EE1DFEF4920098010B /* ChooseLocationViewController.swift */,
@@ -817,7 +817,6 @@
 				CDCF31861E0972C500379468 /* MZFormSheetPresentationController.txt in Resources */,
 				CDFC107C1E2D29100006DA8F /* GoogleService-Info.plist in Resources */,
 				CDA418CE1E0D1B3B00CFDD20 /* Assets.xcassets in Resources */,
-				CDFC107A1E2CF7010006DA8F /* specialFields.json in Resources */,
 				CDE4D9F91C0DEA3400FE7611 /* OpenSans-Bold.ttf in Resources */,
 				1081F2E31BB02A7600688F3B /* Main.storyboard in Resources */,
 				CDE4DA021C0DEA3400FE7611 /* OpenSans-SemiboldItalic.ttf in Resources */,
@@ -1000,7 +999,6 @@
 				CD9A1F251E376F67003574BC /* HomeHeaderCollectionReusableView.swift in Sources */,
 				CD0E3F801CE0A06C005AA575 /* CollectionViewCell.swift in Sources */,
 				CDCA848D1DE30CA800F71A42 /* AccountHeaderView.swift in Sources */,
-				CD7DD35E1E76BC9A00F56B3F /* SpecialField.swift in Sources */,
 				CDA9CCDA1C073236005ED562 /* MoreViewController.swift in Sources */,
 				CD5911A71E5DC17C00C6DA99 /* CollectionViewDataSource.swift in Sources */,
 				CD5911A91E5DCB6200C6DA99 /* EditProfileViewController.swift in Sources */,
@@ -1020,6 +1018,7 @@
 				1045F3471EB88D4200FB0206 /* FilterVCAdHouseSection.swift in Sources */,
 				CDFD59EF1DFEF4920098010B /* ChooseLocationViewController.swift in Sources */,
 				CDB594E51DE5E6230056B405 /* TabBarController.swift in Sources */,
+				1056FBEB1EE6A9F0009B882B /* InsertVCAdCarSection.swift in Sources */,
 				CDA9CCCC1C070793005ED562 /* PublicSettings.swift in Sources */,
 				10B765D41E5627DC00EE3CF3 /* SearchVCAdExtension.swift in Sources */,
 				CD8B74FB1E719356007ADB76 /* InitialSegue.swift in Sources */,
@@ -1039,7 +1038,7 @@
 				10311D1B1EC4433C007A9946 /* Sorting.swift in Sources */,
 				CD5D16EE1C903F7F00ACE365 /* DescriptionTableViewCell.swift in Sources */,
 				CDEE24AB1CC78B8100F08D4E /* AbuseReportViewController.swift in Sources */,
-				CD7DD35C1E76BA2F00F56B3F /* SpecialFieldsManager.swift in Sources */,
+				1056FBE71EE69255009B882B /* AdClass.swift in Sources */,
 				CD5D16EC1C903AF900ACE365 /* TitleTableViewCell.swift in Sources */,
 				107AD5B81E54D10800095A0C /* FilterCollectionViewDelegate.swift in Sources */,
 				CD5109861C58C0CF00BA2CB8 /* Category.swift in Sources */,
@@ -1056,6 +1055,7 @@
 				CD3E16051DF07C7700D0C300 /* ImageCell.swift in Sources */,
 				CD0A28A21C6CF76300B27AFD /* RadiusView.swift in Sources */,
 				10311D231EC44BB9007A9946 /* InsertViewController.swift in Sources */,
+				1056FBE91EE6A401009B882B /* AdComponent.swift in Sources */,
 				CD5109841C58BD4700BA2CB8 /* NewCatTableViewController.swift in Sources */,
 				1045F34D1EB8B6E100FB0206 /* FilterViewController.swift in Sources */,
 				CD7DD3611E76C1C300F56B3F /* CategoryManager.swift in Sources */,

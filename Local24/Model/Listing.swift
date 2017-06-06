@@ -12,6 +12,8 @@ import CoreLocation
 
 class Listing :NSObject {
     
+    // MARK: General
+    
     var adID :Int!
     var source :String?
     var adState :AdState?
@@ -19,11 +21,21 @@ class Listing :NSObject {
     var user :User?
     var title :String?
     var adDescription :String?
-    var specialFields :[SpecialField]?
     /// Type of the listing. Can be "Gesuch" or "Angebot"
     var adType :AdType?
     /// AdClass of the listing. Can be: AdTruck, AdCat, AdCommune, AdDating, AdDog, AdHorse, AdJob, AdMotorcycle, AdOtherProperty, AdCar, AdHouse, AdApartment, AdPlain
     var entityType :AdClass?
+    /// The url of the listing on local24.de
+    var url :URL?
+    var containsAdultContent = false
+    /// Component of the listing, which contains further information. For example a listing for a car has an AdCarComponent, which holds information like mileage etc.
+    var component :AdComponent?
+    
+    var createdDate :String?
+    var updatedDate :String?
+    
+    // MARK: Price
+    
     var price :String?
     /// Possible values: Zu verschenken, VHB, Festpreis, keine Angabe
     var priceType :String?
@@ -40,6 +52,9 @@ class Listing :NSObject {
         return nil
         }
     }}
+    
+    // MARK: Location
+    
     var adLat: Double?
     var adLong: Double?
     var distance :Double? {
@@ -50,41 +65,43 @@ class Listing :NSObject {
             return round(location.distance(from:  CLLocation(latitude: geofilter.lat, longitude: geofilter.lon))/1000)
         } else {return nil}
     }
-    
-
     var city :String?
     var zipcode: String?
     var street: String?
     var houseNumber :String?
+    
+    // MARK: Contact
+    
     var phoneNumber :String?
+    
+    // MARK: Category
+    
     var catID :Int?
     var mainCatString :String?
     var subCatString :String?
-    var createdDate :String?
-    var updatedDate :String?
+    
+    // MARK: Images
+    
     var hasImages = false
     var thumbImage :UIImage?
     var images :[UIImage]?
     var thumbImageURL :String?
     var imageURLs = [String]()
-    var url :URL?
-    var containsAdultContent = false
     
-    
-    var component :AdComponent?
+
     
     
     override init() {
         super.init()
     }
     
-    
+    /// init method for API calls. Used for own listings in account
     init(apiValue value: [AnyHashable:Any]) {
         super.init()
         let json = JSON(value)
         guard json != JSON.null else {return}
-        specialFields = [SpecialField]()
-
+       
+        print(json)
         self.source = "MPS"
         
         if let adID = value["Id"] as? Int {
@@ -105,7 +122,7 @@ class Listing :NSObject {
         if let entityType = value["EntityType"] as? String {
             self.entityType = AdClass(rawValue: entityType)
             switch self.entityType! {
-            case .AdCar: self.component = AdCarComponent(value: value)
+            case .AdCar: self.component = AdCarComponent(apiValue: value)
             default: break
             }
         }
@@ -180,79 +197,18 @@ class Listing :NSObject {
         }
    
         
-        
-
-        if let model = json["Model"].string {
-             let modelField = SpecialField(name: "Model", descriptiveString: "Model", type: .string)
-            modelField.value = model
-            self.specialFields?.append(modelField)
-        }
-        if let make = json["Make"].string {
-            let makeField = SpecialField(name: "Make", descriptiveString: "Marke", type: .string)
-            makeField.value = make
-        }
-/*
-        if let priceTypeProperty = value["PriceTypeProperty"] as? String {
-            if let specialField = SpecialFieldsManager.shared.getSpecialFieldWith(entityType: .AdApartment, name: "PriceTypeProperty") {
-                specialField.value = priceTypeProperty
-                //specialField.dependsOn = SpecialFieldsManager.shared.getSpecialFieldWith(entityType: .AdApartment, name: "SellOrRent")
-                self.specialFields?.append(specialField)
-            }
-            let spicalField = SpecialField(name: "PriceTypeProperty", descriptiveString: "Preisart", value: priceTypeProperty, possibleValues: nil, type: .string)
-            spicalField.dependsOn = SpecialField(name: "SellOrRent", descriptiveString: "Verkauf oder Vermietung", value: nil, possibleValues: nil, type: .string)
-            self.specialFields?.append(spicalField)
-        }
-        
-        if let path = Bundle.main.path(forResource: "specialFields", ofType: "json") {
-            do {
-                let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .alwaysMapped)
-                let json = JSON(data: data)
-                if json != JSON.null {
-                    guard let entityType = self.entityType else {return}
-                    if let fields = json[entityType.rawValue].dictionary {
-                        for field in fields {
-                            let specialField = SpecialField(entityType: entityType, name: field.key)
-                            specialField.value = value[field.key]
-                            
-                            // Hide Nebenkosten / Kaution
-                            if specialField.name == "AdditionalCosts" || specialField.name == "DepositAmount" {
-                                if let sellOrRent = self.specialFields?.first(where: {$0.name == "SellOrRent"}) {
-                                    if let value = sellOrRent.value as? String {
-                                        if value == "Vermietung" {
-                                        self.specialFields?.append(specialField)
-                                        }
-                                    }
-                                }
-                            } else {
-                                // Default case
-                                self.specialFields?.append(specialField)
-                                
-                            }
-
-                        }
-                        
-                    } else {
-                        print("entitytype not in json")
-                    }
-                } else {
-                    print("Could not get json from file, make sure that file contains valid json.")
-                }
-            } catch let error {
-                print(error.localizedDescription)
-            }
-        }
-*/
-        
     }
     
     
     
-    
+    /// init method for calls to elasticsearch proxy. Used in search.
     init(searchIndexValue :[AnyHashable: Any]) {
         super.init()
         guard let values = searchIndexValue["_source"] as? [AnyHashable : Any] else {return}
         let json = JSON(values)
         guard json != JSON.null else {return}
+        print(json)
+        
         self.title = json["title"].string
         self.adDescription = json["description"].string
         if let adIDString = json["id"].string {
@@ -328,6 +284,15 @@ class Listing :NSObject {
         default: break
         }
         }
+        
+        if let entityType = json["debug_source_EntityType"].string {
+            self.entityType = AdClass(rawValue: entityType)
+        }
+        if self.entityType == .AdCar || self.source == "AS" {
+            self.component = AdCarComponent(searchIndexValue: values)
+        }
+        
+        
     }
     
     

@@ -81,12 +81,10 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
         var infos = [(name: String?, value: String?)]()
         infos.append(("Erstellt am",listing.createdDate))
         infos.append(("Aktuallisiert am",listing.updatedDate))
-        if let specialFields = listing.specialFields {
-            for specialField in specialFields {
-                infos.append((specialField.descriptiveString, specialField.valueString))
-                
-            }
+        if let componentTupleArray = listing.component?.componentToRepresentableTupleArray() {
+            infos.append(contentsOf: componentTupleArray)
         }
+        
         return infos
     }
     

@@ -19,6 +19,8 @@ final class MutiplePushRow: SelectorRow<PushSelectorCell<String>, MutiStepSelect
     /// Array of selected values in which values are added while going through the steps
     var selectedValues = [String]()
     
+    
+    
     var stepsTaken = 0
     
     

@@ -25,11 +25,15 @@ extension FilterViewController {
             })
         }
         
-        section <<< PushRow<String>("makeTag") {
-            $0.title = "Marke"
-            $0.selectorTitle = $0.title
-            $0.value = (FilterManager.shared.getFilter(withName: .makeName) as? Termfilter)?.value ?? "Alle Marken"
-            $0.options =  ["Alle Marken"] + SpecialFieldsManager.shared.getSpecialFieldWith(entityType: .AdCar, name: "Make")!.possibleStringValues!
+        section <<< PushRow<String>("makeTag") { row in
+            row.title = "Marke"
+            row.selectorTitle = row.title
+            row.value = (FilterManager.shared.getFilter(withName: .makeName) as? Termfilter)?.value ?? "Alle Marken"
+            row.options =  ["Alle Marken"]
+            NetworkManager.shared.getValuesForField("Make", entityType: .AdCar, completion: { values, error in
+            row.options = values!
+            })
+                //SpecialFieldsManager.shared.getSpecialFieldWith(entityType: .AdCar, name: "Make")!.possibleStringValues!
             }.onChange {
                 FilterManager.shared.removefilterWithName(.makeName)
                 guard let value = $0.value else {return}

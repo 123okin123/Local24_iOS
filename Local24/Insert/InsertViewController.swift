@@ -68,7 +68,7 @@ class InsertViewController: FormViewController {
                     self.listing.title = $0.value
             }
             
-            <<< MutiplePushRow() {
+            <<< MutiplePushRow("catTag") {
                 $0.title = "Kategorie"
                 $0.add(rule: RuleRequired())
                 $0.numberOfSteps = 2
@@ -97,6 +97,8 @@ class InsertViewController: FormViewController {
             }
             
             
+            
+            +++ sectionForAdCar()
             
             
             +++ Section("Beschreibung")
@@ -162,14 +164,27 @@ class InsertViewController: FormViewController {
         
             +++ Section()
             <<< LocationRow() {
-                    $0.add(rule: RuleRequired())
-                    guard let adLat = self.listing.adLat else {return}
-                    guard let adLong = self.listing.adLong else {return}
+                $0.add(rule: RuleRequired())
+                if self.listing.adLat != nil && self.listing.adLong != nil {
                     $0.city = self.listing.city
-                    $0.location = CLLocation(latitude: adLat, longitude: adLong)
+                    $0.location = CLLocation(latitude: self.listing.adLat!, longitude: self.listing.adLong!)
                     $0.street = self.listing.street
                     $0.houseNumber = self.listing.houseNumber
                     $0.zipCode = self.listing.zipcode
+                } else {
+                    listing.adLong = user?.placemark?.location?.coordinate.longitude
+                    listing.adLat = user?.placemark?.location?.coordinate.latitude
+                    listing.city = user?.city
+                    listing.street = user?.street
+                    listing.houseNumber = user?.houseNumber
+                    listing.zipcode = user?.zipCode
+                    
+                    $0.location = user?.placemark?.location
+                    $0.city = user?.city
+                    $0.street = user?.street
+                    $0.houseNumber = user?.houseNumber
+                    $0.zipCode = user?.zipCode
+                }
                 }.onChange { row in
                     guard let location = row.location else {return}
                     self.listing.adLat = location.coordinate.latitude
@@ -180,7 +195,7 @@ class InsertViewController: FormViewController {
                     self.listing.zipcode = row.zipCode
             }
         
-        
+         
             +++ Section()
             <<< BasicButtonRow() {
                 $0.buttonPressedCallback = {cell, row in
@@ -248,42 +263,16 @@ class InsertViewController: FormViewController {
             if let houseNumber = listing.houseNumber {
                 values["HouseNumber"] = houseNumber
             }
-
-            
-//            listing.specialFields = [SpecialField]()
-//            listing.specialFields?.append(contentsOf: customFields)
-//            
-//            switch listing.entityType! {
-//            case .AdCar:
-//                let independetField = SpecialField(name: "Make", descriptiveString: "Marke",type: .string, value: independentFieldLabel.text)
-//                let dependentField = SpecialField(name: "Model", descriptiveString: "Model",type: .string, value: dependentFieldLabel.text)
-//                listing.specialFields?.append(independetField)
-//                listing.specialFields?.append(dependentField)
-//            case .AdApartment, .AdHouse:
-//                let independetField = SpecialField(name: "SellOrRent", descriptiveString: "Verkauf oder Vermietung",type: .string, value: independentFieldLabel.text)
-//                let dependentField = SpecialField(name: "PriceTypeProperty", descriptiveString: "Preisart",type: .string, value: dependentFieldLabel.text)
-//                listing.specialFields?.append(independetField)
-//                listing.specialFields?.append(dependentField)
-//            default:
-//                break
-//            }
-//            
-//            if listing.specialFields!.count > 0 {
-//                for specialField in listing.specialFields! {
-//                    if let name = specialField.name {
-//                        if let value = specialField.value {
-//                            values[name] = value
-//                        }
-//                    }
-//                }
-//            }
+        
+        if let componentJSON = listing.component?.componentToJSON() as? [String:Any] {
+                componentJSON.forEach({values[$0] = $1})
+            }
             // End of Optional Values
             
             print(values)
             NetworkManager.shared.insertAdWith(values: values, images: listing.images, existing: listingExists, userToken: userToken!, completion: { errorString in
                 pendingAlertController.dismiss(animated: true, completion: {
                     if errorString == nil {
-                        
                         let successMenu = UIAlertController(title: "Anzeige aufgegeben", message: "Herzlichen Glückwunsch Ihre Anzeige wurde erfolgreich aufgegeben.", preferredStyle: .alert)
                         let confirmAction = UIAlertAction(title: "Ok", style: .cancel, handler: {alert in
                             _ = self.navigationController?.popToViewController((self.navigationController?.viewControllers[1])!, animated: true)
