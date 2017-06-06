@@ -141,7 +141,7 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
                 if error == nil {
                     self.userListings.removeAll()
                     if listings != nil {
-                        self.userListings = listings!
+                        self.userListings = listings!.filter({$0.adState != .expired})
                     }
                 } else {
                     let errorMenu = UIAlertController(title: "Fehler", message: "Da ist leider etwas schief gegangen, das Laden der Anzeige war nicht erfolgreich.", preferredStyle: .alert)
