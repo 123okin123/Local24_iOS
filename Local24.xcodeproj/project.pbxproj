@@ -46,6 +46,7 @@
 		10E14B731EE04B3A007B1AF2 /* ChooseLocationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E14B721EE04B3A007B1AF2 /* ChooseLocationTableViewCell.swift */; };
 		10E14B751EE0577F007B1AF2 /* ImageSelectorRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E14B741EE0577F007B1AF2 /* ImageSelectorRow.swift */; };
 		10F001D11E538B0100E91E70 /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10F001D01E538B0100E91E70 /* Filter.swift */; };
+		10F509A81EE7FC4C009B6E55 /* ListingLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10F509A71EE7FC4C009B6E55 /* ListingLocation.swift */; };
 		622AED0118902B345F72C845 /* Pods_Local24UITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFF4E34FAF766CF6AAB81F90 /* Pods_Local24UITests.framework */; };
 		946AE2445CFC457A49DFDAEF /* Pods_Local24.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAE5DB9518CCC4A7488A2757 /* Pods_Local24.framework */; };
 		A3AF0A635067C4E9A1AE8920 /* Pods_Local24Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43DD49A8287E5B1D5DEA9BC8 /* Pods_Local24Tests.framework */; };
@@ -188,6 +189,7 @@
 		10E14B721EE04B3A007B1AF2 /* ChooseLocationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChooseLocationTableViewCell.swift; path = ../../../../../.Trash/ChooseLocationTableViewCell.swift; sourceTree = "<group>"; };
 		10E14B741EE0577F007B1AF2 /* ImageSelectorRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageSelectorRow.swift; path = Insert/Views/ImageSelectorRow.swift; sourceTree = "<group>"; };
 		10F001D01E538B0100E91E70 /* Filter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Filter.swift; path = Model/Filter.swift; sourceTree = "<group>"; };
+		10F509A71EE7FC4C009B6E55 /* ListingLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ListingLocation.swift; path = Model/ListingLocation.swift; sourceTree = "<group>"; };
 		3F30DDA7EF437ED36AD0AEDE /* Pods-Local24UITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Local24UITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Local24UITests/Pods-Local24UITests.release.xcconfig"; sourceTree = "<group>"; };
 		43DD49A8287E5B1D5DEA9BC8 /* Pods_Local24Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Local24Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CDEA113629D68866C9D275C /* Pods-Local24.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Local24.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Local24/Pods-Local24.debug.xcconfig"; sourceTree = "<group>"; };
@@ -486,6 +488,7 @@
 			children = (
 				CDCA848E1DE324AA00F71A42 /* User.swift */,
 				CD0E3F811CE0BFA9005AA575 /* Listing.swift */,
+				10F509A71EE7FC4C009B6E55 /* ListingLocation.swift */,
 				1056FBE81EE6A401009B882B /* AdComponent.swift */,
 				106E297B1EAF51880087F957 /* AdCarComponent.swift */,
 				1045F3481EB8A6B600FB0206 /* AdHouseComponent.swift */,
@@ -993,6 +996,7 @@
 				CD65D2551C60FD6400AD89DF /* ZipGeo.swift in Sources */,
 				1045F3491EB8A6B600FB0206 /* AdHouseComponent.swift in Sources */,
 				10311D291EC47A38007A9946 /* LocalImagePickerController.swift in Sources */,
+				10F509A81EE7FC4C009B6E55 /* ListingLocation.swift in Sources */,
 				CD44E3081E40942200476C88 /* FilterCollectionViewCell.swift in Sources */,
 				101A7D2A1ECDCDA600E168C0 /* MutiplePushRow.swift in Sources */,
 				CD4F7C6D1E364B81001E0730 /* HomeCatCell.swift in Sources */,

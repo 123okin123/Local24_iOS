@@ -13,7 +13,7 @@ import MapleBacon
 import MapKit
 import SwiftyJSON
 
-public class NetworkManager  {
+class NetworkManager  {
 
     private var request :Request?
     
@@ -380,7 +380,7 @@ public class NetworkManager  {
                     let user = User(value: response.result.value as! [AnyHashable:Any])
                     self.getPlacemarkFor(user: user, completion: { (placemark, error) in
                         if error == nil {
-                            user.placemark = placemark
+                            user.userLocation?.coordinates = placemark?.location?.coordinate
                         }
                         completion(user, statusCode)
                     })
@@ -395,19 +395,19 @@ public class NetworkManager  {
     
     
      func getPlacemarkFor(user: User, completion: @escaping (_ placemark :CLPlacemark?, _ error :Error?)-> Void) {
-        guard let zipCode = user.zipCode else {
+        guard let zipCode = user.userLocation?.zipCode else {
             completion(nil, NCError.RuntimeError("missing User Data"))
             return
         }
-        guard let city = user.city else {
+        guard let city = user.userLocation?.city else {
             completion(nil, NCError.RuntimeError("missing User Data"))
             return
         }
-        guard let houseNumber = user.houseNumber else {
+        guard let houseNumber = user.userLocation?.houseNumber else {
             completion(nil, NCError.RuntimeError("missing User Data"))
             return
         }
-        guard let street = user.street else {
+        guard let street = user.userLocation?.street else {
             completion(nil, NCError.RuntimeError("missing User Data"))
             return
         }

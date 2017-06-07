@@ -64,10 +64,10 @@ class ContactTableViewController: UITableViewController, UITextViewDelegate {
         messageTextView.textColor = UIColor(red: 206/255, green: 206/255, blue: 211/255, alpha: 1.0)
         
         // Inserent
-        street.text = listing.street
-        city.text = listing.city
-        zipCode.text = listing.zipcode
-        houseNumber.text = listing.houseNumber
+        street.text = listing.listingLocation?.street
+        city.text = listing.listingLocation?.city
+        zipCode.text = listing.listingLocation?.zipCode
+        houseNumber.text = listing.listingLocation?.houseNumber
         telefonNumber.setTitle(listing.phoneNumber, for: UIControlState())
         
         // User

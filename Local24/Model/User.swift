@@ -28,43 +28,43 @@ public class User {
         return fullName
     }
     var totalAdsCount :Int?
-    var zipCode :String?
-    var city :String?
-    var street :String?
-    var houseNumber :String?
     var telephone :String?
-    
-    var placemark :CLPlacemark?
+    var userLocation :ListingLocation?
     var isCommercial :Bool?
+    
+    // MARK: Inits
     
     init() {}
     
     init(value: [AnyHashable:Any]) {
         let json = JSON(value)
-        print(json)
         id = json["ID"].int
         email = json["LoginEmail"].string
         salutationID = json["ID_Salutation"].int
         firstName = json["FirstName"].string
         lastName = json["LastName"].string
         totalAdsCount = json["TotalAdsCount"].int
-        zipCode = json["ZipCode"].string
-        city = json["City"].string
-        street = json["Street"].string
-        houseNumber = json["HouseNumber"].string
         telephone = json["Phone"].string
         isCommercial = json["IsCommercial"].bool
+        
+        if let zipCode = json["ZipCode"].string {
+            if let city = json["City"].string {
+                let street = json["Street"].string
+                let houseNumber = json["HouseNumber"].string
+                self.userLocation = ListingLocation(coordinates: nil, street: street, houseNumber: houseNumber, zipCode: zipCode, city: city)
+            }
+        }
+        
+        
     }
 
+    /// Returns the JSON/ Dict representation of the user.
      func userToJSON() -> [AnyHashable: Any]? {
-
         guard let email = self.email else {return nil}
         guard let firstName = self.firstName else {return nil}
         guard let lastName = self.lastName else {return nil}
-        guard let city = self.city else {return nil}
+        guard let city = self.userLocation?.city else {return nil}
         guard let isCommercial = self.isCommercial else {return nil}
-        
-
         
         var values :[AnyHashable: Any] = ["ID":"1",
                       "LoginEmail": email,
@@ -77,13 +77,13 @@ public class User {
         if let telephone = self.telephone {
             values["Phone"] = telephone
         }
-        if let street = self.street {
+        if let street = self.userLocation?.street {
             values["Street"] = street
         }
-        if let houseNumber = self.houseNumber {
+        if let houseNumber = self.userLocation?.houseNumber {
             values["HouseNumber"] = houseNumber
         }
-        if let zipCode = self.zipCode  {
+        if let zipCode = self.userLocation?.zipCode  {
             values["ZipCode"] = zipCode
         }
         if let salutationID = self.salutationID {

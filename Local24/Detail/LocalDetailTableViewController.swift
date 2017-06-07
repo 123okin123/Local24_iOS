@@ -383,8 +383,8 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
             switch (indexPath as NSIndexPath).row {
             case 0:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "locationMapCellID") as! LocationMapTableViewCell!
-                if let latitude = listing.adLat {
-                    if let longitude = listing.adLong {
+                if let latitude = listing.listingLocation?.coordinates?.latitude {
+                    if let longitude = listing.listingLocation?.coordinates?.longitude {
                         let region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: latitude, longitude: longitude), span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
                         cell?.mapView.setRegion(region, animated: false)
                     }
@@ -392,8 +392,8 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
                 defaultcell = cell!
             case 1:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "locationStringsCellID") as UITableViewCell!
-                if let plz = listing?.zipcode {
-                    if let stadt = listing?.city {
+                if let plz = listing.listingLocation?.zipCode {
+                    if let stadt = listing.listingLocation?.city {
                         cell?.textLabel?.text = plz + " " + stadt
                     }
                 }
@@ -475,8 +475,8 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
     
     func sendUserToMapApp() {
         let mapActionController = UIAlertController(title: "Anzeigen in", message: nil, preferredStyle: .actionSheet)
-        guard let latitute:CLLocationDegrees =  self.listing.adLat else {return}
-        guard let longitute:CLLocationDegrees =  self.listing.adLong else {return}
+        guard let latitute:CLLocationDegrees =  self.listing.listingLocation?.coordinates?.latitude else {return}
+        guard let longitute:CLLocationDegrees =  self.listing.listingLocation?.coordinates?.longitude else {return}
         
         let appleMapsAction = UIAlertAction(title: "Apple Karten", style: .default, handler: { UIAlertAction in
             
@@ -491,9 +491,9 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
             let mapItem = MKMapItem(placemark: placemark)
             
             
-            if let plz = self.listing.zipcode {
-                if let stadt = self.listing.city {
-                    mapItem.name = plz + " " + stadt
+            if let plz = self.listing.listingLocation?.zipCode {
+                if let city = self.listing.listingLocation?.city {
+                    mapItem.name = plz + " " + city
                 }
             } else {
                 mapItem.name = self.listing.title

@@ -209,12 +209,14 @@ class MyAdsDetailViewController: UIViewController, UITableViewDataSource, UITabl
     }
     
     func showListingOnMap() {
+        guard let latitute:CLLocationDegrees =  self.listing.listingLocation?.coordinates?.latitude else {return}
+        guard let longitute:CLLocationDegrees =  self.listing.listingLocation?.coordinates?.longitude else {return}
+        
         let mapActionController = UIAlertController(title: "Anzeigen in", message: nil, preferredStyle: .actionSheet)
+        
+        // Apple Maps
         let appleMapsAction = UIAlertAction(title: "Apple Karten", style: .default, handler: { UIAlertAction in
-            
-            guard let latitute:CLLocationDegrees =  self.listing.adLat else {return}
-            guard let longitute:CLLocationDegrees =  self.listing.adLong else {return}
-            
+
             let regionDistance:CLLocationDistance = 10000
             let coordinates = CLLocationCoordinate2DMake(latitute, longitute)
             let regionSpan = MKCoordinateRegionMakeWithDistance(coordinates, regionDistance, regionDistance)
@@ -225,8 +227,8 @@ class MyAdsDetailViewController: UIViewController, UITableViewDataSource, UITabl
             let placemark = MKPlacemark(coordinate: coordinates, addressDictionary: nil)
             let mapItem = MKMapItem(placemark: placemark)
             
-            if let plz = self.listing.zipcode {
-                if let stadt = self.listing.city {
+            if let plz = self.listing.listingLocation?.zipCode {
+                if let stadt = self.listing.listingLocation?.city {
                     mapItem.name = plz + " " + stadt
                 }
             } else {
@@ -234,17 +236,18 @@ class MyAdsDetailViewController: UIViewController, UITableViewDataSource, UITabl
             }
             mapItem.openInMaps(launchOptions: options)
         })
+        
+        // Google Map
         let googleMapsAction = UIAlertAction(title: "Google Maps", style: .default, handler: { UIAlertAction in
-            
-            
+
             if (UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!)) {
                 UIApplication.shared.openURL(URL(string:
-                    "comgooglemaps://?saddr=&daddr=\(String(describing: self.listing.adLat)),\(String(describing: self.listing.adLong))&directionsmode=driving")!)
+                    "comgooglemaps://?saddr=&daddr=\(String(describing: latitute)),\(String(describing: longitute))&directionsmode=driving")!)
             }
         })
+        
+        
         let cancelAction = UIAlertAction(title: "Abbrechen", style: .cancel, handler: nil)
-        
-        
         mapActionController.addAction(appleMapsAction)
         mapActionController.addAction(googleMapsAction)
         mapActionController.addAction(cancelAction)
@@ -331,16 +334,18 @@ class MyAdsDetailViewController: UIViewController, UITableViewDataSource, UITabl
             switch (indexPath as NSIndexPath).row {
             case 0:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "locationMapCellID") as! LocationMapTableViewCell!
-                if listing.adLat != nil && listing.adLong != nil {
-                let region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: listing.adLat!, longitude: listing.adLong!), span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
-                cell?.mapView.setRegion(region, animated: false)
+                if let lat = listing.listingLocation?.coordinates?.latitude {
+                    if let long = listing.listingLocation?.coordinates?.longitude {
+                        let region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: lat, longitude: long), span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
+                        cell?.mapView.setRegion(region, animated: false)
+                    }
                 }
                 defaultcell = cell!
             case 1:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "locationStringsCellID") as UITableViewCell!
-                if let plz = listing.zipcode {
-                    if let stadt = listing.city {
-                        cell?.textLabel?.text = plz + " " + stadt
+                if let plz = listing.listingLocation?.zipCode {
+                    if let city = listing.listingLocation?.city {
+                        cell?.textLabel?.text = plz + " " + city
                     }
                 }
                 

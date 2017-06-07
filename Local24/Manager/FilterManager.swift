@@ -60,13 +60,7 @@ class FilterManager :NSObject {
         }
     }
     
-    
-//    func removefilter(filterToRemove :Filter) {
-//        if let index = filters.index(where: {$0.name == filterToRemove.name}) {
-//            filters.remove(at: index)
-//            delegate?.filtersDidChange()
-//        }
-//    }
+
     func removefilterWithIndex(index :Int) {
             filters.remove(at: index)
             delegate?.filtersDidChange()

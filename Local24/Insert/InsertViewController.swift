@@ -163,37 +163,19 @@ class InsertViewController: FormViewController {
             
         
             +++ Section()
-            <<< LocationRow() {
+            <<< LocationRow("LocationRowTag") {
                 $0.add(rule: RuleRequired())
-                if self.listing.adLat != nil && self.listing.adLong != nil {
-                    $0.city = self.listing.city
-                    $0.location = CLLocation(latitude: self.listing.adLat!, longitude: self.listing.adLong!)
-                    $0.street = self.listing.street
-                    $0.houseNumber = self.listing.houseNumber
-                    $0.zipCode = self.listing.zipcode
+                if listing.listingLocation != nil {
+                    $0.value = listing.listingLocation
                 } else {
-                    listing.adLong = user?.placemark?.location?.coordinate.longitude
-                    listing.adLat = user?.placemark?.location?.coordinate.latitude
-                    listing.city = user?.city
-                    listing.street = user?.street
-                    listing.houseNumber = user?.houseNumber
-                    listing.zipcode = user?.zipCode
-                    
-                    $0.location = user?.placemark?.location
-                    $0.city = user?.city
-                    $0.street = user?.street
-                    $0.houseNumber = user?.houseNumber
-                    $0.zipCode = user?.zipCode
+                    $0.value = user?.userLocation
+                    listing.listingLocation = user?.userLocation
                 }
                 }.onChange { row in
-                    guard let location = row.location else {return}
-                    self.listing.adLat = location.coordinate.latitude
-                    self.listing.adLong = location.coordinate.longitude
-                    self.listing.city = row.city
-                    self.listing.street = row.street
-                    self.listing.houseNumber = row.houseNumber
-                    self.listing.zipcode = row.zipCode
-            }
+                    self.listing.listingLocation = row.value
+                }.cellUpdate { cell, row in
+                    self.showValidationStatusOfCell(cell, andRow: row)
+                }
         
          
             +++ Section()
@@ -242,8 +224,8 @@ class InsertViewController: FormViewController {
                 "Body": listing.adDescription!,
                 "PriceType": listing.priceType!,
                 "Price": listing.price!,
-                "City": listing.city!,
-                "ZipCode": listing.zipcode!
+                "City": listing.listingLocation!.city!,
+                "ZipCode": listing.listingLocation!.zipCode!
                 ] as [String : Any]
             
             if listingExists {
@@ -251,16 +233,16 @@ class InsertViewController: FormViewController {
             }
             
             // Optional Values
-            if let adLat = listing.adLat {
+            if let adLat = listing.listingLocation?.coordinates?.latitude {
                 values["Latitude"] = adLat
             }
-            if let adLong = listing.adLong {
+            if let adLong = listing.listingLocation?.coordinates?.longitude {
                 values["Longitude"] = adLong
             }
-            if let street = listing.street {
+            if let street = listing.listingLocation?.street {
                 values["Street"] = street
             }
-            if let houseNumber = listing.houseNumber {
+            if let houseNumber = listing.listingLocation?.houseNumber {
                 values["HouseNumber"] = houseNumber
             }
         
@@ -288,12 +270,15 @@ class InsertViewController: FormViewController {
                     }
                 })
             })
-            
-            
-        
-        
 
     }
 
-
+    func applyCustomStyleOnSelectorVC(_ to: SelectorViewController<String>) {
+        to.selectableRowCellUpdate = {cell, row in
+            cell.textLabel?.font = UIFont(name: "OpenSans", size: 17.0)
+            cell.tintColor = greencolor
+            to.tableView?.backgroundColor = local24grey
+            to.tableView?.separatorColor = local24grey
+        }
+    }
 }

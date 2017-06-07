@@ -100,10 +100,10 @@ class EditProfileViewController: UITableViewController, UIPickerViewDelegate, UI
         user!.firstName = firstNameField.text
         user!.lastName = lastNameField.text
         user!.telephone = telephoneField.text
-        user!.street = streetField.text
-        user!.houseNumber = houseNumberField.text
-        user!.zipCode = zipCodeField.text
-        user!.city = cityField.text
+        user!.userLocation?.street = streetField.text
+        user!.userLocation?.houseNumber = houseNumberField.text
+        user!.userLocation?.zipCode = zipCodeField.text
+        user!.userLocation?.city = cityField.text
         let pendingAlertController = UIAlertController(title: "Profil wird bearbeitet\n\n\n", message: nil, preferredStyle: .alert)
         let indicator = UIActivityIndicatorView(frame: pendingAlertController.view.bounds)
         indicator.autoresizingMask = [.flexibleWidth, . flexibleHeight]
@@ -154,10 +154,10 @@ class EditProfileViewController: UITableViewController, UIPickerViewDelegate, UI
         firstNameField.text = user?.firstName
         lastNameField.text = user?.lastName
         telephoneField.text = user?.telephone
-        streetField.text = user?.street
-        houseNumberField.text = user?.houseNumber
-        zipCodeField.text = user?.zipCode
-        cityField.text = user?.city
+        streetField.text = user?.userLocation?.street
+        houseNumberField.text = user?.userLocation?.houseNumber
+        zipCodeField.text = user?.userLocation?.zipCode
+        cityField.text = user?.userLocation?.city
     }
 
 }
