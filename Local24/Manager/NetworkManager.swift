@@ -198,6 +198,7 @@ public class NetworkManager  {
     
     // MARK: Forms
     
+    //Returns all possible values of specified field on completion. If values of the field do not depend on the value of another field, use getValuesForField() instead.
     func getValuesForDepending(field: String, independendField: String, value: String, entityType: AdClass, completion: @escaping (_ values: [String]?, _ error: Error?) -> Void) {
         Alamofire.request("https://cfw-api-11.azurewebsites.net/forms/\(entityType.rawValue)/options", method: .get, parameters: ["name": entityType.rawValue,"dependson": independendField, "value": value]).responseJSON(completionHandler: { response in
             if response.result.isSuccess {
@@ -220,6 +221,22 @@ public class NetworkManager  {
         })
     }
     
+    /// Returns all possible values of specified field on completion. If values of the field depend on the value of another field, use getValuesForDepending() instead.
+    func getValuesForField(_ field:String, entityType: AdClass, completion: @escaping (_ values: [String]?, _ error: Error?) -> Void) {
+        Alamofire.request("https://cfw-api-11.azurewebsites.net/forms/\(entityType.rawValue)/options", method: .get).responseJSON(completionHandler: { response in
+            guard response.result.isSuccess else {completion(nil, response.result.error); return}
+            let json = JSON(response.result.value as Any)
+            guard json != JSON.null else {completion(nil, NCError.RuntimeError("no values")); return}
+            guard let options = json.array?.filter({$0["SelectId"].string == field}).filter({$0["OptionValue"].string != "Bitte auswählen..."}) else {completion(nil, NCError.RuntimeError("no values")); return}
+            var values = [String]()
+            for option in options {
+                if let optionString = option["OptionValue"].string {
+                    values.append(optionString)
+                }
+            }
+            completion(values, nil)
+        })
+    }
 
     
     

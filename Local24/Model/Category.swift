@@ -15,29 +15,9 @@ class Category {
     var idParentCategory :Int!
     var name :String!
     var level :Int!
+    /// The associated adclass of the category. Default is adplain .
     var adclass :AdClass!
     var isParentCat :Bool!
 }
 
-/**
- Type of Ad. Determines additional Fields. Must be identical with API AdClasses.
- 
- Possible Values:
- - AdTruck
- - AdCat
- - AdCommune
- - AdDating
- - AdDog
- - AdHorse
- - AdJob
- - AdMotorcycle
- - AdOtherProperty
- - AdCar
- - AdHouse
- - AdApartment
- - AdPlain
- */
-enum AdClass:String {
-    case AdTruck, AdCat, AdCommune, AdDating, AdDog, AdHorse, AdJob, AdMotorcycle, AdOtherProperty, AdCar, AdHouse, AdApartment, AdPlain
-}
 

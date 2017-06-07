@@ -48,11 +48,8 @@ class MyAdsDetailViewController: UIViewController, UITableViewDataSource, UITabl
         var infos = [(name: String?, value: String?)]()
         infos.append(("Erstellt am",listing.createdDate))
         infos.append(("Aktuallisiert am",listing.updatedDate))
-        if let specialFields = listing.specialFields {
-            for specialField in specialFields {
-                infos.append((specialField.descriptiveString, specialField.valueString))
-                
-            }
+        if let componentTupleArray = listing.component?.componentToRepresentableTupleArray() {
+            infos.append(contentsOf: componentTupleArray)
         }
         return infos
     }
@@ -372,10 +369,9 @@ class MyAdsDetailViewController: UIViewController, UITableViewDataSource, UITabl
             }
         }
         if segue.identifier == "editAdSegueID" {
-            if let editVC = segue.destination as? InsertTableViewController {
+            if let editVC = segue.destination as? InsertViewController {
             editVC.listingExists = true
             editVC.listing = listing
-            editVC.imageArray = images
             }
         }
     }

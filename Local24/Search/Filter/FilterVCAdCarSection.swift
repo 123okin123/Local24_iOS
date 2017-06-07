@@ -25,20 +25,20 @@ extension FilterViewController {
             })
         }
         
-        section <<< PushRow<String>("makeTag") {
-            $0.title = "Marke"
-            $0.selectorTitle = $0.title
-            $0.value = (FilterManager.shared.getFilter(withName: .makeName) as? Termfilter)?.value ?? "Alle Marken"
-            $0.options =  ["Alle Marken"] + SpecialFieldsManager.shared.getSpecialFieldWith(entityType: .AdCar, name: "Make")!.possibleStringValues!
+        section <<< PushRow<String>("makeTag") { row in
+            row.title = "Marke"
+            row.selectorTitle = row.title
+            row.value = (FilterManager.shared.getFilter(withName: .makeName) as? Termfilter)?.value ?? "Alle Marken"
+            row.options =  ["Alle Marken"]
+            NetworkManager.shared.getValuesForField("Make", entityType: .AdCar, completion: { values, error in
+            row.options = values!
+            })
+                //SpecialFieldsManager.shared.getSpecialFieldWith(entityType: .AdCar, name: "Make")!.possibleStringValues!
             }.onChange {
                 FilterManager.shared.removefilterWithName(.makeName)
                 guard let value = $0.value else {return}
                 guard value != "Alle Marken" else {return}
-                //FIX notwendig für VW <-> Volkswagen Bug
                 FilterManager.shared.setfilter(newfilter: Termfilter(name: .makeName, descriptiveString: "Marke", value: value))
-//                if value == "Volkswagen" {
-//                    FilterManager.shared.setfilter(newfilter: Termfilter(name: .makeName, descriptiveString: "Marke", value: "VW"))
-//                }
             }.onPresent { from, to in
                 self.applyCustomStyleOnSelectorVC(to)
                 to.enableDeselection = false
@@ -62,7 +62,6 @@ extension FilterViewController {
             }.cellUpdate {cell, row in
                 row.value = (FilterManager.shared.getFilter(withName: .modelName) as? Termfilter)?.value ?? "Alle Modelle"
                 cell.detailTextLabel?.text = row.value
-                //row.options = ["Alle Modelle"]
             }.onChange {
                 FilterManager.shared.removefilterWithName(.modelName)
                 guard let value = $0.value else {return}

@@ -233,12 +233,6 @@ class FilterViewController: FormViewController {
     
     
     
-    func arrayFrom(_ from: Int, to: Int, stepValue: Int) -> [Int]{
-        var array = [Int]()
-        for i in from..<(to/stepValue) {
-            array.append(i*stepValue)
-        }
-        return array
-    }
+    
 
 }

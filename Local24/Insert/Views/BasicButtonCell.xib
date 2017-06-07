@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="OpenSans-Regular.ttf">
+            <string>OpenSans</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="BasicButtonCell" customModule="Local24" customModuleProvider="target"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="BasicButtonCell" customModule="Local24" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="joj-Pk-dMW">
+                    <rect key="frame" x="15" y="0.0" width="345" height="60"/>
+                    <color key="backgroundColor" red="0.23529411759999999" green="0.65490196079999996" blue="0.01176470588" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="17"/>
+                    <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <state key="normal" title="Anzeige aufgeben">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="buttonPressed:" destination="iN0-l3-epB" eventType="touchUpInside" id="WSS-Bd-8DF"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="joj-Pk-dMW" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="2eh-Kf-9SE"/>
+                <constraint firstItem="joj-Pk-dMW" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="GRh-HM-3fb"/>
+                <constraint firstAttribute="bottom" secondItem="joj-Pk-dMW" secondAttribute="bottom" id="Z0n-8M-asZ"/>
+                <constraint firstItem="joj-Pk-dMW" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="ra7-Gd-rqc"/>
+                <constraint firstItem="joj-Pk-dMW" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="xH8-r4-QCj"/>
+                <constraint firstAttribute="trailing" secondItem="joj-Pk-dMW" secondAttribute="trailing" constant="15" id="yxT-xH-riW"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <nil key="simulatedTopBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="button" destination="joj-Pk-dMW" id="ijs-s0-a4k"/>
+            </connections>
+            <point key="canvasLocation" x="-10.5" y="-282"/>
+        </view>
+    </objects>
+</document>

@@ -74,11 +74,9 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
             optionMenu.addAction(activeAction)
         }
         let editAction = UIAlertAction(title: "Anzeige bearbeiten", style: .default, handler: {alert in
-            let editVC = self.storyboard?.instantiateViewController(withIdentifier: "insertViewControllerID") as! InsertTableViewController
+            let editVC = self.storyboard?.instantiateViewController(withIdentifier: "insertViewControllerID") as! InsertViewController
             editVC.listing = listing
-            if let images = listing.images {
-                editVC.imageArray = images
-            }
+
             
             editVC.listingExists = true
             self.navigationController?.pushViewController(editVC, animated: true)
@@ -143,7 +141,7 @@ class AccountCollectionViewController: UICollectionViewController, UICollectionV
                 if error == nil {
                     self.userListings.removeAll()
                     if listings != nil {
-                        self.userListings = listings!
+                        self.userListings = listings!.filter({$0.adState != .expired})
                     }
                 } else {
                     let errorMenu = UIAlertController(title: "Fehler", message: "Da ist leider etwas schief gegangen, das Laden der Anzeige war nicht erfolgreich.", preferredStyle: .alert)
