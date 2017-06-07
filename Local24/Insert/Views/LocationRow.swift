@@ -39,8 +39,13 @@ public class LocationCell: Cell<Bool>, CellType {
             streetLabel.text = locationRow.street
             houseNumberLabel.text = locationRow.houseNumber
             zipCodeLabel.text = locationRow.zipCode
+            row.value = true
         } else {
+            cityLabel.text = nil
             streetLabel.text = "Artikelstandort wählen..."
+            houseNumberLabel.text = nil
+            zipCodeLabel.text = nil
+            row.value = nil
         }
     }
     
@@ -55,6 +60,8 @@ final class LocationRow: SelectorRow<LocationCell, ChooseLocationViewController>
     var street :String?
     var houseNumber :String?
     var zipCode :String?
+    
+    
     
     public required init(tag: String?) {
         super.init(tag: tag)

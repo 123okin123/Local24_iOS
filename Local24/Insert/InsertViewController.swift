@@ -264,7 +264,7 @@ class InsertViewController: FormViewController {
                 values["HouseNumber"] = houseNumber
             }
         
-        if let componentJSON = listing.component?.componentToJSON() as? [String:Any] {
+            if let componentJSON = listing.component?.componentToJSON() as? [String:Any] {
                 componentJSON.forEach({values[$0] = $1})
             }
             // End of Optional Values
@@ -279,6 +279,7 @@ class InsertViewController: FormViewController {
                         })
                         successMenu.addAction(confirmAction)
                         self.present(successMenu, animated: true, completion: nil)
+ 
                     } else {
                         let errorMenu = UIAlertController(title: "Fehler", message: errorString, preferredStyle: .alert)
                         let confirmAction = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
