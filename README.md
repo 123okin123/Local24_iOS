@@ -1,5 +1,7 @@
 # Local24 iOS App
-
+Author:
+Nikolai Kratz
+nikolai.kratz@gmail.com
 
 ## To Do:
 
