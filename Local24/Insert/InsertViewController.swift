@@ -12,12 +12,15 @@ import FirebaseAnalytics
 import EquatableArray
 import CoreLocation
 import Contacts
+import SwiftyJSON
 
 class InsertViewController: FormViewController {
 
     var listingExists = false
     var listing = Listing()
     
+    /// The availaible options for the compenent of the listing. This prop should be set in the extension depending on the adclass of the listing.
+    var optionsForComponent :[JSON]?
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -163,7 +166,7 @@ class InsertViewController: FormViewController {
             
         
             +++ Section()
-            <<< LocationRow("LocationRowTag") {
+            <<< LocationRow("locationRowTag") {
                 $0.add(rule: RuleRequired())
                 if listing.listingLocation != nil {
                     $0.value = listing.listingLocation
@@ -261,7 +264,13 @@ class InsertViewController: FormViewController {
                         })
                         successMenu.addAction(confirmAction)
                         self.present(successMenu, animated: true, completion: nil)
- 
+                        self.listing = Listing()
+                        self.form.allRows.forEach({
+                            if $0.tag != "locationRowTag" {
+                                $0.baseValue = nil
+                                $0.updateCell()
+                            }
+                        })
                     } else {
                         let errorMenu = UIAlertController(title: "Fehler", message: errorString, preferredStyle: .alert)
                         let confirmAction = UIAlertAction(title: "Ok", style: .cancel, handler: nil)

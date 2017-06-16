@@ -18,10 +18,10 @@ class CategoryManager {
     var subCategories = [Category]()
     var mainCategories = [Category]()
     
-    
+    let apiURL = "https://cfw-api-11.azurewebsites.net/"
     
     func getCategories(completion: @escaping (_ mainCats: [Category], _ subCats: [Category], _ error: Error?) -> ()) {
-        Alamofire.request("https://cfw-api-11.azurewebsites.net/public/categories").validate().responseJSON(completionHandler: { response in
+        Alamofire.request("\(apiURL)public/categories").validate().responseJSON(completionHandler: { response in
             var error :Error?
             var allCategories = [Category]()
             var subCategories = [Category]()

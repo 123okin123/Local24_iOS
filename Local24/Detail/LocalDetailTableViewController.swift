@@ -215,7 +215,6 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
                 fixedPriceCell.isHidden = true
             }
         } else {
-            print(tableView.contentOffset.y)
             if tableView.contentOffset.y > 36 {
                 priceCell?.contentView.isHidden = true
                 fixedPriceCell.isHidden = false

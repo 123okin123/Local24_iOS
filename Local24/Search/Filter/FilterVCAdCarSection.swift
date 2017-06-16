@@ -30,7 +30,7 @@ extension FilterViewController {
             row.selectorTitle = row.title
             row.value = (FilterManager.shared.getFilter(withName: .makeName) as? Termfilter)?.value ?? "Alle Marken"
             row.options =  ["Alle Marken"]
-            NetworkManager.shared.getValuesForField("Make", entityType: .AdCar, completion: { values, error in
+            NetworkManager.shared.getValuesForEntityType(.AdCar, field: "Make", completion: { values, error in
                 if error == nil {
                     row.options = ["Alle Marken"] + values!
                 }
