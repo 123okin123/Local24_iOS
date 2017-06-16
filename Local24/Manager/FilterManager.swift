@@ -11,6 +11,7 @@ import MapKit
 import SwiftyJSON
 
 
+/// A singletone manager class to hold the and maintain the array of set filters.
 class FilterManager :NSObject {
 
     static let shared = FilterManager()

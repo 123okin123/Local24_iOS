@@ -259,7 +259,7 @@ class NetworkManager  {
     
      func uploadImagesFor(adID :String, images: [UIImage], userToken: String, completion: @escaping (_ statusCode: Int?) -> Void) {
         request = Alamofire.request("\(apiURL)ads/\(adID)/images?auth=\(userToken)&id=\(adID)", method: .delete).validate().responseJSON (completionHandler: {response in
-            let url = "\(self.apiUR L)ads/\(adID)/images?auth=\(userToken)&id=\(adID)"
+            let url = "\(self.apiURL)ads/\(adID)/images?auth=\(userToken)&id=\(adID)"
             Alamofire.upload(multipartFormData: { multipartFormData in
                 for rawImage in images {
                     let image = self.resizeImage(image: rawImage, newWidth: 1000)!

@@ -9,6 +9,8 @@
 import Foundation
 import Alamofire
 
+
+/// A singletone manager class used to fetch and hold the categories from the api and provide category related methods.
 class CategoryManager {
     
     
@@ -20,6 +22,8 @@ class CategoryManager {
     
     let apiURL = "https://cfw-api-11.azurewebsites.net/"
     
+    
+    /// returns all categories on completion and sets the categories of the categorymanager. This method should be called at app start, since some VCs depend on the categories.
     func getCategories(completion: @escaping (_ mainCats: [Category], _ subCats: [Category], _ error: Error?) -> ()) {
         Alamofire.request("\(apiURL)public/categories").validate().responseJSON(completionHandler: { response in
             var error :Error?
@@ -70,7 +74,7 @@ class CategoryManager {
         
     }
     
-
+    /// Returns the url path of the given main category id
     func getURLFromMainCatID(_ id :Int?) -> String {
 
         var url = ""
@@ -98,7 +102,7 @@ class CategoryManager {
         return url
     }
     
-    
+    /// Returns the url path of the subcategory based on the ids of the main- and subcategory.
     func getSubCatURLFromID(_ mainId :Int?, subId :Int?) -> String {
         
         var url = ""
