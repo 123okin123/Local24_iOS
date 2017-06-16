@@ -55,20 +55,17 @@ class Listing :NSObject {
     
     // MARK: Location
     
-    var adLat: Double?
-    var adLong: Double?
+    ///Distance of the coordinates of the listing and the coordinates of the current geofilter. If the listing has no coordinates or no the filtermanager has no geofilter, this property is nil.
     var distance :Double? {
-        guard self.adLat != nil else {return nil}
-        guard self.adLong != nil else {return nil}
-        let location = CLLocation(latitude: self.adLat!, longitude: self.adLong!)
+        guard let lat = self.listingLocation?.coordinates?.latitude else {return nil}
+        guard let long = self.listingLocation?.coordinates?.longitude else {return nil}
         if let geofilter = FilterManager.shared.getFilter(withName: .geo_distance) as? Geofilter {
+            let location = CLLocation(latitude: lat, longitude: long)
             return round(location.distance(from:  CLLocation(latitude: geofilter.lat, longitude: geofilter.lon))/1000)
         } else {return nil}
     }
-    var city :String?
-    var zipcode: String?
-    var street: String?
-    var houseNumber :String?
+    
+    var listingLocation : ListingLocation?
     
     // MARK: Contact
     
@@ -89,7 +86,7 @@ class Listing :NSObject {
     var imageURLs = [String]()
     
 
-    
+    // MARK: Inits
     
     override init() {
         super.init()
@@ -172,30 +169,25 @@ class Listing :NSObject {
         }
         }
         
-        
-        
-        if let latitude = value["Latitude"] as? Double {
-            self.adLat = latitude
-        }
-        if let longitude = value["Longitude"] as? Double {
-            self.adLong = longitude
-        }
-        if let street = value["Street"] as? String {
-            self.street = street
-        }
-        if let houseNumber = value["HouseNumber"] as? String {
-            self.houseNumber = houseNumber
-        }
         if let phone = value["Phone"] as? String {
             self.phoneNumber = phone
         }
-        if let city = value["City"] as? String {
-            self.city = city
+        
+        var coordinate = CLLocationCoordinate2D()
+        if let latitude = value["Latitude"] as? Double {
+            coordinate.latitude = latitude
         }
-        if let zipcode = value["ZipCode"] as? String {
-            self.zipcode = zipcode
+        if let longitude = value["Longitude"] as? Double {
+            coordinate.longitude = longitude
         }
-   
+        
+        
+        let street = value["Street"] as? String
+        let houseNumber = value["HouseNumber"] as? String
+        let city = value["City"] as? String
+        let zipcode = value["ZipCode"] as? String
+    
+        self.listingLocation = ListingLocation(coordinates: coordinate, street: street, houseNumber: houseNumber, zipCode: zipcode, city: city)
         
     }
     
@@ -222,16 +214,24 @@ class Listing :NSObject {
         self.mainCatString = json["category"].string
         self.subCatString = json["subcategory"].string
         self.price = json["price"].string
+        
+        var coordinates = CLLocationCoordinate2D()
         if let latString = json["lat"].string {
-            self.adLat = Double(latString)
+            if let latDouble = Double(latString) {
+                coordinates.latitude = latDouble
+            }
         }
         if let lonString = json["lon"].string {
-            self.adLong = Double(lonString)
+            if let lonDouble = Double(lonString) {
+                coordinates.longitude = lonDouble
+            }
         }
-        self.city = json["city"].string
-        self.zipcode = json["postalcode"].string
-        self.street = json["street"].string
-        self.houseNumber = json["housenumber"].string
+        let city = json["city"].string
+        let zipCode = json["postalcode"].string
+        let street = json["street"].string
+        let houseNumber = json["housenumber"].string
+        
+        self.listingLocation = ListingLocation(coordinates: coordinates, street: street, houseNumber: houseNumber, zipCode: zipCode, city: city)
         
         if var listingDate = json["createDate"].string {
             let listingDateYear = listingDate[Range(listingDate.characters.index(listingDate.startIndex, offsetBy: 2) ..< listingDate.characters.index(listingDate.startIndex, offsetBy: 4))]
@@ -299,6 +299,9 @@ class Listing :NSObject {
     
     
 }
+
+// MARK: Listing enums
+
 
 /// Possible values: Gesuch, Angebot
 enum AdType :String{

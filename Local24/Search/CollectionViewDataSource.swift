@@ -78,11 +78,11 @@ class CollectionViewDataSource :NSObject, UICollectionViewDataSource {
         cell.listingDate.text = listing.createdDate
         cell.listing = listing
         if let distance = listing.distance {
-            if let city = listing.city {
+            if let city = listing.listingLocation?.city {
                 cell.listingDistance.text = city + " (" + String(Int(distance)) + "km)"
             }
         } else {
-            cell.listingDistance.text = listing.city
+            cell.listingDistance.text = listing.listingLocation?.city
         }
         
         if listing.thumbImage == nil {

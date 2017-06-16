@@ -30,10 +30,12 @@ extension FilterViewController {
             row.selectorTitle = row.title
             row.value = (FilterManager.shared.getFilter(withName: .makeName) as? Termfilter)?.value ?? "Alle Marken"
             row.options =  ["Alle Marken"]
-            NetworkManager.shared.getValuesForField("Make", entityType: .AdCar, completion: { values, error in
-            row.options = values!
+            NetworkManager.shared.getValuesForEntityType(.AdCar, field: "Make", completion: { values, error in
+                if error == nil {
+                    row.options = ["Alle Marken"] + values!
+                }
             })
-                //SpecialFieldsManager.shared.getSpecialFieldWith(entityType: .AdCar, name: "Make")!.possibleStringValues!
+            
             }.onChange {
                 FilterManager.shared.removefilterWithName(.makeName)
                 guard let value = $0.value else {return}
@@ -70,14 +72,15 @@ extension FilterViewController {
                 FilterManager.shared.setfilter(newfilter: filter)
             }.onPresent { from, to in
                 self.applyCustomStyleOnSelectorVC(to)
+                (to.row as! PushRow).options.removeAll()
                 guard let makeFilter = FilterManager.shared.getFilter(withName: .makeName) as? Termfilter else {return}
                 NetworkManager.shared.getValuesForDepending(field: "Model", independendField: "Make", value: makeFilter.value!, entityType: .AdCar, completion: {values, error in
                     if var options = values {
                         options.remove(at: 0)
-                        if (to.row as! PushRow).options != options {
+                        
                         (to.row as! PushRow).options = options
                             to.setupForm()
-                        }
+                        
                         
                     }
                 })

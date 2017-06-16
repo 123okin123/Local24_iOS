@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 
+
 class ZipGeo :NSObject {
 
     var lat :Double
@@ -16,8 +17,6 @@ class ZipGeo :NSObject {
     var zip :String
     var name :String
     
-
-
     
     init(lat: Double, long: Double, zip: String, name: String) {
         self.lat = lat
@@ -26,11 +25,4 @@ class ZipGeo :NSObject {
         self.name = name
     }
 
-    
-
-    
-
-
-    
-    
 }

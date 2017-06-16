@@ -13,12 +13,13 @@ import MapleBacon
 import MapKit
 import SwiftyJSON
 
-public class NetworkManager  {
+class NetworkManager  {
 
     private var request :Request?
     
     static let shared = NetworkManager()
-
+    
+    let apiURL = "https://cfw-api-11.azurewebsites.net/"
     
     // MARK: Inserate
     
@@ -55,7 +56,7 @@ public class NetworkManager  {
     
     
     func getOwnAds(userToken :String, completion: @escaping (_ error :Error?, _ listings: [Listing]?) -> Void) {
-        Alamofire.request("https://cfw-api-11.azurewebsites.net/ads/", method: .get, parameters: ["auth": userToken]).validate().responseJSON (completionHandler: {response in
+        Alamofire.request("\(apiURL)ads/", method: .get, parameters: ["auth": userToken]).validate().responseJSON (completionHandler: {response in
             
             if let statusCode = response.response?.statusCode {
                 switch statusCode {
@@ -85,7 +86,7 @@ public class NetworkManager  {
 
     
     func loadAdWith(id: Int, completion: @escaping (_ listing: Listing?, _ error: Error?) -> Void) {
-        Alamofire.request("https://cfw-api-11.azurewebsites.net/public/ads/\(id)/").responseJSON(completionHandler: { response in
+        Alamofire.request("\(apiURL)public/ads/\(id)/").responseJSON(completionHandler: { response in
             switch response.result {
             case .failure(let error):
                 completion(nil, error)
@@ -103,10 +104,10 @@ public class NetworkManager  {
         let url :URLConvertible
         if existing {
             method = .put
-            url = "https://cfw-api-11.azurewebsites.net/ads/\(values["ID"]!)?auth=\(userToken)"
+            url = "\(apiURL)ads/\(values["ID"]!)?auth=\(userToken)"
         } else {
             method = .post
-            url = "https://cfw-api-11.azurewebsites.net/ads?auth=\(userToken)"
+            url = "\(apiURL)ads?auth=\(userToken)"
         }
         
         request = Alamofire.request(url, method: method, parameters: values, encoding: JSONEncoding.default).responseJSON (completionHandler: { responseData in
@@ -123,7 +124,7 @@ public class NetworkManager  {
                                             completion(nil)
                                         } else {
                                             completion("Image Upload Failed")
-                                            Alamofire.request("https://cfw-api-11.azurewebsites.net/ads/", method: .delete, parameters: ["auth":userToken, "id":id, "finally": true]).validate().responseJSON(completionHandler: {response in
+                                            Alamofire.request("\(self.apiURL)ads/", method: .delete, parameters: ["auth":userToken, "id":id, "finally": true]).validate().responseJSON(completionHandler: {response in
                                             })
                                         }
                                     }
@@ -154,11 +155,11 @@ public class NetworkManager  {
     
     
      func changeAdWith(adID: Int, to state: String, userToken: String, completion: @escaping (_ error: Error?) -> Void) {
-        Alamofire.request("https://cfw-api-11.azurewebsites.net/ads/\(adID)", method: .get, parameters: ["auth": userToken, "id": adID]).validate().responseJSON { response in
+        Alamofire.request("\(apiURL)ads/\(adID)", method: .get, parameters: ["auth": userToken, "id": adID]).validate().responseJSON { response in
             if response.result.error == nil {
                 var values = response.result.value as! [String:Any]
                 values["AdState"] = state
-                let url = "https://cfw-api-11.azurewebsites.net/ads/\(adID)/?auth=\(userToken)&id=\(adID)"
+                let url = "\(self.apiURL)ads/\(adID)/?auth=\(userToken)&id=\(adID)"
                 Alamofire.request(url, method: HTTPMethod.put, parameters: values, encoding: JSONEncoding.default).responseString(completionHandler: {response  in
                 completion(response.result.error)
                 })
@@ -170,7 +171,7 @@ public class NetworkManager  {
     }
     
      func deleteAdWith(adID: Int, userToken :String, completion: @escaping (_ error: Error?) -> Void) {
-            Alamofire.request("https://cfw-api-11.azurewebsites.net/ads/\(adID)", method: .delete,
+            Alamofire.request("\(apiURL)ads/\(adID)", method: .delete,
                               parameters:
                 ["auth": userToken,
                  "id": adID as Any,
@@ -200,7 +201,7 @@ public class NetworkManager  {
     
     //Returns all possible values of specified field on completion. If values of the field do not depend on the value of another field, use getValuesForField() instead.
     func getValuesForDepending(field: String, independendField: String, value: String, entityType: AdClass, completion: @escaping (_ values: [String]?, _ error: Error?) -> Void) {
-        Alamofire.request("https://cfw-api-11.azurewebsites.net/forms/\(entityType.rawValue)/options", method: .get, parameters: ["name": entityType.rawValue,"dependson": independendField, "value": value]).responseJSON(completionHandler: { response in
+        Alamofire.request("\(apiURL)forms/\(entityType.rawValue)/options", method: .get, parameters: ["name": entityType.rawValue,"dependson": independendField, "value": value]).responseJSON(completionHandler: { response in
             if response.result.isSuccess {
                 if let json = response.result.value as? [[AnyHashable: Any]] {
                
@@ -222,12 +223,15 @@ public class NetworkManager  {
     }
     
     /// Returns all possible values of specified field on completion. If values of the field depend on the value of another field, use getValuesForDepending() instead.
-    func getValuesForField(_ field:String, entityType: AdClass, completion: @escaping (_ values: [String]?, _ error: Error?) -> Void) {
-        Alamofire.request("https://cfw-api-11.azurewebsites.net/forms/\(entityType.rawValue)/options", method: .get).responseJSON(completionHandler: { response in
+    func getValuesForEntityType(_ entityType: AdClass, field: String? = nil, completion: @escaping (_ values: [String]?, _ error: Error?) -> Void) {
+        Alamofire.request("\(apiURL)forms/\(entityType.rawValue)/options", method: .get).responseJSON(completionHandler: { response in
             guard response.result.isSuccess else {completion(nil, response.result.error); return}
             let json = JSON(response.result.value as Any)
             guard json != JSON.null else {completion(nil, NCError.RuntimeError("no values")); return}
-            guard let options = json.array?.filter({$0["SelectId"].string == field}).filter({$0["OptionValue"].string != "Bitte auswählen..."}) else {completion(nil, NCError.RuntimeError("no values")); return}
+            guard var options = json.array?.filter({$0["OptionValue"].string != "Bitte auswählen..."}) else {completion(nil, NCError.RuntimeError("no values")); return}
+            if field != nil {
+            options = options.filter({$0["SelectId"].string == field})
+            }
             var values = [String]()
             for option in options {
                 if let optionString = option["OptionValue"].string {
@@ -239,15 +243,23 @@ public class NetworkManager  {
     }
 
     
-    
+    func getOptionsForEntityType(_ entityType: AdClass, completion: @escaping (_ options: [JSON]?, _ error: Error?) -> Void) {
+        Alamofire.request("\(apiURL)forms/\(entityType.rawValue)/options", method: .get).responseJSON(completionHandler: { response in
+            guard response.result.isSuccess else {completion(nil, response.result.error); return}
+            let json = JSON(response.result.value as Any)
+            guard json != JSON.null else {completion(nil, NCError.RuntimeError("no values")); return}
+            guard let options = json.array?.filter({$0["OptionValue"].string != "Bitte auswählen..."}) else {completion(nil, NCError.RuntimeError("no values")); return}
+            completion(options, nil)
+        })
+    }
 
 
     
     // MARK: Images
     
      func uploadImagesFor(adID :String, images: [UIImage], userToken: String, completion: @escaping (_ statusCode: Int?) -> Void) {
-        request = Alamofire.request("https://cfw-api-11.azurewebsites.net/ads/\(adID)/images?auth=\(userToken)&id=\(adID)", method: .delete).validate().responseJSON (completionHandler: {response in
-            let url = "https://cfw-api-11.azurewebsites.net/ads/\(adID)/images?auth=\(userToken)&id=\(adID)"
+        request = Alamofire.request("\(apiURL)ads/\(adID)/images?auth=\(userToken)&id=\(adID)", method: .delete).validate().responseJSON (completionHandler: {response in
+            let url = "\(self.apiURL)ads/\(adID)/images?auth=\(userToken)&id=\(adID)"
             Alamofire.upload(multipartFormData: { multipartFormData in
                 for rawImage in images {
                     let image = self.resizeImage(image: rawImage, newWidth: 1000)!
@@ -272,7 +284,7 @@ public class NetworkManager  {
     }
     
      func getImagePathsFor(adID :Int, completion: @escaping (_ imagePaths: [String]?, _ error: Error?) -> Void) {
-        Alamofire.request("https://cfw-api-11.azurewebsites.net/public/ads/\(adID)/images/").responseJSON(completionHandler: { response in
+        Alamofire.request("\(apiURL)public/ads/\(adID)/images/").responseJSON(completionHandler: { response in
            
             switch response.result {
             case .failure(let error):
@@ -372,7 +384,7 @@ public class NetworkManager  {
     
     
      func getUserProfile(userToken :String, completion: @escaping (_ user: User?, _ statusCode :Int) -> Void) {
-        Alamofire.request("https://cfw-api-11.azurewebsites.net/me", method: .get, parameters: ["auth": userToken]).validate().responseJSON (completionHandler: {response in
+        Alamofire.request("\(apiURL)me", method: .get, parameters: ["auth": userToken]).validate().responseJSON (completionHandler: {response in
             if let statusCode = response.response?.statusCode {
                 switch response.result {
                 case .success:
@@ -380,7 +392,7 @@ public class NetworkManager  {
                     let user = User(value: response.result.value as! [AnyHashable:Any])
                     self.getPlacemarkFor(user: user, completion: { (placemark, error) in
                         if error == nil {
-                            user.placemark = placemark
+                            user.userLocation?.coordinates = placemark?.location?.coordinate
                         }
                         completion(user, statusCode)
                     })
@@ -395,19 +407,19 @@ public class NetworkManager  {
     
     
      func getPlacemarkFor(user: User, completion: @escaping (_ placemark :CLPlacemark?, _ error :Error?)-> Void) {
-        guard let zipCode = user.zipCode else {
+        guard let zipCode = user.userLocation?.zipCode else {
             completion(nil, NCError.RuntimeError("missing User Data"))
             return
         }
-        guard let city = user.city else {
+        guard let city = user.userLocation?.city else {
             completion(nil, NCError.RuntimeError("missing User Data"))
             return
         }
-        guard let houseNumber = user.houseNumber else {
+        guard let houseNumber = user.userLocation?.houseNumber else {
             completion(nil, NCError.RuntimeError("missing User Data"))
             return
         }
-        guard let street = user.street else {
+        guard let street = user.userLocation?.street else {
             completion(nil, NCError.RuntimeError("missing User Data"))
             return
         }
@@ -439,7 +451,7 @@ public class NetworkManager  {
             completion(NCError.RuntimeError("userToJSON failed"))
             return
         }
-        let url :URLConvertible = "https://cfw-api-11.azurewebsites.net/me/account?auth=\(userToken)"
+        let url :URLConvertible = "\(apiURL)me/account?auth=\(userToken)"
         Alamofire.request(url, method: .put, parameters: values, encoding: JSONEncoding.default, headers: nil).validate().responseJSON(completionHandler: { response in
             if let statusCode = response.response?.statusCode {
                 if statusCode == 200 {

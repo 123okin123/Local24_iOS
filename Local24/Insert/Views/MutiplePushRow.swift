@@ -20,7 +20,6 @@ final class MutiplePushRow: SelectorRow<PushSelectorCell<String>, MutiStepSelect
     var selectedValues = [String]()
     
     
-    
     var stepsTaken = 0
     
     

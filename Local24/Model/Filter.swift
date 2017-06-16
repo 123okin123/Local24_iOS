@@ -96,8 +96,9 @@ enum FilterName :String {
     case size
     
 }
-
+/// Array of filters, which should only be applied when in subcategory "Auto". Array can be used to delete such filters at one time.
 let adCarFilterNames:[FilterName] = [.mileage, .powerPS, .makeName, .modelName]
+/// Array of filters, which should only be applied when in subcategory "Haus". Array can be used to delete such filters at one time.
 let adHouseFilterNames:[FilterName] = [.totalRooms, .landarea, .size]
 
 
