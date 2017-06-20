@@ -27,9 +27,11 @@ extension InsertViewController {
                     // load options for adcar fields
                     NetworkManager.shared.getOptionsForEntityType(.AdCar, completion: {options, error in
                         if error == nil && options != nil {
-                        self.optionsForComponent = options
+                            self.optionsForComponent = options
+                            self.form.allRows.forEach {$0.updateCell()}
                         }
                     })
+                
                     return false
                 } else {
                     return true
@@ -38,9 +40,11 @@ extension InsertViewController {
             })
         }
         
+        
         section <<< PickerInputRow<Int>() {
             $0.title = "Kilometerstand in km"
             $0.options = arrayFrom(1, to: 500000, stepValue: 500)
+            $0.noValueDisplayText = "Bitte wählen..."
             guard let component = self.listing.component as? AdCarComponent else {return}
             $0.value = component.mileAge
             }.onChange {
@@ -50,24 +54,18 @@ extension InsertViewController {
         
         section <<< PushRow<String>("makeTag") { row in
             row.title = "Marke"
-            row.value = "Alle Marken"
+            row.noValueDisplayText = "Bitte wählen..."
             row.selectorTitle = row.title
             guard let component = self.listing.component as? AdCarComponent else {return}
             row.value = component.make
             }.onChange {
                 guard let value = $0.value else {return}
-                guard value != "Alle Marken" else {return}
                 guard let component = self.listing.component as? AdCarComponent else {return}
                 component.make = value
             }.onPresent { from, to in
                 self.applyCustomStyleOnSelectorVC(to)
                 to.enableDeselection = false
-                to.sectionKeyForValue = { option in
-                    switch option {
-                    case "Alle Marken": return ""
-                    default: return " "
-                    }
-                }
+                to.sectionKeyForValue = { _ in return " "}
             }.cellUpdate {
                 if let options = self.optionsForComponent?.filter({$0["SelectId"].string == "Make"}).map({return $0["OptionValue"].string!}) {
                     $1.options = options
@@ -77,15 +75,15 @@ extension InsertViewController {
         section <<< PushRow<String>("modelTag") {
             $0.hidden = Condition.function(["makeTag"], {form in
                 form.rowBy(tag: "modelTag")?.updateCell()
-                return (form.rowBy(tag: "makeTag")?.value == "Alle Marken")
+                return (form.rowBy(tag: "makeTag")?.baseValue == nil)
             })
             $0.title = "Modell"
             $0.selectorTitle = $0.title
+            $0.noValueDisplayText = "Bitte wählen..."
             guard let component = self.listing.component as? AdCarComponent else {return}
             $0.value = component.model
             }.onChange {
                 guard let value = $0.value else {return}
-                guard value != "Alle Modelle" else {return}
                 guard let component = self.listing.component as? AdCarComponent else {return}
                 component.model = value
             }.onPresent { from, to in
@@ -107,6 +105,7 @@ extension InsertViewController {
         section <<< PushRow<String>() { row in
             row.title = "Außenfarbe"
             row.selectorTitle = row.title
+            row.noValueDisplayText = "Bitte wählen..."
             guard let component = self.listing.component as? AdCarComponent else {return}
             row.value = component.bodyColor
             }.onChange {
@@ -127,6 +126,7 @@ extension InsertViewController {
         section <<< PushRow<String>() { row in
             row.title = "Karosserieform"
             row.selectorTitle = row.title
+            row.noValueDisplayText = "Bitte wählen..."
             guard let component = self.listing.component as? AdCarComponent else {return}
             row.value = component.bodyForm
             }.onChange {
@@ -146,6 +146,7 @@ extension InsertViewController {
         section <<< AlertRow<String>() { row in
             row.title = "Zustand"
             row.selectorTitle = row.title
+            row.noValueDisplayText = "Bitte wählen..."
             guard let component = self.listing.component as? AdCarComponent else {return}
             row.value = component.condition
             }.onChange {
@@ -164,6 +165,7 @@ extension InsertViewController {
         section <<< PushRow<String>() { row in
             row.title = "Kraftstoffart"
             row.selectorTitle = row.title
+            row.noValueDisplayText = "Bitte wählen..."
             guard let component = self.listing.component as? AdCarComponent else {return}
             row.value = component.fuelType
             }.onChange {
@@ -184,6 +186,7 @@ extension InsertViewController {
         section <<< AlertRow<String>() { row in
             row.title = "Getriebeart"
             row.selectorTitle = row.title
+            row.noValueDisplayText = "Bitte wählen..."
             guard let component = self.listing.component as? AdCarComponent else {return}
             row.value = component.gearType
             }.onChange {
@@ -201,7 +204,7 @@ extension InsertViewController {
         section <<< DateRow() {
             $0.title = "Erstzulassung"
             $0.noValueDisplayText = "Bitte wählen..."
-            $0.dateFormatter?.dateStyle = .short
+            $0.dateFormatter?.dateFormat = "MM/yyyy"
             guard let component = self.listing.component as? AdCarComponent else {return}
             $0.value = component.initialRegistration
             }.onChange {
@@ -211,6 +214,7 @@ extension InsertViewController {
         
         section <<< PickerInputRow<Int>() {
             $0.title = "Leistung in PS"
+            $0.noValueDisplayText = "Bitte wählen..."
             $0.options = arrayFrom(1, to: 500, stepValue: 1)
             guard let component = self.listing.component as? AdCarComponent else {return}
             $0.value = component.power

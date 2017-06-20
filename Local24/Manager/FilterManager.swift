@@ -282,15 +282,12 @@ class FilterManager :NSObject {
                         ]
                 ]
             }
-            print(query)
             let request = ["query": query,"from": from, "size": size, "sort": sort] as [String : Any]
             let json = JSON(request)
-            print(json)
             return json
          
         } else {
             let request = ["from": from, "size": size, "sort": sort] as [String : Any]
-            print(JSON(request))
             return JSON(request)
         }
         

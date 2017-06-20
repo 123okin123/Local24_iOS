@@ -138,14 +138,21 @@ class InsertViewController: FormViewController {
                     guard let value = $0.value else {return}
                     (value == "Ich suche") ? (self.listing.adType = .Gesuch) : (self.listing.adType = .Angebot)
             }
+            
             <<< ActionSheetRow<String>() {
                 $0.title = "Preisart"
                 $0.selectorTitle = "Bitte wähle deine Preisart"
+                $0.add(rule: RuleRequired())
                 $0.options = Array(PriceType.allValues.values)
                 $0.value = listing.priceType ?? "VHB"
                 }.cellUpdate { (cell, row) in
                     self.listing.priceType = row.value
+                    self.showValidationStatusOfCell(cell, andRow: row)
+                }.onChange {
+                    guard let value = $0.value else {return}
+                    self.listing.priceType = value
             }
+            
             <<< DecimalRow(){
                 $0.useFormatterDuringInput = true
                 $0.title = "Preis"
@@ -264,7 +271,9 @@ class InsertViewController: FormViewController {
                         })
                         successMenu.addAction(confirmAction)
                         self.present(successMenu, animated: true, completion: nil)
+                        let listingLocation = self.listing.listingLocation
                         self.listing = Listing()
+                        self.listing.listingLocation = listingLocation
                         self.form.allRows.forEach({
                             if $0.tag != "locationRowTag" {
                                 $0.baseValue = nil
