@@ -1,5 +1,5 @@
 PODS:
-  - Alamofire (4.4.0)
+  - Alamofire (4.5.0)
   - Bolts (1.8.4):
     - Bolts/AppLinks (= 1.8.4)
     - Bolts/Tasks (= 1.8.4)
@@ -8,12 +8,12 @@ PODS:
   - Bolts/Tasks (1.8.4)
   - EquatableArray (2.0.0)
   - Eureka (2.0.1)
-  - FBAudienceNetwork (4.22.0)
-  - FBSDKCoreKit (4.22.0):
+  - FBAudienceNetwork (4.23.0)
+  - FBSDKCoreKit (4.23.0):
     - Bolts (~> 1.7)
-  - FBSDKLoginKit (4.22.0):
+  - FBSDKLoginKit (4.23.0):
     - FBSDKCoreKit
-  - FBSDKShareKit (4.22.0):
+  - FBSDKShareKit (4.23.0):
     - FBSDKCoreKit
   - Firebase/Core (3.17.0):
     - FirebaseAnalytics (= 3.9.0)
@@ -47,9 +47,9 @@ PODS:
     - FirebaseInstanceID (~> 1.0)
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
     - Protobuf (~> 3.1)
-  - Google (3.0.3):
-    - Google/Core (= 3.0.3)
-  - Google/Core (3.0.3):
+  - Google (3.1.0):
+    - Google/Core (= 3.1.0)
+  - Google/Core (3.1.0):
     - FirebaseAnalytics (~> 3.2)
   - GoogleAnalytics (3.17.0)
   - GoogleConversionTracking (3.4.0)
@@ -96,14 +96,14 @@ DEPENDENCIES:
   - SwiftyJSON
 
 SPEC CHECKSUMS:
-  Alamofire: dc44b1600b800eb63da6a19039a0083d62a6a62d
+  Alamofire: f28cdffd29de33a7bfa022cbd63ae95a27fae140
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
   EquatableArray: 87a5f634f3970526c3c6d12696c884cbb8c0d5c1
   Eureka: ae837bb1dfae0c07bc1bda7aeef87876eeb537c2
-  FBAudienceNetwork: ae4d8cf171115fda0395c2016abb2e38e7369784
-  FBSDKCoreKit: c693bad19feb225469eeff14452ba364522ee48b
-  FBSDKLoginKit: 1fa529fc622d7b32ebeaffbecd377180833c6d30
-  FBSDKShareKit: 21ab3c8d173f4fa20c47c1061f3a9fac5950b5fa
+  FBAudienceNetwork: 20a0e3d20e377dbb6708365e4c6d0711bf08ca97
+  FBSDKCoreKit: d7829f5a69901cd7296105328e4c3c3fc7da6518
+  FBSDKLoginKit: 6b92bd65f319d669d2b0730e49db495ef1660566
+  FBSDKShareKit: 65751c3b9937ab9d594e6c37611ecc115ceeb448
   Firebase: 4b66b5b59c43edac745b87f0c87e42cdd0279c13
   FirebaseAnalytics: e5fe8486efc01bec33f6bf82e2fa9fce4b124052
   FirebaseCore: 9691ee2ade70c098d7cf92440f4303f16d83ca75
@@ -111,7 +111,7 @@ SPEC CHECKSUMS:
   FirebaseInstanceID: b9eedd6846fb5e1f0f7279e1deaa7a7e4cf8392e
   FirebaseMessaging: 753d05a925e9eb8eadd09a0ffc9b808578b72fac
   FirebaseRemoteConfig: af3003f4e8daa2bd1d5cf90d3cccc1fe224f8ed9
-  Google: 813c467362eabc11385f5a5cc9ad0cb651a58f4e
+  Google: 98da4b1a60ed0beb80a290387a28333406a1eb90
   GoogleAnalytics: f42cc53a87a51fe94334821868d9c8481ff47a7b
   GoogleConversionTracking: ca8c89abda2bd28bb6472b316eeb4ece9264e279
   GoogleIDFASupport: aaf8c10bd429abb1c15349d5252244f5eda8ead1
@@ -128,4 +128,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 2c77085eaebcba98c5221a3c77ac46b4ea827a78
 
-COCOAPODS: 1.2.0
+COCOAPODS: 1.2.1
