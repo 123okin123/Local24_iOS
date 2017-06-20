@@ -100,8 +100,7 @@ class AdCarComponent: AdComponent {
         if fuelType != nil {tupleArray.append((name: "Kraftstoffart", value: "\(fuelType!)"))}
         if gearType != nil {tupleArray.append((name: "Getriebeart", value: "\(gearType!)"))}
         if initialRegistration != nil {
-            formatter.dateStyle = .short
-            formatter.timeStyle = .none
+            formatter.dateFormat = "MM/yyyy"
             let initialRegistrationString = formatter.string(from: initialRegistration!)
             tupleArray.append((name: "Erstzulassung", value: "\(initialRegistrationString)"))
         }

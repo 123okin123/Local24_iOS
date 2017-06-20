@@ -111,7 +111,6 @@ class NetworkManager  {
         }
         
         request = Alamofire.request(url, method: method, parameters: values, encoding: JSONEncoding.default).responseJSON (completionHandler: { responseData in
-            debugPrint(responseData)
             if let response = responseData.response {
                 switch response.statusCode {
                 case 201, 200:

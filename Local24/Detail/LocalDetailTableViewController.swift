@@ -79,8 +79,18 @@ class LocalDetailTableViewController: UIViewController, UITableViewDataSource, U
     
     var infos : [(name: String?, value: String?)] {
         var infos = [(name: String?, value: String?)]()
-        infos.append(("Erstellt am",listing.createdDate))
-        infos.append(("Aktuallisiert am",listing.updatedDate))
+        
+        if let createdDate = listing.createdDate {
+            infos.append(("Erstellt am",createdDate))
+        }
+        if let updatedDate = listing.updatedDate {
+            infos.append(("Aktuallisiert am", updatedDate))
+        }
+        if let adType = listing.adType {
+            if adType == .Gesuch {
+                infos.append(("Inseratstyp", adType.rawValue))
+            }
+        }
         if let componentTupleArray = listing.component?.componentToRepresentableTupleArray() {
             infos.append(contentsOf: componentTupleArray)
         }
